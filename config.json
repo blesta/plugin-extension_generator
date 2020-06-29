@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
-    "name": "ExtensionGenerator.name",
-    "description": "ExtensionGenerator.description",
+    "name": "ExtensionGeneratorPlugin.name",
+    "description": "ExtensionGeneratorPlugin.description",
     "authors": [
         {
             "name": "Phillips Data, Inc.",
