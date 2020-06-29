@@ -15,7 +15,7 @@ class ExtensionGeneratorPlugin extends Plugin
         // Load components required by this plugin
         Loader::loadComponents($this, ['Input']);
 
-        Language::loadLang('extension_generator', null, dirname(__FILE__) . DS . 'language' . DS);
+        Language::loadLang('extension_generator_plugin', null, dirname(__FILE__) . DS . 'language' . DS);
         $this->loadConfig(dirname(__FILE__) . DS . 'config.json');
     }
 }
