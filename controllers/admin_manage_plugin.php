@@ -54,7 +54,7 @@ class AdminManagePlugin extends AppController
                 'admin_manage_progress_bar',
                 [
                     'nodes' => $this->getNodes('general'),
-                    'page_step' => 1
+                    'page_step' => 0
                 ]
             ),
         ];
