@@ -4,8 +4,8 @@ $lang['ExtensionGeneratorPlugin.description'] = 'This is a plugin for automatica
 
 
 
-$lang['ExtensionGeneratorPlugin.getextensiontypes.module'] = 'Plugin';
-$lang['ExtensionGeneratorPlugin.getextensiontypes.plugin'] = 'Module';
+$lang['ExtensionGeneratorPlugin.getextensiontypes.module'] = 'Module';
+$lang['ExtensionGeneratorPlugin.getextensiontypes.plugin'] = 'Plugin';
 $lang['ExtensionGeneratorPlugin.getextensiontypes.gateway'] = 'Gateway';
 
 $lang['ExtensionGeneratorPlugin.getformtypes.basic'] = 'Basic';
@@ -14,6 +14,8 @@ $lang['ExtensionGeneratorPlugin.getformtypes.advanced'] = 'Advanced';
 
 $lang['ExtensionGeneratorPlugin.getnodes.general_settings'] = 'General Settings';
 $lang['ExtensionGeneratorPlugin.getnodes.basic_info'] = 'Basic Info';
+$lang['ExtensionGeneratorPlugin.getnodes.module_fields'] = 'Module Fields';
+$lang['ExtensionGeneratorPlugin.getnodes.additional_features'] = 'Additional Features';
 $lang['ExtensionGeneratorPlugin.getnodes.complete'] = 'Complete';
 
 $lang['ExtensionGeneratorPlugin.index.boxtitle_extension_generator'] = 'Extension Generator';

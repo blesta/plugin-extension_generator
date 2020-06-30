@@ -44,22 +44,76 @@ class AdminManagePlugin extends AppController
     {
         $this->init();
 
-        // Set the view to render for all actions under this controller
+        // Get the form by action
+        $type = isset($this->post['extension_type']) ? $this->post['extension_type'] : 'general';
+        $action = isset($this->post['action']) ? $this->post['action'] : 'basic';
+
         $this->view->setView(null, 'ExtensionGenerator.default');
+        $form = $this->getForm($type . $action);
+
+        // Set the view to render for all actions under this controller
         $vars = [
-            'plugin_id' => $this->plugin_id,
-            'extension_types' => $this->getExtensionTypes(),
-            'form_types' => $this->getFormTypes(),
+            'form' => $form,
             'progress_bar' => $this->partial(
                 'admin_manage_progress_bar',
                 [
-                    'nodes' => $this->getNodes('general'),
-                    'page_step' => 0
+                    'nodes' => $this->getNodes($type),
+                    'page_step' => $this->page_step
                 ]
             ),
         ];
 
         return $this->partial('admin_manage_plugin', $vars);
+    }
+
+    /**
+     * Get a form partial view based on the given action
+     *
+     * @param string $action The action for which to render a form
+     * @return string The rendered view
+     */
+    private function getForm($action)
+    {
+        $form = null;
+        switch ($action) {
+            case 'modulebasic':
+                $this->page_step = 1;
+                $form = $this->partial(
+                        'admin_manage_module_basic',
+                        [
+                        ]
+                    );
+                break;
+            case 'modulefields':
+                $this->page_step = 2;
+                $form = $this->partial(
+                        'admin_manage_module_fields',
+                        [
+                        ]
+                    );
+                break;
+            case 'modulefeatures':
+                $this->page_step = 3;
+                $form = $this->partial(
+                        'admin_manage_module_features',
+                        [
+                        ]
+                    );
+                break;
+            default:
+                $form = $this->partial(
+                        'admin_manage_general',
+                        [
+                            'plugin_id' => $this->plugin_id,
+                            'extension_types' => $this->getExtensionTypes(),
+                            'form_types' => $this->getFormTypes(),
+                        ]
+                    );
+                $this->page_step = 0;
+                break;
+        }
+
+        return $form;
     }
 
     /**
@@ -98,6 +152,8 @@ class AdminManagePlugin extends AppController
 
         switch ($type) {
             case 'module':
+                $nodes[] = Language::_('ExtensionGeneratorPlugin.getnodes.module_fields', true);
+                $nodes[] = Language::_('ExtensionGeneratorPlugin.getnodes.additional_features', true);
                 break;
             case 'plugin':
                 break;
