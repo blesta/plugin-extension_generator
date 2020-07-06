@@ -21,7 +21,7 @@
                         ?>
                         <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('ExtensionGeneratorPlugin.index.tooltip_form_type');?></div></span>
                         <?php
-                        $this->Form->fieldSelect('form_type', $this->Html->ifSet($form_types, []), $this->Html->ifSet($vars['form_type']), ['class' => 'block', 'id' => 'extension_type']);
+                        $this->Form->fieldSelect('form_type', $this->Html->ifSet($form_types, []), $this->Html->ifSet($vars['form_type']), ['class' => 'block', 'id' => 'form_type']);
                         ?>
                     </li>
                     <li>

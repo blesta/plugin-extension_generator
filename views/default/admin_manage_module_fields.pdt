@@ -1,7 +1,7 @@
 <?php
         $this->Form->create();
             $this->Form->fieldHidden('extension_type', 'module');
-            $this->Form->fieldHidden('action', 'fiedls');
+            $this->Form->fieldHidden('action', 'fields');
         ?>
         <div class="inner">
             <div class="title_row first"><h3><?php $this->_('ExtensionGeneratorPlugin.index.heading_module_row_fields');?></h3></div>
@@ -22,8 +22,8 @@
                     <tbody>
                     <?php
                     $rows = 1;
-                    if ($this->Html->ifSet($vars['module_rows'], false)) {
-                        $rows = count($vars['module_rows']);
+                    if ($this->Html->ifSet($vars['module_rows']['name'], false)) {
+                        $rows = count($vars['module_rows']['name']);
                     }
                     for ($i = 0; $i < $rows; $i++) {
                     ?>
@@ -58,8 +58,8 @@
                     <tbody>
                     <?php
                     $rows = 1;
-                    if ($this->Html->ifSet($vars['package_fields'], false)) {
-                        $rows = count($vars['package_fields']);
+                    if ($this->Html->ifSet($vars['package_fields']['name'], false)) {
+                        $rows = count($vars['package_fields']['name']);
                     }
                     for ($i = 0; $i < $rows; $i++) {
                     ?>
@@ -94,8 +94,8 @@
                     <tbody>
                     <?php
                     $rows = 1;
-                    if ($this->Html->ifSet($vars['service_fields'], false)) {
-                        $rows = count($vars['service_fields']);
+                    if ($this->Html->ifSet($vars['service_fields']['name'], false)) {
+                        $rows = count($vars['service_fields']['name']);
                     }
                     for ($i = 0; $i < $rows; $i++) {
                     ?>

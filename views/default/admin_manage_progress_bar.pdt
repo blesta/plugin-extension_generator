@@ -11,7 +11,9 @@
                         <div class="node-progress-node-container" style="left: <?php echo $step / ($node_count - 1) * 100; ?>%;" >
                             <?php $node_color = $step <= $page_step ? '#a0f56c' : 'white'; ?>
                             <div>
-                                <a href="?step=<?php echo $form_step;?>"><div class="node-progress-node" style="background-color: <?php echo $node_color;?>;"></div></a>
+                                <?php if (!is_numeric($form_step)) { ?><a href="?step=<?php echo $form_step;?>"> <?php }?>
+                                    <div class="node-progress-node" style="background-color: <?php echo $node_color;?>;"></div>
+                                <?php if (!is_numeric($form_step)) { ?></a> <?php }?>
                             </div>
                             <p><?php echo $node;?></p>
                         </div>

@@ -21,13 +21,13 @@
                     <tbody>
                     <?php
                     $rows = 1;
-                    if ($this->Html->ifSet($vars['service_tabs'], false)) {
-                        $rows = count($vars['service_tabs']);
+                    if ($this->Html->ifSet($vars['service_tabs']['method_name'], false)) {
+                        $rows = count($vars['service_tabs']['method_name']);
                     }
                     for ($i = 0; $i < $rows; $i++) {
                     ?>
                         <tr class="service_tab_row">
-                            <td><?php $this->Form->fieldText('service_tabs[method_name][]', $this->Html->ifSet($vars['service_tabs']['name'][$i]), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldText('service_tabs[method_name][]', $this->Html->ifSet($vars['service_tabs']['method_name'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldText('service_tabs[label][]', $this->Html->ifSet($vars['service_tabs']['label'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldSelect('service_tabs[level][]', $this->Html->ifSet($tab_levels), $this->Html->ifSet($vars['service_tabs']['level'][$i]), ['class' => 'stretch']);?></td>
                             <td><a href="#" class="manage service_tab_row_remove"><?php $this->_('ExtensionGeneratorPlugin.index.text_remove');?></a></td>
@@ -57,8 +57,8 @@
                     <tbody>
                     <?php
                     $rows = 1;
-                    if ($this->Html->ifSet($vars['cron_tasks'], false)) {
-                        $rows = count($vars['cron_tasks']);
+                    if ($this->Html->ifSet($vars['cron_tasks']['name'], false)) {
+                        $rows = count($vars['cron_tasks']['name']);
                     }
                     for ($i = 0; $i < $rows; $i++) {
                     ?>
@@ -66,7 +66,7 @@
                             <td><?php $this->Form->fieldText('cron_tasks[name][]', $this->Html->ifSet($vars['cron_tasks']['name'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldText('cron_tasks[label][]', $this->Html->ifSet($vars['cron_tasks']['label'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldTextarea('cron_tasks[description][]', $this->Html->ifSet($vars['cron_tasks']['description'][$i]), ['class' => 'stretch']);?></td>
-                            <td><?php $this->Form->fieldSelect('cron_tasks[type]', $this->Html->ifSet($task_types), $this->Html->ifSet($vars['cron_tasks']['type'][$i]), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldSelect('cron_tasks[type][]', $this->Html->ifSet($task_types), $this->Html->ifSet($vars['cron_tasks']['type'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldText('cron_tasks[time][]', $this->Html->ifSet($vars['cron_tasks']['time'][$i]), ['class' => 'stretch']);?></td>
                             <td><a href="#" class="manage cron_task_row_remove"><?php $this->_('ExtensionGeneratorPlugin.index.text_remove');?></a></td>
                         </tr>
@@ -76,6 +76,8 @@
                     </tbody>
                 </table>
             </div>
+            <div class="title_row"><h3><?php $this->_('ExtensionGeneratorPlugin.index.heading_optional_functions');?></h3></div>
+            <div class="pad"></div>
             <div class="button_row">
                 <?php $this->Form->fieldSubmit('submit', $this->_('ExtensionGeneratorPlugin.index.module_complete', true), ['class' => 'btn btn-primary pull-right']);?>
             </div>

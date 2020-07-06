@@ -63,8 +63,8 @@
                     <tbody>
                     <?php
                     $rows = 1;
-                    if ($this->Html->ifSet($vars['authors'], false)) {
-                        $rows = count($vars['authors']);
+                    if ($this->Html->ifSet($vars['authors']['name'], false)) {
+                        $rows = count($vars['authors']['name']);
                     }
                     for ($i = 0; $i < $rows; $i++) {
                     ?>

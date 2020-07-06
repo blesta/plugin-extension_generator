@@ -50,10 +50,11 @@ class AdminManagePlugin extends AppController
         $type = isset($this->post['extension_type']) ? $this->post['extension_type'] : 'general';
         $action = isset($this->post['action']) ? $this->post['action'] : 'general';
 
-        $step = isset($this->get['step']) ? $this->get['step'] : $type . $action;
+        $step = isset($this->get['step']) ? $this->get['step'] : '';
         if (!empty($this->post))
         {
-            $this->Session->write($type . $action, $this->post);
+            $step = $type . $action;
+            $this->Session->write(strpos($step, 'general') ? 'generalgeneral' : $step, $this->post);
         }
 
         $this->view->setView(null, 'ExtensionGenerator.default');
@@ -75,7 +76,7 @@ class AdminManagePlugin extends AppController
     }
 
     /**
-     * Get a form partial view based on the given steo
+     * Get a form partial view based on the given step
      *
      * @param string $step The step for which to render a form
      * @return string The rendered view
@@ -90,6 +91,7 @@ class AdminManagePlugin extends AppController
         ];
         $next_step = isset($step_mapping[$step]) ? $step_mapping[$step] : 'generalgeneral';
         $vars = $this->Session->read($next_step);
+
         $form = null;
         switch ($next_step) {
             case 'modulebasic':
@@ -206,24 +208,35 @@ class AdminManagePlugin extends AppController
         ];
     }
 
-    private function getNodes($type)
+    /**
+     * Gets a list of progress nodes for the given form step
+     *
+     * @param string $step The form step for which to get nodes
+     * @return array A list of progress nodes
+     */
+    private function getNodes($step)
     {
-        $nodes = [
-            'generalgeneral' => Language::_('ExtensionGeneratorPlugin.getnodes.general_settings', true),
-            $type . 'general' => Language::_('ExtensionGeneratorPlugin.getnodes.basic_info', true)
+        $node_sets = [
+            'module' => [
+                'modulegeneral' => Language::_('ExtensionGeneratorPlugin.getnodes.basic_info', true),
+                'modulebasic' => Language::_('ExtensionGeneratorPlugin.getnodes.module_fields', true),
+                'modulefields' => Language::_('ExtensionGeneratorPlugin.getnodes.additional_features', true),
+            ],
+            'plugin' => [],
+            'merchant' => [],
+            'nonmerchant' => [],
         ];
 
-        switch ($type) {
-            case 'module':
-                $nodes['modulebasic'] = Language::_('ExtensionGeneratorPlugin.getnodes.module_fields', true);
-                $nodes['modulefields'] = Language::_('ExtensionGeneratorPlugin.getnodes.additional_features', true);
+        $nodes = ['generalgeneral' => Language::_('ExtensionGeneratorPlugin.getnodes.general_settings', true)];
+        foreach ($node_sets as $type => $node_set) {
+            if (strpos($step, $type) == 0) {
+                $nodes += $node_set;
                 break;
-            case 'plugin':
-                break;
-            case 'merchant':
-                break;
-            case 'nonmerchant':
-                break;
+            }
+        }
+
+        if (count($nodes) == 1) {
+            $nodes[] = Language::_('ExtensionGeneratorPlugin.getnodes.basic_info', true);
         }
 
         $nodes[] = Language::_('ExtensionGeneratorPlugin.getnodes.complete', true);
