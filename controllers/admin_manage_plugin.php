@@ -44,12 +44,20 @@ class AdminManagePlugin extends AppController
     {
         $this->init();
 
+        $this->components(['Session']);
+
         // Get the form by action
         $type = isset($this->post['extension_type']) ? $this->post['extension_type'] : 'general';
-        $action = isset($this->post['action']) ? $this->post['action'] : 'basic';
+        $action = isset($this->post['action']) ? $this->post['action'] : 'general';
+
+        $step = isset($this->get['step']) ? $this->get['step'] : $type . $action;
+        if (!empty($this->post))
+        {
+            $this->Session->write($type . $action, $this->post);
+        }
 
         $this->view->setView(null, 'ExtensionGenerator.default');
-        $form = $this->getForm($type . $action);
+        $form = $this->getForm($step);
 
         // Set the view to render for all actions under this controller
         $vars = [
@@ -67,20 +75,29 @@ class AdminManagePlugin extends AppController
     }
 
     /**
-     * Get a form partial view based on the given action
+     * Get a form partial view based on the given steo
      *
-     * @param string $action The action for which to render a form
+     * @param string $step The step for which to render a form
      * @return string The rendered view
      */
-    private function getForm($action)
+    private function getForm($step)
     {
+        $step_mapping = [
+            'modulegeneral' => 'modulebasic',
+            'modulebasic' => 'modulefields',
+            'modulefields' => 'modulefeatures',
+            'modulefeatures' => 'modulecomplete',
+        ];
+        $next_step = isset($step_mapping[$step]) ? $step_mapping[$step] : 'generalgeneral';
+        $vars = $this->Session->read($next_step);
         $form = null;
-        switch ($action) {
+        switch ($next_step) {
             case 'modulebasic':
                 $this->page_step = 1;
                 $form = $this->partial(
                         'admin_manage_module_basic',
                         [
+                            'vars' => $vars
                         ]
                     );
                 break;
@@ -89,6 +106,8 @@ class AdminManagePlugin extends AppController
                 $form = $this->partial(
                         'admin_manage_module_fields',
                         [
+                            'field_types' => $this->getFieldTypes(),
+                            'vars' => $vars
                         ]
                     );
                 break;
@@ -97,6 +116,9 @@ class AdminManagePlugin extends AppController
                 $form = $this->partial(
                         'admin_manage_module_features',
                         [
+                            'tab_levels' => $this->getTabLevels(),
+                            'task_types' => $this->getTaskTypes(),
+                            'vars' => $vars
                         ]
                     );
                 break;
@@ -107,6 +129,7 @@ class AdminManagePlugin extends AppController
                             'plugin_id' => $this->plugin_id,
                             'extension_types' => $this->getExtensionTypes(),
                             'form_types' => $this->getFormTypes(),
+                            'vars' => $vars
                         ]
                     );
                 $this->page_step = 0;
@@ -143,17 +166,57 @@ class AdminManagePlugin extends AppController
         ];
     }
 
+    /**
+     * Gets a list of field types and their languages
+     *
+     * @return A list of field types and their languages
+     */
+    private function getFieldTypes()
+    {
+        return [
+            'text' => Language::_('ExtensionGeneratorPlugin.getfieldtypes.text', true),
+            'textarea' => Language::_('ExtensionGeneratorPlugin.getfieldtypes.textarea', true),
+            'checkbox' => Language::_('ExtensionGeneratorPlugin.getfieldtypes.checkbox', true)
+        ];
+    }
+
+    /**
+     * Gets a list of cron task types and their languages
+     *
+     * @return A list of cron task types and their languages
+     */
+    private function getTaskTypes()
+    {
+        return [
+            'time' => Language::_('ExtensionGeneratorPlugin.gettasktypes.time', true),
+            'interval' => Language::_('ExtensionGeneratorPlugin.gettasktypes.interval', true)
+        ];
+    }
+
+    /**
+     * Gets a list of tab levels and their languages
+     *
+     * @return A list of tab levels and their languages
+     */
+    private function getTabLevels()
+    {
+        return [
+            'staff' => Language::_('ExtensionGeneratorPlugin.gettablevels.staff', true),
+            'client' => Language::_('ExtensionGeneratorPlugin.gettablevels.client', true)
+        ];
+    }
+
     private function getNodes($type)
     {
         $nodes = [
-            Language::_('ExtensionGeneratorPlugin.getnodes.general_settings', true),
-            Language::_('ExtensionGeneratorPlugin.getnodes.basic_info', true)
+            'generalgeneral' => Language::_('ExtensionGeneratorPlugin.getnodes.general_settings', true),
+            $type . 'general' => Language::_('ExtensionGeneratorPlugin.getnodes.basic_info', true)
         ];
 
         switch ($type) {
             case 'module':
-                $nodes[] = Language::_('ExtensionGeneratorPlugin.getnodes.module_fields', true);
-                $nodes[] = Language::_('ExtensionGeneratorPlugin.getnodes.additional_features', true);
+                $nodes['modulebasic'] = Language::_('ExtensionGeneratorPlugin.getnodes.module_fields', true);
+                $nodes['modulefields'] = Language::_('ExtensionGeneratorPlugin.getnodes.additional_features', true);
                 break;
             case 'plugin':
                 break;

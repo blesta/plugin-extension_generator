@@ -1,5 +1,6 @@
 <?php
         $this->Form->create(/* $this->base_uri . 'settings/company/plugins/manage/' . $this->Html->ifSet($plugin_id) . '/' */);
+            $this->Form->fieldHidden('action', 'general');
         ?>
         <div class="inner">
             <div class="title_row first"><h3><?php $this->_('ExtensionGeneratorPlugin.index.heading_general_settings');?></h3></div>
