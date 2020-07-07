@@ -3,12 +3,12 @@
             $this->Form->fieldHidden('action', 'general');
         ?>
         <div class="inner">
-            <div class="title_row first"><h3><?php $this->_('ExtensionGeneratorPlugin.index.heading_general_settings');?></h3></div>
+            <div class="title_row first"><h3><?php $this->_('AdminMain.index.heading_general_settings');?></h3></div>
             <div class="pad">
                 <ul>
                     <li>
                         <?php
-                        $this->Form->label($this->_('ExtensionGeneratorPlugin.index.extension_type', true));
+                        $this->Form->label($this->_('AdminMain.index.extension_type', true));
                         foreach ($this->Html->ifSet($extension_types, []) as $extension_type => $label) {
                             $this->Form->fieldRadio('extension_type', $extension_type, $this->Html->ifSet($vars['extension_type'], 'module') == $extension_type, ['class' => 'inline', 'id' => 'extension_type_' . $extension_type]);
                             $this->Form->label($label, 'extension_type_' . $extension_type, ['class' => 'inline']);
@@ -17,9 +17,9 @@
                     </li>
                     <li>
                         <?php
-                        $this->Form->label($this->_('ExtensionGeneratorPlugin.index.form_type', true), 'form_type', ['class' => 'inline']);
+                        $this->Form->label($this->_('AdminMain.index.form_type', true), 'form_type', ['class' => 'inline']);
                         ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('ExtensionGeneratorPlugin.index.tooltip_form_type');?></div></span>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.index.tooltip_form_type');?></div></span>
                         <?php
                         $this->Form->fieldSelect('form_type', $this->Html->ifSet($form_types, []), $this->Html->ifSet($vars['form_type']), ['class' => 'block', 'id' => 'form_type']);
                         ?>
@@ -27,14 +27,14 @@
                     <li>
                         <?php
                         $this->Form->fieldCheckbox('example_code', '1', $this->Html->ifSet($vars['example_code'], '1') == '1', ['class' => 'inline', 'id' => 'example_code']);
-                        $this->Form->label($this->_('ExtensionGeneratorPlugin.index.example_code', true), 'example_code', ['class' => 'inline']);
+                        $this->Form->label($this->_('AdminMain.index.example_code', true), 'example_code', ['class' => 'inline']);
                         ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('ExtensionGeneratorPlugin.index.tooltip_example_code');?></div></span>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.index.tooltip_example_code');?></div></span>
                     </li>
                 </ul>
             </div>
             <div class="button_row">
-                <?php $this->Form->fieldSubmit('submit', $this->_('ExtensionGeneratorPlugin.index.basic_info', true), ['class' => 'btn btn-primary pull-right']);?>
+                <?php $this->Form->fieldSubmit('submit', $this->_('AdminMain.index.basic_info', true), ['class' => 'btn btn-primary pull-right']);?>
             </div>
         </div>
         <?php

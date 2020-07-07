@@ -4,19 +4,19 @@
             $this->Form->fieldHidden('action', 'fields');
         ?>
         <div class="inner">
-            <div class="title_row first"><h3><?php $this->_('ExtensionGeneratorPlugin.index.heading_module_row_fields');?></h3></div>
+            <div class="title_row first"><h3><?php $this->_('AdminMain.index.heading_module_row_fields');?></h3></div>
             <div class="pad">
                 <div class="links_row">
-                    <a class="btn btn-default pull-right btn-sm module_row_add" href="#"><span><?php $this->_('ExtensionGeneratorPlugin.index.module_row_add');?></span></a>
+                    <a class="btn btn-default pull-right btn-sm module_row_add" href="#"><span><?php $this->_('AdminMain.index.module_row_add');?></span></a>
                 </div>
                 <table class="table">
                     <thead>
                         <tr class="heading_row">
-                            <td><?php $this->_('ExtensionGeneratorPlugin.index.name');?></td>
-                            <td><?php $this->_('ExtensionGeneratorPlugin.index.label');?></td>
-                            <td><?php $this->_('ExtensionGeneratorPlugin.index.type');?></td>
-                            <td><?php $this->_('ExtensionGeneratorPlugin.index.tooltip');?></td>
-                            <td class="last"><?php $this->_('ExtensionGeneratorPlugin.index.text_options');?></td>
+                            <td><?php $this->_('AdminMain.index.name');?></td>
+                            <td><?php $this->_('AdminMain.index.label');?></td>
+                            <td><?php $this->_('AdminMain.index.type');?></td>
+                            <td><?php $this->_('AdminMain.index.tooltip');?></td>
+                            <td class="last"><?php $this->_('AdminMain.index.text_options');?></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,7 +32,7 @@
                             <td><?php $this->Form->fieldText('module_rows[label][]', $this->Html->ifSet($vars['module_rows']['label'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldSelect('module_rows[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['module_rows']['type'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldTextarea('module_rows[tooltip][]', $this->Html->ifSet($vars['module_rows']['tooltip'][$i]), ['class' => 'stretch']);?></td>
-                            <td><a href="#" class="manage module_row_remove"><?php $this->_('ExtensionGeneratorPlugin.index.text_remove');?></a></td>
+                            <td><a href="#" class="manage module_row_remove"><?php $this->_('AdminMain.index.text_remove');?></a></td>
                         </tr>
                     <?php
                     }
@@ -40,19 +40,19 @@
                     </tbody>
                 </table>
             </div>
-            <div class="title_row"><h3><?php $this->_('ExtensionGeneratorPlugin.index.heading_package_fields');?></h3></div>
+            <div class="title_row"><h3><?php $this->_('AdminMain.index.heading_package_fields');?></h3></div>
             <div class="pad">
                 <div class="links_row">
-                    <a class="btn btn-default pull-right btn-sm package_row_add" href="#"><span><?php $this->_('ExtensionGeneratorPlugin.index.package_row_add');?></span></a>
+                    <a class="btn btn-default pull-right btn-sm package_row_add" href="#"><span><?php $this->_('AdminMain.index.package_row_add');?></span></a>
                 </div>
                 <table class="table">
                     <thead>
                         <tr class="heading_row">
-                            <td><?php $this->_('ExtensionGeneratorPlugin.index.name');?></td>
-                            <td><?php $this->_('ExtensionGeneratorPlugin.index.label');?></td>
-                            <td><?php $this->_('ExtensionGeneratorPlugin.index.type');?></td>
-                            <td><?php $this->_('ExtensionGeneratorPlugin.index.tooltip');?></td>
-                            <td class="last"><?php $this->_('ExtensionGeneratorPlugin.index.text_options');?></td>
+                            <td><?php $this->_('AdminMain.index.name');?></td>
+                            <td><?php $this->_('AdminMain.index.label');?></td>
+                            <td><?php $this->_('AdminMain.index.type');?></td>
+                            <td><?php $this->_('AdminMain.index.tooltip');?></td>
+                            <td class="last"><?php $this->_('AdminMain.index.text_options');?></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,7 +68,7 @@
                             <td><?php $this->Form->fieldText('package_fields[label][]', $this->Html->ifSet($vars['package_fields']['label'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldSelect('package_fields[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['package_fields']['type'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldTextarea('package_fields[tooltip][]', $this->Html->ifSet($vars['package_fields']['tooltip'][$i]), ['class' => 'stretch']);?></td>
-                            <td><a href="#" class="manage package_row_remove"><?php $this->_('ExtensionGeneratorPlugin.index.text_remove');?></a></td>
+                            <td><a href="#" class="manage package_row_remove"><?php $this->_('AdminMain.index.text_remove');?></a></td>
                         </tr>
                     <?php
                     }
@@ -76,19 +76,19 @@
                     </tbody>
                 </table>
             </div>
-            <div class="title_row"><h3><?php $this->_('ExtensionGeneratorPlugin.index.heading_service_fields');?></h3></div>
+            <div class="title_row"><h3><?php $this->_('AdminMain.index.heading_service_fields');?></h3></div>
             <div class="pad">
                 <div class="links_row">
-                    <a class="btn btn-default pull-right btn-sm service_row_add" href="#"><span><?php $this->_('ExtensionGeneratorPlugin.index.service_row_add');?></span></a>
+                    <a class="btn btn-default pull-right btn-sm service_row_add" href="#"><span><?php $this->_('AdminMain.index.service_row_add');?></span></a>
                 </div>
                 <table class="table">
                     <thead>
                         <tr class="heading_row">
-                            <td><?php $this->_('ExtensionGeneratorPlugin.index.name');?></td>
-                            <td><?php $this->_('ExtensionGeneratorPlugin.index.label');?></td>
-                            <td><?php $this->_('ExtensionGeneratorPlugin.index.type');?></td>
-                            <td><?php $this->_('ExtensionGeneratorPlugin.index.tooltip');?></td>
-                            <td class="last"><?php $this->_('ExtensionGeneratorPlugin.index.text_options');?></td>
+                            <td><?php $this->_('AdminMain.index.name');?></td>
+                            <td><?php $this->_('AdminMain.index.label');?></td>
+                            <td><?php $this->_('AdminMain.index.type');?></td>
+                            <td><?php $this->_('AdminMain.index.tooltip');?></td>
+                            <td class="last"><?php $this->_('AdminMain.index.text_options');?></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -104,7 +104,7 @@
                             <td><?php $this->Form->fieldText('service_fields[label][]', $this->Html->ifSet($vars['service_fields']['label'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldSelect('service_fields[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['service_fields']['type'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldTextarea('service_fields[tooltip][]', $this->Html->ifSet($vars['service_fields']['tooltip'][$i]), ['class' => 'stretch']);?></td>
-                            <td><a href="#" class="manage service_row_remove"><?php $this->_('ExtensionGeneratorPlugin.index.text_remove');?></a></td>
+                            <td><a href="#" class="manage service_row_remove"><?php $this->_('AdminMain.index.text_remove');?></a></td>
                         </tr>
                     <?php
                     }
@@ -113,7 +113,7 @@
                 </table>
             </div>
             <div class="button_row">
-                <?php $this->Form->fieldSubmit('submit', $this->_('ExtensionGeneratorPlugin.index.module_features', true), ['class' => 'btn btn-primary pull-right']);?>
+                <?php $this->Form->fieldSubmit('submit', $this->_('AdminMain.index.module_features', true), ['class' => 'btn btn-primary pull-right']);?>
             </div>
         </div>
         <?php
