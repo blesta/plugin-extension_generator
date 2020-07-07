@@ -69,11 +69,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      *
      * @param array $vars An array of input data including:
      *
-     *  - client_id The ID of the client to associate the extension with
-     *  - code The code to use when creating referral links for this extension (optional)
-     *  - status The status of the extension ('active' or 'inactive', default 'active')
-     *  - visits The number of times an extension's link has been visited (optional)
-     *  - sales The number of sales completed after following the extensions link (optional)
+     *  - company_id The ID of the company with which to associate the extension
      * @return int The ID of the extension that was created, void on error
      */
     public function add(array $vars)
@@ -94,11 +90,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      * @param int $extension_id The ID of the extension to edit
      * @param array $vars An array of input data including:
      *
-     *  - client_id The ID of the client to associate the extension with
-     *  - code The code to use when creating referral links for this extension
-     *  - status The status of the extension ('active' or 'inactive', default 'active')
-     *  - visits The number of times an extension's link has been visited (optional)
-     *  - sales The number of sales completed after following the extensions link (optional)
+     *  - company_id The ID of the company with which to associate the extension
      * @return int The ID of the extension that was updated, void on error
      */
     public function edit($extension_id, array $vars)
