@@ -11,9 +11,16 @@
 class AdminMain extends ExtensionGeneratorController
 {
     /**
-     * @var string The string with which to start every variable name stored by this plugin
+     * Setup
      */
-    private $session_prefix = 'extensiongenerator_';
+    public function preAction()
+    {
+        parent::preAction();
+
+        $this->uses(['ExtensionGenerator.ExtensionGeneratorExtensions']);
+
+        $this->structure->set('page_title', Language::_('AdminMain.index.page_title', true));
+    }
 
     /**
      * Returns the view for a list of extensions
@@ -221,7 +228,7 @@ class AdminMain extends ExtensionGeneratorController
         }
 
         // Update the extension
-        if (!empty($this->post))
+        if (!empty($this->post['location']))
         {
             $directories = [
                 'module' => COMPONENTDIR . 'modules' . DS,
@@ -230,17 +237,41 @@ class AdminMain extends ExtensionGeneratorController
                 'nonmerchant' => COMPONENTDIR . 'gateways' . DS . 'nonmerchant' . DS,
             ];
 
+            $directory = '';
+            switch ($this->post['location']) {
+                case 'custom':
+                    $directory = isset($this->post['custom_path'])
+                        ? $this->post['custom_path']
+                        : $directories['module'];
+                    break;
+                case 'upload':
+                    $this->uses(['Companies']);
+                    $this->components(['SettingsCollection']);
+                    $temp = $this->SettingsCollection->fetchSetting(
+                        $this->Companies,
+                        Configure::get('Blesta.company_id'),
+                        'uploads_dir'
+                    );
+                    $directory = $temp['value'];
+                    break;
+                default:
+                    $directory = isset($directories[$extension->type])
+                        ? $directories[$extension->type]
+                        : $directories['module'];
+                    break;
+            }
+            $directory = rtrim($directory, DS) . DS;
+
             try {
                 /* TODO Actually generate files */
 
-                $this->setMessage(
-                    'success',
+                $this->flashMessage(
+                    'message',
                     Language::_(
                         'AdminMain.!success.' . $extension->type . '_created',
                         true,
-                        $directories[$extension->type] . str_replace(' ', '_', strtolower($extension->name))
+                        $directory . str_replace(' ', '_', strtolower($extension->name))
                     ),
-                    false,
                     null,
                     false
                 );
@@ -257,6 +288,8 @@ class AdminMain extends ExtensionGeneratorController
                 );
             }
         }
+
+        $this->set('locations', $this->getFileLocations($extension->type));
 
         // Set the node progress bar
         $nodes = $this->getNodes($extension);
@@ -373,6 +406,33 @@ class AdminMain extends ExtensionGeneratorController
         }
 
         return $functions;
+    }
+
+    /**
+     * Gets a list of file generation locations and their languages
+     *
+     * @return A list of file generation locations and their languages
+     */
+    private function getFileLocations($extention_type)
+    {
+        $locations = [];
+        switch ($extention_type)
+        {
+            case 'plugin':
+                $locations['extension'] = Language::_('AdminMain.getfilelocations.plugin', true);
+                break;
+            case 'gateway':
+                $locations['extension'] = Language::_('AdminMain.getfilelocations.gateway', true);
+                break;
+            default:
+                $locations['extension'] = Language::_('AdminMain.getfilelocations.module', true);
+                break;
+        }
+
+        return $locations + [
+            'upload' => Language::_('AdminMain.getfilelocations.upload', true),
+            'custom' => Language::_('AdminMain.getfilelocations.custom', true)
+        ];
     }
 
     /**

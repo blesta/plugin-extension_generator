@@ -26,6 +26,12 @@ $lang['AdminMain.gettablevels.client'] = 'Client';
 $lang['AdminMain.gettasktypes.time'] = 'Time';
 $lang['AdminMain.gettasktypes.interval'] = 'Interval';
 
+$lang['AdminMain.getfilelocations.module'] = 'Blesta Modules Directory';
+$lang['AdminMain.getfilelocations.plugin'] = 'Blesta Plugins Directory';
+$lang['AdminMain.getfilelocations.gateway'] = 'Blesta Gateways Directory';
+$lang['AdminMain.getfilelocations.upload'] = 'Blesta Uploads Directory';
+$lang['AdminMain.getfilelocations.custom'] = 'Custom';
+
 $lang['AdminMain.getnodes.general_settings'] = 'General Settings';
 $lang['AdminMain.getnodes.basic_info'] = 'Basic Info';
 $lang['AdminMain.getnodes.module_fields'] = 'Module Fields';
@@ -151,5 +157,9 @@ $lang['AdminMain.modulefeatures.module_confirm'] = 'Next - Confirmation';
 // Confirmation page
 $lang['AdminMain.confirm.heading_confirm'] = 'Confirmation';
 $lang['AdminMain.confirm.text_generation'] = 'Extension settings are complete.  You may review any section by clicking on the nodes in the progress bar.  Click "Generate Extension" to finish and automatically generate the files for your extension.';
+
+$lang['AdminMain.confirm.location'] = 'Extension Location';
+$lang['AdminMain.confirm.tooltip_location'] = 'The directory in which to upload generated extension files.';
+$lang['AdminMain.confirm.custom_path'] = 'Custom Path';
 
 $lang['AdminMain.confirm.generate'] = 'Generate Extension';
