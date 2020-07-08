@@ -43,5 +43,6 @@ class ExtensionGeneratorController extends AppController
         // Restore structure view location of the admin portal
         $this->structure->setDefaultView(APPDIR);
         $this->structure->setView(null, $this->orig_structure_view);
+        $this->view->setView(null, 'ExtensionGenerator.default');
     }
 }

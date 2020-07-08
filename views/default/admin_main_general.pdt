@@ -1,0 +1,58 @@
+        <?php
+        echo $this->Html->ifSet($message);
+
+        $this->Widget->clear();
+        $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+        $this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
+
+        echo $this->Html->ifSet($progress_bar);
+
+        $this->Form->create();
+        ?>
+        <div class="inner">
+            <div class="title_row first"><h3><?php $this->_('AdminMain.general.heading_general_settings');?></h3></div>
+            <div class="pad">
+                <ul>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('AdminMain.general.name', true), 'name');
+                        $this->Form->fieldText('name', $this->Html->ifSet($vars->name), ['id' => 'name', 'placeholder' => $this->_('AdminMain.general.placeholder_name', true)]);
+                        ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_name');?></div></span>
+                    </li>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('AdminMain.general.type', true));
+                        foreach ($this->Html->ifSet($extension_types, []) as $extension_type => $label) {
+                            $this->Form->fieldRadio('type', $extension_type, $this->Html->ifSet($vars->type, 'module') == $extension_type, ['class' => 'inline', 'id' => 'type_' . $extension_type]);
+                            $this->Form->label($label, 'type_' . $extension_type, ['class' => 'inline']);
+                        }
+                        ?>
+                    </li>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('AdminMain.general.form_type', true), 'form_type', ['class' => 'inline']);
+                        ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_form_type');?></div></span>
+                        <?php
+                        $this->Form->fieldSelect('form_type', $this->Html->ifSet($form_types, []), $this->Html->ifSet($vars->form_type), ['class' => 'block', 'id' => 'form_type']);
+                        ?>
+                    </li>
+                    <li>
+                        <?php
+                        $this->Form->fieldCheckbox('code_examples', '1', $this->Html->ifSet($vars->code_examples, '1') == '1', ['class' => 'inline', 'id' => 'code_examples']);
+                        $this->Form->label($this->_('AdminMain.general.code_examples', true), 'code_examples', ['class' => 'inline']);
+                        ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_code_examples');?></div></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="button_row">
+                <?php $this->Form->fieldSubmit('submit', $this->_('AdminMain.general.basic_info', true), ['class' => 'btn btn-primary pull-right']);?>
+            </div>
+        </div>
+        <?php
+
+        $this->Form->end();
+
+        $this->Widget->end();

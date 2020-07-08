@@ -2,12 +2,12 @@
         echo $this->Html->ifSet($message);
 
         $this->Widget->clear();
-        $this->Widget->create($this->_('AdminMain.index.boxtitle_extensions', true));
+        $this->Widget->create($this->_('AdminMain.index.boxtitle_extensions', true), ['id'=>'admin_main'], $this->Html->ifSet($render_section, null));
         ?>
         <div class="pad">
             <div class="inner">
                 <div class="links_row">
-                    <a class="btn btn-default btn-sm pull-right" title="<?php $this->_('AdminMain.index.extension_add');?>" href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/create/');?>"><i class="fa fa-plus"></i></a>
+                    <a class="btn btn-default btn-sm pull-right" title="<?php $this->_('AdminMain.index.extension_add');?>" href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/general/');?>"><i class="fa fa-plus"></i></a>
                 </div>
                 <?php
                 if ($this->Html->ifSet($extensions) && !empty($extensions)) {
@@ -32,11 +32,11 @@
                         <td><?php $this->Html->_($extension->id);?></td>
                         <td><?php $this->Html->_($extension->name);?></td>
                         <td><?php echo $this->Html->safe($this->Html->ifSet($types[$extension->type]));?></td>
-                        <td><?php echo $this->Html->safe($this->Html->ifSet($form_types[$extension->formtype]));?></td>
+                        <td><?php echo $this->Html->safe($this->Html->ifSet($form_types[$extension->form_type]));?></td>
                         <td><?php echo $this->Html->ifSet($extension->code_examples) == 1 ? '<i class="fa fa-check">' : '<i class="fa fa-times">';?></td>
                         <td><?php echo $this->Date->cast($this->Html->ifSet($extension->date_updated), 'date_time');?></td>
                         <td>
-                            <a href="<?php echo $this->base_uri . 'plugin/extension_generator/admin_main/create/' . $this->Html->_($extension->id, true) . '/';?>"><?php $this->_('AdminMain.index.option_edit');?></a>,
+                            <a href="<?php echo $this->base_uri . 'plugin/extension_generator/admin_main/general/' . $this->Html->_($extension->id, true) . '/';?>"><?php $this->_('AdminMain.index.option_edit');?></a>,
                             <?php
                             $this->Form->create($this->base_uri . 'plugin/extension_generator/admin_main/delete/');
                             $this->Form->fieldHidden('id', $this->Html->ifSet($extension->id));

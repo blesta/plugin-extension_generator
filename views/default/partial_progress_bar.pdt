@@ -11,9 +11,9 @@
                         <div class="node-progress-node-container" style="left: <?php echo $step / ($node_count - 1) * 100; ?>%;" >
                             <?php $node_color = $step <= $page_step ? '#a0f56c' : 'white'; ?>
                             <div>
-                                <?php if (!is_numeric($form_step)) { ?><a href="?step=<?php echo $form_step;?>"> <?php }?>
+                                <a href="<?php echo $this->base_uri . 'plugin/extension_generator/admin_main/' . $form_step . '/' . $this->Html->_($extension->id, true) . '/';?>">
                                     <div class="node-progress-node" style="background-color: <?php echo $node_color;?>;"></div>
-                                <?php if (!is_numeric($form_step)) { ?></a> <?php }?>
+                                </a>
                             </div>
                             <p><?php echo $node;?></p>
                         </div>

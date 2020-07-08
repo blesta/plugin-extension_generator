@@ -1,5 +1,9 @@
 <?php
 
+// Error messages
+$lang['AdminMain.!error.generation_failed'] = 'Unable to generate your extension.  Exception generated: %1$s'; // Where %1$s is the exeption message
+
+
 // Success messages
 $lang['AdminMain.!success.module_created'] = 'The new module has been successfully generated and can be found at %1$s'; // Where %1$s is the path to the created module's directory
 $lang['AdminMain.!success.plugin_created'] = 'The new plugin has been successfully generated and can be found at %1$s'; // Where %1$s is the path to the created plugin's directory
@@ -26,7 +30,7 @@ $lang['AdminMain.getnodes.general_settings'] = 'General Settings';
 $lang['AdminMain.getnodes.basic_info'] = 'Basic Info';
 $lang['AdminMain.getnodes.module_fields'] = 'Module Fields';
 $lang['AdminMain.getnodes.additional_features'] = 'Additional Features';
-$lang['AdminMain.getnodes.complete'] = 'Complete';
+$lang['AdminMain.getnodes.confirm'] = 'Confirmation';
 
 $lang['AdminMain.getoptionalfunctions.tooltip_cancelService'] = 'Called to perform module actions on service cancellation.';
 $lang['AdminMain.getoptionalfunctions.tooltip_suspendService'] = 'Called to perform module actions on service suspension.';
@@ -66,72 +70,86 @@ $lang['AdminMain.index.extensions_no_results'] = 'There are no extensions at thi
 
 
 // General settings page
-$lang['AdminMain.partialgeneral.heading_general_settings'] = 'General Settings';
+$lang['AdminMain.general.heading_general_settings'] = 'General Settings';
 
-$lang['AdminMain.partialgeneral.extension_type'] = 'Extension Type';
-$lang['AdminMain.partialgeneral.form_type'] = 'Form Type';
-$lang['AdminMain.partialgeneral.code_examples'] = 'Include Example Code';
-$lang['AdminMain.partialgeneral.tooltip_code_examples'] = 'Check to include commented out lines of sample code for features such as Cron Task, Event lists and tie-ins, etc.';
-$lang['AdminMain.partialgeneral.basic_info'] = 'Next - Basic Info';
+$lang['AdminMain.general.name'] = 'Name';
+$lang['AdminMain.general.extension_type'] = 'Extension Type';
+$lang['AdminMain.general.form_type'] = 'Form Type';
+$lang['AdminMain.general.code_examples'] = 'Include Example Code';
+$lang['AdminMain.general.tooltip_code_examples'] = 'Check to include commented out lines of sample code for features such as Cron Task, Event lists and tie-ins, etc.';
+$lang['AdminMain.general.basic_info'] = 'Next - Basic Info';
 
-$lang['AdminMain.partialgeneral.tooltip_form_type'] = 'Basic to use a highly truncated version of the extension form, including only the minimum necessary to generate the extension.';
+$lang['AdminMain.general.tooltip_name'] = 'The display name of the extension';
+$lang['AdminMain.general.tooltip_form_type'] = 'Basic to use a highly truncated version of the extension form, including only the minimum necessary to generate the extension.';
+
+$lang['AdminMain.general.placeholder_name'] = 'Extension Name';
 
 
 // Basic info page
-$lang['AdminMain.partialmodulebasic.heading_module_basic'] = 'Basic Information';
-$lang['AdminMain.partialmodulebasic.heading_module_authors'] = 'Authors';
+$lang['AdminMain.modulebasic.heading_module_basic'] = 'Basic Information';
+$lang['AdminMain.modulebasic.heading_module_authors'] = 'Authors';
 
-$lang['AdminMain.partialmodulebasic.name'] = 'Name';
-$lang['AdminMain.partialmodulebasic.description'] = 'Description';
-$lang['AdminMain.partialmodulebasic.logo'] = 'Logo';
-$lang['AdminMain.partialmodulebasic.module_row'] = 'Module Row Name';
-$lang['AdminMain.partialmodulebasic.module_row_plural'] = 'Module Row Name (Plural)';
-$lang['AdminMain.partialmodulebasic.author_name'] = 'Author Name';
-$lang['AdminMain.partialmodulebasic.author_url'] = 'Author URL';
-$lang['AdminMain.partialmodulebasic.text_options'] = 'Options';
-$lang['AdminMain.partialmodulebasic.author_row_add'] = 'Add Author';
-$lang['AdminMain.partialmodulebasic.text_remove'] = 'Remove';
-$lang['AdminMain.partialmodulebasic.module_fields'] = 'Next - Module Fields';
+$lang['AdminMain.modulebasic.description'] = 'Description';
+$lang['AdminMain.modulebasic.logo'] = 'Logo';
+$lang['AdminMain.modulebasic.module_row'] = 'Module Row Name';
+$lang['AdminMain.modulebasic.module_row_plural'] = 'Module Row Name (Plural)';
+$lang['AdminMain.modulebasic.author_name'] = 'Author Name';
+$lang['AdminMain.modulebasic.author_url'] = 'Author URL';
+$lang['AdminMain.modulebasic.text_options'] = 'Options';
+$lang['AdminMain.modulebasic.author_row_add'] = 'Add Author';
+$lang['AdminMain.modulebasic.text_remove'] = 'Remove';
+$lang['AdminMain.modulebasic.module_fields'] = 'Next - Module Fields';
+$lang['AdminMain.modulebasic.module_confirm'] = 'Next - Confirmation';
 
-$lang['AdminMain.partialmodulebasic.tooltip_module_name'] = 'The display name of the module';
-$lang['AdminMain.partialmodulebasic.tooltip_module_description'] = 'The description shown in the module listing';
-$lang['AdminMain.partialmodulebasic.tooltip_module_logo'] = 'The logo displayed in the module listing';
-$lang['AdminMain.partialmodulebasic.tooltip_module_row'] = 'The term by which to refer to a single module row for this module';
-$lang['AdminMain.partialmodulebasic.tooltip_module_row_plural'] = 'The term by which to refer to multiple module rows for this module';
+$lang['AdminMain.modulebasic.tooltip_module_description'] = 'The description shown in the module listing';
+$lang['AdminMain.modulebasic.tooltip_module_logo'] = 'The logo displayed in the module listing';
+$lang['AdminMain.modulebasic.tooltip_module_row'] = 'The term by which to refer to a single module row for this module';
+$lang['AdminMain.modulebasic.tooltip_module_row_plural'] = 'The term by which to refer to multiple module rows for this module';
 
-$lang['AdminMain.partialmodulebasic.placeholder_module_name'] = 'Module Name';
-$lang['AdminMain.partialmodulebasic.placeholder_module_row'] = 'e.g. Server';
-$lang['AdminMain.partialmodulebasic.placeholder_module_row_plural'] = 'e.g. Servers';
-$lang['AdminMain.partialmodulebasic.placeholder_author_name'] = 'e.g. Blesta';
-$lang['AdminMain.partialmodulebasic.placeholder_author_url'] = 'e.g. https://blesta.com/';
+$lang['AdminMain.modulebasic.placeholder_module_row'] = 'e.g. Server';
+$lang['AdminMain.modulebasic.placeholder_module_row_plural'] = 'e.g. Servers';
+$lang['AdminMain.modulebasic.placeholder_author_name'] = 'e.g. Blesta';
+$lang['AdminMain.modulebasic.placeholder_author_url'] = 'e.g. https://blesta.com/';
 
 
 // Fields page
-$lang['AdminMain.partialmodulefields.heading_module_row_fields'] = 'Module Row Fields';
-$lang['AdminMain.partialmodulefields.heading_package_fields'] = 'Package Fields';
-$lang['AdminMain.partialmodulefields.heading_service_fields'] = 'Service Fields';
+$lang['AdminMain.modulefields.heading_module_row_fields'] = 'Module Row Fields';
+$lang['AdminMain.modulefields.heading_package_fields'] = 'Package Fields';
+$lang['AdminMain.modulefields.heading_service_fields'] = 'Service Fields';
 
-$lang['AdminMain.partialmodulefields.label'] = 'Label';
-$lang['AdminMain.partialmodulefields.type'] = 'Type';
-$lang['AdminMain.partialmodulefields.tooltip'] = 'Tooltip Text';
-$lang['AdminMain.partialmodulefields.module_features'] = 'Next - Additional Features';
+$lang['AdminMain.modulefields.name'] = 'Name';
+$lang['AdminMain.modulefields.label'] = 'Label';
+$lang['AdminMain.modulefields.type'] = 'Type';
+$lang['AdminMain.modulefields.tooltip'] = 'Tooltip Text';
+$lang['AdminMain.modulefields.module_features'] = 'Next - Additional Features';
 
-$lang['AdminMain.partialmodulefields.module_row_add'] = 'Add Module Row Field';
-$lang['AdminMain.partialmodulefields.package_row_add'] = 'Add Package Field';
-$lang['AdminMain.partialmodulefields.service_row_add'] = 'Add Service Field';
+$lang['AdminMain.modulefields.module_row_add'] = 'Add Module Row Field';
+$lang['AdminMain.modulefields.package_row_add'] = 'Add Package Field';
+$lang['AdminMain.modulefields.service_row_add'] = 'Add Service Field';
 
 
 // Additional features page
-$lang['AdminMain.partialmodulefeatures.heading_module_features'] = 'Additional Features';
-$lang['AdminMain.partialmodulefeatures.heading_service_tabs'] = 'Service Management Tabs';
-$lang['AdminMain.partialmodulefeatures.heading_cron_tasks'] = 'Cron Tasks';
-$lang['AdminMain.partialmodulefeatures.heading_optional_functions'] = 'Optional Functions';
+$lang['AdminMain.modulefeatures.heading_module_features'] = 'Additional Features';
+$lang['AdminMain.modulefeatures.heading_service_tabs'] = 'Service Management Tabs';
+$lang['AdminMain.modulefeatures.heading_cron_tasks'] = 'Cron Tasks';
+$lang['AdminMain.modulefeatures.heading_optional_functions'] = 'Optional Functions';
 
-$lang['AdminMain.partialmodulefeatures.method_name'] = 'Method Name';
-$lang['AdminMain.partialmodulefeatures.level'] = 'Level';
-$lang['AdminMain.partialmodulefeatures.time'] = 'Start Time/Interval';
+$lang['AdminMain.modulefeatures.name'] = 'Name';
+$lang['AdminMain.modulefeatures.label'] = 'Label';
+$lang['AdminMain.modulefeatures.description'] = 'Description';
+$lang['AdminMain.modulefeatures.type'] = 'Type';
+$lang['AdminMain.modulefeatures.method_name'] = 'Method Name';
+$lang['AdminMain.modulefeatures.level'] = 'Level';
+$lang['AdminMain.modulefeatures.time'] = 'Start Time/Interval';
 
-$lang['AdminMain.partialmodulefeatures.service_tab_row_add'] = 'Add Service Management Tab';
-$lang['AdminMain.partialmodulefeatures.cron_task_row_add'] = 'Add Cron Task';
+$lang['AdminMain.modulefeatures.service_tab_row_add'] = 'Add Service Management Tab';
+$lang['AdminMain.modulefeatures.cron_task_row_add'] = 'Add Cron Task';
 
-$lang['AdminMain.partialmodulefeatures.module_complete'] = 'Complete';
+$lang['AdminMain.modulefeatures.module_confirm'] = 'Next - Confirmation';
+
+
+// Confirmation page
+$lang['AdminMain.confirm.heading_confirm'] = 'Confirmation';
+$lang['AdminMain.confirm.text_generation'] = 'Extension settings are complete.  You may review any section by clicking on the nodes in the progress bar.  Click "Generate Extension" to finish and automatically generate the files for your extension.';
+
+$lang['AdminMain.confirm.generate'] = 'Generate Extension';

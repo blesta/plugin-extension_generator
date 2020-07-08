@@ -31,7 +31,7 @@ class ExtensionGeneratorPlugin extends Plugin
             $this->Record->
                 setField('id', ['type' => 'int', 'size' => 10, 'unsigned' => true, 'auto_increment' => true])->
                 setField('company_id', ['type' => 'int', 'size' => 10, 'unsigned' => true])->
-                setField('name', ['type' => 'varchar', 'size' => 128, 'is_null' => true, 'default' => null])->
+                setField('name', ['type' => 'varchar', 'size' => 128])->
                 setField('type', ['type' => 'enum', 'size' => "'module','plugin','gateway'", 'default' => 'module'])->
                 setField('form_type', ['type' => 'enum', 'size' => "'basic','advanced'", 'default' => 'basic'])->
                 setField('code_examples', ['type' => 'tinyint', 'size' => 1, 'default' => 0])->

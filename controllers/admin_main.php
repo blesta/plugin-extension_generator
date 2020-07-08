@@ -31,6 +31,8 @@ class AdminMain extends ExtensionGeneratorController
         );
         $total_results = $this->ExtensionGeneratorExtensions->getListCount(Configure::get('Blesta.company_id'));
 
+        $this->set('types', $this->ExtensionGeneratorExtensions->getTypes());
+        $this->set('form_types', $this->ExtensionGeneratorExtensions->getFormTypes());
         $this->set('extensions', $extensions);
         $this->set('sort', $sort);
         $this->set('order', $order);
@@ -46,149 +48,256 @@ class AdminMain extends ExtensionGeneratorController
             ]
         );
         $this->setPagination($this->get, $settings);
+
+        return $this->renderAjaxWidgetIfAsync(isset($this->get[0]) || isset($this->get['sort']));
     }
 
     /**
-     * Returns the view to be rendered when creating an extension
+     * Returns the view to be rendered when configuring the general settings for an extension
      */
-    public function create()
+    public function general()
     {
-        $this->components(['Session']);
-
-        $step = isset($this->get['step']) ? $this->get['step'] : '';
-
-        // Get the form by action
-        if (!empty($this->post))
-        {
-            $type = isset($this->post['extension_type']) ? $this->post['extension_type'] : 'general';
-            $action = isset($this->post['action']) ? $this->post['action'] : 'general';
-
-            $this->Session->write(
-                $this->session_prefix . ($action == 'general' ? 'generalgeneral' : $type . $action),
-                $this->post
-            );
-
-            $step = $this->getNextStep($type . $action);
+        // Ensure any submitted extension ID is valid
+        if (isset($this->get[0])
+            && (!($extension = $this->ExtensionGeneratorExtensions->get($this->get[0]))
+                || $extension->company_id != $this->company_id)
+        ) {
+            $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
         }
 
+        // Add/update the extension
+        if (!empty($this->post))
+        {
+            if (isset($extension)) {
+                $extension_id = $extension->id;
+                $this->ExtensionGeneratorExtensions->edit($extension_id, $this->post);
+            } else {
+                $this->post['company_id'] = Configure::get('Blesta.company_id');
+                $extension_id = $this->ExtensionGeneratorExtensions->add($this->post);
+            }
 
-        $this->view->setView(null, 'ExtensionGenerator.default');
-        $form = $this->getForm($step);
+            if (($errors = $this->ExtensionGeneratorExtensions->errors())) {
+                $this->setMessage('error', $errors, false, null, false);
+
+                $vars = (object) $this->post;
+            } else {
+                // Redirect to the next step in the configuration process
+                $extension = $this->ExtensionGeneratorExtensions->get($extension_id);
+                $this->redirect(
+                    $this->base_uri
+                    . 'plugin/extension_generator/admin_main/' . $extension->type . 'basic/' . $extension->id
+                );
+            }
+        } else {
+            $vars = isset($extension) ? $extension : null;
+        }
 
         // Set the view to render for all actions under this controller
-        $this->set('form', $form);
+        $this->set('extension_types', $this->ExtensionGeneratorExtensions->getTypes());
+        $this->set('form_types', $this->ExtensionGeneratorExtensions->getFormTypes());
+        $this->set('vars', $vars);
+
+        // Set the node progress bar
+        $nodes = $this->getNodes(isset($extension) ? $extension : null);
+        $page_step = array_search('general', array_keys($nodes));
         $this->set(
             'progress_bar',
             $this->partial(
                 'partial_progress_bar',
-                [
-                    'nodes' => $this->getNodes($step),
-                    'page_step' => $this->page_step
-                ]
+                ['nodes' => $nodes, 'page_step' => $page_step, 'extension' => isset($extension) ? $extension : null]
             )
         );
     }
 
     /**
-     * Returns the next step in the chain of extension forms
-     *
-     * @param string $current_step The current step being displayed
-     * @return string The next step to be displayed
+     * Returns the view to be rendered when configuring the basic settings for an extension
      */
-    private function getNextStep($current_step)
+    public function modulebasic()
     {
-        $step_mapping = [
-            'modulegeneral' => 'modulebasic',
-            'modulebasic' => 'modulefields',
-            'modulefields' => 'modulefeatures',
-            'modulefeatures' => 'complete',
-        ];
-
-        // Use a simplified set of steps if set to use the basic extension form
-        $general_vars = $this->Session->read($this->session_prefix . 'generalgeneral');
-        if (is_array($general_vars) && isset($general_vars['form_type']) && $general_vars['form_type'] == 'basic') {
-            $step_mapping = [
-                'modulegeneral' => 'modulebasic',
-                'modulebasic' => 'complete'
-            ];
+        // Ensure extension exists
+        if (!isset($this->get[0])
+            || !($extension = $this->ExtensionGeneratorExtensions->get($this->get[0]))
+            || $extension->company_id != $this->company_id
+        ) {
+            $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
         }
 
-        return isset($step_mapping[$current_step]) ? $step_mapping[$current_step] : 'generalgeneral';
+        // Perform edit/redirect or error/set vars
+        $vars = $this->processStep('modulebasic', $extension);
+
+        // Set the view to render for all actions under this controller
+        $this->set('form_type', $extension->form_type);
+        $this->set('vars', $vars);
+
+        // Set the node progress bar
+        $nodes = $this->getNodes($extension);
+        $page_step = array_search('modulebasic', array_keys($nodes));
+        $this->set(
+            'progress_bar',
+            $this->partial(
+                'partial_progress_bar',
+                ['nodes' => $nodes, 'page_step' => $page_step, 'extension' => $extension]
+            )
+        );
     }
 
     /**
-     * Get a form partial view based on the given step
-     *
-     * @param string $step The step for which to render a form
-     * @return string The rendered view
+     * Returns the view to be rendered when configuring the module fields for an extension
      */
-    private function getForm($step)
+    public function modulefields()
     {
-        $vars = $this->Session->read($this->session_prefix . $step);
-        $general_vars = $this->Session->read($this->session_prefix . 'generalgeneral');
+        // Ensure extension exists
+        if (!isset($this->get[0])
+            || !($extension = $this->ExtensionGeneratorExtensions->get($this->get[0]))
+            || $extension->company_id != $this->company_id
+        ) {
+            $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
+        }
 
-        $form = null;
-        switch ($step) {
-            case 'modulebasic':
-                $this->page_step = 1;
-                $form = $this->partial(
-                        'partial_module_basic',
-                        [
-                            'vars' => $vars,
-                            'general_vars' => $general_vars
-                        ]
-                    );
-                break;
-            case 'modulefields':
-                $this->page_step = 2;
-                $form = $this->partial(
-                        'partial_module_fields',
-                        [
-                            'field_types' => $this->getFieldTypes(),
-                            'vars' => $vars
-                        ]
-                    );
-                break;
-            case 'modulefeatures':
-                $this->page_step = 3;
-                $form = $this->partial(
-                        'partial_module_features',
-                        [
-                            'tab_levels' => $this->getTabLevels(),
-                            'task_types' => $this->getTaskTypes(),
-                            'optional_functions' => $this->getOptionalFunctions(),
-                            'vars' => $vars
-                        ]
-                    );
-                break;
-            case 'complete':
-                $extension_type = isset($general_vars['extension_type']) ? $general_vars['extension_type'] : 'module';
+        // Perform edit/redirect or error/set vars
+        $vars = $this->processStep('modulefields', $extension);
+
+        // Set the view to render for all actions under this controller
+        $this->set('field_types', $this->getFieldTypes());
+        $this->set('vars', $vars);
+
+        // Set the node progress bar
+        $nodes = $this->getNodes($extension);
+        $page_step = array_search('modulefields', array_keys($nodes));
+        $this->set(
+            'progress_bar',
+            $this->partial(
+                'partial_progress_bar',
+                ['nodes' => $nodes, 'page_step' => $page_step, 'extension' => $extension]
+            )
+        );
+    }
+
+    /**
+     * Returns the view to be rendered when configuring the additional module features for an extension
+     */
+    public function modulefeatures()
+    {
+        // Ensure extension exists
+        if (!isset($this->get[0])
+            || !($extension = $this->ExtensionGeneratorExtensions->get($this->get[0]))
+            || $extension->company_id != $this->company_id
+        ) {
+            $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
+        }
+
+        // Perform edit/redirect or error/set vars
+        $vars = $this->processStep('modulefeatures', $extension);
+
+        // Set the view to render for all actions under this controller
+        $this->set('tab_levels', $this->getTabLevels());
+        $this->set('task_types', $this->getTaskTypes());
+        $this->set('optional_functions', $this->getOptionalFunctions());
+        $this->set('vars', $vars);
+
+        // Set the node progress bar
+        $nodes = $this->getNodes($extension);
+        $page_step = array_search('modulefeatures', array_keys($nodes));
+        $this->set(
+            'progress_bar',
+            $this->partial(
+                'partial_progress_bar',
+                ['nodes' => $nodes, 'page_step' => $page_step, 'extension' => $extension]
+            )
+        );
+    }
+
+    /**
+     * Returns the view to be rendered when configuring the module fields for an extension
+     */
+    public function confirm()
+    {
+        // Ensure extension exists
+        if (!isset($this->get[0])
+            || !($extension = $this->ExtensionGeneratorExtensions->get($this->get[0]))
+            || $extension->company_id != $this->company_id
+        ) {
+            $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
+        }
+
+        // Update the extension
+        if (!empty($this->post))
+        {
+            $directories = [
+                'module' => COMPONENTDIR . 'modules' . DS,
+                'plugin' => PLUGINDIR,
+                'merchant' => COMPONENTDIR . 'gateways' . DS . 'merchant' . DS,
+                'nonmerchant' => COMPONENTDIR . 'gateways' . DS . 'nonmerchant' . DS,
+            ];
+
+            try {
+                /* TODO Actually generate files */
+
                 $this->setMessage(
                     'success',
                     Language::_(
-                        'AdminMain.!success.' . $extension_type . '_created',
+                        'AdminMain.!success.' . $extension->type . '_created',
                         true,
-                        COMPONENTDIR . 'modules' . DS // . $extension_name
+                        $directories[$extension->type] . str_replace(' ', '_', strtolower($extension->name))
                     ),
                     false,
                     null,
                     false
                 );
-                $this->clearSession();
-            default:
-                $form = $this->partial(
-                        'partial_general',
-                        [
-                            'extension_types' => $this->ExtensionGeneratorExtensions->getTypes(),
-                            'form_types' => $this->ExtensionGeneratorExtensions->getFormTypes(),
-                            'vars' => $vars
-                        ]
-                    );
-                $this->page_step = 0;
-                break;
+
+                // Redirect to the list page
+                $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
+            } catch (Exception $ex) {
+                $this->setMessage(
+                    'error',
+                    Language::_('AdminMain.!error.generation_failed', true, $ex->getMessage()),
+                    false,
+                    null,
+                    false
+                );
+            }
         }
 
-        return $form;
+        // Set the node progress bar
+        $nodes = $this->getNodes($extension);
+        $page_step = array_search('confirm', array_keys($nodes));
+        $this->set(
+            'progress_bar',
+            $this->partial(
+                'partial_progress_bar',
+                ['nodes' => $nodes, 'page_step' => $page_step, 'extension' => $extension]
+            )
+        );
+    }
+
+    private function processStep($step, $extension)
+    {
+        // Update the extension
+        if (!empty($this->post))
+        {
+            $extension->data[$step] = $this->post;
+            $vars = ['data' => $extension->data];
+            $this->ExtensionGeneratorExtensions->edit($extension->id, $vars);
+
+            if (($errors = $this->ExtensionGeneratorExtensions->errors())) {
+                $this->parent->setMessage('error', $errors);
+
+                $vars = (object) $this->post;
+            } else {
+                $next_step = $this->getNextStep($step, $extension->form_type);
+
+                // Redirect to the next step in the configuration process
+                $this->redirect(
+                    $this->base_uri
+                    . 'plugin/extension_generator/admin_main/' . $next_step . '/' . $extension->id
+                );
+            }
+        } else {
+            // Set vars stored by the extension record
+            $vars = isset($extension->data[$step]) ? $extension->data[$step] : [];
+        }
+
+        return $vars;
     }
 
     /**
@@ -267,17 +376,16 @@ class AdminMain extends ExtensionGeneratorController
     }
 
     /**
-     * Gets a list of progress nodes for the given form step
+     * Gets a list of progress nodes for the given extension
      *
-     * @param string $step The form step for which to get nodes
+     * @param stdClass $extension The extension for which to get progress nodes
      * @return array A list of progress nodes, keyed by the step to which they should link
      */
-    private function getNodes($step)
+    private function getNodes($extension = null)
     {
         // Use a simplified set of steps if set to use the basic extension form
-        $general_vars = $this->Session->read($this->session_prefix . 'generalgeneral');
         $node_sets = [];
-        if (is_array($general_vars) && isset($general_vars['form_type']) && $general_vars['form_type'] == 'basic') {
+        if (isset($extension) && $extension->form_type == 'basic') {
             $node_sets = [
                 'module' => [
                     'modulebasic' => Language::_('AdminMain.getnodes.basic_info', true),
@@ -299,39 +407,51 @@ class AdminMain extends ExtensionGeneratorController
             ];
         }
 
-        $nodes = ['generalgeneral' => Language::_('AdminMain.getnodes.general_settings', true)];
-        foreach ($node_sets as $type => $node_set) {
-            if (strpos($step, $type) === 0) {
-                $nodes += $node_set;
-                break;
-            }
-        }
+        $nodes = ['general' => Language::_('AdminMain.getnodes.general_settings', true)];
 
-        if (count($nodes) == 1) {
+        // Add the nodes for the given extension type
+        if (isset($extension)) {
+            foreach ($node_sets as $type => $node_set) {
+                if ($extension->type == $type) {
+                    $nodes += $node_set;
+                    break;
+                }
+            }
+        } else {
             $nodes[] = Language::_('AdminMain.getnodes.basic_info', true);
         }
 
-        $nodes[] = Language::_('AdminMain.getnodes.complete', true);
+        $nodes['confirm'] = Language::_('AdminMain.getnodes.confirm', true);
 
         return $nodes;
     }
 
+
     /**
-     * Clears the session variables set by this plugin
+     * Returns the next step in the chain of extension forms
+     *
+     * @param string $current_step The current step being displayed
+     * @return string The next step to be displayed
      */
-    private function clearSession()
+    private function getNextStep($current_step, $form_type = 'advanced')
     {
-        // Define a complete list of session variable used by the plugin
-        $session_variables = ['generalgeneral', 'modulebasic', 'modulefields', 'modulefeatures'];
+        $step_mapping = [
+            'general' => 'modulebasic',
+            'modulebasic' => 'modulefields',
+            'modulefields' => 'modulefeatures',
+            'modulefeatures' => 'confirm',
+            'confirm' => 'general',
+        ];
 
-        // Define the session variables that should be excluded from the commit
-        $excluded_variables = ['generalgeneral'];
-
-        // Clear each session variable
-        foreach ($session_variables as $session_variable) {
-            if (!in_array($session_variable, $excluded_variables)) {
-                $this->Session->clear($this->session_prefix . $session_variable);
-            }
+        // Use a simplified set of steps if set to use the basic extension form
+        if ($form_type == 'basic') {
+            $step_mapping = [
+                'general' => 'modulebasic',
+                'modulebasic' => 'confirm',
+                'confirm' => 'general',
+            ];
         }
+
+        return isset($step_mapping[$current_step]) ? $step_mapping[$current_step] : 'general';
     }
 }

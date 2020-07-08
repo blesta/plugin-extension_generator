@@ -20,10 +20,16 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      */
     public function getList($company_id, $page = 1, array $order = ['date_updated' => 'desc'])
     {
-        return $this->getExtension(['company_id' => $company_id])
+        $extensions = $this->getExtension(['company_id' => $company_id])
             ->order($order)
             ->limit($this->getPerPage(), (max(1, $page) - 1) * $this->getPerPage())
             ->fetchAll();
+
+        foreach ($extensions as $extension) {
+            $extension->data = unserialize($extension->data);
+        }
+
+        return $extensions;
     }
 
     /**
@@ -46,7 +52,13 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      */
     public function getAll($company_id, array $order = ['date_updated' => 'desc'])
     {
-        return $this->getExtension(['company_id' => $company_id])->order($order)->fetchAll();
+        $extensions = $this->getExtension(['company_id' => $company_id])->fetchAll();
+
+        foreach ($extensions as $extension) {
+            $extension->data = unserialize($extension->data);
+        }
+
+        return $extensions;
     }
 
     /**
@@ -57,7 +69,10 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      */
     public function get($extension_id)
     {
-        return $this->getExtension(['extension_id' => $extension_id])->fetch();
+        $extension = $this->getExtension(['extension_id' => $extension_id])->fetch();
+        $extension->data = unserialize($extension->data);
+
+        return $extension;
     }
 
     /**
@@ -75,12 +90,13 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      */
     public function add(array $vars)
     {
-        $vars['date_added'] = date('c');
+        $vars['date_updated'] = date('c');
 
         $this->Input->setRules($this->getRules($vars));
 
         if ($this->Input->validates($vars)) {
-            $fields = [];
+            $vars['data'] = serialize(isset($vars['data']) ? $vars['data'] : []);
+            $fields = ['company_id', 'name', 'type', 'form_type', 'code_examples', 'data', 'date_updated'];
             $this->Record->insert('extension_generator_extensions', $vars, $fields);
 
             return $this->Record->lastInsertId();
@@ -103,12 +119,13 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      */
     public function edit($extension_id, array $vars)
     {
-        $vars['date_added'] = date('c');
+        $vars['date_updated'] = date('c');
 
         $this->Input->setRules($this->getRules($vars, true));
 
         if ($this->Input->validates($vars)) {
-            $fields = [];
+            $vars['data'] = serialize(isset($vars['data']) ? $vars['data'] : []);
+            $fields = ['company_id', 'name', 'type', 'form_type', 'code_examples', 'data', 'date_updated'];
             $this->Record->where('id', '=', $extension_id)->update('extension_generator_extensions', $vars, $fields);
 
             return $extension_id;
@@ -195,33 +212,44 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
     private function getRules(array $vars, $edit = false)
     {
         $rules = [
+            'name' => [
+                'empty' => [
+                    'if_set' => $edit,
+                    'rule' => 'isEmpty',
+                    'negate' => true,
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.name.empty')
+                ]
+            ],
             'company_id' => [
                 'exists' => [
-                    'rule' => [[$this, 'validateExists'], 'id', 'company'],
+                    'if_set' => $edit,
+                    'rule' => [[$this, 'validateExists'], 'id', 'companies'],
                     'message' => $this->_('ExtensionGeneratorExtensions.!error.company_id.exists')
                 ]
             ],
             'type' => [
                 'valid' => [
-                    'rule' => ['in_array', $this->getTypes()],
+                    'if_set' => $edit,
+                    'rule' => ['array_key_exists', $this->getTypes()],
                     'message' => $this->_('ExtensionGeneratorExtensions.!error.type.valid')
                 ]
             ],
             'form_type' => [
                 'valid' => [
-                    'rule' => ['in_array', $this->getFormTypes()],
+                    'if_set' => $edit,
+                    'rule' => ['array_key_exists', $this->getFormTypes()],
                     'message' => $this->_('ExtensionGeneratorExtensions.!error.form_type.valid')
                 ]
             ],
             'code_examples' => [
                 'valid' => [
+                    'if_set' => $edit,
                     'rule' => ['in_array', [0, 1]],
                     'message' => $this->_('ExtensionGeneratorExtensions.!error.code_examples.format')
                 ]
             ],
             'date_updated' => [
                 'format' => [
-                    'if_set' => true,
                     'rule' => 'isDate',
                     'post_format' => [[$this, 'dateToUtc']],
                     'message' => $this->_('ExtensionGeneratorExtensions.!error.date_updated.format')

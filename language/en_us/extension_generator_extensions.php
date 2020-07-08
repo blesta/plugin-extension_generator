@@ -1,4 +1,5 @@
 <?php
+$lang['ExtensionGeneratorExtensions.!error.name.empty'] = 'Please enter an extension name.';
 $lang['ExtensionGeneratorExtensions.!error.company_id.exists'] = 'Invalid company ID.';
 $lang['ExtensionGeneratorExtensions.!error.date_updated.format'] = 'Invalid date updated format.';
 $lang['ExtensionGeneratorExtensions.!error.type.valid'] = 'Invalid extension type.';
