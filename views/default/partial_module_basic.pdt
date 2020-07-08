@@ -4,60 +4,60 @@
             $this->Form->fieldHidden('action', 'basic');
         ?>
         <div class="inner">
-            <div class="title_row first"><h3><?php $this->_('AdminMain.index.heading_module_basic');?></h3></div>
+            <div class="title_row first"><h3><?php $this->_('AdminMain.partialmodulebasic.heading_module_basic');?></h3></div>
             <div class="pad">
                 <ul>
                     <li>
                         <?php
-                        $this->Form->label($this->_('AdminMain.index.name', true), 'name');
-                        $this->Form->fieldText('name', $this->Html->ifSet($vars['name']), ['id' => 'name', 'placeholder' => $this->_('AdminMain.index.placeholder_module_name', true)]);
+                        $this->Form->label($this->_('AdminMain.partialmodulebasic.name', true), 'name');
+                        $this->Form->fieldText('name', $this->Html->ifSet($vars['name']), ['id' => 'name', 'placeholder' => $this->_('AdminMain.partialmodulebasic.placeholder_module_name', true)]);
                         ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.index.tooltip_module_name');?></div></span>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.partialmodulebasic.tooltip_module_name');?></div></span>
                     </li>
                     <li>
                         <?php
-                        $this->Form->label($this->_('AdminMain.index.description', true), 'description', ['class' => 'inline']);
+                        $this->Form->label($this->_('AdminMain.partialmodulebasic.description', true), 'description', ['class' => 'inline']);
                         ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.index.tooltip_module_description');?></div></span>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.partialmodulebasic.tooltip_module_description');?></div></span>
                         <?php
                         $this->Form->fieldTextarea('description', $this->Html->ifSet($vars['description']), ['id' => 'description']);
                         ?>
                     </li>
                     <li>
                         <?php
-                        $this->Form->label($this->_('AdminMain.index.logo', true), 'logo');
+                        $this->Form->label($this->_('AdminMain.partialmodulebasic.logo', true), 'logo');
                         $this->Form->fieldFile('logo', ['id' => 'logo']);
                         ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.index.tooltip_module_logo');?></div></span>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.partialmodulebasic.tooltip_module_logo');?></div></span>
                     </li>
                     <li>
                         <?php
-                        $this->Form->label($this->_('AdminMain.index.module_row', true), 'module_row');
-                        $this->Form->fieldText('module_row', $this->Html->ifSet($vars['module_row']), ['id' => 'module_row', 'placeholder' => $this->_('AdminMain.index.placeholder_module_row', true)]);
+                        $this->Form->label($this->_('AdminMain.partialmodulebasic.module_row', true), 'module_row');
+                        $this->Form->fieldText('module_row', $this->Html->ifSet($vars['module_row']), ['id' => 'module_row', 'placeholder' => $this->_('AdminMain.partialmodulebasic.placeholder_module_row', true)]);
                         ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.index.tooltip_module_row');?></div></span>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.partialmodulebasic.tooltip_module_row');?></div></span>
                     </li>
                     <li>
                         <?php
-                        $this->Form->label($this->_('AdminMain.index.module_row_plural', true), 'module_row_plural');
-                        $this->Form->fieldText('module_row_plural', $this->Html->ifSet($vars['module_row_plural']), ['id' => 'module_row_plural', 'placeholder' => $this->_('AdminMain.index.placeholder_module_row_plural', true)]);
+                        $this->Form->label($this->_('AdminMain.partialmodulebasic.module_row_plural', true), 'module_row_plural');
+                        $this->Form->fieldText('module_row_plural', $this->Html->ifSet($vars['module_row_plural']), ['id' => 'module_row_plural', 'placeholder' => $this->_('AdminMain.partialmodulebasic.placeholder_module_row_plural', true)]);
                         ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.index.tooltip_module_row_plural');?></div></span>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.partialmodulebasic.tooltip_module_row_plural');?></div></span>
                     </li>
                 </ul>
             </div>
 
-            <div class="title_row first"><h3><?php $this->_('AdminMain.index.heading_module_authors');?></h3></div>
+            <div class="title_row first"><h3><?php $this->_('AdminMain.partialmodulebasic.heading_module_authors');?></h3></div>
             <div class="pad">
                 <div class="links_row">
-                    <a class="btn btn-default pull-right btn-sm author_row_add" href="#"><span><?php $this->_('AdminMain.index.author_row_add');?></span></a>
+                    <a class="btn btn-default pull-right btn-sm author_row_add" href="#"><span><?php $this->_('AdminMain.partialmodulebasic.author_row_add');?></span></a>
                 </div>
                 <table class="table">
                     <thead>
                         <tr class="heading_row">
-                            <td><?php $this->_('AdminMain.index.author_name');?></td>
-                            <td><?php $this->_('AdminMain.index.author_url');?></td>
-                            <td class="last"><?php $this->_('AdminMain.index.text_options');?></td>
+                            <td><?php $this->_('AdminMain.partialmodulebasic.author_name');?></td>
+                            <td><?php $this->_('AdminMain.partialmodulebasic.author_url');?></td>
+                            <td class="last"><?php $this->_('AdminMain.partialmodulebasic.text_options');?></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,9 +69,9 @@
                     for ($i = 0; $i < $rows; $i++) {
                     ?>
                         <tr class="author_row">
-                            <td><?php $this->Form->fieldText('authors[name][]', $this->Html->ifSet($vars['authors']['name'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminMain.index.placeholder_author_name', true)]);?></td>
-                            <td><?php $this->Form->fieldText('authors[url][]', $this->Html->ifSet($vars['authors']['url'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminMain.index.placeholder_author_url', true)]);?></td>
-                            <td><a href="#" class="manage author_row_remove"><?php $this->_('AdminMain.index.text_remove');?></a></td>
+                            <td><?php $this->Form->fieldText('authors[name][]', $this->Html->ifSet($vars['authors']['name'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminMain.partialmodulebasic.placeholder_author_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('authors[url][]', $this->Html->ifSet($vars['authors']['url'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminMain.partialmodulebasic.placeholder_author_url', true)]);?></td>
+                            <td><a href="#" class="manage author_row_remove"><?php $this->_('AdminMain.partialmodulebasic.text_remove');?></a></td>
                         </tr>
                     <?php
                     }
@@ -80,7 +80,7 @@
                 </table>
             </div>
             <div class="button_row">
-                <?php $this->Form->fieldSubmit('submit', $this->Html->ifSet($general_vars['form_type']) == 'basic' ? $this->_('AdminMain.index.module_complete', true) : $this->_('AdminMain.index.module_fields', true), ['class' => 'btn btn-primary pull-right']);?>
+                <?php $this->Form->fieldSubmit('submit', $this->Html->ifSet($general_vars['form_type']) == 'basic' ? $this->_('AdminMain.partialmodulebasic.module_complete', true) : $this->_('AdminMain.partialmodulebasic.module_fields', true), ['class' => 'btn btn-primary pull-right']);?>
             </div>
         </div>
         <?php

@@ -15,6 +15,8 @@ class ExtensionGeneratorController extends AppController
      */
     public function preAction()
     {
+        Loader::loadModels($this, ['ExtensionGenerator.ExtensionGeneratorExtensions']);
+
         $this->structure->setDefaultView(APPDIR);
 
         parent::preAction();

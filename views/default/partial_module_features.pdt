@@ -4,18 +4,18 @@
             $this->Form->fieldHidden('action', 'features');
         ?>
         <div class="inner">
-            <div class="title_row first"><h3><?php $this->_('AdminMain.index.heading_service_tabs');?></h3></div>
+            <div class="title_row first"><h3><?php $this->_('AdminMain.partialmodulefeatures.heading_service_tabs');?></h3></div>
             <div class="pad">
                 <div class="links_row">
-                    <a class="btn btn-default pull-right btn-sm service_tab_row_add" href="#"><span><?php $this->_('AdminMain.index.service_tab_row_add');?></span></a>
+                    <a class="btn btn-default pull-right btn-sm service_tab_row_add" href="#"><span><?php $this->_('AdminMain.partialmodulefeatures.service_tab_row_add');?></span></a>
                 </div>
                 <table class="table">
                     <thead>
                         <tr class="heading_row">
-                            <td><?php $this->_('AdminMain.index.method_name');?></td>
-                            <td><?php $this->_('AdminMain.index.label');?></td>
-                            <td><?php $this->_('AdminMain.index.level');?></td>
-                            <td class="last"><?php $this->_('AdminMain.index.text_options');?></td>
+                            <td><?php $this->_('AdminMain.partialmodulefeatures.method_name');?></td>
+                            <td><?php $this->_('AdminMain.partialmodulefeatures.label');?></td>
+                            <td><?php $this->_('AdminMain.partialmodulefeatures.level');?></td>
+                            <td class="last"><?php $this->_('AdminMain.partialmodulefeatures.text_options');?></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,7 +30,7 @@
                             <td><?php $this->Form->fieldText('service_tabs[method_name][]', $this->Html->ifSet($vars['service_tabs']['method_name'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldText('service_tabs[label][]', $this->Html->ifSet($vars['service_tabs']['label'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldSelect('service_tabs[level][]', $this->Html->ifSet($tab_levels), $this->Html->ifSet($vars['service_tabs']['level'][$i]), ['class' => 'stretch']);?></td>
-                            <td><a href="#" class="manage service_tab_row_remove"><?php $this->_('AdminMain.index.text_remove');?></a></td>
+                            <td><a href="#" class="manage service_tab_row_remove"><?php $this->_('AdminMain.partialmodulefeatures.text_remove');?></a></td>
                         </tr>
                     <?php
                     }
@@ -38,20 +38,20 @@
                     </tbody>
                 </table>
             </div>
-            <div class="title_row"><h3><?php $this->_('AdminMain.index.heading_cron_tasks');?></h3></div>
+            <div class="title_row"><h3><?php $this->_('AdminMain.partialmodulefeatures.heading_cron_tasks');?></h3></div>
             <div class="pad">
                 <div class="links_row">
-                    <a class="btn btn-default pull-right btn-sm cron_task_row_add" href="#"><span><?php $this->_('AdminMain.index.cron_task_row_add');?></span></a>
+                    <a class="btn btn-default pull-right btn-sm cron_task_row_add" href="#"><span><?php $this->_('AdminMain.partialmodulefeatures.cron_task_row_add');?></span></a>
                 </div>
                 <table class="table">
                     <thead>
                         <tr class="heading_row">
-                            <td><?php $this->_('AdminMain.index.name');?></td>
-                            <td><?php $this->_('AdminMain.index.label');?></td>
-                            <td><?php $this->_('AdminMain.index.description');?></td>
-                            <td><?php $this->_('AdminMain.index.type');?></td>
-                            <td><?php $this->_('AdminMain.index.time');?></td>
-                            <td class="last"><?php $this->_('AdminMain.index.text_options');?></td>
+                            <td><?php $this->_('AdminMain.partialmodulefeatures.name');?></td>
+                            <td><?php $this->_('AdminMain.partialmodulefeatures.label');?></td>
+                            <td><?php $this->_('AdminMain.partialmodulefeatures.description');?></td>
+                            <td><?php $this->_('AdminMain.partialmodulefeatures.type');?></td>
+                            <td><?php $this->_('AdminMain.partialmodulefeatures.time');?></td>
+                            <td class="last"><?php $this->_('AdminMain.partialmodulefeatures.text_options');?></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,7 +68,7 @@
                             <td><?php $this->Form->fieldTextarea('cron_tasks[description][]', $this->Html->ifSet($vars['cron_tasks']['description'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldSelect('cron_tasks[type][]', $this->Html->ifSet($task_types), $this->Html->ifSet($vars['cron_tasks']['type'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldText('cron_tasks[time][]', $this->Html->ifSet($vars['cron_tasks']['time'][$i]), ['class' => 'stretch']);?></td>
-                            <td><a href="#" class="manage cron_task_row_remove"><?php $this->_('AdminMain.index.text_remove');?></a></td>
+                            <td><a href="#" class="manage cron_task_row_remove"><?php $this->_('AdminMain.partialmodulefeatures.text_remove');?></a></td>
                         </tr>
                     <?php
                     }
@@ -77,7 +77,7 @@
                 </table>
             </div>
 
-            <div class="title_row"><h3><?php $this->_('AdminMain.index.heading_optional_functions');?></h3></div>
+            <div class="title_row"><h3><?php $this->_('AdminMain.partialmodulefeatures.heading_optional_functions');?></h3></div>
             <div class="pad">
                 <div class="row">
                 <?php
@@ -102,7 +102,7 @@
             </div>
 
             <div class="button_row">
-                <?php $this->Form->fieldSubmit('submit', $this->_('AdminMain.index.module_complete', true), ['class' => 'btn btn-primary pull-right']);?>
+                <?php $this->Form->fieldSubmit('submit', $this->_('AdminMain.partialmodulefeatures.module_complete', true), ['class' => 'btn btn-primary pull-right']);?>
             </div>
         </div>
         <?php

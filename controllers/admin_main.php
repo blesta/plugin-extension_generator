@@ -16,9 +16,42 @@ class AdminMain extends ExtensionGeneratorController
     private $session_prefix = 'extensiongenerator_';
 
     /**
-     * Returns the view to be rendered when managing this plugin
+     * Returns the view for a list of extensions
      */
     public function index()
+    {
+        // Set current page of results
+        $page = (isset($this->get[1]) ? (int) $this->get[1] : 1);
+        $sort = (isset($this->get['sort']) ? $this->get['sort'] : 'date_updated');
+        $order = (isset($this->get['order']) ? $this->get['order'] : 'desc');
+
+        $extensions = $this->ExtensionGeneratorExtensions->getList(
+            Configure::get('Blesta.company_id'),
+            $page, [$sort => $order]
+        );
+        $total_results = $this->ExtensionGeneratorExtensions->getListCount(Configure::get('Blesta.company_id'));
+
+        $this->set('extensions', $extensions);
+        $this->set('sort', $sort);
+        $this->set('order', $order);
+        $this->set('negate_order', ($order == 'asc' ? 'desc' : 'asc'));
+
+        // Overwrite default pagination settings
+        $settings = array_merge(
+            Configure::get('Blesta.pagination'),
+            [
+                'total_results' => $total_results,
+                'uri' => $this->base_uri . 'plugin/extension_generator/admin_main/index/[p]/',
+                'params' => ['sort' => $sort, 'order' => $order],
+            ]
+        );
+        $this->setPagination($this->get, $settings);
+    }
+
+    /**
+     * Returns the view to be rendered when creating an extension
+     */
+    public function create()
     {
         $this->components(['Session']);
 
@@ -146,8 +179,8 @@ class AdminMain extends ExtensionGeneratorController
                 $form = $this->partial(
                         'partial_general',
                         [
-                            'extension_types' => $this->getExtensionTypes(),
-                            'form_types' => $this->getFormTypes(),
+                            'extension_types' => $this->ExtensionGeneratorExtensions->getTypes(),
+                            'form_types' => $this->ExtensionGeneratorExtensions->getFormTypes(),
                             'vars' => $vars
                         ]
                     );
@@ -156,33 +189,6 @@ class AdminMain extends ExtensionGeneratorController
         }
 
         return $form;
-    }
-
-    /**
-     * Gets a list of extension types and their languages
-     *
-     * @return A list of extension types and their languages
-     */
-    private function getExtensionTypes()
-    {
-        return [
-            'module' => Language::_('AdminMain.getextensiontypes.module', true),
-            'plugin' => Language::_('AdminMain.getextensiontypes.plugin', true),
-            'gateway' => Language::_('AdminMain.getextensiontypes.gateway', true)
-        ];
-    }
-
-    /**
-     * Gets a list of form types and their languages
-     *
-     * @return A list of form types and their languages
-     */
-    private function getFormTypes()
-    {
-        return [
-            'basic' => Language::_('AdminMain.getformtypes.basic', true),
-            'advanced' => Language::_('AdminMain.getformtypes.advanced', true)
-        ];
     }
 
     /**

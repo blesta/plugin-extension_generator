@@ -18,10 +18,9 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      * @param array $order A key/value pair array of fields to extension the results by
      * @return array An array of stdClass objects, each representing an extension
      */
-    public function getList($company_id, $page = 1, array $order = ['id' => 'desc'])
+    public function getList($company_id, $page = 1, array $order = ['date_updated' => 'desc'])
     {
-        $this->Record = $this->getExtension(['company_id' => $company_id]);
-        return $this->Record
+        return $this->getExtension(['company_id' => $company_id])
             ->order($order)
             ->limit($this->getPerPage(), (max(1, $page) - 1) * $this->getPerPage())
             ->fetchAll();
@@ -35,8 +34,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      */
     public function getListCount($company_id)
     {
-        $this->Record = $this->getExtension(['company_id' => $company_id]);
-        return $this->Record->numResults();
+        return $this->getExtension(['company_id' => $company_id])->numResults();
     }
 
     /**
@@ -46,10 +44,9 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      * @param array $order A key/value pair array of fields to extension the results by
      * @return array An array of stdClass objects, each representing an extension
      */
-    public function getAll($company_id, array $order = ['id' => 'desc'])
+    public function getAll($company_id, array $order = ['date_updated' => 'desc'])
     {
-        $this->Record = $this->getExtension(['company_id' => $company_id]);
-        return $this->Record->order($order)->fetchAll();
+        return $this->getExtension(['company_id' => $company_id])->order($order)->fetchAll();
     }
 
     /**
@@ -60,8 +57,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      */
     public function get($extension_id)
     {
-        $this->Record = $this->getExtension();
-        return $this->Record->where('extension_generator_extensions.id', '=', $extension_id)->fetch();
+        return $this->getExtension(['extension_id' => $extension_id])->fetch();
     }
 
     /**
@@ -70,10 +66,17 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      * @param array $vars An array of input data including:
      *
      *  - company_id The ID of the company with which to associate the extension
+     *  - name The name of the extension
+     *  - type The type of the extension
+     *  - form_type The form type for creating/modifying the extension
+     *  - code_examples Whether to include commented code exampled when generating the extension
+     *  - data The save form data for the extension
      * @return int The ID of the extension that was created, void on error
      */
     public function add(array $vars)
     {
+        $vars['date_added'] = date('c');
+
         $this->Input->setRules($this->getRules($vars));
 
         if ($this->Input->validates($vars)) {
@@ -91,10 +94,17 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      * @param array $vars An array of input data including:
      *
      *  - company_id The ID of the company with which to associate the extension
+     *  - name The name of the extension
+     *  - type The type of the extension
+     *  - form_type The form type for creating/modifying the extension
+     *  - code_examples Whether to include commented code exampled when generating the extension
+     *  - data The save form data for the extension
      * @return int The ID of the extension that was updated, void on error
      */
     public function edit($extension_id, array $vars)
     {
+        $vars['date_added'] = date('c');
+
         $this->Input->setRules($this->getRules($vars, true));
 
         if ($this->Input->validates($vars)) {
@@ -113,18 +123,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
     public function delete($extension_id)
     {
         // Delete an extension and their associated records
-        $this->Record->from('extension_generator_extensions')
-            ->where('extension_generator_extensions.id', '=', $extension_id)
-            ->delete();
-    }
-
-    /**
-     * Returns all supported extension statuses in key/value pairs
-     *
-     * @return array A list of extension statuses
-     */
-    public function getStatuses()
-    {
+        $this->getExtension(['extension_id' => $extension_id])->delete();
     }
 
 
@@ -138,13 +137,11 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      */
     private function getExtension(array $filters = [])
     {
-        $select = [
-            'extension_generator_extensions.*',
-        ];
+        $this->Record->select()->from('extension_generator_extensions');
 
-        $this->Record->select($select)
-            ->from('extension_generator_extensions')
-            ->group('extension_generator_extensions.id');
+        if (isset($filters['extension_id'])) {
+            $this->Record->where('extension_generator_extensions.id', '=', $filters['extension_id']);
+        }
 
         if (isset($filters['company_id'])) {
             $this->Record->where('extension_generator_extensions.company_id', '=', $filters['company_id']);
@@ -154,19 +151,83 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
     }
 
     /**
+     * Gets a list of extension types and their languages
+     *
+     * @return A list of extension types and their languages
+     */
+    public function getTypes()
+    {
+        return [
+            'module' => Language::_('ExtensionGeneratorExtensions.gettypes.module', true),
+            'plugin' => Language::_('ExtensionGeneratorExtensions.gettypes.plugin', true),
+            'gateway' => Language::_('ExtensionGeneratorExtensions.gettypes.gateway', true)
+        ];
+    }
+
+    /**
+     * Gets a list of form types and their languages
+     *
+     * @return A list of form types and their languages
+     */
+    public function getFormTypes()
+    {
+        return [
+            'basic' => Language::_('ExtensionGeneratorExtensions.getformtypes.basic', true),
+            'advanced' => Language::_('ExtensionGeneratorExtensions.getformtypes.advanced', true)
+        ];
+    }
+
+    /**
      * Returns all validation rules for adding/editing extensions
      *
      * @param array $vars An array of input key/value pairs
+     *
+     *  - company_id The ID of the company with which to associate the extension
+     *  - name The name of the extension
+     *  - type The type of the extension
+     *  - form_type The form type for creating/modifying the extension
+     *  - code_examples Whether to include commented code exampled when generating the extension
+     *  - data The save form data for the extension
+     *  - date_updated The date this extension was updated
      * @param bool $edit True if this if an edit, false otherwise
      * @return array An array of validation rules
      */
-    private function getRules($vars, $edit = false)
+    private function getRules(array $vars, $edit = false)
     {
         $rules = [
+            'company_id' => [
+                'exists' => [
+                    'rule' => [[$this, 'validateExists'], 'id', 'company'],
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.company_id.exists')
+                ]
+            ],
+            'type' => [
+                'valid' => [
+                    'rule' => ['in_array', $this->getTypes()],
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.type.valid')
+                ]
+            ],
+            'form_type' => [
+                'valid' => [
+                    'rule' => ['in_array', $this->getFormTypes()],
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.form_type.valid')
+                ]
+            ],
+            'code_examples' => [
+                'valid' => [
+                    'rule' => ['in_array', [0, 1]],
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.code_examples.format')
+                ]
+            ],
+            'date_updated' => [
+                'format' => [
+                    'if_set' => true,
+                    'rule' => 'isDate',
+                    'post_format' => [[$this, 'dateToUtc']],
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.date_updated.format')
+                ]
+            ],
         ];
-
-        if ($edit) {
-        }
 
         return $rules;
     }
