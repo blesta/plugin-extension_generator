@@ -1,0 +1,55 @@
+        <?php
+        echo $this->Html->ifSet($message);
+
+        $this->Widget->clear();
+        $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+        $this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
+
+        echo $this->Html->ifSet($progress_bar);
+
+        $this->Form->create();
+        ?>
+        <div class="inner">
+            <div class="title_row first"><h3><?php $this->_('AdminMain.confirm.heading_confirm');?></h3></div>
+            <div class="pad">
+                <p><?php $this->_('AdminMain.confirm.text_generation');?></p>
+                <ul>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('AdminMain.confirm.location', true), 'location', ['class' => 'inline']);
+                        ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_location');?></div></span>
+                        <?php
+                        $this->Form->fieldSelect('location', $this->Html->ifSet($locations, []), $this->Html->ifSet($vars->location), ['class' => 'block', 'id' => 'location']);
+                        ?>
+                    </li>
+                    <li id="custom_path" style="display:none;">
+                        <?php
+                        $this->Form->label($this->_('AdminMain.confirm.custom_path', true), 'custom_path');
+                        $this->Form->fieldText('custom_path', $this->Html->ifSet($vars->custom_path), ['id' => 'custom_path', 'placeholder' => COMPONENTDIR]);
+                        ?>
+                    </li>
+                </ul>
+            </div>
+            <div class="button_row">
+                <?php $this->Form->fieldSubmit('submit', $this->_('AdminMain.confirm.generate', true), ['class' => 'btn btn-primary pull-right']);?>
+            </div>
+        </div>
+        <?php
+
+        $this->Form->end();
+
+        $this->Widget->end();
+        ?>
+
+<script>
+    $(document).ready(function() {
+        $('#location').change(function () {
+            if ($(this).val() === 'custom') {
+                $('#custom_path').show();
+            } else {
+                $('#custom_path').hide();
+            }
+        });
+    });
+</script>
