@@ -1,4 +1,6 @@
 <?php
+require_once PLUGINDIR . 'extension_generator' . DS . 'lib' . DS . 'extension_file_generator.php';
+
 /**
  * Extension Generator admin main controller
  *
@@ -263,7 +265,10 @@ class AdminMain extends ExtensionGeneratorController
             $directory = rtrim($directory, DS) . DS;
 
             try {
-                /* TODO Actually generate files */
+                $generator = new ExtensionFileGenerator($extension->type, (array)$extension);
+                $generator->setOutputDir($directory);
+
+                $generator->parseAndOutput();
 
                 $this->flashMessage(
                     'message',
@@ -308,14 +313,13 @@ class AdminMain extends ExtensionGeneratorController
         // Update the extension
         if (!empty($this->post))
         {
-            $extension->data[$step] = $this->post;
-            $vars = ['data' => $extension->data];
+            $vars = ['data' => array_merge($extension->data, $this->post)];
             $this->ExtensionGeneratorExtensions->edit($extension->id, $vars);
 
             if (($errors = $this->ExtensionGeneratorExtensions->errors())) {
-                $this->parent->setMessage('error', $errors);
+                $this->setMessage('error', $errors, false, null, false);
 
-                $vars = (object) $this->post;
+                $vars = $this->post;
             } else {
                 $next_step = $this->getNextStep($step, $extension->form_type);
 
@@ -327,7 +331,7 @@ class AdminMain extends ExtensionGeneratorController
             }
         } else {
             // Set vars stored by the extension record
-            $vars = isset($extension->data[$step]) ? $extension->data[$step] : [];
+            $vars = $extension->data;
         }
 
         return $vars;
@@ -478,7 +482,7 @@ class AdminMain extends ExtensionGeneratorController
                 }
             }
         } else {
-            $nodes[] = Language::_('AdminMain.getnodes.basic_info', true);
+            $nodes['modulebasic'] = Language::_('AdminMain.getnodes.basic_info', true);
         }
 
         $nodes['confirm'] = Language::_('AdminMain.getnodes.confirm', true);

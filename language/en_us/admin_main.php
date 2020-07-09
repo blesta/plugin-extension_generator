@@ -81,14 +81,17 @@ $lang['AdminMain.general.heading_general_settings'] = 'General Settings';
 $lang['AdminMain.general.name'] = 'Name';
 $lang['AdminMain.general.extension_type'] = 'Extension Type';
 $lang['AdminMain.general.form_type'] = 'Form Type';
+$lang['AdminMain.general.lang_code'] = 'Language Code';
 $lang['AdminMain.general.code_examples'] = 'Include Example Code';
-$lang['AdminMain.general.tooltip_code_examples'] = 'Check to include commented out lines of sample code for features such as Cron Task, Event lists and tie-ins, etc.';
 $lang['AdminMain.general.basic_info'] = 'Next - Basic Info';
 
 $lang['AdminMain.general.tooltip_name'] = 'The display name of the extension';
 $lang['AdminMain.general.tooltip_form_type'] = 'Basic to use a highly truncated version of the extension form, including only the minimum necessary to generate the extension.';
+$lang['AdminMain.general.tooltip_code_examples'] = 'Check to include commented out lines of sample code for features such as Cron Task, Event lists and tie-ins, etc.';
+$lang['AdminMain.general.tooltip_lang_code'] = 'The language code to generate language files for in ISO 639-1 ISO 3166-1 alpha-2 concatenated format (e.g. "en_us")';
 
 $lang['AdminMain.general.placeholder_name'] = 'Extension Name';
+$lang['AdminMain.general.placeholder_lang_code'] = 'e.g. en_us';
 
 
 // Basic info page

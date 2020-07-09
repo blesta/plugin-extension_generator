@@ -35,6 +35,7 @@ class ExtensionGeneratorPlugin extends Plugin
                 setField('type', ['type' => 'enum', 'size' => "'module','plugin','gateway'", 'default' => 'module'])->
                 setField('form_type', ['type' => 'enum', 'size' => "'basic','advanced'", 'default' => 'basic'])->
                 setField('code_examples', ['type' => 'tinyint', 'size' => 1, 'default' => 0])->
+                setField('lang_code', ['type' => 'char', 'size' => 5])->
                 setField('data', ['type' => 'text', 'is_null' => true, 'default' => null])->
                 setField('date_updated', ['type' => 'datetime'])->
                 setKey(['id'], 'primary')->
@@ -44,6 +45,26 @@ class ExtensionGeneratorPlugin extends Plugin
             // Error adding... no permission?
             $this->Input->setErrors(['db' => ['create' => $e->getMessage()]]);
             return;
+        }
+    }
+
+    /**
+     * Performs any necessary cleanup actions
+     *
+     * @param int $plugin_id The ID of the plugin being uninstalled
+     * @param bool $last_instance True if $plugin_id is the last instance across
+     *  all companies for this plugin, false otherwise
+     */
+    public function uninstall($plugin_id, $last_instance)
+    {
+        if ($last_instance) {
+            try {
+                $this->Record->drop('extension_generator_extensions');
+            } catch (Exception $e) {
+                // Error dropping... no permission?
+                $this->Input->setErrors(['db' => ['create' => $e->getMessage()]]);
+                return;
+            }
         }
     }
 

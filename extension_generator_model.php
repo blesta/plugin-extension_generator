@@ -17,5 +17,4 @@ class ExtensionGeneratorModel extends AppModel
         // Auto load language for these models
         Language::loadLang([Loader::fromCamelCase(get_class($this))], null, dirname(__FILE__) . DS . 'language' . DS);
     }
-
 }
