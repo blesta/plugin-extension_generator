@@ -125,10 +125,13 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
     {
         $vars['date_updated'] = date('c');
 
+        $vars['id'] = $extension_id;
         $this->Input->setRules($this->getRules($vars, true));
 
         if ($this->Input->validates($vars)) {
-            $vars['data'] = serialize(isset($vars['data']) ? $vars['data'] : []);
+            if (isset($vars['data'])) {
+                $vars['data'] = serialize($vars['data']);
+            }
             $fields = ['company_id', 'name', 'type', 'form_type', 'code_examples', 'lang_code', 'data', 'date_updated'];
             $this->Record->where('id', '=', $extension_id)->update('extension_generator_extensions', $vars, $fields);
 
@@ -270,6 +273,15 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
                 ]
             ],
         ];
+
+        if ($edit) {
+            $rules['id'] = [
+                'exists' => [
+                    'rule' => [[$this, 'validateExists'], 'id', 'extension_generator_extensions'],
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.id.exists')
+                ]
+            ];
+        }
 
         return $rules;
     }

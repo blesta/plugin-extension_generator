@@ -6,6 +6,7 @@ $lang['ExtensionGeneratorExtensions.!error.type.valid'] = 'Invalid extension typ
 $lang['ExtensionGeneratorExtensions.!error.form_type.valid'] = 'Invalid form type.';
 $lang['ExtensionGeneratorExtensions.!error.lang_code.format'] = 'Invalid language code format.';
 $lang['ExtensionGeneratorExtensions.!error.code_examples.format'] = 'Invalid code examples option format.';
+$lang['ExtensionGeneratorExtensions.!error.id.exists'] = 'The given extension ID is invalid.';
 
 
 $lang['ExtensionGeneratorExtensions.gettypes.module'] = 'Module';

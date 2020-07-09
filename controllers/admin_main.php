@@ -77,6 +77,10 @@ class AdminMain extends ExtensionGeneratorController
         // Add/update the extension
         if (!empty($this->post))
         {
+            if (!isset($this->post['code_examples'])) {
+                $this->post['code_examples'] = 0;
+            }
+
             if (isset($extension)) {
                 $extension_id = $extension->id;
                 $this->ExtensionGeneratorExtensions->edit($extension_id, $this->post);
@@ -310,10 +314,33 @@ class AdminMain extends ExtensionGeneratorController
 
     private function processStep($step, $extension)
     {
+        $this->ArrayHelper = $this->DataStructure->create('Array');
         // Update the extension
         if (!empty($this->post))
         {
-            $vars = ['data' => array_merge($extension->data, $this->post)];
+            $temp_vars = $this->post;
+            // Convert array input to a more usable form before storing
+            foreach ($temp_vars as $key => $value) {
+                if (is_array($value) && $key != 'optional_functions') {
+                    $temp_vars[$key] = $this->ArrayHelper->keyToNumeric($value);
+                }
+            }
+
+            $optional_function_steps = ['modulefeatures'];
+            if (in_array($step, $optional_function_steps)) {
+                if (!isset($temp_vars['optional_functions'])) {
+                    $temp_vars['optional_functions'] = [];
+                }
+
+                foreach ($this->getOptionalFunctions() as $optional_function => $settings) {
+                    if (!isset($temp_vars['optional_functions'][$optional_function])) {
+                        $temp_vars['optional_functions'][$optional_function] = 'false';
+                    }
+                }
+            }
+
+            // Updated the extension with the new data
+            $vars = ['data' => array_merge($extension->data, $temp_vars)];
             $this->ExtensionGeneratorExtensions->edit($extension->id, $vars);
 
             if (($errors = $this->ExtensionGeneratorExtensions->errors())) {
@@ -332,6 +359,13 @@ class AdminMain extends ExtensionGeneratorController
         } else {
             // Set vars stored by the extension record
             $vars = $extension->data;
+
+            // Convert array input to a more usable form before displaying
+            foreach ($vars as $key => $value) {
+                if (is_array($value) && $key != 'optional_functions') {
+                    $vars[$key] = $this->ArrayHelper->numericToKey($value);
+                }
+            }
         }
 
         return $vars;

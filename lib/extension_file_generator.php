@@ -30,6 +30,10 @@ class ExtensionFileGenerator
      */
     private $output_dir;
 
+    private $code_comment_marker = '\/\/\/\/';
+    private $tag_start = '{{';
+    private $tag_end = '}}';
+
     /**
      * @param string $extension_type The type of extension for which to generate files
      * @param array $options A list of options for generating files including:
@@ -90,10 +94,12 @@ class ExtensionFileGenerator
         $file_paths = $this->getFileList();
         $template_directory = $this->getTemplateDirectory();
 
+        $data = $this->options['data'];
+
         // Set extension name variables
         $data['name'] = $this->options['name'];
         $data['snake_case_name'] = str_replace(' ', '_', strtolower($data['name']));
-        $data['class_name'] = str_replace('', '_', ucwords(str_replace('_', ' ', $data['name'])));
+        $data['class_name'] = str_replace(' ', '', ucwords(str_replace('_', ' ', $data['name'])));
         if ($this->extension_type == 'plugin') {
             $data['snake_case_name'] .= '_plugin';
             $data['class_name'] .= 'Plugin';
@@ -109,7 +115,7 @@ class ExtensionFileGenerator
             $file_path = $file_settings['path'];
             if (isset($file_settings['dependancies'])
                 && empty(
-                    array_intersect($file_settings['dependancies'], array_flip($this->data['optional_functions']))
+                    array_intersect($file_settings['dependancies'], array_flip($data['optional_functions']))
                 )
             ) {
                 continue;
@@ -126,23 +132,111 @@ class ExtensionFileGenerator
             }
 
             // Get the template file contents
-            $contents = file_get_contents($template_directory . $file_path);
+            $content = file_get_contents($template_directory . $file_path);
 
+            // Parse and replace the template file contents
+
+            // Remove code examples if set to do so
             if (!$this->options['code_examples']) {
-                // Parse and replace the template file contents
-                preg_replace('//.*(\n|\r\n)', '', $contents);
+                $content = preg_replace('/' . $this->code_comment_marker . '.*/', '', $content);
             }
-            if (!$this->options['code_examples']) {
-                // Parse and replace the template file contents
-                preg_replace('//.*(\n|\r\n)', '', $contents);
+
+            // Replace content tags
+            $content = $this->replaceTags($content, $data);
+
+            // Remove remaining array tags
+            $content = preg_replace(
+                '/' . $this->tag_start . 'array\:.*' . $this->tag_end
+                    . '[\d\D]*'
+                    . $this->tag_start . 'array\:.*' . $this->tag_end . '/',
+                '',
+                $content
+            );
+
+            // Filter optional functions
+            if (isset($data['optional_functions'])) {
+                // Replace content tags
+                $content = $this->filterOptionalFunctions($content, $data['optional_functions']);
             }
+
+            $content = preg_replace('/{\S*}/', '', $content);
 
             // Output the parsed contents
-            file_put_contents($extension_directory . DS . $file_path, $contents);
+            file_put_contents($extension_directory . DS . $file_path, $content);
         }
 
         // Rename generically named files to be specific to this extension
         self::renameFiles($extension_directory, $this->extension_type . '.php', $data['snake_case_name'] . '.php');
+    }
+
+    private function replaceTags($content, $replacement_tags, $parent_tag = '')
+    {
+        // Get a list of array tags and remove them from the primary list
+        // Wrap keys in the set  tag delimiters
+        $array_tags = [];
+        $tag_start = $this->tag_start;
+        $tag_end = $this->tag_end;
+        foreach ($replacement_tags as $replacement_tag => $replacement_value) {
+
+            if (is_array($replacement_value)) {
+                $array_tags[$replacement_tag] = $replacement_value;
+            } else {
+                $replacement_tags[$tag_start . $parent_tag . $replacement_tag . $tag_end] = $replacement_value;
+            }
+            unset($replacement_tags[$replacement_tag]);
+        }
+
+        // Replace all tags for scalar values
+        $content = str_replace(
+            array_keys($replacement_tags),
+            array_values($replacement_tags),
+            $content
+        );
+
+        foreach ($array_tags as $array_tag => $array_values) {
+            $matches = [];
+            $wrapped_array_tag = $tag_start . 'array:' . $array_tag . $tag_end;
+            $pattern = '/' . $wrapped_array_tag . '([\d\D]*)' . $wrapped_array_tag . '/';
+            preg_match_all($pattern, $content, $matches);
+
+            // No matches for this tag, move on
+            if (!isset($matches[1])) {
+                continue;
+            }
+
+            foreach ($matches[0] as $match) {
+                $matched_content = '';
+                foreach ($array_values as $key => $value) {
+                    if (is_array($value)) {
+                        $matched_content .= $this->replaceTags($match, $value, $parent_tag . $array_tag . '.');
+                    } else {
+                        $matched_content .= str_replace(
+                            $tag_start . $array_tag . '.' . $key . $tag_end,
+                            $value,
+                            $match
+                        );
+                    }
+                }
+                $matched_content = str_replace($wrapped_array_tag, '', $matched_content);
+                $content = str_replace($match, $matched_content, $content);
+            }
+        }
+
+        return $content;
+    }
+
+    private function filterOptionalFunctions($content, array $optional_functions)
+    {
+        foreach ($optional_functions as $optional_function => $include)
+        {
+            if ($include == 'false') {
+                $content = preg_replace('/{' .  $optional_function . '}[\d\D]*{' .  $optional_function . '}/', '', $content);
+            } else {
+                $content = preg_replace('/{' .  $optional_function . '}/', '', $content);
+            }
+        }
+
+        return $content;
     }
 
     private function getFileList()
