@@ -49,6 +49,7 @@ $lang['AdminMain.getoptionalfunctions.tooltip_addModuleRow'] = 'Adds the module 
 $lang['AdminMain.getoptionalfunctions.tooltip_editModuleRow'] = 'Edits the module row on the remote server. Sets Input errors on failure, preventing the row from being updated.';
 $lang['AdminMain.getoptionalfunctions.tooltip_manageAddRow'] = 'Returns the rendered view of the add module row page';
 $lang['AdminMain.getoptionalfunctions.tooltip_manageEditRow'] = 'Returns the rendered view of the edit module row page';
+$lang['AdminMain.getoptionalfunctions.tooltip_upgrade'] = 'Performs migration of data from $current_version (the current installed version) to the given file set version. Sets Input errors on failure, preventing the module from being upgraded.';
 $lang['AdminMain.getoptionalfunctions.tooltip_getGroupOrderOptions'] = 'Returns an array of available service delegation order methods. The module will determine how each method is defined. For example, the method "first" may be implemented such that it returns the module row with the least number of services assigned to it.';
 $lang['AdminMain.getoptionalfunctions.tooltip_selectModuleRow'] = 'Determines which module row should be attempted when a service is provisioned for the given group based upon the order method set for that group.';
 $lang['AdminMain.getoptionalfunctions.tooltip_getAdminServiceInfo'] = 'Fetches the HTML content to display when viewing the service info in the admin interface.';
@@ -81,17 +82,14 @@ $lang['AdminMain.general.heading_general_settings'] = 'General Settings';
 $lang['AdminMain.general.name'] = 'Name';
 $lang['AdminMain.general.extension_type'] = 'Extension Type';
 $lang['AdminMain.general.form_type'] = 'Form Type';
-$lang['AdminMain.general.lang_code'] = 'Language Code';
 $lang['AdminMain.general.code_examples'] = 'Include Example Code';
 $lang['AdminMain.general.basic_info'] = 'Next - Basic Info';
 
 $lang['AdminMain.general.tooltip_name'] = 'The display name of the extension';
 $lang['AdminMain.general.tooltip_form_type'] = 'Basic to use a highly truncated version of the extension form, including only the minimum necessary to generate the extension.';
 $lang['AdminMain.general.tooltip_code_examples'] = 'Check to include commented out lines of sample code for features such as Cron Tasks, Event lists and tie-ins, etc.';
-$lang['AdminMain.general.tooltip_lang_code'] = 'The language code to generate language files for in ISO 639-1 ISO 3166-1 alpha-2 concatenated format (e.g. "en_us")';
 
 $lang['AdminMain.general.placeholder_name'] = 'Extension Name';
-$lang['AdminMain.general.placeholder_lang_code'] = 'e.g. en_us';
 
 
 // Basic info page

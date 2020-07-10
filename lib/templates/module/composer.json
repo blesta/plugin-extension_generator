@@ -1,0 +1,9 @@
+{
+  "name": "blesta/{{snake_case_name}}",
+  "description": "{{description}}",
+  "license": "proprietary",
+  "type": "blesta-module",
+  "require": {
+      "blesta/composer-installer": "~1.0"
+  }
+}

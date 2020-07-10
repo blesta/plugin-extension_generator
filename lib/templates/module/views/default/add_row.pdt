@@ -1,0 +1,32 @@
+        <?php
+        $this->Widget->clear();
+        $this->Widget->setLinkButtons([]);
+        $this->Widget->create($this->_('{{class_name}}.add_row.box_title', true));
+        ?>
+        <div class="inner">
+            <?php
+            $this->Form->create();
+            ?>
+            <div class="pad">
+                <ul>{{array:module_rows}}
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('{{class_name}}.row_meta.{{module_rows.name}}', true), '{{module_rows.name}}');
+                        $this->Form->field{{module_rows.type}}('{{module_rows.name}}', $this->Html->ifSet($vars->{{module_rows.name}}), ['id' => '{{module_rows.name}}']);
+                        ?>
+                    </li>{{array:module_rows}}
+                </ul>
+            </div>
+
+            <div class="button_row">
+                <?php
+                $this->Form->fieldSubmit('save', $this->_('{{class_name}}.add_row.add_btn', true), ['class' => 'btn btn-primary pull-right']);
+                ?>
+            </div>
+            <?php
+            $this->Form->end();
+            ?>
+        </div>
+        <?php
+        $this->Widget->end();
+        ?>

@@ -85,8 +85,6 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      *  - type The type of the extension
      *  - form_type The form type for creating/modifying the extension
      *  - code_examples Whether to include commented code exampled when generating the extension
-     *  - lang_code The language code to generate language files for in ISO 639-1 ISO 3166-1 alpha-2
-     *    concatenated format (e.g. "en_us")
      *  - data The save form data for the extension
      * @return int The ID of the extension that was created, void on error
      */
@@ -98,7 +96,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
 
         if ($this->Input->validates($vars)) {
             $vars['data'] = serialize(isset($vars['data']) ? $vars['data'] : []);
-            $fields = ['company_id', 'name', 'type', 'form_type', 'code_examples', 'lang_code', 'data', 'date_updated'];
+            $fields = ['company_id', 'name', 'type', 'form_type', 'code_examples', 'data', 'date_updated'];
             $this->Record->insert('extension_generator_extensions', $vars, $fields);
 
             return $this->Record->lastInsertId();
@@ -116,8 +114,6 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      *  - type The type of the extension
      *  - form_type The form type for creating/modifying the extension
      *  - code_examples Whether to include commented code exampled when generating the extension
-     *  - lang_code The language code to generate language files for in ISO 639-1 ISO 3166-1 alpha-2
-     *    concatenated format (e.g. "en_us")
      *  - data The save form data for the extension
      * @return int The ID of the extension that was updated, void on error
      */
@@ -132,7 +128,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
             if (isset($vars['data'])) {
                 $vars['data'] = serialize($vars['data']);
             }
-            $fields = ['company_id', 'name', 'type', 'form_type', 'code_examples', 'lang_code', 'data', 'date_updated'];
+            $fields = ['company_id', 'name', 'type', 'form_type', 'code_examples', 'data', 'date_updated'];
             $this->Record->where('id', '=', $extension_id)->update('extension_generator_extensions', $vars, $fields);
 
             return $extension_id;
@@ -211,8 +207,6 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      *  - type The type of the extension
      *  - form_type The form type for creating/modifying the extension
      *  - code_examples Whether to include commented code exampled when generating the extension
-     *  - lang_code The language code to generate language files for in ISO 639-1 ISO 3166-1 alpha-2
-     *    concatenated format (e.g. "en_us")
      *  - data The save form data for the extension
      *  - date_updated The date this extension was updated
      * @param bool $edit True if this if an edit, false otherwise
@@ -256,14 +250,6 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
                     'rule' => ['in_array', [0, 1]],
                     'message' => $this->_('ExtensionGeneratorExtensions.!error.code_examples.format')
                 ]
-            ],
-            'lang_code' => [
-                'format' => [
-                    'if_set' => $edit,
-                    'rule' => ['matches', '/^[a-z]{2}_[a-z]{2}$/i'],
-                    'message' => $this->_('ExtensionGeneratorExtensions.!error.lang_code.format'),
-                    'post_format' => 'strtolower'
-                ],
             ],
             'date_updated' => [
                 'format' => [

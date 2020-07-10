@@ -35,7 +35,6 @@ class ExtensionGeneratorPlugin extends Plugin
                 setField('type', ['type' => 'enum', 'size' => "'module','plugin','gateway'", 'default' => 'module'])->
                 setField('form_type', ['type' => 'enum', 'size' => "'basic','advanced'", 'default' => 'basic'])->
                 setField('code_examples', ['type' => 'tinyint', 'size' => 1, 'default' => 0])->
-                setField('lang_code', ['type' => 'char', 'size' => 5])->
                 setField('data', ['type' => 'text', 'is_null' => true, 'default' => null])->
                 setField('date_updated', ['type' => 'datetime'])->
                 setKey(['id'], 'primary')->

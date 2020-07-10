@@ -131,8 +131,8 @@ class ExtensionFileGenerator
             $file_path_parts = explode(DS, $file_path);
             $temp_path = '';
             for ($i = 0; $i < count($file_path_parts) - 1; $i++) {
-                $temp_path .= $file_path_parts[$i];
-                if (!is_dir($temp_path)) {
+                $temp_path .= DS . $file_path_parts[$i];
+                if (!is_dir($extension_directory . DS . $temp_path)) {
                     mkdir($extension_directory . DS . $temp_path);
                 }
             }
@@ -144,7 +144,7 @@ class ExtensionFileGenerator
 
             // Remove code examples if set to do so
             if (!$this->options['code_examples']) {
-                $content = preg_replace('/' . $this->code_comment_marker . '.*/', '', $content);
+                $content = preg_replace('/' . $this->code_comment_marker . '.*[\r\n|\n]/', '', $content);
             }
 
             // Replace content tags
@@ -169,6 +169,10 @@ class ExtensionFileGenerator
                 $data['optional_functions'],
                 $this->getOptionalFunctionValues($data)
             );
+
+            ##
+            # TODO add support for code that is conditional on tag values
+            ##
 
             // Replace content tags
             $content = $this->filterOptionalFunctions($content, $data['optional_functions']);
@@ -247,8 +251,8 @@ class ExtensionFileGenerator
                     }
                 }
 
-                // Remove the array tag from arround the content
-                $matched_content = str_replace($wrapped_array_tag, '', $matched_content);
+                // Remove the array tag from around the content
+                $matched_content = rtrim(str_replace($wrapped_array_tag, '', $matched_content), ',');
 
                 // Replace the matched content with the new, tag replaced content
                 $content = str_replace($match, $matched_content, $content);
@@ -303,10 +307,21 @@ class ExtensionFileGenerator
     private function getFileList()
     {
         $file_path_list = [
-            'module' => [['path' => 'module.php'], ['path' => 'folder' . DS . 'file.php']],
+            'module' => [
+                ['path' => 'language' . DS . 'en_us' . DS . 'module.php'],
+                ['path' => 'README.md'],
+                ['path' => 'config.json'],
+                ['path' => 'composer.json'],
+                ['path' => 'module.php'],
+                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
+                ['path' => 'views' . DS . 'default' . DS . 'manage.pdt'],
+                ['path' => 'views' . DS . 'default' . DS . 'add_row.pdt', 'required_by' => ['module_rows']],
+                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
+            ],
             'plugin' => [],
             'gateway' => [],
         ];
+
         return $file_path_list[$this->extension_type];
     }
 

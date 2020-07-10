@@ -409,9 +409,9 @@ class AdminMain extends ExtensionGeneratorController
     private function getFieldTypes()
     {
         return [
-            'text' => Language::_('AdminMain.getfieldtypes.text', true),
-            'textarea' => Language::_('AdminMain.getfieldtypes.textarea', true),
-            'checkbox' => Language::_('AdminMain.getfieldtypes.checkbox', true)
+            'Text' => Language::_('AdminMain.getfieldtypes.text', true),
+            'Textarea' => Language::_('AdminMain.getfieldtypes.textarea', true),
+//            'Checkbox' => Language::_('AdminMain.getfieldtypes.checkbox', true)  // TODO, add support for checkboxes
         ];
     }
 
@@ -458,8 +458,7 @@ class AdminMain extends ExtensionGeneratorController
             'deletePackage' => ['enabled' => 'true'],
             'addModuleRow' => ['enabled' => 'true'],
             'editModuleRow' => ['enabled' => 'true'],
-            'manageAddRow' => ['enabled' => 'true'],
-            'manageEditRow' => ['enabled' => 'true'],
+            'upgrade' => ['enabled' => 'true'],
             'getGroupOrderOptions' => ['enabled' => 'false'],
             'selectModuleRow' => ['enabled' => 'false'],
             'getAdminServiceInfo' => ['enabled' => 'false'],
