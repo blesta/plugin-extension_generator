@@ -1,4 +1,6 @@
 <?php
+require_once PLUGINDIR . 'extension_generator' . DS . 'lib' . DS . 'extension_file_generator.php';
+
 /**
  * Extension Generator admin main controller
  *
@@ -75,6 +77,10 @@ class AdminMain extends ExtensionGeneratorController
         // Add/update the extension
         if (!empty($this->post))
         {
+            if (!isset($this->post['code_examples'])) {
+                $this->post['code_examples'] = 0;
+            }
+
             if (isset($extension)) {
                 $extension_id = $extension->id;
                 $this->ExtensionGeneratorExtensions->edit($extension_id, $this->post);
@@ -161,6 +167,21 @@ class AdminMain extends ExtensionGeneratorController
             $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
         }
 
+        // Set empty array inputs
+        if (!empty($this->post)) {
+            if (!isset($this->post['module_rows'])) {
+                $this->post['module_rows'] = [];
+            }
+
+            if (!isset($this->post['package_fields'])) {
+                $this->post['package_fields'] = [];
+            }
+
+            if (!isset($this->post['service_fields'])) {
+                $this->post['service_fields'] = [];
+            }
+        }
+
         // Perform edit/redirect or error/set vars
         $vars = $this->processStep('modulefields', $extension);
 
@@ -191,6 +212,17 @@ class AdminMain extends ExtensionGeneratorController
             || $extension->company_id != $this->company_id
         ) {
             $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
+        }
+
+        // Set empty array inputs
+        if (!empty($this->post)) {
+            if (!isset($this->post['service_tabs'])) {
+                $this->post['service_tabs'] = [];
+            }
+
+            if (!isset($this->post['cron_tasks'])) {
+                $this->post['cron_tasks'] = [];
+            }
         }
 
         // Perform edit/redirect or error/set vars
@@ -263,7 +295,12 @@ class AdminMain extends ExtensionGeneratorController
             $directory = rtrim($directory, DS) . DS;
 
             try {
-                /* TODO Actually generate files */
+                // Load the extension generator
+                $generator = new ExtensionFileGenerator($extension->type, (array)$extension);
+                $generator->setOutputDir($directory);
+
+                // Generate the extension files.  This is where the magic happens.
+                $generator->parseAndOutput();
 
                 $this->flashMessage(
                     'message',
@@ -305,17 +342,41 @@ class AdminMain extends ExtensionGeneratorController
 
     private function processStep($step, $extension)
     {
+        $this->ArrayHelper = $this->DataStructure->create('Array');
         // Update the extension
         if (!empty($this->post))
         {
-            $extension->data[$step] = $this->post;
-            $vars = ['data' => $extension->data];
+            $temp_vars = $this->post;
+
+            // Convert array input to a more usable form before storing
+            foreach ($temp_vars as $key => $value) {
+                if (is_array($value) && $key != 'optional_functions') {
+                    $temp_vars[$key] = $this->ArrayHelper->keyToNumeric($value);
+                }
+            }
+
+            // If this step contains optional functions, set unchecked options
+            $optional_function_steps = ['modulefeatures'];
+            if (in_array($step, $optional_function_steps)) {
+                if (!isset($temp_vars['optional_functions'])) {
+                    $temp_vars['optional_functions'] = [];
+                }
+
+                foreach ($this->getOptionalFunctions() as $optional_function => $settings) {
+                    if (!isset($temp_vars['optional_functions'][$optional_function])) {
+                        $temp_vars['optional_functions'][$optional_function] = 'false';
+                    }
+                }
+            }
+
+            // Update the extension with the new data
+            $vars = ['data' => array_merge($extension->data, $temp_vars)];
             $this->ExtensionGeneratorExtensions->edit($extension->id, $vars);
 
             if (($errors = $this->ExtensionGeneratorExtensions->errors())) {
-                $this->parent->setMessage('error', $errors);
+                $this->setMessage('error', $errors, false, null, false);
 
-                $vars = (object) $this->post;
+                $vars = $this->post;
             } else {
                 $next_step = $this->getNextStep($step, $extension->form_type);
 
@@ -327,7 +388,14 @@ class AdminMain extends ExtensionGeneratorController
             }
         } else {
             // Set vars stored by the extension record
-            $vars = isset($extension->data[$step]) ? $extension->data[$step] : [];
+            $vars = $extension->data;
+
+            // Convert array input to a more usable form before displaying
+            foreach ($vars as $key => $value) {
+                if (is_array($value) && $key != 'optional_functions') {
+                    $vars[$key] = $this->ArrayHelper->numericToKey($value);
+                }
+            }
         }
 
         return $vars;
@@ -478,7 +546,7 @@ class AdminMain extends ExtensionGeneratorController
                 }
             }
         } else {
-            $nodes[] = Language::_('AdminMain.getnodes.basic_info', true);
+            $nodes['modulebasic'] = Language::_('AdminMain.getnodes.basic_info', true);
         }
 
         $nodes['confirm'] = Language::_('AdminMain.getnodes.confirm', true);

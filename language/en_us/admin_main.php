@@ -81,14 +81,17 @@ $lang['AdminMain.general.heading_general_settings'] = 'General Settings';
 $lang['AdminMain.general.name'] = 'Name';
 $lang['AdminMain.general.extension_type'] = 'Extension Type';
 $lang['AdminMain.general.form_type'] = 'Form Type';
+$lang['AdminMain.general.lang_code'] = 'Language Code';
 $lang['AdminMain.general.code_examples'] = 'Include Example Code';
-$lang['AdminMain.general.tooltip_code_examples'] = 'Check to include commented out lines of sample code for features such as Cron Task, Event lists and tie-ins, etc.';
 $lang['AdminMain.general.basic_info'] = 'Next - Basic Info';
 
 $lang['AdminMain.general.tooltip_name'] = 'The display name of the extension';
 $lang['AdminMain.general.tooltip_form_type'] = 'Basic to use a highly truncated version of the extension form, including only the minimum necessary to generate the extension.';
+$lang['AdminMain.general.tooltip_code_examples'] = 'Check to include commented out lines of sample code for features such as Cron Tasks, Event lists and tie-ins, etc.';
+$lang['AdminMain.general.tooltip_lang_code'] = 'The language code to generate language files for in ISO 639-1 ISO 3166-1 alpha-2 concatenated format (e.g. "en_us")';
 
 $lang['AdminMain.general.placeholder_name'] = 'Extension Name';
+$lang['AdminMain.general.placeholder_lang_code'] = 'e.g. en_us';
 
 
 // Basic info page
@@ -104,8 +107,6 @@ $lang['AdminMain.modulebasic.author_url'] = 'Author URL';
 $lang['AdminMain.modulebasic.text_options'] = 'Options';
 $lang['AdminMain.modulebasic.author_row_add'] = 'Add Author';
 $lang['AdminMain.modulebasic.text_remove'] = 'Remove';
-$lang['AdminMain.modulebasic.module_fields'] = 'Next - Module Fields';
-$lang['AdminMain.modulebasic.module_confirm'] = 'Next - Confirmation';
 
 $lang['AdminMain.modulebasic.tooltip_module_description'] = 'The description shown in the module listing';
 $lang['AdminMain.modulebasic.tooltip_module_logo'] = 'The logo displayed in the module listing';
@@ -117,6 +118,9 @@ $lang['AdminMain.modulebasic.placeholder_module_row_plural'] = 'e.g. Servers';
 $lang['AdminMain.modulebasic.placeholder_author_name'] = 'e.g. Blesta';
 $lang['AdminMain.modulebasic.placeholder_author_url'] = 'e.g. https://blesta.com/';
 
+$lang['AdminMain.modulebasic.module_fields'] = 'Next - Module Fields';
+$lang['AdminMain.modulebasic.module_confirm'] = 'Next - Confirmation';
+
 
 // Fields page
 $lang['AdminMain.modulefields.heading_module_row_fields'] = 'Module Row Fields';
@@ -127,11 +131,15 @@ $lang['AdminMain.modulefields.name'] = 'Name';
 $lang['AdminMain.modulefields.label'] = 'Label';
 $lang['AdminMain.modulefields.type'] = 'Type';
 $lang['AdminMain.modulefields.tooltip'] = 'Tooltip Text';
-$lang['AdminMain.modulefields.module_features'] = 'Next - Additional Features';
 
 $lang['AdminMain.modulefields.module_row_add'] = 'Add Module Row Field';
 $lang['AdminMain.modulefields.package_row_add'] = 'Add Package Field';
 $lang['AdminMain.modulefields.service_row_add'] = 'Add Service Field';
+
+$lang['AdminMain.modulefields.text_options'] = 'Options';
+$lang['AdminMain.modulefields.text_remove'] = 'Remove';
+
+$lang['AdminMain.modulefields.module_features'] = 'Next - Additional Features';
 
 
 // Additional features page
@@ -150,6 +158,9 @@ $lang['AdminMain.modulefeatures.time'] = 'Start Time/Interval';
 
 $lang['AdminMain.modulefeatures.service_tab_row_add'] = 'Add Service Management Tab';
 $lang['AdminMain.modulefeatures.cron_task_row_add'] = 'Add Cron Task';
+
+$lang['AdminMain.modulefeatures.text_options'] = 'Options';
+$lang['AdminMain.modulefeatures.text_remove'] = 'Remove';
 
 $lang['AdminMain.modulefeatures.module_confirm'] = 'Next - Confirmation';
 
