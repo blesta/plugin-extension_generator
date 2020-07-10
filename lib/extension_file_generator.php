@@ -18,8 +18,9 @@ class ExtensionFileGenerator
     /**
      * @var array $options A list of options for generating files including:
      *
+     *  - name The name of the extension to generate
      *  - comment_code True to include commented out code examples
-     *  - language_code The language code for which to create a language file
+     *  - language_code The language code for which to create language files
      *  - replacements A list of tag names and their replacements
      *  - optional_functions A list method names to include
      */
@@ -40,7 +41,7 @@ class ExtensionFileGenerator
      *
      *  - name The name of the extension to generate
      *  - comment_code True to include commented out code examples
-     *  - language_code The language code for which to create a language file
+     *  - language_code The language code for which to create language files
      *  - replacements A list of tag names and their replacements
      *  - optional_functions A list method names to include
      */
@@ -61,13 +62,13 @@ class ExtensionFileGenerator
     }
 
     /**
-     * Sets the options for parsing and generate files
+     * Sets the options for parsing and generating files
      *
      * @param array $options A list of options for generating files including:
      *
      *  - name The name of the extension to generate
      *  - code_examples True to include commented out code examples
-     *  - language_code The language code for which to create a language file
+     *  - language_code The language code for which to create language files
      *  - data A list of tag names and their replacements
      *  - optional_functions A list method names to include
      */
@@ -91,8 +92,10 @@ class ExtensionFileGenerator
      */
     public function parseAndOutput()
     {
-        $file_paths = $this->getFileList();
+        // Get the directory in which to search for template files
         $template_directory = $this->getTemplateDirectory();
+        // Get a list of template files to parse and output
+        $file_paths = $this->getFileList();
 
         $data = $this->options['data'];
 
@@ -130,7 +133,7 @@ class ExtensionFileGenerator
             for ($i = 0; $i < count($file_path_parts) - 1; $i++) {
                 $temp_path .= $file_path_parts[$i];
                 if (!is_dir($temp_path)) {
-                    mkdir($extension_directory . DS . $file_path);
+                    mkdir($extension_directory . DS . $temp_path);
                 }
             }
 
@@ -186,7 +189,7 @@ class ExtensionFileGenerator
      *
      * @param string $content The content in which to replace tags
      * @param array $replacement_tags A list of tags and values to search for and replace
-     * @param string $parent_tag The parent tag with which to prepend replacement tags (optional)
+     * @param string $parent_tag The parent tag with which to prefix replacement tags (optional)
      * @return string The content with tags replaced
      */
     private function replaceTags($content, array $replacement_tags, $parent_tag = '')
@@ -197,7 +200,6 @@ class ExtensionFileGenerator
         $tag_start = $this->tag_start;
         $tag_end = $this->tag_end;
         foreach ($replacement_tags as $replacement_tag => $replacement_value) {
-
             if (is_array($replacement_value)) {
                 $array_tags[$replacement_tag] = $replacement_value;
             } else {
@@ -217,6 +219,8 @@ class ExtensionFileGenerator
             $matches = [];
             $wrapped_array_tag = $tag_start . 'array:' . $array_tag . $tag_end;
             $pattern = '/' . $wrapped_array_tag . '([\d\D]*?)' . $wrapped_array_tag . '/';
+
+            // Find all instances of the array tag
             preg_match_all($pattern, $content, $matches);
 
             // No matches for this tag, move on
@@ -224,12 +228,17 @@ class ExtensionFileGenerator
                 continue;
             }
 
+            // Process each match
             foreach ($matches[0] as $match) {
                 $matched_content = '';
+
+                // For each item in the array, copy the text within the array tag and perform tag replacement on it
                 foreach ($array_values as $key => $value) {
                     if (is_array($value)) {
+                        // Examine the mnatched content for each subtag and perform the tag replacement
                         $matched_content .= $this->replaceTags($match, $value, $parent_tag . $array_tag . '.');
                     } else {
+                        // Perform single tag replacement on the content of the array tag
                         $matched_content .= str_replace(
                             $tag_start . $array_tag . '.' . $key . $tag_end,
                             $value,
@@ -237,7 +246,11 @@ class ExtensionFileGenerator
                         );
                     }
                 }
+
+                // Remove the array tag from arround the content
                 $matched_content = str_replace($wrapped_array_tag, '', $matched_content);
+
+                // Replace the matched content with the new, tag replaced content
                 $content = str_replace($match, $matched_content, $content);
             }
         }
@@ -290,7 +303,7 @@ class ExtensionFileGenerator
     private function getFileList()
     {
         $file_path_list = [
-            'module' => [['path' => 'module.php']],
+            'module' => [['path' => 'module.php'], ['path' => 'folder' . DS . 'file.php']],
             'plugin' => [],
             'gateway' => [],
         ];
@@ -377,7 +390,7 @@ class ExtensionFileGenerator
         $files = glob($directory . '*', GLOB_MARK);
         foreach ($files as $file) {
             if (is_dir($file)) {
-                self::renameFiles($file);
+                self::renameFiles($file, $old_name, $new_name);
             }
         }
 

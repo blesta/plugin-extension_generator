@@ -295,9 +295,11 @@ class AdminMain extends ExtensionGeneratorController
             $directory = rtrim($directory, DS) . DS;
 
             try {
+                // Load the extension generator
                 $generator = new ExtensionFileGenerator($extension->type, (array)$extension);
                 $generator->setOutputDir($directory);
 
+                // Generate the extension files.  This is where the magic happens.
                 $generator->parseAndOutput();
 
                 $this->flashMessage(
@@ -353,7 +355,7 @@ class AdminMain extends ExtensionGeneratorController
                 }
             }
 
-            // If this step contains optional functions, set uncheck options
+            // If this step contains optional functions, set unchecked options
             $optional_function_steps = ['modulefeatures'];
             if (in_array($step, $optional_function_steps)) {
                 if (!isset($temp_vars['optional_functions'])) {
