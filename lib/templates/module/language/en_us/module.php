@@ -32,11 +32,16 @@ $lang['{{class_name}}.edit_row.box_title'] = '{{name}} - Edit {{module_row}}';
 $lang['{{class_name}}.edit_row.edit_btn'] = 'Update {{module_row}}';
 
 
-// Row meta
-{{array:module_rows}}
+// Row meta{{array:module_rows}}
 $lang['{{class_name}}.row_meta.{{module_rows.name}}'] = '{{module_rows.label}}';{{array:module_rows}}
 
 
-// Errors
-{{array:module_rows}}
-$lang['{{class_name}}.!error.{{module_rows.name}}.valie'] = 'Invalid {{module_rows.label}}';{{array:module_rows}}
+// Errors{{array:module_rows}}
+$lang['{{class_name}}.!error.{{module_rows.name}}.valid'] = 'Invalid {{module_rows.label}}';{{array:module_rows}}
+$lang['{{class_name}}.!error.module_row.missing'] = 'An internal error occurred. The module row is unavailable.';
+{{array:service_tabs}}
+
+// {{service_tabs.label}}
+$lang['{{class_name}}.{{service_tabs.method_name}}'] = '{{service_tabs.label}}';
+$lang['{{class_name}}.{{service_tabs.method_name}}.header'] = '{{service_tabs.label}}';
+$lang['{{class_name}}.{{service_tabs.method_name}}.submit'] = 'Submit';{{array:service_tabs}}

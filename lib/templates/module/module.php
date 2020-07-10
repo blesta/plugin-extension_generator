@@ -257,7 +257,72 @@ class {{class_name}} extends Module
         ];
 
         return $rules;
-    }{{function:addModuleRow}}{{function:addCronTasks}}
+    }{{function:addModuleRow}}{{function:getClientTabs}}
+
+    /**
+     * Returns all tabs to display to a client when managing a service whose
+     * package uses this module
+     *
+     * @param stdClass $package A stdClass object representing the selected package
+     * @return array An array of tabs in the format of method => title.
+     *  Example: array('methodName' => "Title", 'methodName2' => "Title2")
+     */
+    public function getClientTabs($package)
+    {
+        return [{{array:service_tabs}}
+            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{array:service_tabs}}
+        ];
+    }{{function:getClientTabs}}{{function:getAdminTabs}}
+
+    /**
+     * Returns all tabs to display to an admin when managing a service whose
+     * package uses this module
+     *
+     * @param stdClass $package A stdClass object representing the selected package
+     * @return array An array of tabs in the format of method => title.
+     *  Example: array('methodName' => "Title", 'methodName2' => "Title2")
+     */
+    public function getAdminTabs($package)
+    {
+        return [{{array:service_tabs}}
+            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{array:service_tabs}}
+        ];
+    }{{function:getAdminTabs}}{{array:service_tabs}}
+
+    public function {{service_tabs.method_name}}(
+        $package,
+        $service,
+        array $get = null,
+        array $post = null,
+        array $files = null
+    ) {
+        $this->view = new View('tab', 'default');
+        $this->view->base_uri = $this->base_uri;
+        // Load the helpers required for this view
+        Loader::loadHelpers($this, ['Form', 'Html']);
+
+        $service_fields = $this->serviceFieldsToObject($service->fields);
+
+        if (!empty($post)) {
+
+            // Perform any post actions
+
+            if ($this->Services->errors()) {
+                $this->Input->setErrors($this->Services->errors());
+            }
+
+            $vars = (object)$post;
+        }
+
+        $this->view->set('tab', '{{service_tabs.method_name}}');
+        $this->view->set('service_fields', $service_fields);
+        $this->view->set('service_id', $service->id);
+        $this->view->set('client_id', $service->client_id);
+        $this->view->set('vars', (isset($vars) ? $vars : new stdClass()));
+
+        $this->view->setDefaultView('components' . DS . 'modules' . DS . '{{snake_case_name}}' . DS);
+        return $this->view->fetch();
+    }{{array:service_tabs}}{{function:addCronTasks}}
 
     /**
      * Attempts to add new cron tasks for this module
@@ -310,5 +375,218 @@ class {{class_name}} extends Module
             ],{{array:cron_tasks}}
         ];
     }
-    {{function:getCronTasks}}
+    {{function:getCronTasks}}{{function:addService}}
+
+    /**
+     * Adds the service to the remote server. Sets Input errors on failure,
+     * preventing the service from being added.
+     *
+     * @param stdClass $package A stdClass object representing the selected package
+     * @param array $vars An array of user supplied info to satisfy the request
+     * @param stdClass $parent_package A stdClass object representing the parent
+     *  service's selected package (if the current service is an addon service)
+     * @param stdClass $parent_service A stdClass object representing the parent
+     *  service of the service being added (if the current service is an addon service
+     *  service and parent service has already been provisioned)
+     * @param string $status The status of the service being added. These include:
+     *  - active
+     *  - canceled
+     *  - pending
+     *  - suspended
+     * @return array A numerically indexed array of meta fields to be stored for this service containing:
+     *  - key The key for this meta field
+     *  - value The value for this key
+     *  - encrypted Whether or not this field should be encrypted (default 0, not encrypted)
+     * @see Module::getModule()
+     * @see Module::getModuleRow()
+     */
+    public function addService(
+        $package,
+        array $vars = null,
+        $parent_package = null,
+        $parent_service = null,
+        $status = 'pending'
+    ) {
+        $row = $this->getModuleRow();
+
+        if (!$row) {
+            $this->Input->setErrors(
+                ['module_row' => ['missing' => Language::_('{{class_name}}.!error.module_row.missing', true)]]
+            );
+
+            return;
+        }
+
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+
+        $params = $this->getFieldsFromInput((array) $vars, $package);
+
+        $this->validateService($package, $vars);
+
+        if ($this->Input->errors()) {
+            return;
+        }
+
+        // Only provision the service if 'use_module' is true
+        if ($vars['use_module'] == 'true') {
+        }
+
+        // Return service fields
+        return [{{array:service_fields}}
+            [
+                'key' => '{{service_fields.name}}',
+                'value' => $vars['{{service_fields.name}}'],
+                'encrypted' => 0
+            ],{{array:service_fields}}
+        ];
+    }{{function:addService}}{{function:editService}}
+
+    /**
+     * Edits the service on the remote server. Sets Input errors on failure,
+     * preventing the service from being edited.
+     *
+     * @param stdClass $package A stdClass object representing the current package
+     * @param stdClass $service A stdClass object representing the current service
+     * @param array $vars An array of user supplied info to satisfy the request
+     * @param stdClass $parent_package A stdClass object representing the parent
+     *  service's selected package (if the current service is an addon service)
+     * @param stdClass $parent_service A stdClass object representing the parent
+     *  service of the service being edited (if the current service is an addon service)
+     * @return array A numerically indexed array of meta fields to be stored for this service containing:
+     *  - key The key for this meta field
+     *  - value The value for this key
+     *  - encrypted Whether or not this field should be encrypted (default 0, not encrypted)
+     * @see Module::getModule()
+     * @see Module::getModuleRow()
+     */
+    public function editService($package, $service, array $vars = null, $parent_package = null, $parent_service = null)
+    {
+////        $row = $this->getModuleRow();
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        $params = $this->getFieldsFromInput((array) $vars, $package, true);
+////        $service_fields = $this->serviceFieldsToObject($service->fields);
+
+        $this->validateService($package, $vars, true);
+
+        if ($this->Input->errors()) {
+            return;
+        }
+
+        // Only update the service if 'use_module' is true
+        if ($vars['use_module'] == 'true') {
+        }
+
+
+        // Return all the service fields
+        $fields = [];
+        $encrypted_fields = [];
+        foreach ($service_fields as $key => $value) {
+            $fields[] = ['key' => $key, 'value' => $value, 'encrypted' => (in_array($key, $encrypted_fields) ? 1 : 0)];
+        }
+
+        return $fields;
+    }{{function:editService}}{{function:suspendService}}
+
+    /**
+     * Suspends the service on the remote server. Sets Input errors on failure,
+     * preventing the service from being suspended.
+     *
+     * @param stdClass $package A stdClass object representing the current package
+     * @param stdClass $service A stdClass object representing the current service
+     * @param stdClass $parent_package A stdClass object representing the parent
+     *  service's selected package (if the current service is an addon service)
+     * @param stdClass $parent_service A stdClass object representing the parent
+     *  service of the service being suspended (if the current service is an addon service)
+     * @return mixed null to maintain the existing meta fields or a numerically
+     *  indexed array of meta fields to be stored for this service containing:
+     *  - key The key for this meta field
+     *  - value The value for this key
+     *  - encrypted Whether or not this field should be encrypted (default 0, not encrypted)
+     * @see Module::getModule()
+     * @see Module::getModuleRow()
+     */
+    public function suspendService($package, $service, $parent_package = null, $parent_service = null)
+    {
+        if (($row = $this->getModuleRow())) {
+////            $api = $this->getApi(
+////                $row->meta->host_name,
+////                $row->meta->user_name,
+////                $row->meta->password,
+////                $row->meta->use_ssl
+////            );
+////
+////            $service_fields = $this->serviceFieldsToObject($service->fields);
+        }
+
+        return null;
+    }{{function:suspendService}}{{function:unsuspendService}}
+
+    /**
+     * Unsuspends the service on the remote server. Sets Input errors on failure,
+     * preventing the service from being unsuspended.
+     *
+     * @param stdClass $package A stdClass object representing the current package
+     * @param stdClass $service A stdClass object representing the current service
+     * @param stdClass $parent_package A stdClass object representing the parent
+     *  service's selected package (if the current service is an addon service)
+     * @param stdClass $parent_service A stdClass object representing the parent
+     *  service of the service being unsuspended (if the current service is an addon service)
+     * @return mixed null to maintain the existing meta fields or a numerically
+     *  indexed array of meta fields to be stored for this service containing:
+     *  - key The key for this meta field
+     *  - value The value for this key
+     *  - encrypted Whether or not this field should be encrypted (default 0, not encrypted)
+     * @see Module::getModule()
+     * @see Module::getModuleRow()
+     */
+    public function unsuspendService($package, $service, $parent_package = null, $parent_service = null)
+    {
+        if (($row = $this->getModuleRow())) {
+////            $api = $this->getApi(
+////                $row->meta->host_name,
+////                $row->meta->user_name,
+////                $row->meta->password,
+////                $row->meta->use_ssl
+////            );
+////
+////            $service_fields = $this->serviceFieldsToObject($service->fields);
+        }
+
+        return null;
+    }{{function:unsuspendService}}{{function:cancelService}}
+
+    /**
+     * Cancels the service on the remote server. Sets Input errors on failure,
+     * preventing the service from being canceled.
+     *
+     * @param stdClass $package A stdClass object representing the current package
+     * @param stdClass $service A stdClass object representing the current service
+     * @param stdClass $parent_package A stdClass object representing the parent
+     *  service's selected package (if the current service is an addon service)
+     * @param stdClass $parent_service A stdClass object representing the parent
+     *  service of the service being canceled (if the current service is an addon service)
+     * @return mixed null to maintain the existing meta fields or a numerically
+     *  indexed array of meta fields to be stored for this service containing:
+     *  - key The key for this meta field
+     *  - value The value for this key
+     *  - encrypted Whether or not this field should be encrypted (default 0, not encrypted)
+     * @see Module::getModule()
+     * @see Module::getModuleRow()
+     */
+    public function cancelService($package, $service, $parent_package = null, $parent_service = null)
+    {
+        if (($row = $this->getModuleRow())) {
+////            $api = $this->getApi(
+////                $row->meta->host_name,
+////                $row->meta->user_name,
+////                $row->meta->password,
+////                $row->meta->use_ssl
+////            );
+////
+////            $service_fields = $this->serviceFieldsToObject($service->fields);
+        }
+
+        return null;
+    }{{function:cancelService}}
 }

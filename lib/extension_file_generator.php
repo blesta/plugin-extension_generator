@@ -88,7 +88,7 @@ class ExtensionFileGenerator
     }
 
     /**
-     * Parse and generate new files
+     * Parse and generate the extension files. This is where the science happens.
      */
     public function parseAndOutput()
     {
@@ -310,6 +310,9 @@ class ExtensionFileGenerator
             'module' => [
                 ['path' => 'language' . DS . 'en_us' . DS . 'module.php'],
                 ['path' => 'README.md'],
+                # TODO add support for email tags, service name_key, package name_key, module row_key,
+                # and module_group_name.  Perhaps use a radio button on the field tables to select which field to
+                # use for the name_key.  This will require implementation of tag value conditional code
                 ['path' => 'config.json'],
                 ['path' => 'composer.json'],
                 ['path' => 'module.php'],
@@ -317,6 +320,7 @@ class ExtensionFileGenerator
                 ['path' => 'views' . DS . 'default' . DS . 'manage.pdt'],
                 ['path' => 'views' . DS . 'default' . DS . 'add_row.pdt', 'required_by' => ['module_rows']],
                 ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
+                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'required_by' => ['service_tabs']],
             ],
             'plugin' => [],
             'gateway' => [],
