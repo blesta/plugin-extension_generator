@@ -216,7 +216,7 @@ class ExtensionFileGenerator
         foreach ($array_tags as $array_tag => $array_values) {
             $matches = [];
             $wrapped_array_tag = $tag_start . 'array:' . $array_tag . $tag_end;
-            $pattern = '/' . $wrapped_array_tag . '([\d\D]*)' . $wrapped_array_tag . '/';
+            $pattern = '/' . $wrapped_array_tag . '([\d\D]*?)' . $wrapped_array_tag . '/';
             preg_match_all($pattern, $content, $matches);
 
             // No matches for this tag, move on
@@ -261,7 +261,7 @@ class ExtensionFileGenerator
                 // Remove the optional function
                 $content = preg_replace(
                     '/' . $this->tag_start . 'function:' . $optional_function . $this->tag_end
-                        . '[\d\D]*'
+                        . '[\d\D]*?'
                         . $this->tag_start . 'function:' . $optional_function . $this->tag_end . '/',
                     '',
                     $content
@@ -319,6 +319,12 @@ class ExtensionFileGenerator
             'module' => [
                 'addCronTasks' => 'cron_tasks',
                 'getCronTasks' => 'cron_tasks',
+                'getPackageFields' => 'package_fields',
+                'getAdminAddFields' => 'service_fields',
+                'getAdminEditFields' => 'service_fields',
+                'getClientAddFields' => 'service_fields',
+                'getAdminTabs' => 'service_tabs',
+                'getClientTabs' => 'service_tabs',
             ],
             'plugin' => [],
             'gateway' => [],

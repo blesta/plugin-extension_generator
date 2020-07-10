@@ -167,6 +167,21 @@ class AdminMain extends ExtensionGeneratorController
             $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
         }
 
+        // Set empty array inputs
+        if (!empty($this->post)) {
+            if (!isset($this->post['module_rows'])) {
+                $this->post['module_rows'] = [];
+            }
+
+            if (!isset($this->post['package_fields'])) {
+                $this->post['package_fields'] = [];
+            }
+
+            if (!isset($this->post['service_fields'])) {
+                $this->post['service_fields'] = [];
+            }
+        }
+
         // Perform edit/redirect or error/set vars
         $vars = $this->processStep('modulefields', $extension);
 
@@ -197,6 +212,17 @@ class AdminMain extends ExtensionGeneratorController
             || $extension->company_id != $this->company_id
         ) {
             $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
+        }
+
+        // Set empty array inputs
+        if (!empty($this->post)) {
+            if (!isset($this->post['service_tabs'])) {
+                $this->post['service_tabs'] = [];
+            }
+
+            if (!isset($this->post['cron_tasks'])) {
+                $this->post['cron_tasks'] = [];
+            }
         }
 
         // Perform edit/redirect or error/set vars
@@ -319,6 +345,7 @@ class AdminMain extends ExtensionGeneratorController
         if (!empty($this->post))
         {
             $temp_vars = $this->post;
+
             // Convert array input to a more usable form before storing
             foreach ($temp_vars as $key => $value) {
                 if (is_array($value) && $key != 'optional_functions') {
@@ -326,6 +353,7 @@ class AdminMain extends ExtensionGeneratorController
                 }
             }
 
+            // If this step contains optional functions, set uncheck options
             $optional_function_steps = ['modulefeatures'];
             if (in_array($step, $optional_function_steps)) {
                 if (!isset($temp_vars['optional_functions'])) {
@@ -339,7 +367,7 @@ class AdminMain extends ExtensionGeneratorController
                 }
             }
 
-            // Updated the extension with the new data
+            // Update the extension with the new data
             $vars = ['data' => array_merge($extension->data, $temp_vars)];
             $this->ExtensionGeneratorExtensions->edit($extension->id, $vars);
 
