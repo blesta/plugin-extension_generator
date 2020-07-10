@@ -135,6 +135,10 @@ class AdminMain extends ExtensionGeneratorController
             $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
         }
 
+        ##
+        # TODO Add support for custom logo
+        ##
+
         // Perform edit/redirect or error/set vars
         $vars = $this->processStep('modulebasic', $extension);
 
