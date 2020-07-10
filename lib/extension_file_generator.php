@@ -112,16 +112,19 @@ class ExtensionFileGenerator
 
         // Parse and output template files
         foreach ($file_paths as $file_settings) {
-            $file_path = $file_settings['path'];
-            if (isset($file_settings['dependancies'])
-                && empty(
-                    array_intersect($file_settings['dependancies'], array_flip($data['optional_functions']))
+            // If the given file is required by optional functions and none are being used, skip the file
+            if (isset($file_settings['required_by'])
+                && isset($data['optional_functions'])
+                && ($required_by =
+                    array_intersect_key($data['optional_functions'], array_flip($file_settings['required_by']))
                 )
+                && array_search('true', $required_by) === false
             ) {
                 continue;
             }
 
             // Create any necessary directories before creating this file
+            $file_path = $file_settings['path'];
             $file_path_parts = explode(DS, $file_path);
             $temp_path = '';
             for ($i = 0; $i < count($file_path_parts) - 1; $i++) {
@@ -144,7 +147,7 @@ class ExtensionFileGenerator
             // Replace content tags
             $content = $this->replaceTags($content, $data);
 
-            // Remove remaining array tags
+            // Remove any remaining array tags
             $content = preg_replace(
                 '/' . $this->tag_start . 'array\:.*' . $this->tag_end
                     . '[\d\D]*'
@@ -154,12 +157,21 @@ class ExtensionFileGenerator
             );
 
             // Filter optional functions
-            if (isset($data['optional_functions'])) {
-                // Replace content tags
-                $content = $this->filterOptionalFunctions($content, $data['optional_functions']);
+            if (!isset($data['optional_functions'])) {
+                $data['optional_functions'] = [];
             }
 
-            $content = preg_replace('/{\S*}/', '', $content);
+            // Set new optional function values based on the given data
+            $data['optional_functions'] = array_merge(
+                $data['optional_functions'],
+                $this->getOptionalFunctionValues($data)
+            );
+
+            // Replace content tags
+            $content = $this->filterOptionalFunctions($content, $data['optional_functions']);
+
+            // Remove any remaining tags
+            $content = preg_replace('/' . $this->tag_start . '\S*' . $this->tag_end . '/', '', $content);
 
             // Output the parsed contents
             file_put_contents($extension_directory . DS . $file_path, $content);
@@ -169,7 +181,15 @@ class ExtensionFileGenerator
         self::renameFiles($extension_directory, $this->extension_type . '.php', $data['snake_case_name'] . '.php');
     }
 
-    private function replaceTags($content, $replacement_tags, $parent_tag = '')
+    /**
+     * Replaces tags in the given content
+     *
+     * @param string $content The content in which to replace tags
+     * @param array $replacement_tags A list of tags and values to search for and replace
+     * @param string $parent_tag The parent tag with which to prepend replacement tags (optional)
+     * @return string The content with tags replaced
+     */
+    private function replaceTags($content, array $replacement_tags, $parent_tag = '')
     {
         // Get a list of array tags and remove them from the primary list
         // Wrap keys in the set  tag delimiters
@@ -225,30 +245,63 @@ class ExtensionFileGenerator
         return $content;
     }
 
+    /**
+     * Remove optional functions that are set to false
+     *
+     * @param string $content The content from which to remove/keep optional functions
+     * @param array $optional_functions A list of optional functions and their status, false to remove, true to keep
+     * @return string The content with optional functions removed
+     */
     private function filterOptionalFunctions($content, array $optional_functions)
     {
+        // Filter optional functions from the content
         foreach ($optional_functions as $optional_function => $include)
         {
             if ($include == 'false') {
-                $content = preg_replace('/{' .  $optional_function . '}[\d\D]*{' .  $optional_function . '}/', '', $content);
+                // Remove the optional function
+                $content = preg_replace(
+                    '/' . $this->tag_start . 'function:' . $optional_function . $this->tag_end
+                        . '[\d\D]*'
+                        . $this->tag_start . 'function:' . $optional_function . $this->tag_end . '/',
+                    '',
+                    $content
+                );
             } else {
-                $content = preg_replace('/{' .  $optional_function . '}/', '', $content);
+                // Keep the optional function but remove the surrounding tags
+                $content = str_replace(
+                    $this->tag_start . 'function:' . $optional_function . $this->tag_end,
+                    '',
+                    $content
+                );
             }
         }
 
         return $content;
     }
 
+    /**
+     * Gets a list of files to parse and generate based on the set extension type
+     *
+     * @return array A list of arrays for files to parse and generate, each containing:
+     *
+     *  - path The path to the template file to parse, relative to the template directory
+     *  - required_by A list of optional functions that require the given file
+     */
     private function getFileList()
     {
         $file_path_list = [
-            'module' => [['path' => 'module.php', 'dependencies' => ['cancelService']]],
+            'module' => [['path' => 'module.php']],
             'plugin' => [],
             'gateway' => [],
         ];
         return $file_path_list[$this->extension_type];
     }
 
+    /**
+     * Gets the template directory containing the files to parse based on the set extension type
+     *
+     * @return string The directory containing template files
+     */
     private function getTemplateDirectory()
     {
         $directories = [
@@ -260,6 +313,30 @@ class ExtensionFileGenerator
         return $directories[$this->extension_type];
     }
 
+    private function getOptionalFunctionValues($data)
+    {
+        $function_dependencies = [
+            'module' => [
+                'addCronTasks' => 'cron_tasks',
+                'getCronTasks' => 'cron_tasks',
+            ],
+            'plugin' => [],
+            'gateway' => [],
+        ];
+
+        $optional_functions = [];
+        foreach ($function_dependencies[$this->extension_type] as $function => $dependency) {
+            $optional_functions[$function] = empty($data[$dependency]) ? 'false' : 'true';
+        }
+
+        return $optional_functions;
+    }
+
+    /**
+     * Recursively delete the directory and it's contents
+     *
+     * @param string $directory The directory to clear and delete
+     */
     public static function deleteDir($directory) {
         $directory = rtrim($directory, DS) . DS;
         if (!is_dir($directory)) {
@@ -281,6 +358,13 @@ class ExtensionFileGenerator
         rmdir($directory);
     }
 
+    /**
+     * Recursively search the given directory for files with the given old name and rename them
+     *
+     * @param string $directory The directory to search
+     * @param string $old_name The name of the files for which to search
+     * @param string $new_name The new name to give the files
+     */
     public static function renameFiles($directory, $old_name, $new_name) {
         $directory = rtrim($directory, DS) . DS;
 
