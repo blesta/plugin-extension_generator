@@ -171,18 +171,30 @@ class AdminMain extends ExtensionGeneratorController
             $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
         }
 
-        // Set empty array inputs
         if (!empty($this->post)) {
-            if (!isset($this->post['module_rows'])) {
-                $this->post['module_rows'] = [];
-            }
+            $array_fields = ['module_rows', 'package_fields', 'service_fields'];
+            foreach ($array_fields as $array_field) {
+                if (!isset($this->post[$array_field])) {
+                    // Set empty array inputs
+                    $this->post[$array_field] = [];
+                } else {
+                    // Get the index of the record that should be marked as the name key
+                    $key_index = isset($this->post[$array_field]['name_key'])
+                        ? $this->post[$array_field]['name_key']
+                        : 0;
 
-            if (!isset($this->post['package_fields'])) {
-                $this->post['package_fields'] = [];
-            }
+                    // Mark all records as NOT the name key
+                    $this->post[$array_field]['name_key'] = array_fill(
+                        0,
+                        count($this->post[$array_field]['name']),
+                        'false'
+                    );
 
-            if (!isset($this->post['service_fields'])) {
-                $this->post['service_fields'] = [];
+                    // Mark the given record as the name key
+                    if (isset($this->post[$array_field]['name_key'][$key_index])) {
+                        $this->post[$array_field]['name_key'][$key_index] = 'true';
+                    }
+                }
             }
         }
 
@@ -415,7 +427,7 @@ class AdminMain extends ExtensionGeneratorController
         return [
             'Text' => Language::_('AdminMain.getfieldtypes.text', true),
             'Textarea' => Language::_('AdminMain.getfieldtypes.textarea', true),
-//            'Checkbox' => Language::_('AdminMain.getfieldtypes.checkbox', true)  // TODO, add support for checkboxes
+            'Checkbox' => Language::_('AdminMain.getfieldtypes.checkbox', true)  // TODO, add support for checkboxes
         ];
     }
 

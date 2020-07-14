@@ -6,6 +6,5 @@
         <tr>
             <td></td>{{array:service_fields}}
             <td><?php $this->Html->_($service_fields->{{service_fields.name}}); ?></td>{{array:service_fields}}
-            </td>
         </tr>
     </table>

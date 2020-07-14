@@ -43,6 +43,13 @@
                         ?>
                         <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.modulebasic.tooltip_module_row_plural');?></div></span>
                     </li>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('AdminMain.modulebasic.module_group', true), 'module_group');
+                        $this->Form->fieldText('module_group', $this->Html->ifSet($vars['module_group']), ['id' => 'module_group', 'placeholder' => $this->_('AdminMain.modulebasic.placeholder_module_group', true)]);
+                        ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.modulebasic.tooltip_module_group');?></div></span>
+                    </li>
                 </ul>
             </div>
 

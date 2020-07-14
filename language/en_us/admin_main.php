@@ -100,6 +100,7 @@ $lang['AdminMain.modulebasic.description'] = 'Description';
 $lang['AdminMain.modulebasic.logo'] = 'Logo';
 $lang['AdminMain.modulebasic.module_row'] = 'Module Row Name';
 $lang['AdminMain.modulebasic.module_row_plural'] = 'Module Row Name (Plural)';
+$lang['AdminMain.modulebasic.module_group'] = 'Module Group Label';
 $lang['AdminMain.modulebasic.author_name'] = 'Author Name';
 $lang['AdminMain.modulebasic.author_url'] = 'Author URL';
 $lang['AdminMain.modulebasic.text_options'] = 'Options';
@@ -110,9 +111,11 @@ $lang['AdminMain.modulebasic.tooltip_module_description'] = 'The description sho
 $lang['AdminMain.modulebasic.tooltip_module_logo'] = 'The logo displayed in the module listing';
 $lang['AdminMain.modulebasic.tooltip_module_row'] = 'The term by which to refer to a single module row for this module';
 $lang['AdminMain.modulebasic.tooltip_module_row_plural'] = 'The term by which to refer to multiple module rows for this module';
+$lang['AdminMain.modulebasic.tooltip_module_group'] = 'The term by which to refer to module row groups for this module';
 
 $lang['AdminMain.modulebasic.placeholder_module_row'] = 'e.g. Server';
 $lang['AdminMain.modulebasic.placeholder_module_row_plural'] = 'e.g. Servers';
+$lang['AdminMain.modulebasic.placeholder_module_group'] = 'e.g. Server Group';
 $lang['AdminMain.modulebasic.placeholder_author_name'] = 'e.g. Blesta';
 $lang['AdminMain.modulebasic.placeholder_author_url'] = 'e.g. https://blesta.com/';
 
@@ -129,6 +132,7 @@ $lang['AdminMain.modulefields.name'] = 'Name';
 $lang['AdminMain.modulefields.label'] = 'Label';
 $lang['AdminMain.modulefields.type'] = 'Type';
 $lang['AdminMain.modulefields.tooltip'] = 'Tooltip Text';
+$lang['AdminMain.modulefields.name_key'] = 'Name Key';
 
 $lang['AdminMain.modulefields.module_row_add'] = 'Add Module Row Field';
 $lang['AdminMain.modulefields.package_row_add'] = 'Add Package Field';

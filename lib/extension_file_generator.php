@@ -152,9 +152,18 @@ class ExtensionFileGenerator
 
             // Remove any remaining array tags
             $content = preg_replace(
-                '/' . $this->tag_start . 'array\:.*' . $this->tag_end
-                    . '[\d\D]*'
-                    . $this->tag_start . 'array\:.*' . $this->tag_end . '/',
+                '/' . $this->tag_start . 'array\:.*?' . $this->tag_end
+                    . '[\d\D]*?'
+                    . $this->tag_start . 'array\:.*?' . $this->tag_end . '/',
+                '',
+                $content
+            );
+
+            // Remove any remaining conditional tags
+            $content = preg_replace(
+                '/' . $this->tag_start . 'if\:.*?' . $this->tag_end
+                    . '[\d\D]*?'
+                    . $this->tag_start . 'if\:.*?' . $this->tag_end . '/',
                 '',
                 $content
             );
@@ -209,8 +218,12 @@ class ExtensionFileGenerator
             } else {
                 $replacement_tags[$tag_start . $parent_tag . $replacement_tag . $tag_end] = $replacement_value;
             }
+
             unset($replacement_tags[$replacement_tag]);
         }
+
+        // Parse content condtitionally based on the value of tags
+        $content = $this->replaceConditionalTags($content, $replacement_tags);
 
         // Replace all tags for scalar values
         $content = str_replace(
@@ -263,6 +276,47 @@ class ExtensionFileGenerator
     }
 
     /**
+     * Replaces conditional tags in the given content
+     *
+     * @param string $content The content in which to replace tags
+     * @param array $replacement_tags A list of tags and values to search for and replace
+     * @return string The content with tags replaced
+     */
+    private function replaceConditionalTags($content, array $replacement_tags)
+    {
+        // Created a list of strings that match the conditional pattern, and the value to replace them with
+        $match_replacements = [];
+        foreach ($replacement_tags as $replacement_tag => $replacement_value) {
+            // Remove any tag delimiters
+            $trimmed_tag = rtrim(ltrim($replacement_tag, $this->tag_start), $this->tag_end);
+
+            // {{if:tag:value}}true_text{{else}}false_text{{if:tag}}
+            $pattern = '/' . $this->tag_start . 'if:' . $trimmed_tag . ':(.*?)' . $this->tag_end
+                . '([\d\D]*?)' . $this->tag_start . 'else' . $this->tag_end
+                . '([\d\D]*?)' . $this->tag_start . 'if:' . $trimmed_tag . $this->tag_end . '/';
+
+            if (preg_match_all($pattern, $content, $matches) && count($matches) !== 0) {
+                foreach ($matches[0] as $index => $match) {
+                    // Set variables to make the role of each match more clear
+                    $comparaison_value = $matches[1][$index];
+                    $true_text = $matches[2][$index];
+                    $false_text = $matches[3][$index];
+
+                    // If the tag value equals the parsed comparison value, use the parse text for the true case,
+                    // else use the parsed text for the false calse
+                    $match_replacements[$match] = $replacement_value == $comparaison_value
+                        ? $replacement_tags[$trimmed_tag] = $true_text
+                        : $replacement_tags[$trimmed_tag] = $false_text;
+                }
+            }
+
+            unset($replacement_tags[$replacement_tag]);
+        }
+
+        return str_replace(array_keys($match_replacements), array_values($match_replacements), $content);
+    }
+
+    /**
      * Remove optional functions that are set to false
      *
      * @param string $content The content from which to remove/keep optional functions
@@ -310,14 +364,20 @@ class ExtensionFileGenerator
             'module' => [
                 ['path' => 'language' . DS . 'en_us' . DS . 'module.php'],
                 ['path' => 'README.md'],
-                # TODO add support for email tags, service name_key, package name_key, module row_key,
-                # and module_group_name.  Perhaps use a radio button on the field tables to select which field to
-                # use for the name_key.  This will require implementation of tag value conditional code
                 ['path' => 'config.json'],
                 ['path' => 'composer.json'],
                 ['path' => 'module.php'],
                 ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
                 ['path' => 'views' . DS . 'default' . DS . 'manage.pdt'],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'client_service_info.pdt',
+                    'required_by' => ['getClientServiceInfo']
+                ],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'admin_service_info.pdt',
+                    'required_by' => ['getAdminServiceInfo']
+                ],
+                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
                 ['path' => 'views' . DS . 'default' . DS . 'add_row.pdt', 'required_by' => ['module_rows']],
                 ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
                 ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'required_by' => ['service_tabs']],
