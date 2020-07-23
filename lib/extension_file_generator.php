@@ -109,7 +109,7 @@ class ExtensionFileGenerator
         }
 
         // Set a data flag for whether code examples are being included
-        $data['code_examples'] = $this->options['code_examples'] == 1 ? 'true' : 'false';
+        $data['code_examples'] = $this->options['code_examples'];
 
         // Clear and remake the directory for this extension
         $extension_directory = $this->output_dir . $data['snake_case_name'];
@@ -118,7 +118,7 @@ class ExtensionFileGenerator
 
         // Set new optional function values based on the given data
         $data['optional_functions'] = array_merge(
-            $data['optional_functions'],
+            isset($data['optional_functions']) ? $data['optional_functions'] : [],
             $this->getOptionalFunctionValues($data)
         );
 

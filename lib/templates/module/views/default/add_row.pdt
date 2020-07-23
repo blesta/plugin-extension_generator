@@ -20,7 +20,7 @@
                         ?>
                     </li>{{array:module_rows}}
                 </ul>
-            </div>{{if:code_examples:true}}<?php{{else}}{{if:code_examples}}
+            </div>{{if:code_examples:1}}<?php{{else}}{{if:code_examples}}
 ////
 ////// Many modules will include the ability to set nameservers.  Following is a table to do that.
 ////// Be sure to uncomment the JS below and visit the {{snake_case_name}}.php language file to
@@ -87,7 +87,7 @@
         </div>
         <?php
         $this->Widget->end();
-        ?>{{if:code_examples:true}}<?php{{else}}{{if:code_examples}}
+        ?>{{if:code_examples:1}}<?php{{else}}{{if:code_examples}}
 ////
 ////// This is the supporting JS for the nameserver table
 ////?><!--

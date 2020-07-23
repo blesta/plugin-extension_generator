@@ -82,7 +82,7 @@ $lang['AdminMain.index.extensions_no_results'] = 'There are no extensions at thi
 $lang['AdminMain.general.heading_general_settings'] = 'General Settings';
 
 $lang['AdminMain.general.name'] = 'Name';
-$lang['AdminMain.general.extension_type'] = 'Extension Type';
+$lang['AdminMain.general.type'] = 'Extension Type';
 $lang['AdminMain.general.form_type'] = 'Form Type';
 $lang['AdminMain.general.code_examples'] = 'Include Example Code';
 $lang['AdminMain.general.basic_info'] = 'Next - Basic Info';
