@@ -6,6 +6,7 @@ $lang['AdminMain.!error.logo_upload_failed'] = 'Unable to generate your extensio
 
 
 // Success messages
+$lang['AdminMain.!success.package_deleted'] = 'The extension has been successfully deleted';
 $lang['AdminMain.!success.module_created'] = 'The new module has been successfully generated and can be found at %1$s'; // Where %1$s is the path to the created module's directory
 $lang['AdminMain.!success.plugin_created'] = 'The new plugin has been successfully generated and can be found at %1$s'; // Where %1$s is the path to the created plugin's directory
 $lang['AdminMain.!success.gateway_created'] = 'The new gateway has been successfully generated and can be found at %1$s'; // Where %1$s is the path to the created gateway's directory
