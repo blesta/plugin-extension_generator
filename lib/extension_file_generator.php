@@ -182,10 +182,6 @@ class ExtensionFileGenerator
                 $data['optional_functions'] = [];
             }
 
-            ##
-            # TODO add support for code that is conditional on tag values
-            ##
-
             // Replace content tags
             $content = $this->filterOptionalFunctions($content, $data['optional_functions']);
 

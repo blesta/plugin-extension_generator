@@ -477,7 +477,7 @@ class AdminMain extends ExtensionGeneratorController
         return [
             'Text' => Language::_('AdminMain.getfieldtypes.text', true),
             'Textarea' => Language::_('AdminMain.getfieldtypes.textarea', true),
-            'Checkbox' => Language::_('AdminMain.getfieldtypes.checkbox', true)  // TODO, add support for checkboxes
+            'Checkbox' => Language::_('AdminMain.getfieldtypes.checkbox', true)
         ];
     }
 
