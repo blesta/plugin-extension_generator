@@ -108,10 +108,19 @@ class ExtensionFileGenerator
             $data['class_name'] .= 'Plugin';
         }
 
+        // Set a data flag for whether code examples are being included
+        $data['code_examples'] = $this->options['code_examples'] == 1 ? 'true' : 'false';
+
         // Clear and remake the directory for this extension
         $extension_directory = $this->output_dir . $data['snake_case_name'];
         self::deleteDir($extension_directory . DS);
         mkdir($extension_directory);
+
+        // Set new optional function values based on the given data
+        $data['optional_functions'] = array_merge(
+            $data['optional_functions'],
+            $this->getOptionalFunctionValues($data)
+        );
 
         // Parse and output template files
         foreach ($file_paths as $file_settings) {
@@ -172,12 +181,6 @@ class ExtensionFileGenerator
             if (!isset($data['optional_functions'])) {
                 $data['optional_functions'] = [];
             }
-
-            // Set new optional function values based on the given data
-            $data['optional_functions'] = array_merge(
-                $data['optional_functions'],
-                $this->getOptionalFunctionValues($data)
-            );
 
             ##
             # TODO add support for code that is conditional on tag values
@@ -379,8 +382,9 @@ class ExtensionFileGenerator
                 ['path' => 'language' . DS . 'en_us' . DS . 'module.php'],
                 ['path' => 'README.md'],
                 ['path' => 'config.json'],
-                ['path' => 'composer.json'],
+                ['path' => 'composer.json', 'required_by' => ['code_examples']],
                 ['path' => 'module.php'],
+                ['path' => 'config' . DS . 'module.php', 'required_by' => ['code_examples']],
                 ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
                 ['path' => 'views' . DS . 'default' . DS . 'manage.pdt'],
                 [
@@ -431,6 +435,7 @@ class ExtensionFileGenerator
                 'getClientAddFields' => 'service_fields',
                 'getAdminTabs' => 'service_tabs',
                 'getClientTabs' => 'service_tabs',
+                'code_examples' => 'code_examples', // Set this fake optional function to exclude certain files
             ],
             'plugin' => [],
             'gateway' => [],

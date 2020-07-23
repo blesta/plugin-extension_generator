@@ -1,5 +1,5 @@
 <?php
-
+////use Blesta\Core\Util\Validate\Server;
 /**
  * {{name}} Module
  *
@@ -285,6 +285,12 @@ class {{class_name}} extends Module
      */
     private function getRowRules(&$vars)
     {
+////// Defined below are a few common and useful validation functions.  To use them you can change the 'rule' line to
+////// something along the lines of:
+//////                    'rule' => [[$this, 'validateHostName']],
+////// For more information on writing validation rules, see the
+////// docs at https://docs.blesta.com/display/dev/Error+Checking
+////
         $rules = [{{array:module_rows}}
             '{{module_rows.name}}' => [
                 'valid' => [
@@ -295,7 +301,101 @@ class {{class_name}} extends Module
         ];
 
         return $rules;
-    }{{function:addModuleRow}}{{function:getGroupOrderOptions}}
+    }
+////
+////    /**
+////     * Validates that the given hostname is valid.
+////     *
+////     * @param string $host_name The host name to validate
+////     * @return bool True if the hostname is valid, false otherwise
+////     */
+////    public function validateHostName($host_name)
+////    {
+////// Be sure to uncomment the Server use statement at the top of this file if you are going to uncomment this method
+////        $validator = new Server();
+////        return $validator->isDomain($host_name) || $validator->isIp($host_name);
+////    }
+////
+////    /**
+////     * Validates that at least 2 name servers are set in the given array of name servers.
+////     *
+////     * @param array $name_servers An array of name servers
+////     * @return bool True if the array count is >= 2, false otherwise
+////     */
+////    public function validateNameServerCount($name_servers)
+////    {
+////        if (is_array($name_servers) && count($name_servers) >= 2) {
+////            return true;
+////        }
+////
+////        return false;
+////    }
+////
+////    /**
+////     * Validates that the nameservers given are formatted correctly.
+////     *
+////     * @param array $name_servers An array of name servers
+////     * @return bool True if every name server is formatted correctly, false otherwise
+////     */
+////    public function validateNameServers($name_servers)
+////    {
+////// Be sure that you have also uncommented validateHostName() before you uncomment this method
+////        if (is_array($name_servers)) {
+////            foreach ($name_servers as $name_server) {
+////                if (!$this->validateHostName($name_server)) {
+////                    return false;
+////                }
+////            }
+////        }
+////
+////        return true;
+////    }
+////
+////
+////    /**
+////     * Validates whether or not the connection details are valid by attempting to fetch
+////     * the number of accounts that currently reside on the server.
+////     *
+////     * @param string $password The ISPmanager server password
+////     * @param string $hostname The ISPmanager server hostname
+////     * @param string $user_name The ISPmanager server user name
+////     * @param mixed $use_ssl Whether or not to use SSL
+////     * @param int $account_count The number of existing accounts on the server
+////     * @return bool True if the connection is valid, false otherwise
+////     */
+////    public function validateConnection($password, $hostname, $user_name, $use_ssl, &$account_count)
+////    {
+////        try {
+////// Be sure that you've uncommented the getApi() method if you're uncommenting this code
+//////            $api = $this->getApi($hostname, $user_name, $password, $use_ssl);
+////
+////            $params = compact('hostname', 'user_name', 'password', 'use_ssl');
+////            $masked_params = $params;
+////            $masked_params['user_name'] = '***';
+////            $masked_params['password'] = '***';
+////
+////            $this->log($hostname . '|user', serialize($masked_params), 'input', true);
+////
+////            $response = $api->getAccounts();
+////
+////            $success = false;
+////            if (!isset($response->error)) {
+////                $account_count = isset($response->response) ? count($response->response) : 0;
+////                $success = true;
+////            }
+////
+////            $this->log($hostname . '|user', serialize($response), 'output', $success);
+////
+////            if ($success) {
+////                return true;
+////            }
+////        } catch (Exception $e) {
+////            // Trap any errors encountered, could not validate connection
+////        }
+////
+////        return false;
+////    }
+{{function:addModuleRow}}{{function:getGroupOrderOptions}}
 
     /**
      * Returns an array of available service deligation order methods. The module
@@ -364,12 +464,16 @@ class {{class_name}} extends Module
      */
     public function addPackage(array $vars = null)
     {
-////        // Set rules to validate input data
-////        $this->Input->setRules($this->getPackageRules($vars));
-////
+        // Set rules to validate input data
+        $this->Input->setRules($this->getPackageRules($vars));
+
         // Build meta data to return
         $meta = [];
         if ($this->Input->validates($vars)) {
+            if (!isset($vars['meta'] )) {
+                return [];
+            }
+
             // Return all package meta fields
             foreach ($vars['meta'] as $key => $value) {
                 $meta[] = [
@@ -401,12 +505,16 @@ class {{class_name}} extends Module
      */
     public function editPackage($package, array $vars = null)
     {
-////        // Set rules to validate input data
-////        $this->Input->setRules($this->getPackageRules($vars));
-////
+        // Set rules to validate input data
+        $this->Input->setRules($this->getPackageRules($vars));
+
         // Build meta data to return
         $meta = [];
         if ($this->Input->validates($vars)) {
+            if (!isset($vars['meta'] )) {
+                return [];
+            }
+
             // Return all package meta fields
             foreach ($vars['meta'] as $key => $value) {
                 $meta[] = [
@@ -430,29 +538,32 @@ class {{class_name}} extends Module
      */
     public function deletePackage($package)
     {
-    }{{function:deletePackage}}
-{{function:addPackage}}
-////    /**
-////     * Builds and returns rules required to be validated when adding/editing a package.
-////     *
-////     * @param array $vars An array of key/value data pairs
-////     * @return array An array of Input rules suitable for Input::setRules()
-////     */
-////    private function getPackageRules(array $vars)
-////    {
-////        // Validate the package fields
-////        $rules = [{{array:package_fields}}
-////            '{{package_fields.name}}' => [
-////                'valid' => [
-////                    'rule' => true,
-////                    'message' => Language::_('{{class_name}}.!error.{{package_fields.name}}.valid', true)
-////                ]
-////            ],{{array:package_fields}}
-////        ];
+    }{{function:deletePackage}}{{function:addPackage}}
+
+    /**
+     * Builds and returns rules required to be validated when adding/editing a package.
+     *
+     * @param array $vars An array of key/value data pairs
+     * @return array An array of Input rules suitable for Input::setRules()
+     */
+    private function getPackageRules(array $vars)
+    {
+////// For info on writing validation rules, see the
+////// docs at https://docs.blesta.com/display/dev/Error+Checking
 ////
-////        return $rules;
-////    }
-{{function:addPackage}}
+        // Validate the package fields
+        $rules = [{{array:package_fields}}
+            '{{package_fields.name}}' => [
+                'valid' => [
+                    'rule' => true,
+                    'message' => Language::_('{{class_name}}.!error.{{package_fields.name}}.valid', true)
+                ]
+            ],{{array:package_fields}}
+        ];
+
+        return $rules;
+    }{{function:addPackage}}
+
     /**
      * Returns all fields used when adding/editing a package, including any
      * javascript to execute when the page is rendered with these fields.
@@ -465,8 +576,8 @@ class {{class_name}} extends Module
     {
         Loader::loadHelpers($this, ['Html']);
 
-        $fields = new ModuleFields();
-        {{array:package_fields}}
+        $fields = new ModuleFields();{{array:package_fields}}
+
         // Set the {{package_fields.label}} field
         ${{package_fields.name}} = $fields->label(Language::_('{{class_name}}.package_fields.{{package_fields.name}}', true), '{{snake_case_name}}_{{package_fields.name}}');
         ${{package_fields.name}}->attach(
@@ -480,8 +591,8 @@ class {{class_name}} extends Module
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{package_fields.name}}', true));
         ${{package_fields.name}}->attach($tooltip);{{if:package_fields.tooltip}}
-        $fields->setField(${{package_fields.name}});
-        {{array:package_fields}}
+        $fields->setField(${{package_fields.name}});{{array:package_fields}}
+
         return $fields;
     }{{function:addService}}
 
@@ -515,15 +626,25 @@ class {{class_name}} extends Module
         $parent_service = null,
         $status = 'pending'
     ) {
-        $row = $this->getModuleRow();
-
-        if (!$row) {
-            $this->Input->setErrors(
-                ['module_row' => ['missing' => Language::_('{{class_name}}.!error.module_row.missing', true)]]
-            );
-
-            return;
-        }
+////// Modules often load an API object to perform necessary actions on the remote server.  Below is some code
+////// to ensure that we have a module row to connect to the server and to load the API object.  You will want
+////// to replace the parameters being submitted to the method with those relevant for your module.  Uncomment
+////// the getApi() method below and modify the parameters and doc comments
+////        $row = $this->getModuleRow();
+////
+////        if (!$row) {
+////            $this->Input->setErrors(
+////                ['module_row' => ['missing' => Language::_('{{class_name}}.!error.module_row.missing', true)]]
+////            );
+////
+////            return;
+////        }
+////
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////// Modules often find it useful to do some processing and formatting before submitting data to the API.  Uncomment
+////// the getFieldsFromInput() method below and update it to suite your needs.
+////        $params = $this->getFieldsFromInput((array) $vars, $package);
 
         // Set unset checkboxes
         $checkbox_fields = [{{array:service_fields}}{{if:service_fields.type:Checkbox}}'{{service_fields.name}}',{{else}}{{if:service_fields.type}}{{array:service_fields}}];
@@ -534,9 +655,6 @@ class {{class_name}} extends Module
             }
         }
 
-////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
-////
-////        $params = $this->getFieldsFromInput((array) $vars, $package);
 
         $this->validateService($package, $vars);
 
@@ -578,6 +696,26 @@ class {{class_name}} extends Module
      */
     public function editService($package, $service, array $vars = null, $parent_package = null, $parent_service = null)
     {
+////// Modules often load an API object to perform necessary actions on the remote server.  Below is some code
+////// to ensure that we have a module row to connect to the server and to load the API object.  You will want
+////// to replace the parameters being submitted to the method with those relevant for your module.  Uncomment
+////// the getApi() method below and modify the parameters and doc comments
+////        $row = $this->getModuleRow();
+////
+////        if (!$row) {
+////            $this->Input->setErrors(
+////                ['module_row' => ['missing' => Language::_('{{class_name}}.!error.module_row.missing', true)]]
+////            );
+////
+////            return;
+////        }
+////
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////// Modules often find it useful to do some processing and formatting before submitting data to the API.  Uncomment
+////// the getFieldsFromInput() method below and update it to suite your needs.
+////        $params = $this->getFieldsFromInput((array) $vars, $package);
+
         // Set unset checkboxes
         $checkbox_fields = [{{array:service_fields}}{{if:service_fields.type:Checkbox}}'{{service_fields.name}}',{{else}}{{if:service_fields.type}}{{array:service_fields}}];
 
@@ -587,10 +725,6 @@ class {{class_name}} extends Module
             }
         }
 
-////        $row = $this->getModuleRow();
-////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
-////
-////        $params = $this->getFieldsFromInput((array) $vars, $package, true);
         $service_fields = $this->serviceFieldsToObject($service->fields);
 
         $this->validateService($package, $vars, true);
@@ -602,7 +736,6 @@ class {{class_name}} extends Module
         // Only update the service if 'use_module' is true
         if ($vars['use_module'] == 'true') {
         }
-
 
         // Return all the service fields
         $fields = [];
@@ -706,7 +839,7 @@ class {{class_name}} extends Module
      */
     public function cancelService($package, $service, $parent_package = null, $parent_service = null)
     {
-        if (($row = $this->getModuleRow())) {
+////        if (($row = $this->getModuleRow())) {
 ////            $api = $this->getApi(
 ////                $row->meta->host_name,
 ////                $row->meta->user_name,
@@ -715,8 +848,8 @@ class {{class_name}} extends Module
 ////            );
 ////
 ////            $service_fields = $this->serviceFieldsToObject($service->fields);
-        }
-
+////        }
+////
         return null;
     }{{function:cancelService}}{{function:renewService}}
 
@@ -740,15 +873,17 @@ class {{class_name}} extends Module
      */
     public function renewService($package, $service, $parent_package = null, $parent_service = null)
     {
-////        $row = $this->getModuleRow($package->module_row);
-////        $api = $this->getApi(
-////            $row->meta->host_name,
-////            $row->meta->user_name,
-////            $row->meta->password,
-////            ($row->meta->use_ssl == 'true'),
-////            $row->meta->port
-////        );
-
+////        if (($row = $this->getModuleRow())) {
+////            $api = $this->getApi(
+////                $row->meta->host_name,
+////                $row->meta->user_name,
+////                $row->meta->password,
+////                $row->meta->use_ssl
+////            );
+////
+////            $service_fields = $this->serviceFieldsToObject($service->fields);
+////        }
+////
         return null;
     }{{function:renewService}}{{function:addService}}
 
@@ -787,6 +922,9 @@ class {{class_name}} extends Module
      */
     private function getServiceRules(array $vars = null, $edit = false)
     {
+////// For info on writing validation rules, see the
+////// docs at https://docs.blesta.com/display/dev/Error+Checking
+////
         // Validate the service fields
         $rules = [{{array:service_fields}}
             '{{service_fields.name}}' => [
@@ -843,32 +981,28 @@ class {{class_name}} extends Module
 ////                $row->meta->host_name,
 ////                $row->meta->user_name,
 ////                $row->meta->password,
-////                ($row->meta->use_ssl == 'true'),
-////                $row->meta->port
+////                ($row->meta->use_ssl == 'true')
 ////            );
 ////
         }
+
         return null;
     }{{function:changeServicePackage}}{{function:addService}}
 ////
 ////    /**
-////     * Initializes the {{name}} API  and returns an instance of that object with the given $host, $user, and $pass set
+////     * Initializes the {{class_name}}Api and returns an instance of that object.
 ////     *
-////     * @param string $host The host to the {{name}} server
-////     * @param string $user The user to connect as
-////     * @param string $pass The hash-pased password to authenticate with
-////     * @param bool $use_ssl True to use SSL, false otherwise
-////     * @param string $port The port to connect on
+////     * @param string $hostname The {{name}} server hostname
+////     * @param string $user_name The {{name}} server user name
+////     * @param string $password The {{name}} server password
+////     * @param mixed $use_ssl Whether or not to use SSL
 ////     * @return {{class_name}}Api The {{class_name}}Api instance
 ////     */
-////    private function getApi($host, $user, $pass, $use_ssl = false, $port = '2222')
+////    private function getApi($hostname, $user_name, $password, $use_ssl = 'true')
 ////    {
-////        Loader::load(dirname(__FILE__) . DS . 'apis' . DS . '{{snake_case_name}}.php');
+////        Loader::load(dirname(__FILE__) . DS . 'apis' . DS . '{{snake_case_name}}_api.php');
 ////
-////        $api = new {{class_name}}tAdminApi();
-////        $api->setUrl('http' . ($use_ssl ? 's' : '') . '://' . $host, $port);
-////        $api->setUser($user);
-////        $api->setPass($pass);
+////        $api = new {{class_name}}Api($hostname, $user_name, $password, $use_ssl === 'true');
 ////
 ////        return $api;
 ////    }
@@ -1051,6 +1185,16 @@ class {{class_name}} extends Module
         ];
     }{{function:getAdminTabs}}{{array:service_tabs}}
 
+    /**
+     * {{service_tabs.method_name}}
+     *
+     * @param stdClass $package A stdClass object representing the current package
+     * @param stdClass $service A stdClass object representing the current service
+     * @param array $get Any GET parameters
+     * @param array $post Any POST parameters
+     * @param array $files Any FILES parameters
+     * @return string The string representing the contents of this tab
+     */
     public function {{service_tabs.method_name}}(
         $package,
         $service,
@@ -1098,8 +1242,8 @@ class {{class_name}} extends Module
     {
         Loader::loadHelpers($this, ['Html']);
 
-        $fields = new ModuleFields();
-        {{array:service_fields}}
+        $fields = new ModuleFields();{{array:service_fields}}
+
         // Set the {{service_fields.label}} field
         ${{service_fields.name}} = $fields->label(Language::_('{{class_name}}.service_fields.{{service_fields.name}}', true), '{{snake_case_name}}_{{service_fields.name}}');
         ${{service_fields.name}}->attach(
@@ -1113,8 +1257,8 @@ class {{class_name}} extends Module
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{service_fields.name}}', true));
         ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
-        $fields->setField(${{service_fields.name}});
-        {{array:service_fields}}
+        $fields->setField(${{service_fields.name}});{{array:service_fields}}
+
         return $fields;
     }
 
@@ -1130,8 +1274,8 @@ class {{class_name}} extends Module
     {
         Loader::loadHelpers($this, ['Html']);
 
-        $fields = new ModuleFields();
-        {{array:service_fields}}
+        $fields = new ModuleFields();{{array:service_fields}}
+
         // Set the {{service_fields.label}} field
         ${{service_fields.name}} = $fields->label(Language::_('{{class_name}}.service_fields.{{service_fields.name}}', true), '{{snake_case_name}}_{{service_fields.name}}');
         ${{service_fields.name}}->attach(
@@ -1145,8 +1289,8 @@ class {{class_name}} extends Module
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{service_fields.name}}', true));
         ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
-        $fields->setField(${{service_fields.name}});
-        {{array:service_fields}}
+        $fields->setField(${{service_fields.name}});{{array:service_fields}}
+
         return $fields;
     }
 
@@ -1162,8 +1306,8 @@ class {{class_name}} extends Module
     {
         Loader::loadHelpers($this, ['Html']);
 
-        $fields = new ModuleFields();
-        {{array:service_fields}}
+        $fields = new ModuleFields();{{array:service_fields}}
+
         // Set the {{service_fields.label}} field
         ${{service_fields.name}} = $fields->label(Language::_('{{class_name}}.service_fields.{{service_fields.name}}', true), '{{snake_case_name}}_{{service_fields.name}}');
         ${{service_fields.name}}->attach(
@@ -1177,8 +1321,8 @@ class {{class_name}} extends Module
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{service_fields.name}}', true));
         ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
-        $fields->setField(${{service_fields.name}});
-        {{array:service_fields}}
+        $fields->setField(${{service_fields.name}});{{array:service_fields}}
+
         return $fields;
     }
 
@@ -1194,8 +1338,8 @@ class {{class_name}} extends Module
     {
         Loader::loadHelpers($this, ['Html']);
 
-        $fields = new ModuleFields();
-        {{array:service_fields}}
+        $fields = new ModuleFields();{{array:service_fields}}
+
         // Set the {{service_fields.label}} field
         ${{service_fields.name}} = $fields->label(Language::_('{{class_name}}.service_fields.{{service_fields.name}}', true), '{{snake_case_name}}_{{service_fields.name}}');
         ${{service_fields.name}}->attach(
@@ -1209,8 +1353,8 @@ class {{class_name}} extends Module
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{service_fields.name}}', true));
         ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
-        $fields->setField(${{service_fields.name}});
-        {{array:service_fields}}
+        $fields->setField(${{service_fields.name}});{{array:service_fields}}
+
         return $fields;
     }{{function:addCronTasks}}
 

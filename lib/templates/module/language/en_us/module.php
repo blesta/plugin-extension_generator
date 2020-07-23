@@ -41,11 +41,25 @@ $lang['{{class_name}}.order_options.first'] = 'First Non-full Server';
 
 // Add row
 $lang['{{class_name}}.add_row.box_title'] = '{{name}} - Add {{module_row}}';
+////$lang['{{class_name}}.add_row.name_servers_title'] = 'Name Servers';
+////$lang['{{class_name}}.add_row.notes_title'] = 'Notes';
+////$lang['{{class_name}}.add_row.name_server_btn'] = 'Add Additional Name Server';
+////$lang['{{class_name}}.add_row.name_server_col'] = 'Name Server';
+////$lang['{{class_name}}.add_row.name_server_host_col'] = 'Hostname';
+////$lang['{{class_name}}.add_row.name_server'] = 'Name server %1$s'; // %1$s is the name server number (e.g. 3)
+////$lang['{{class_name}}.add_row.remove_name_server'] = 'Remove';
 $lang['{{class_name}}.add_row.add_btn'] = 'Add {{module_row}}';
 
 
 // Edit row
 $lang['{{class_name}}.edit_row.box_title'] = '{{name}} - Edit {{module_row}}';
+////$lang['{{class_name}}.edit_row.name_servers_title'] = 'Name Servers';
+////$lang['{{class_name}}.edit_row.notes_title'] = 'Notes';
+////$lang['{{class_name}}.edit_row.name_server_btn'] = 'Add Additional Name Server';
+////$lang['{{class_name}}.edit_row.name_server_col'] = 'Name Server';
+////$lang['{{class_name}}.edit_row.name_server_host_col'] = 'Hostname';
+////$lang['{{class_name}}.edit_row.name_server'] = 'Name server %1$s'; // %1$s is the name server number (e.g. 3)
+////$lang['{{class_name}}.edit_row.remove_name_server'] = 'Remove';
 $lang['{{class_name}}.edit_row.edit_btn'] = 'Update {{module_row}}';
 
 
@@ -69,6 +83,7 @@ $lang['{{class_name}}.{{service_tabs.method_name}}.submit'] = 'Submit';{{array:s
 
 // Service info{{array:service_fields}}
 $lang['{{class_name}}.service_info.{{service_fields.name}}'] = '{{service_fields.label}}';{{array:service_fields}}
+////// These are the definitions for if you are trying to include a login link in the service info pages
 ////$lang['{{class_name}}.service_info.options'] = 'Options';
 ////$lang['{{class_name}}.service_info.option_login'] = 'Login';
 

@@ -7,15 +7,15 @@
             <td></td>{{array:service_fields}}
             <td><?php $this->Html->_($service_fields->{{service_fields.name}}); ?></td>{{array:service_fields}}
         </tr>
-    </table>
-<?php
-//// // Modules will often use this location to show a login link (either a link to the login page or one that automatically logs the user in)
-//// // To do so add the following td to the end of the "heading_row" tr
+    </table>{{if:code_examples:true}}<?php{{else}}{{if:code_examples}}
+////
+////// Modules will often use this location to show a login link (either a link to the login page or one that automatically logs the user in)
+////// To do so add the following td to the end of the "heading_row" tr
 ////?><!--
 ////            <td class="last"><?php $this->_('{{class_name}}.service_info.options');?></td>
 //// --><?php
 ////
-//// // And add this row to the end of the other tr
+////// And add this row to the end of the other tr
 ////?><!--
 ////            <td>
 ////                <?php
@@ -28,5 +28,5 @@
 ////            </td>
 ////--><?php
 ////
-//// // Be sure to visit the {{snake_case_name}}.php language file to uncomment the language definitions for these rows
+////// Be sure to visit the {{snake_case_name}}.php language file to uncomment the language definitions for these rows
 
