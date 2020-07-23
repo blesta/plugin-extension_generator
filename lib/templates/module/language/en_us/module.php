@@ -69,7 +69,8 @@ $lang['{{class_name}}.{{service_tabs.method_name}}.submit'] = 'Submit';{{array:s
 
 // Service info{{array:service_fields}}
 $lang['{{class_name}}.service_info.{{service_fields.name}}'] = '{{service_fields.label}}';{{array:service_fields}}
-
+////$lang['{{class_name}}.service_info.options'] = 'Options';
+////$lang['{{class_name}}.service_info.option_login'] = 'Login';
 
 // Service Fields{{array:service_fields}}
 $lang['{{class_name}}.service_fields.{{service_fields.name}}'] = '{{service_fields.label}}';{{array:service_fields}}
