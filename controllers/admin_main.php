@@ -62,6 +62,33 @@ class AdminMain extends ExtensionGeneratorController
     }
 
     /**
+     * Delete extension
+     */
+    public function delete()
+    {
+        // Redirect if invalid extension ID given
+        if (!isset($this->post['id'])
+            || !($extension = $this->ExtensionGeneratorExtensions->get((int) $this->post['id']))
+            || ($extension->company_id != $this->company_id)
+        ) {
+            $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
+        }
+
+        // Attempt to delete the extension
+        $this->ExtensionGeneratorExtensions->delete($extension->id);
+
+        if (($errors = $this->ExtensionGeneratorExtensions->errors())) {
+            // Error
+            $this->flashMessage('error', $errors);
+        } else {
+            // Success
+            $this->flashMessage('message', Language::_('AdminMain.!success.package_deleted', true));
+        }
+
+        $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
+    }
+
+    /**
      * Returns the view to be rendered when configuring the general settings for an extension
      */
     public function general()
