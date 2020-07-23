@@ -88,7 +88,7 @@ class ExtensionFileGenerator
     }
 
     /**
-     * Parse and generate new files
+     * Parse and generate the extension files. This is where the science happens.
      */
     public function parseAndOutput()
     {
@@ -108,10 +108,19 @@ class ExtensionFileGenerator
             $data['class_name'] .= 'Plugin';
         }
 
+        // Set a data flag for whether code examples are being included
+        $data['code_examples'] = $this->options['code_examples'];
+
         // Clear and remake the directory for this extension
         $extension_directory = $this->output_dir . $data['snake_case_name'];
         self::deleteDir($extension_directory . DS);
         mkdir($extension_directory);
+
+        // Set new optional function values based on the given data
+        $data['optional_functions'] = array_merge(
+            isset($data['optional_functions']) ? $data['optional_functions'] : [],
+            $this->getOptionalFunctionValues($data)
+        );
 
         // Parse and output template files
         foreach ($file_paths as $file_settings) {
@@ -131,8 +140,8 @@ class ExtensionFileGenerator
             $file_path_parts = explode(DS, $file_path);
             $temp_path = '';
             for ($i = 0; $i < count($file_path_parts) - 1; $i++) {
-                $temp_path .= $file_path_parts[$i];
-                if (!is_dir($temp_path)) {
+                $temp_path .= DS . $file_path_parts[$i];
+                if (!is_dir($extension_directory . DS . $temp_path)) {
                     mkdir($extension_directory . DS . $temp_path);
                 }
             }
@@ -144,7 +153,7 @@ class ExtensionFileGenerator
 
             // Remove code examples if set to do so
             if (!$this->options['code_examples']) {
-                $content = preg_replace('/' . $this->code_comment_marker . '.*/', '', $content);
+                $content = preg_replace('/' . $this->code_comment_marker . '.*[\r\n|\n]/', '', $content);
             }
 
             // Replace content tags
@@ -152,9 +161,18 @@ class ExtensionFileGenerator
 
             // Remove any remaining array tags
             $content = preg_replace(
-                '/' . $this->tag_start . 'array\:.*' . $this->tag_end
-                    . '[\d\D]*'
-                    . $this->tag_start . 'array\:.*' . $this->tag_end . '/',
+                '/' . $this->tag_start . 'array\:.*?' . $this->tag_end
+                    . '[\d\D]*?'
+                    . $this->tag_start . 'array\:.*?' . $this->tag_end . '/',
+                '',
+                $content
+            );
+
+            // Remove any remaining conditional tags
+            $content = preg_replace(
+                '/' . $this->tag_start . 'if\:.*?' . $this->tag_end
+                    . '[\d\D]*?'
+                    . $this->tag_start . 'if\:.*?' . $this->tag_end . '/',
                 '',
                 $content
             );
@@ -164,12 +182,6 @@ class ExtensionFileGenerator
                 $data['optional_functions'] = [];
             }
 
-            // Set new optional function values based on the given data
-            $data['optional_functions'] = array_merge(
-                $data['optional_functions'],
-                $this->getOptionalFunctionValues($data)
-            );
-
             // Replace content tags
             $content = $this->filterOptionalFunctions($content, $data['optional_functions']);
 
@@ -178,6 +190,20 @@ class ExtensionFileGenerator
 
             // Output the parsed contents
             file_put_contents($extension_directory . DS . $file_path, $content);
+        }
+
+        // Update the logo with the uploaded image
+        if (isset($data['logo_path'])) {
+            $path_parts = ['views', 'default','images'];
+            $temp_path = $extension_directory;
+            foreach ($path_parts as $path_part) {
+                $temp_path .= DS . $path_part;
+                if (!is_dir($temp_path)) {
+                    mkdir($temp_path);
+                }
+            }
+
+            copy($data['logo_path'], $temp_path . DS . 'logo.png');
         }
 
         // Rename generically named files to be specific to this extension
@@ -205,8 +231,12 @@ class ExtensionFileGenerator
             } else {
                 $replacement_tags[$tag_start . $parent_tag . $replacement_tag . $tag_end] = $replacement_value;
             }
+
             unset($replacement_tags[$replacement_tag]);
         }
+
+        // Parse content condtitionally based on the value of tags
+        $content = $this->replaceConditionalTags($content, $replacement_tags);
 
         // Replace all tags for scalar values
         $content = str_replace(
@@ -247,8 +277,8 @@ class ExtensionFileGenerator
                     }
                 }
 
-                // Remove the array tag from arround the content
-                $matched_content = str_replace($wrapped_array_tag, '', $matched_content);
+                // Remove the array tag from around the content
+                $matched_content = rtrim(str_replace($wrapped_array_tag, '', $matched_content), ',');
 
                 // Replace the matched content with the new, tag replaced content
                 $content = str_replace($match, $matched_content, $content);
@@ -256,6 +286,47 @@ class ExtensionFileGenerator
         }
 
         return $content;
+    }
+
+    /**
+     * Replaces conditional tags in the given content
+     *
+     * @param string $content The content in which to replace tags
+     * @param array $replacement_tags A list of tags and values to search for and replace
+     * @return string The content with tags replaced
+     */
+    private function replaceConditionalTags($content, array $replacement_tags)
+    {
+        // Created a list of strings that match the conditional pattern, and the value to replace them with
+        $match_replacements = [];
+        foreach ($replacement_tags as $replacement_tag => $replacement_value) {
+            // Remove any tag delimiters
+            $trimmed_tag = rtrim(ltrim($replacement_tag, $this->tag_start), $this->tag_end);
+
+            // {{if:tag:value}}true_text{{else}}false_text{{if:tag}}
+            $pattern = '/' . $this->tag_start . 'if:' . $trimmed_tag . ':(.*?)' . $this->tag_end
+                . '([\d\D]*?)' . $this->tag_start . 'else' . $this->tag_end
+                . '([\d\D]*?)' . $this->tag_start . 'if:' . $trimmed_tag . $this->tag_end . '/';
+
+            if (preg_match_all($pattern, $content, $matches) && count($matches) !== 0) {
+                foreach ($matches[0] as $index => $match) {
+                    // Set variables to make the role of each match more clear
+                    $comparaison_value = $matches[1][$index];
+                    $true_text = $matches[2][$index];
+                    $false_text = $matches[3][$index];
+
+                    // If the tag value equals the parsed comparison value, use the parse text for the true case,
+                    // else use the parsed text for the false calse
+                    $match_replacements[$match] = $replacement_value == $comparaison_value
+                        ? $replacement_tags[$trimmed_tag] = $true_text
+                        : $replacement_tags[$trimmed_tag] = $false_text;
+                }
+            }
+
+            unset($replacement_tags[$replacement_tag]);
+        }
+
+        return str_replace(array_keys($match_replacements), array_values($match_replacements), $content);
     }
 
     /**
@@ -303,10 +374,32 @@ class ExtensionFileGenerator
     private function getFileList()
     {
         $file_path_list = [
-            'module' => [['path' => 'module.php'], ['path' => 'folder' . DS . 'file.php']],
+            'module' => [
+                ['path' => 'language' . DS . 'en_us' . DS . 'module.php'],
+                ['path' => 'README.md'],
+                ['path' => 'config.json'],
+                ['path' => 'composer.json', 'required_by' => ['code_examples']],
+                ['path' => 'module.php'],
+                ['path' => 'config' . DS . 'module.php', 'required_by' => ['code_examples']],
+                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
+                ['path' => 'views' . DS . 'default' . DS . 'manage.pdt'],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'client_service_info.pdt',
+                    'required_by' => ['getClientServiceInfo']
+                ],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'admin_service_info.pdt',
+                    'required_by' => ['getAdminServiceInfo']
+                ],
+                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
+                ['path' => 'views' . DS . 'default' . DS . 'add_row.pdt', 'required_by' => ['module_rows']],
+                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
+                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'required_by' => ['service_tabs']],
+            ],
             'plugin' => [],
             'gateway' => [],
         ];
+
         return $file_path_list[$this->extension_type];
     }
 
@@ -338,6 +431,7 @@ class ExtensionFileGenerator
                 'getClientAddFields' => 'service_fields',
                 'getAdminTabs' => 'service_tabs',
                 'getClientTabs' => 'service_tabs',
+                'code_examples' => 'code_examples', // Set this fake optional function to exclude certain files
             ],
             'plugin' => [],
             'gateway' => [],

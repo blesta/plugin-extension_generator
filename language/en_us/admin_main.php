@@ -2,6 +2,7 @@
 
 // Error messages
 $lang['AdminMain.!error.generation_failed'] = 'Unable to generate your extension.  Exception generated: %1$s'; // Where %1$s is the exeption message
+$lang['AdminMain.!error.logo_upload_failed'] = 'Unable to generate your extension.  Exception generated: %1$s'; // Where %1$s is the exeption message
 
 
 // Success messages
@@ -47,8 +48,10 @@ $lang['AdminMain.getoptionalfunctions.tooltip_editPackage'] = 'Performs any acti
 $lang['AdminMain.getoptionalfunctions.tooltip_deletePackage'] = 'Deletes the package on the remote server. Sets Input errors on failure, preventing the package from being deleted.';
 $lang['AdminMain.getoptionalfunctions.tooltip_addModuleRow'] = 'Adds the module row on the remote server. Sets Input errors on failure, preventing the row from being added.';
 $lang['AdminMain.getoptionalfunctions.tooltip_editModuleRow'] = 'Edits the module row on the remote server. Sets Input errors on failure, preventing the row from being updated.';
+$lang['AdminMain.getoptionalfunctions.tooltip_deleteModuleRow'] = 'Deletes the module row on the remote server. Sets Input errors on failure, preventing the row from being deleted.';
 $lang['AdminMain.getoptionalfunctions.tooltip_manageAddRow'] = 'Returns the rendered view of the add module row page';
 $lang['AdminMain.getoptionalfunctions.tooltip_manageEditRow'] = 'Returns the rendered view of the edit module row page';
+$lang['AdminMain.getoptionalfunctions.tooltip_upgrade'] = 'Performs migration of data from $current_version (the current installed version) to the given file set version. Sets Input errors on failure, preventing the module from being upgraded.';
 $lang['AdminMain.getoptionalfunctions.tooltip_getGroupOrderOptions'] = 'Returns an array of available service delegation order methods. The module will determine how each method is defined. For example, the method "first" may be implemented such that it returns the module row with the least number of services assigned to it.';
 $lang['AdminMain.getoptionalfunctions.tooltip_selectModuleRow'] = 'Determines which module row should be attempted when a service is provisioned for the given group based upon the order method set for that group.';
 $lang['AdminMain.getoptionalfunctions.tooltip_getAdminServiceInfo'] = 'Fetches the HTML content to display when viewing the service info in the admin interface.';
@@ -79,19 +82,16 @@ $lang['AdminMain.index.extensions_no_results'] = 'There are no extensions at thi
 $lang['AdminMain.general.heading_general_settings'] = 'General Settings';
 
 $lang['AdminMain.general.name'] = 'Name';
-$lang['AdminMain.general.extension_type'] = 'Extension Type';
+$lang['AdminMain.general.type'] = 'Extension Type';
 $lang['AdminMain.general.form_type'] = 'Form Type';
-$lang['AdminMain.general.lang_code'] = 'Language Code';
 $lang['AdminMain.general.code_examples'] = 'Include Example Code';
 $lang['AdminMain.general.basic_info'] = 'Next - Basic Info';
 
 $lang['AdminMain.general.tooltip_name'] = 'The display name of the extension';
 $lang['AdminMain.general.tooltip_form_type'] = 'Basic to use a highly truncated version of the extension form, including only the minimum necessary to generate the extension.';
 $lang['AdminMain.general.tooltip_code_examples'] = 'Check to include commented out lines of sample code for features such as Cron Tasks, Event lists and tie-ins, etc.';
-$lang['AdminMain.general.tooltip_lang_code'] = 'The language code to generate language files for in ISO 639-1 ISO 3166-1 alpha-2 concatenated format (e.g. "en_us")';
 
 $lang['AdminMain.general.placeholder_name'] = 'Extension Name';
-$lang['AdminMain.general.placeholder_lang_code'] = 'e.g. en_us';
 
 
 // Basic info page
@@ -102,6 +102,7 @@ $lang['AdminMain.modulebasic.description'] = 'Description';
 $lang['AdminMain.modulebasic.logo'] = 'Logo';
 $lang['AdminMain.modulebasic.module_row'] = 'Module Row Name';
 $lang['AdminMain.modulebasic.module_row_plural'] = 'Module Row Name (Plural)';
+$lang['AdminMain.modulebasic.module_group'] = 'Module Group Label';
 $lang['AdminMain.modulebasic.author_name'] = 'Author Name';
 $lang['AdminMain.modulebasic.author_url'] = 'Author URL';
 $lang['AdminMain.modulebasic.text_options'] = 'Options';
@@ -112,9 +113,11 @@ $lang['AdminMain.modulebasic.tooltip_module_description'] = 'The description sho
 $lang['AdminMain.modulebasic.tooltip_module_logo'] = 'The logo displayed in the module listing';
 $lang['AdminMain.modulebasic.tooltip_module_row'] = 'The term by which to refer to a single module row for this module';
 $lang['AdminMain.modulebasic.tooltip_module_row_plural'] = 'The term by which to refer to multiple module rows for this module';
+$lang['AdminMain.modulebasic.tooltip_module_group'] = 'The term by which to refer to module row groups for this module';
 
 $lang['AdminMain.modulebasic.placeholder_module_row'] = 'e.g. Server';
 $lang['AdminMain.modulebasic.placeholder_module_row_plural'] = 'e.g. Servers';
+$lang['AdminMain.modulebasic.placeholder_module_group'] = 'e.g. Server Group';
 $lang['AdminMain.modulebasic.placeholder_author_name'] = 'e.g. Blesta';
 $lang['AdminMain.modulebasic.placeholder_author_url'] = 'e.g. https://blesta.com/';
 
@@ -131,6 +134,7 @@ $lang['AdminMain.modulefields.name'] = 'Name';
 $lang['AdminMain.modulefields.label'] = 'Label';
 $lang['AdminMain.modulefields.type'] = 'Type';
 $lang['AdminMain.modulefields.tooltip'] = 'Tooltip Text';
+$lang['AdminMain.modulefields.name_key'] = 'Name Key';
 
 $lang['AdminMain.modulefields.module_row_add'] = 'Add Module Row Field';
 $lang['AdminMain.modulefields.package_row_add'] = 'Add Package Field';

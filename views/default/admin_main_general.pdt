@@ -40,13 +40,6 @@
                     </li>
                     <li>
                         <?php
-                        $this->Form->label($this->_('AdminMain.general.lang_code', true), 'lang_code');
-                        $this->Form->fieldText('lang_code', $this->Html->ifSet($vars->lang_code), ['id' => 'lang_code', 'placeholder' => $this->_('AdminMain.general.placeholder_lang_code', true)]);
-                        ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_lang_code');?></div></span>
-                    </li>
-                    <li>
-                        <?php
                         $this->Form->fieldCheckbox('code_examples', '1', $this->Html->ifSet($vars->code_examples, '1') == '1', ['class' => 'inline', 'id' => 'code_examples']);
                         $this->Form->label($this->_('AdminMain.general.code_examples', true), 'code_examples', ['class' => 'inline']);
                         ?>

@@ -35,12 +35,18 @@ class ExtensionGeneratorPlugin extends Plugin
                 setField('type', ['type' => 'enum', 'size' => "'module','plugin','gateway'", 'default' => 'module'])->
                 setField('form_type', ['type' => 'enum', 'size' => "'basic','advanced'", 'default' => 'basic'])->
                 setField('code_examples', ['type' => 'tinyint', 'size' => 1, 'default' => 0])->
-                setField('lang_code', ['type' => 'char', 'size' => 5])->
                 setField('data', ['type' => 'text', 'is_null' => true, 'default' => null])->
                 setField('date_updated', ['type' => 'datetime'])->
                 setKey(['id'], 'primary')->
                 setKey(['company_id'], 'index')->
                 create('extension_generator_extensions', true);
+
+            // Set the uploads directory
+            Loader::loadComponents($this, ['SettingsCollection', 'Upload']);
+            $temp = $this->SettingsCollection->fetchSetting(null, Configure::get('Blesta.company_id'), 'uploads_dir');
+            $upload_path = $temp['value'] . Configure::get('Blesta.company_id') . DS . 'extension_generator' . DS;
+            // Create the upload path if it doesn't already exist
+            $this->Upload->createUploadPath($upload_path, 0777);
         } catch (Exception $e) {
             // Error adding... no permission?
             $this->Input->setErrors(['db' => ['create' => $e->getMessage()]]);

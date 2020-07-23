@@ -7,7 +7,7 @@
 
         echo $this->Html->ifSet($progress_bar);
 
-        $this->Form->create();
+        $this->Form->create(null, ['id' => 'modulebasic', 'enctype' => 'multipart/form-data']);
         ?>
         <div class="inner">
             <div class="title_row first"><h3><?php $this->_('AdminMain.modulebasic.heading_module_basic');?></h3></div>
@@ -42,6 +42,13 @@
                         $this->Form->fieldText('module_row_plural', $this->Html->ifSet($vars['module_row_plural']), ['id' => 'module_row_plural', 'placeholder' => $this->_('AdminMain.modulebasic.placeholder_module_row_plural', true)]);
                         ?>
                         <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.modulebasic.tooltip_module_row_plural');?></div></span>
+                    </li>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('AdminMain.modulebasic.module_group', true), 'module_group');
+                        $this->Form->fieldText('module_group', $this->Html->ifSet($vars['module_group']), ['id' => 'module_group', 'placeholder' => $this->_('AdminMain.modulebasic.placeholder_module_group', true)]);
+                        ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.modulebasic.tooltip_module_group');?></div></span>
                     </li>
                 </ul>
             </div>

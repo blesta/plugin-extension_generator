@@ -135,8 +135,62 @@ class AdminMain extends ExtensionGeneratorController
             $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
         }
 
-        // Perform edit/redirect or error/set vars
-        $vars = $this->processStep('modulebasic', $extension);
+        if (!isset($this->SettingsCollection)) {
+            Loader::loadComponents($this, ['SettingsCollection', 'Upload']);
+        }
+        if (!isset($this->Upload)) {
+            Loader::loadComponents($this, ['Upload']);
+        }
+
+        // Handle logo upload
+        $errors = null;
+        if (!empty($this->files['logo'])) {
+            // Set the uploads directory
+            $temp = $this->SettingsCollection->fetchSetting(
+                null,
+                Configure::get('Blesta.company_id'),
+                'uploads_dir'
+            );
+            $upload_path = $temp['value'] . Configure::get('Blesta.company_id') . DS . 'extension_generator' . DS;
+
+            $this->Upload->setFiles($this->files);
+            $this->Upload->setUploadPath($upload_path);
+            $file_name = $extension->id . '_' . $this->files['logo']['name'];
+
+            if (!($errors = $this->Upload->errors())) {
+                @unlink($upload_path . $file_name);
+
+                $this->Upload->writeFile('logo', false, $file_name);
+                $data = $this->Upload->getUploadData();
+
+                // Set the file name of the file that was uploaded
+                if (isset($data['logo']['full_path'])) {
+                    $this->post['logo_path'] = $data['logo']['full_path'];
+                }
+
+                $errors = $this->Upload->errors();
+            }
+
+            // Error, could not upload the file
+            if ($errors) {
+                // Attempt to remove the file if it was somehow written
+                @unlink($upload_path . $file_name);
+            } elseif (isset($extension->data['logo_path'])
+                && $extension->data['logo_path'] != $this->post['logo_path']
+            ) {
+                // Remove the old logo file
+                @unlink($extension->data['logo_path']);
+            }
+        }
+
+        if (!$errors) {
+            // Perform edit/redirect or error/set vars
+            $vars = $this->processStep('modulebasic', $extension);
+        } else {
+            $vars = $this->post;
+
+            $this->setMessage('error', $errors, false, null, false);
+        }
 
         // Set the view to render for all actions under this controller
         $this->set('form_type', $extension->form_type);
@@ -167,18 +221,30 @@ class AdminMain extends ExtensionGeneratorController
             $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
         }
 
-        // Set empty array inputs
         if (!empty($this->post)) {
-            if (!isset($this->post['module_rows'])) {
-                $this->post['module_rows'] = [];
-            }
+            $array_fields = ['module_rows', 'package_fields', 'service_fields'];
+            foreach ($array_fields as $array_field) {
+                if (!isset($this->post[$array_field])) {
+                    // Set empty array inputs
+                    $this->post[$array_field] = [];
+                } else {
+                    // Get the index of the record that should be marked as the name key
+                    $key_index = isset($this->post[$array_field]['name_key'])
+                        ? $this->post[$array_field]['name_key']
+                        : 0;
 
-            if (!isset($this->post['package_fields'])) {
-                $this->post['package_fields'] = [];
-            }
+                    // Mark all records as NOT the name key
+                    $this->post[$array_field]['name_key'] = array_fill(
+                        0,
+                        count($this->post[$array_field]['name']),
+                        'false'
+                    );
 
-            if (!isset($this->post['service_fields'])) {
-                $this->post['service_fields'] = [];
+                    // Mark the given record as the name key
+                    if (isset($this->post[$array_field]['name_key'][$key_index])) {
+                        $this->post[$array_field]['name_key'][$key_index] = 'true';
+                    }
+                }
             }
         }
 
@@ -409,9 +475,9 @@ class AdminMain extends ExtensionGeneratorController
     private function getFieldTypes()
     {
         return [
-            'text' => Language::_('AdminMain.getfieldtypes.text', true),
-            'textarea' => Language::_('AdminMain.getfieldtypes.textarea', true),
-            'checkbox' => Language::_('AdminMain.getfieldtypes.checkbox', true)
+            'Text' => Language::_('AdminMain.getfieldtypes.text', true),
+            'Textarea' => Language::_('AdminMain.getfieldtypes.textarea', true),
+            'Checkbox' => Language::_('AdminMain.getfieldtypes.checkbox', true)
         ];
     }
 
@@ -449,6 +515,7 @@ class AdminMain extends ExtensionGeneratorController
     private function getOptionalFunctions()
     {
         $functions = [
+            'upgrade' => ['enabled' => 'true'],
             'cancelService' => ['enabled' => 'true'],
             'suspendService' => ['enabled' => 'true'],
             'unsuspendService' => ['enabled' => 'true'],
@@ -458,8 +525,7 @@ class AdminMain extends ExtensionGeneratorController
             'deletePackage' => ['enabled' => 'true'],
             'addModuleRow' => ['enabled' => 'true'],
             'editModuleRow' => ['enabled' => 'true'],
-            'manageAddRow' => ['enabled' => 'true'],
-            'manageEditRow' => ['enabled' => 'true'],
+            'deleteModuleRow' => ['enabled' => 'false'],
             'getGroupOrderOptions' => ['enabled' => 'false'],
             'selectModuleRow' => ['enabled' => 'false'],
             'getAdminServiceInfo' => ['enabled' => 'false'],
