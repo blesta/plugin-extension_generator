@@ -142,6 +142,10 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      */
     public function delete($extension_id)
     {
+        $extension = $this->get($extension_id);
+        if ($extension && isset($extension->data['logo_name'])) {
+            @unlink($extension->data['logo_name']);
+        }
         // Delete an extension and their associated records
         $this->getExtension(['extension_id' => $extension_id])->delete();
     }

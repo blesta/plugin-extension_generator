@@ -265,7 +265,17 @@ class {{class_name}} extends Module
 
             return $meta;
         }
-    }{{function:editModuleRow}}{{function:addModuleRow}}
+    }{{function:editModuleRow}}{{function:deleteModuleRow}}
+
+    /**
+     * Deletes the module row on the remote server. Sets Input errors on failure,
+     * preventing the row from being deleted.
+     *
+     * @param stdClass $module_row The stdClass representation of the existing module row
+     */
+    public function deleteModuleRow($module_row)
+    {
+    }{{function:deleteModuleRow}}{{function:addModuleRow}}
 
     /**
      * Builds and returns the rules required to add/edit a module row (e.g. server).
@@ -285,196 +295,195 @@ class {{class_name}} extends Module
         ];
 
         return $rules;
-    }{{function:addModuleRow}}{{function:getAdminServiceInfo}}
+    }{{function:addModuleRow}}{{function:getGroupOrderOptions}}
 
     /**
-     * Fetches the HTML content to display when viewing the service info in the
-     * admin interface.
+     * Returns an array of available service deligation order methods. The module
+     * will determine how each method is defined. For example, the method "first"
+     * may be implemented such that it returns the module row with the least number
+     * of services assigned to it.
      *
-     * @param stdClass $service A stdClass object representing the service
-     * @param stdClass $package A stdClass object representing the service's package
-     * @return string HTML content containing information to display when viewing the service info
+     * @return array An array of order methods in key/value paris where the key is the
+     *  type to be stored for the group and value is the name for that option
+     * @see Module::selectModuleRow()
      */
-    public function getAdminServiceInfo($service, $package)
+    public function getGroupOrderOptions()
     {
-        $row = $this->getModuleRow();
-
-        // Load the view into this object, so helpers can be automatically added to the view
-        $this->view = new View('admin_service_info', 'default');
-        $this->view->base_uri = $this->base_uri;
-        $this->view->setDefaultView('components' . DS . 'modules' . DS . '{{snake_case_name}}' . DS);
-
-        // Load the helpers required for this view
-        Loader::loadHelpers($this, ['Form', 'Html']);
-
-        $this->view->set('module_row', $row);
-        $this->view->set('package', $package);
-        $this->view->set('service', $service);
-        $this->view->set('service_fields', $this->serviceFieldsToObject($service->fields));
-
-        return $this->view->fetch();
-    }{{function:getAdminServiceInfo}}{{function:getClientServiceInfo}}
+        return [
+            'roundrobin' => Language::_('{{class_name}}.order_options.roundrobin', true),
+            'first' => Language::_('{{class_name}}.order_options.first', true)
+        ];
+    }{{function:getGroupOrderOptions}}{{function:selectModuleRow}}
 
     /**
-     * Fetches the HTML content to display when viewing the service info in the
-     * client interface.
+     * Determines which module row should be attempted when a service is provisioned
+     * for the given group based upon the order method set for that group.
      *
-     * @param stdClass $service A stdClass object representing the service
-     * @param stdClass $package A stdClass object representing the service's package
-     * @return string HTML content containing information to display when viewing the service info
+     * @return int The module row ID to attempt to add the service with
+     * @see Module::getGroupOrderOptions()
      */
-    public function getClientServiceInfo($service, $package)
+    public function selectModuleRow($module_group_id)
     {
-        $row = $this->getModuleRow();
+        if (!isset($this->ModuleManager)) {
+            Loader::loadModels($this, ['ModuleManager']);
+        }
 
-        // Load the view into this object, so helpers can be automatically added to the view
-        $this->view = new View('client_service_info', 'default');
-        $this->view->base_uri = $this->base_uri;
-        $this->view->setDefaultView('components' . DS . 'modules' . DS . '{{snake_case_name}}' . DS);
+        $group = $this->ModuleManager->getGroup($module_group_id);
 
-        // Load the helpers required for this view
-        Loader::loadHelpers($this, ['Form', 'Html']);
-
-        $this->view->set('module_row', $row);
-        $this->view->set('package', $package);
-        $this->view->set('service', $service);
-        $this->view->set('service_fields', $this->serviceFieldsToObject($service->fields));
-
-        return $this->view->fetch();
-    }{{function:getClientServiceInfo}}{{function:getClientTabs}}
+        if ($group) {
+            switch ($group->add_order) {
+                default:
+                case 'first':
+////
+////                    foreach ($group->rows as $row) {
+////                        return $row->id;
+////                    }
+////
+                    break;
+                case 'roundrobin':
+                    break;
+            }
+        }
+        return 0;
+    }{{function:selectModuleRow}}{{function:addPackage}}
 
     /**
-     * Returns all tabs to display to a client when managing a service whose
-     * package uses this module
+     * Validates input data when attempting to add a package, returns the meta
+     * data to save when adding a package. Performs any action required to add
+     * the package on the remote server. Sets Input errors on failure,
+     * preventing the package from being added.
+     *
+     * @param array An array of key/value pairs used to add the package
+     * @return array A numerically indexed array of meta fields to be stored for this package containing:
+     *
+     *  - key The key for this meta field
+     *  - value The value for this key
+     *  - encrypted Whether or not this field should be encrypted (default 0, not encrypted)
+     * @see Module::getModule()
+     * @see Module::getModuleRow()
+     */
+    public function addPackage(array $vars = null)
+    {
+////        // Set rules to validate input data
+////        $this->Input->setRules($this->getPackageRules($vars));
+////
+        // Build meta data to return
+        $meta = [];
+        if ($this->Input->validates($vars)) {
+            // Return all package meta fields
+            foreach ($vars['meta'] as $key => $value) {
+                $meta[] = [
+                    'key' => $key,
+                    'value' => $value,
+                    'encrypted' => 0
+                ];
+            }
+        }
+
+        return $meta;
+    }{{function:addPackage}}{{function:editPackage}}
+
+    /**
+     * Validates input data when attempting to edit a package, returns the meta
+     * data to save when editing a package. Performs any action required to edit
+     * the package on the remote server. Sets Input errors on failure,
+     * preventing the package from being edited.
      *
      * @param stdClass $package A stdClass object representing the selected package
-     * @return array An array of tabs in the format of method => title.
-     *  Example: array('methodName' => "Title", 'methodName2' => "Title2")
+     * @param array An array of key/value pairs used to edit the package
+     * @return array A numerically indexed array of meta fields to be stored for this package containing:
+     *
+     *  - key The key for this meta field
+     *  - value The value for this key
+     *  - encrypted Whether or not this field should be encrypted (default 0, not encrypted)
+     * @see Module::getModule()
+     * @see Module::getModuleRow()
      */
-    public function getClientTabs($package)
+    public function editPackage($package, array $vars = null)
     {
-        return [{{array:service_tabs}}
-            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{array:service_tabs}}
-        ];
-    }{{function:getClientTabs}}{{function:getAdminTabs}}
+////        // Set rules to validate input data
+////        $this->Input->setRules($this->getPackageRules($vars));
+////
+        // Build meta data to return
+        $meta = [];
+        if ($this->Input->validates($vars)) {
+            // Return all package meta fields
+            foreach ($vars['meta'] as $key => $value) {
+                $meta[] = [
+                    'key' => $key,
+                    'value' => $value,
+                    'encrypted' => 0
+                ];
+            }
+        }
+
+        return $meta;
+    }{{function:editPackage}}{{function:deletePackage}}
 
     /**
-     * Returns all tabs to display to an admin when managing a service whose
-     * package uses this module
+     * Deletes the package on the remote server. Sets Input errors on failure,
+     * preventing the package from being deleted.
      *
      * @param stdClass $package A stdClass object representing the selected package
-     * @return array An array of tabs in the format of method => title.
-     *  Example: array('methodName' => "Title", 'methodName2' => "Title2")
+     * @see Module::getModule()
+     * @see Module::getModuleRow()
      */
-    public function getAdminTabs($package)
+    public function deletePackage($package)
     {
-        return [{{array:service_tabs}}
-            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{array:service_tabs}}
-        ];
-    }{{function:getAdminTabs}}{{array:service_tabs}}
-
-    public function {{service_tabs.method_name}}(
-        $package,
-        $service,
-        array $get = null,
-        array $post = null,
-        array $files = null
-    ) {
-        $this->view = new View('tab', 'default');
-        $this->view->base_uri = $this->base_uri;
-        // Load the helpers required for this view
-        Loader::loadHelpers($this, ['Form', 'Html']);
-
-        $service_fields = $this->serviceFieldsToObject($service->fields);
-
-        if (!empty($post)) {
-
-            // Perform any post actions
-
-            if ($this->Services->errors()) {
-                $this->Input->setErrors($this->Services->errors());
-            }
-
-            $vars = (object)$post;
-        }
-
-        $this->view->set('tab', '{{service_tabs.method_name}}');
-        $this->view->set('service_fields', $service_fields);
-        $this->view->set('service_id', $service->id);
-        $this->view->set('client_id', $service->client_id);
-        $this->view->set('vars', (isset($vars) ? $vars : new stdClass()));
-
-        $this->view->setDefaultView('components' . DS . 'modules' . DS . '{{snake_case_name}}' . DS);
-        return $this->view->fetch();
-    }{{array:service_tabs}}{{function:addCronTasks}}
-
+    }{{function:deletePackage}}
+{{function:addPackage}}
+////    /**
+////     * Builds and returns rules required to be validated when adding/editing a package.
+////     *
+////     * @param array $vars An array of key/value data pairs
+////     * @return array An array of Input rules suitable for Input::setRules()
+////     */
+////    private function getPackageRules(array $vars)
+////    {
+////        // Validate the package fields
+////        $rules = [{{array:package_fields}}
+////            '{{package_fields.name}}' => [
+////                'valid' => [
+////                    'rule' => true,
+////                    'message' => Language::_('{{class_name}}.!error.{{package_fields.name}}.valid', true)
+////                ]
+////            ],{{array:package_fields}}
+////        ];
+////
+////        return $rules;
+////    }
+{{function:addPackage}}
     /**
-     * Attempts to add new cron tasks for this module
+     * Returns all fields used when adding/editing a package, including any
+     * javascript to execute when the page is rendered with these fields.
      *
-     * @param array $tasks A list of cron tasks to add
+     * @param $vars stdClass A stdClass object representing a set of post fields
+     * @return ModuleFields A ModuleFields object, containg the fields to
+     *  render as well as any additional HTML markup to include
      */
-    private function addCronTasks(array $tasks)
+    public function getPackageFields($vars = null)
     {
-        Loader::loadModels($this, ['CronTasks']);
-        foreach ($tasks as $task) {
-            $task_id = $this->CronTasks->add($task);
+        Loader::loadHelpers($this, ['Html']);
 
-            if (!$task_id) {
-                $cron_task = $this->CronTasks->getByKey($task['key'], $task['dir'], $task['task_type']);
-                if ($cron_task) {
-                    $task_id = $cron_task->id;
-                }
-            }
-
-            if ($task_id) {
-                $task_vars = ['enabled' => $task['enabled']];
-                if ($task['type'] === 'time') {
-                    $task_vars['time'] = $task['type_value'];
-                } else {
-                    $task_vars['interval'] = $task['type_value'];
-                }
-
-                $this->CronTasks->addTaskRun($task_id, $task_vars);
-            }
-        }
-    }{{function:addCronTasks}}{{function:getCronTasks}}
-
-    /**
-     * Retrieves cron tasks available to this module along with their default values
-     *
-     * @return array A list of cron tasks
-     */
-    private function getCronTasks()
-    {
-        return [{{array:cron_tasks}}
-            [
-                'key' => '{{cron_tasks.name}}',
-                'task_type' => 'module',
-                'dir' => '{{snake_case_name}}',
-                'name' => Language::_('{{class_name}}.getCronTasks.{{cron_tasks.name}}', true),
-                'description' => Language::_('{{class_name}}.getCronTasks.{{cron_tasks.name}}_description', true),
-                'type' => '{{cron_tasks.type}}',
-                'type_value' => '{{cron_tasks.time}}',
-                'enabled' => 1
-            ],{{array:cron_tasks}}
-        ];
-    }
-
-    /**
-     * Runs the cron task identified by the key used to create the cron task
-     *
-     * @param string $key The key used to create the cron task
-     * @see CronTasks::add()
-     */
-    public function cron($key)
-    {
-        switch ($key) {{{array:cron_tasks}}
-            case '{{cron_tasks.name}}':
-                // Perform necessary actions
-                break;{{array:cron_tasks}}
-        }
-    }
-    {{function:getCronTasks}}{{function:addService}}
+        $fields = new ModuleFields();
+        {{array:package_fields}}
+        // Set the {{package_fields.label}} field
+        ${{package_fields.name}} = $fields->label(Language::_('{{class_name}}.package_fields.{{package_fields.name}}', true), '{{snake_case_name}}_{{package_fields.name}}');
+        ${{package_fields.name}}->attach(
+            $fields->field{{package_fields.type}}(
+                '{{package_fields.name}}',{{if:package_fields.type:Checkbox}}
+                'true',{{else}}{{if:package_fields.type}}
+                $this->Html->ifSet($vars->{{package_fields.name}}){{if:package_fields.type:Checkbox}} == 'true'{{else}}{{if:package_fields.type}},
+                ['id' => '{{snake_case_name}}_{{package_fields.name}}']
+            )
+        );{{if:package_fields.tooltip:}}{{else}}
+        // Add tooltip
+        $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{package_fields.name}}', true));
+        ${{package_fields.name}}->attach($tooltip);{{if:package_fields.tooltip}}
+        $fields->setField(${{package_fields.name}});
+        {{array:package_fields}}
+        return $fields;
+    }{{function:addService}}
 
     /**
      * Adds the service to the remote server. Sets Input errors on failure,
@@ -709,7 +718,39 @@ class {{class_name}} extends Module
         }
 
         return null;
-    }{{function:cancelService}}{{function:addService}}
+    }{{function:cancelService}}{{function:renewService}}
+
+    /**
+     * Allows the module to perform an action when the service is ready to renew.
+     * Sets Input errors on failure, preventing the service from renewing.
+     *
+     * @param stdClass $package A stdClass object representing the current package
+     * @param stdClass $service A stdClass object representing the current service
+     * @param stdClass $parent_package A stdClass object representing the parent
+     *  service's selected package (if the current service is an addon service)
+     * @param stdClass $parent_service A stdClass object representing the parent
+     *  service of the service being renewed (if the current service is an addon service)
+     * @return mixed null to maintain the existing meta fields or a numerically
+     *  indexed array of meta fields to be stored for this service containing:
+     *  - key The key for this meta field
+     *  - value The value for this key
+     *  - encrypted Whether or not this field should be encrypted (default 0, not encrypted)
+     * @see Module::getModule()
+     * @see Module::getModuleRow()
+     */
+    public function renewService($package, $service, $parent_package = null, $parent_service = null)
+    {
+////        $row = $this->getModuleRow($package->module_row);
+////        $api = $this->getApi(
+////            $row->meta->host_name,
+////            $row->meta->user_name,
+////            $row->meta->password,
+////            ($row->meta->use_ssl == 'true'),
+////            $row->meta->port
+////        );
+
+        return null;
+    }{{function:renewService}}{{function:addService}}
 
     /**
      * Attempts to validate service info. This is the top-level error checking method. Sets Input errors on failure.
@@ -722,7 +763,7 @@ class {{class_name}} extends Module
     {
         $this->Input->setRules($this->getServiceRules($vars));
         return $this->Input->validates($vars);
-    }
+    }{{function:addService}}{{function:editService}}
 
     /**
      * Attempts to validate an existing service against a set of service info updates. Sets Input errors on failure.
@@ -735,7 +776,7 @@ class {{class_name}} extends Module
     {
         $this->Input->setRules($this->getServiceRules($vars, true));
         return $this->Input->validates($vars);
-    }
+    }{{function:editService}}{{function:addService}}
 
     /**
      * Returns the rule set for adding/editing a service
@@ -769,7 +810,7 @@ class {{class_name}} extends Module
         }
 
         return $rules;
-    }{{function:changeServicePackage}}
+    }{{function:addService}}{{function:changeServicePackage}}
 
     /**
      * Updates the package for the service on the remote server. Sets Input
@@ -922,6 +963,128 @@ class {{class_name}} extends Module
 ////
 ////        return $password;
 ////    }
+{{function:addService}}{{function:getAdminServiceInfo}}
+
+    /**
+     * Fetches the HTML content to display when viewing the service info in the
+     * admin interface.
+     *
+     * @param stdClass $service A stdClass object representing the service
+     * @param stdClass $package A stdClass object representing the service's package
+     * @return string HTML content containing information to display when viewing the service info
+     */
+    public function getAdminServiceInfo($service, $package)
+    {
+        $row = $this->getModuleRow();
+
+        // Load the view into this object, so helpers can be automatically added to the view
+        $this->view = new View('admin_service_info', 'default');
+        $this->view->base_uri = $this->base_uri;
+        $this->view->setDefaultView('components' . DS . 'modules' . DS . '{{snake_case_name}}' . DS);
+
+        // Load the helpers required for this view
+        Loader::loadHelpers($this, ['Form', 'Html']);
+
+        $this->view->set('module_row', $row);
+        $this->view->set('package', $package);
+        $this->view->set('service', $service);
+        $this->view->set('service_fields', $this->serviceFieldsToObject($service->fields));
+
+        return $this->view->fetch();
+    }{{function:getAdminServiceInfo}}{{function:getClientServiceInfo}}
+
+    /**
+     * Fetches the HTML content to display when viewing the service info in the
+     * client interface.
+     *
+     * @param stdClass $service A stdClass object representing the service
+     * @param stdClass $package A stdClass object representing the service's package
+     * @return string HTML content containing information to display when viewing the service info
+     */
+    public function getClientServiceInfo($service, $package)
+    {
+        $row = $this->getModuleRow();
+
+        // Load the view into this object, so helpers can be automatically added to the view
+        $this->view = new View('client_service_info', 'default');
+        $this->view->base_uri = $this->base_uri;
+        $this->view->setDefaultView('components' . DS . 'modules' . DS . '{{snake_case_name}}' . DS);
+
+        // Load the helpers required for this view
+        Loader::loadHelpers($this, ['Form', 'Html']);
+
+        $this->view->set('module_row', $row);
+        $this->view->set('package', $package);
+        $this->view->set('service', $service);
+        $this->view->set('service_fields', $this->serviceFieldsToObject($service->fields));
+
+        return $this->view->fetch();
+    }{{function:getClientServiceInfo}}{{function:getClientTabs}}
+
+    /**
+     * Returns all tabs to display to a client when managing a service whose
+     * package uses this module
+     *
+     * @param stdClass $package A stdClass object representing the selected package
+     * @return array An array of tabs in the format of method => title.
+     *  Example: array('methodName' => "Title", 'methodName2' => "Title2")
+     */
+    public function getClientTabs($package)
+    {
+        return [{{array:service_tabs}}
+            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{array:service_tabs}}
+        ];
+    }{{function:getClientTabs}}{{function:getAdminTabs}}
+
+    /**
+     * Returns all tabs to display to an admin when managing a service whose
+     * package uses this module
+     *
+     * @param stdClass $package A stdClass object representing the selected package
+     * @return array An array of tabs in the format of method => title.
+     *  Example: array('methodName' => "Title", 'methodName2' => "Title2")
+     */
+    public function getAdminTabs($package)
+    {
+        return [{{array:service_tabs}}
+            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{array:service_tabs}}
+        ];
+    }{{function:getAdminTabs}}{{array:service_tabs}}
+
+    public function {{service_tabs.method_name}}(
+        $package,
+        $service,
+        array $get = null,
+        array $post = null,
+        array $files = null
+    ) {
+        $this->view = new View('tab', 'default');
+        $this->view->base_uri = $this->base_uri;
+        // Load the helpers required for this view
+        Loader::loadHelpers($this, ['Form', 'Html']);
+
+        $service_fields = $this->serviceFieldsToObject($service->fields);
+
+        if (!empty($post)) {
+
+            // Perform any post actions
+
+            if ($this->Services->errors()) {
+                $this->Input->setErrors($this->Services->errors());
+            }
+
+            $vars = (object)$post;
+        }
+
+        $this->view->set('tab', '{{service_tabs.method_name}}');
+        $this->view->set('service_fields', $service_fields);
+        $this->view->set('service_id', $service->id);
+        $this->view->set('client_id', $service->client_id);
+        $this->view->set('vars', (isset($vars) ? $vars : new stdClass()));
+
+        $this->view->setDefaultView('components' . DS . 'modules' . DS . '{{snake_case_name}}' . DS);
+        return $this->view->fetch();
+    }{{array:service_tabs}}
 
     /**
      * Returns all fields to display to an admin attempting to add a service with the module
@@ -1049,85 +1212,73 @@ class {{class_name}} extends Module
         $fields->setField(${{service_fields.name}});
         {{array:service_fields}}
         return $fields;
+    }{{function:addCronTasks}}
+
+    /**
+     * Attempts to add new cron tasks for this module
+     *
+     * @param array $tasks A list of cron tasks to add
+     */
+    private function addCronTasks(array $tasks)
+    {
+        Loader::loadModels($this, ['CronTasks']);
+        foreach ($tasks as $task) {
+            $task_id = $this->CronTasks->add($task);
+
+            if (!$task_id) {
+                $cron_task = $this->CronTasks->getByKey($task['key'], $task['dir'], $task['task_type']);
+                if ($cron_task) {
+                    $task_id = $cron_task->id;
+                }
+            }
+
+            if ($task_id) {
+                $task_vars = ['enabled' => $task['enabled']];
+                if ($task['type'] === 'time') {
+                    $task_vars['time'] = $task['type_value'];
+                } else {
+                    $task_vars['interval'] = $task['type_value'];
+                }
+
+                $this->CronTasks->addTaskRun($task_id, $task_vars);
+            }
+        }
+    }{{function:addCronTasks}}{{function:getCronTasks}}
+
+    /**
+     * Retrieves cron tasks available to this module along with their default values
+     *
+     * @return array A list of cron tasks
+     */
+    private function getCronTasks()
+    {
+        return [{{array:cron_tasks}}
+            [
+                'key' => '{{cron_tasks.name}}',
+                'task_type' => 'module',
+                'dir' => '{{snake_case_name}}',
+                'name' => Language::_('{{class_name}}.getCronTasks.{{cron_tasks.name}}', true),
+                'description' => Language::_('{{class_name}}.getCronTasks.{{cron_tasks.name}}_description', true),
+                'type' => '{{cron_tasks.type}}',
+                'type_value' => '{{cron_tasks.time}}',
+                'enabled' => 1
+            ],{{array:cron_tasks}}
+        ];
     }
 
     /**
-     * Returns all fields used when adding/editing a package, including any
-     * javascript to execute when the page is rendered with these fields.
+     * Runs the cron task identified by the key used to create the cron task
      *
-     * @param $vars stdClass A stdClass object representing a set of post fields
-     * @return ModuleFields A ModuleFields object, containg the fields to
-     *  render as well as any additional HTML markup to include
+     * @param string $key The key used to create the cron task
+     * @see CronTasks::add()
      */
-    public function getPackageFields($vars = null)
+    public function cron($key)
     {
-        Loader::loadHelpers($this, ['Html']);
-
-        $fields = new ModuleFields();
-        {{array:package_fields}}
-        // Set the {{package_fields.label}} field
-        ${{package_fields.name}} = $fields->label(Language::_('{{class_name}}.package_fields.{{package_fields.name}}', true), '{{snake_case_name}}_{{package_fields.name}}');
-        ${{package_fields.name}}->attach(
-            $fields->field{{package_fields.type}}(
-                '{{package_fields.name}}',{{if:package_fields.type:Checkbox}}
-                'true',{{else}}{{if:package_fields.type}}
-                $this->Html->ifSet($vars->{{package_fields.name}}){{if:package_fields.type:Checkbox}} == 'true'{{else}}{{if:package_fields.type}},
-                ['id' => '{{snake_case_name}}_{{package_fields.name}}']
-            )
-        );{{if:package_fields.tooltip:}}{{else}}
-        // Add tooltip
-        $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{package_fields.name}}', true));
-        ${{package_fields.name}}->attach($tooltip);{{if:package_fields.tooltip}}
-        $fields->setField(${{package_fields.name}});
-        {{array:package_fields}}
-        return $fields;
-    }{{function:getGroupOrderOptions}}
-
-    /**
-     * Returns an array of available service deligation order methods. The module
-     * will determine how each method is defined. For example, the method "first"
-     * may be implemented such that it returns the module row with the least number
-     * of services assigned to it.
-     *
-     * @return array An array of order methods in key/value paris where the key is the
-     *  type to be stored for the group and value is the name for that option
-     * @see Module::selectModuleRow()
-     */
-    public function getGroupOrderOptions()
-    {
-        return [
-            'roundrobin' => Language::_('{{class_name}}.order_options.roundrobin', true),
-            'first' => Language::_('{{class_name}}.order_options.first', true)
-        ];
-    }{{function:getGroupOrderOptions}}{{function:selectModuleRow}}
-
-    /**
-     * Determines which module row should be attempted when a service is provisioned
-     * for the given group based upon the order method set for that group.
-     *
-     * @return int The module row ID to attempt to add the service with
-     * @see Module::getGroupOrderOptions()
-     */
-    public function selectModuleRow($module_group_id)
-    {
-        if (!isset($this->ModuleManager)) {
-            Loader::loadModels($this, ['ModuleManager']);
+        switch ($key) {{{array:cron_tasks}}
+            case '{{cron_tasks.name}}':
+                // Perform necessary actions
+                break;{{array:cron_tasks}}
         }
-
-        $group = $this->ModuleManager->getGroup($module_group_id);
-
-        if ($group) {
-            switch ($group->add_order) {
-                default:
-                case 'first':
-////
-////                    foreach ($group->rows as $row) {
-////                        return $row->id;
-////                    }
-////
-////                    break;
-            }
-        }
-        return 0;
-    }{{function:selectModuleRow}}
+    }
+    {{function:getCronTasks}}
 }

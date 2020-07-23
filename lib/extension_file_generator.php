@@ -193,6 +193,20 @@ class ExtensionFileGenerator
             file_put_contents($extension_directory . DS . $file_path, $content);
         }
 
+        // Update the logo with the uploaded image
+        if (isset($data['logo_path'])) {
+            $path_parts = ['views', 'default','images'];
+            $temp_path = $extension_directory;
+            foreach ($path_parts as $path_part) {
+                $temp_path .= DS . $path_part;
+                if (!is_dir($temp_path)) {
+                    mkdir($temp_path);
+                }
+            }
+
+            copy($data['logo_path'], $temp_path . DS . 'logo.png');
+        }
+
         // Rename generically named files to be specific to this extension
         self::renameFiles($extension_directory, $this->extension_type . '.php', $data['snake_case_name'] . '.php');
     }
