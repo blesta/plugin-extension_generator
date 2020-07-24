@@ -2,8 +2,7 @@
 ////use Blesta\Core\Util\Validate\Server;
 /**
  * {{name}} Module
- *
-{{array:authors}}
+ *{{array:authors}}
  * @link {{authors.url}} {{authors.name}}{{array:authors}}
  */
 class {{class_name}} extends Module
@@ -991,18 +990,16 @@ class {{class_name}} extends Module
 ////
 ////    /**
 ////     * Initializes the {{class_name}}Api and returns an instance of that object.
-////     *
-////     * @param string $hostname The {{name}} server hostname
-////     * @param string $user_name The {{name}} server user name
-////     * @param string $password The {{name}} server password
-////     * @param mixed $use_ssl Whether or not to use SSL
+////     *{{array:module_rows}}
+////     * @param string ${{module_rows.name}} Placeholder description{{array:module_rows}}
 ////     * @return {{class_name}}Api The {{class_name}}Api instance
 ////     */
-////    private function getApi($hostname, $user_name, $password, $use_ssl = 'true')
+////    private function getApi({{array:module_rows}}${{module_rows.name}}{{if:module_rows.type:Checkbox}} = 'true'{{else}}{{if:module_rows.type}},{{array:module_rows}})
 ////    {
 ////        Loader::load(dirname(__FILE__) . DS . 'apis' . DS . '{{snake_case_name}}_api.php');
 ////
-////        $api = new {{class_name}}Api($hostname, $user_name, $password, $use_ssl === 'true');
+//////        See the apis/{{snake_case_name}}_api.php and apis/{{snake_case_name}}_response.php files
+////        $api = new {{class_name}}Api({{array:module_rows}}${{module_rows.name}}{{if:module_rows.type:Checkbox}} == 'true'{{else}}{{if:module_rows.type}},{{array:module_rows}});
 ////
 ////        return $api;
 ////    }

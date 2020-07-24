@@ -7,7 +7,7 @@
 
         echo $this->Html->ifSet($progress_bar);
 
-        $this->Form->create();
+        $this->Form->create(null, ['id' => 'general_extension_form']);
         ?>
         <div class="inner">
             <div class="title_row first"><h3><?php $this->_('AdminMain.general.heading_general_settings');?></h3></div>

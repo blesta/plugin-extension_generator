@@ -18,7 +18,7 @@
                         <?php
                         $this->Form->label($this->_('AdminMain.confirm.location', true), 'location', ['class' => 'inline']);
                         ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_location');?></div></span>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.confirm.tooltip_location');?></div></span>
                         <?php
                         $this->Form->fieldSelect('location', $this->Html->ifSet($locations, []), $this->Html->ifSet($vars->location), ['class' => 'block', 'id' => 'location']);
                         ?>

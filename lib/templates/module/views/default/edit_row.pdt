@@ -45,9 +45,15 @@
 ////                        $num_servers = count($this->Html->ifSet($vars->name_servers, []));
 ////                        for ($i = 0; $i < max(2, $num_servers); $i++) {
 ////                            ?>
-////                        <tr class="ns_row<?php echo ($i % 2 == 1) ? ' odd_row' : ''; ?>">
-////                            <td><?php $this->_('{{class_name}}.edit_row.name_server', false, '<span>' . ($i + 1) . '</span>'); ?></td>
-////                            <td><?php $this->Form->fieldText('name_servers[]', $this->Html->ifSet($vars->name_servers[$i])); ?></td>
+////                        <tr class="ns_row<?php
+////                            echo ($i % 2 == 1) ? ' odd_row' : '';
+////                            ?>">
+////                            <td><?php
+////                                $this->_('{{class_name}}.edit_row.name_server', false, '<span>' . ($i + 1) . '</span>'); ?>
+////                            </td>
+////                            <td><?php
+////                                $this->Form->fieldText('name_servers[]', $this->Html->ifSet($vars->name_servers[$i])); ?>
+////                            </td>
 ////                            <td><a href="#" class="manage ns_row_remove"><?php $this->_('{{module_rows.name}}.edit_row.remove_name_server'); ?></a></td>
 ////                        </tr>
 ////                        <?php

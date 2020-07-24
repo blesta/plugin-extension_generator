@@ -92,11 +92,6 @@ class ExtensionFileGenerator
      */
     public function parseAndOutput()
     {
-        // Get the directory in which to search for template files
-        $template_directory = $this->getTemplateDirectory();
-        // Get a list of template files to parse and output
-        $file_paths = $this->getFileList();
-
         $data = $this->options['data'];
 
         // Set extension name variables
@@ -107,6 +102,11 @@ class ExtensionFileGenerator
             $data['snake_case_name'] .= '_plugin';
             $data['class_name'] .= 'Plugin';
         }
+
+        // Get the directory in which to search for template files
+        $template_directory = $this->getTemplateDirectory();
+        // Get a list of template files to parse and output
+        $file_paths = $this->getFileList($data['snake_case_name']);
 
         // Set a data flag for whether code examples are being included
         $data['code_examples'] = $this->options['code_examples'];
@@ -188,6 +188,11 @@ class ExtensionFileGenerator
             // Remove any remaining tags
             $content = preg_replace('/' . $this->tag_start . '\S*' . $this->tag_end . '/', '', $content);
 
+            if (isset($file_settings['name'])) {
+                $file_path_parts[count($file_path_parts) - 1] = $file_settings['name'];
+                $file_path = implode(DS, $file_path_parts);
+            }
+
             // Output the parsed contents
             file_put_contents($extension_directory . DS . $file_path, $content);
         }
@@ -205,9 +210,6 @@ class ExtensionFileGenerator
 
             copy($data['logo_path'], $temp_path . DS . 'logo.png');
         }
-
-        // Rename generically named files to be specific to this extension
-        self::renameFiles($extension_directory, $this->extension_type . '.php', $data['snake_case_name'] . '.php');
     }
 
     /**
@@ -366,21 +368,36 @@ class ExtensionFileGenerator
     /**
      * Gets a list of files to parse and generate based on the set extension type
      *
+     * @param string $extension_name The name of the extension being generated
      * @return array A list of arrays for files to parse and generate, each containing:
      *
      *  - path The path to the template file to parse, relative to the template directory
      *  - required_by A list of optional functions that require the given file
      */
-    private function getFileList()
+    private function getFileList($extension_name)
     {
         $file_path_list = [
             'module' => [
-                ['path' => 'language' . DS . 'en_us' . DS . 'module.php'],
+                ['path' => 'language' . DS . 'en_us' . DS . 'module.php', 'name' => $extension_name . '.php'],
                 ['path' => 'README.md'],
                 ['path' => 'config.json'],
                 ['path' => 'composer.json', 'required_by' => ['code_examples']],
-                ['path' => 'module.php'],
-                ['path' => 'config' . DS . 'module.php', 'required_by' => ['code_examples']],
+                ['path' => 'module.php', 'name' => $extension_name . '.php'],
+                [
+                    'path' => 'config' . DS . 'module.php',
+                    'name' => $extension_name . '.php',
+                    'required_by' => ['code_examples']
+                ],
+                [
+                    'path' => 'apis' . DS . 'module_api.php',
+                    'name' => $extension_name . '_api.php',
+                    'required_by' => ['code_examples']
+                ],
+                [
+                    'path' => 'apis' . DS . 'module_response.php',
+                    'name' => $extension_name . '_response.php',
+                    'required_by' => ['code_examples']
+                ],
                 ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
                 ['path' => 'views' . DS . 'default' . DS . 'manage.pdt'],
                 [
