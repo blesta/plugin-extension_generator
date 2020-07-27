@@ -104,19 +104,33 @@ class AdminMain extends ExtensionGeneratorController
         // Add/update the extension
         if (!empty($this->post))
         {
+            // Set unset checkbox
             if (!isset($this->post['code_examples'])) {
                 $this->post['code_examples'] = 0;
             }
 
-            if (isset($extension)) {
+            // Make sure that the extension directory will not conflict with an existing one
+            if (
+                $this->checkNameTaken(
+                    $this->post['name'],
+                    $this->post['type'],
+                    isset($extension) ? $extension->id : null
+                )
+            ) {
+                $errors = Language::_('AdminMain.!error.name_taken', true);
+            }
+
+            if (!isset($errors) && isset($extension)) {
+                // Edit the extension
                 $extension_id = $extension->id;
                 $this->ExtensionGeneratorExtensions->edit($extension_id, $this->post);
-            } else {
+            } elseif (!isset($errors)) {
+                // Add a new extension
                 $this->post['company_id'] = Configure::get('Blesta.company_id');
                 $extension_id = $this->ExtensionGeneratorExtensions->add($this->post);
             }
 
-            if (($errors = $this->ExtensionGeneratorExtensions->errors())) {
+            if (isset($errors) || ($errors = $this->ExtensionGeneratorExtensions->errors())) {
                 $this->setMessage('error', $errors, false, null, false);
 
                 $vars = (object) $this->post;
@@ -147,6 +161,33 @@ class AdminMain extends ExtensionGeneratorController
                 ['nodes' => $nodes, 'page_step' => $page_step, 'extension' => isset($extension) ? $extension : null]
             )
         );
+    }
+
+    /**
+     * Checks if the given extension name conflicts with an existing module directory
+     *
+     * @param string $name The extension name to change
+     * @param int $extension_id The ID of an extension to exlude from the conflict search
+     * @return bool True if the given name conflicts with an existing module directory
+     */
+    private function checkNameTaken($name, $extension_type, $extension_id = null)
+    {
+        // Make a list of extension names
+        $module_names = [];
+        $extension_directories = $this->getExtensionDirectories();
+        $extension_directory = $extension_directories[$extension_type];
+        foreach (scandir($extension_directory) as $file) {
+            if (is_dir($extension_directory . $file) && !in_array($file, ['.', '..'])) {
+                $module_names[$file] = true;
+            }
+        }
+
+        // Make an exception for the submitted extension ID
+        if ($extension_id && ($extension = $this->ExtensionGeneratorExtensions->get($extension_id))) {
+            unset($module_names[str_replace(' ', '_', strtolower($extension->name))]);
+        }
+
+        return array_key_exists(str_replace(' ', '_', strtolower($name)), $module_names);
     }
 
     /**
@@ -254,23 +295,6 @@ class AdminMain extends ExtensionGeneratorController
                 if (!isset($this->post[$array_field])) {
                     // Set empty array inputs
                     $this->post[$array_field] = [];
-                } else {
-                    // Get the index of the record that should be marked as the name key
-                    $key_index = isset($this->post[$array_field]['name_key'])
-                        ? $this->post[$array_field]['name_key']
-                        : 0;
-
-                    // Mark all records as NOT the name key
-                    $this->post[$array_field]['name_key'] = array_fill(
-                        0,
-                        count($this->post[$array_field]['name']),
-                        'false'
-                    );
-
-                    // Mark the given record as the name key
-                    if (isset($this->post[$array_field]['name_key'][$key_index])) {
-                        $this->post[$array_field]['name_key'][$key_index] = 'true';
-                    }
                 }
             }
         }
@@ -355,12 +379,7 @@ class AdminMain extends ExtensionGeneratorController
         // Update the extension
         if (!empty($this->post['location']))
         {
-            $directories = [
-                'module' => COMPONENTDIR . 'modules' . DS,
-                'plugin' => PLUGINDIR,
-                'merchant' => COMPONENTDIR . 'gateways' . DS . 'merchant' . DS,
-                'nonmerchant' => COMPONENTDIR . 'gateways' . DS . 'nonmerchant' . DS,
-            ];
+            $directories = $this->getExtensionDirectories();
 
             $directory = '';
             switch ($this->post['location']) {
@@ -431,6 +450,21 @@ class AdminMain extends ExtensionGeneratorController
                 ['nodes' => $nodes, 'page_step' => $page_step, 'extension' => $extension]
             )
         );
+    }
+
+    /**
+     * Get a list of extension directories
+     *
+     * @return array A list of extension types and their directory
+     */
+    private function getExtensionDirectories()
+    {
+        return [
+            'module' => COMPONENTDIR . 'modules' . DS,
+            'plugin' => PLUGINDIR,
+            'merchant' => COMPONENTDIR . 'gateways' . DS . 'merchant' . DS,
+            'nonmerchant' => COMPONENTDIR . 'gateways' . DS . 'nonmerchant' . DS,
+        ];
     }
 
     private function processStep($step, $extension)
@@ -550,8 +584,6 @@ class AdminMain extends ExtensionGeneratorController
             'addPackage' => ['enabled' => 'true'],
             'editPackage' => ['enabled' => 'true'],
             'deletePackage' => ['enabled' => 'true'],
-            'addModuleRow' => ['enabled' => 'true'],
-            'editModuleRow' => ['enabled' => 'true'],
             'deleteModuleRow' => ['enabled' => 'false'],
             'getGroupOrderOptions' => ['enabled' => 'false'],
             'selectModuleRow' => ['enabled' => 'false'],
@@ -572,6 +604,7 @@ class AdminMain extends ExtensionGeneratorController
     /**
      * Gets a list of file generation locations and their languages
      *
+     * @param string $extention_type The type of extension for which to load file locations
      * @return A list of file generation locations and their languages
      */
     private function getFileLocations($extention_type)

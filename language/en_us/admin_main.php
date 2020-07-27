@@ -1,8 +1,8 @@
 <?php
 
 // Error messages
+$lang['AdminMain.!error.name_taken'] = 'This name conflicts with an existing extension directory.';
 $lang['AdminMain.!error.generation_failed'] = 'Unable to generate your extension.  Exception generated: %1$s'; // Where %1$s is the exeption message
-$lang['AdminMain.!error.logo_upload_failed'] = 'Unable to generate your extension.  Exception generated: %1$s'; // Where %1$s is the exeption message
 
 
 // Success messages
@@ -47,8 +47,6 @@ $lang['AdminMain.getoptionalfunctions.tooltip_renewService'] = 'Called to perfor
 $lang['AdminMain.getoptionalfunctions.tooltip_addPackage'] = 'Performs any action required to add the package on the remote server. Sets Input errors on failure, preventing the package from being added.';
 $lang['AdminMain.getoptionalfunctions.tooltip_editPackage'] = 'Performs any action required to edit the package on the remote server. Sets Input errors on failure, preventing the package from being edited.';
 $lang['AdminMain.getoptionalfunctions.tooltip_deletePackage'] = 'Deletes the package on the remote server. Sets Input errors on failure, preventing the package from being deleted.';
-$lang['AdminMain.getoptionalfunctions.tooltip_addModuleRow'] = 'Adds the module row on the remote server. Sets Input errors on failure, preventing the row from being added.';
-$lang['AdminMain.getoptionalfunctions.tooltip_editModuleRow'] = 'Edits the module row on the remote server. Sets Input errors on failure, preventing the row from being updated.';
 $lang['AdminMain.getoptionalfunctions.tooltip_deleteModuleRow'] = 'Deletes the module row on the remote server. Sets Input errors on failure, preventing the row from being deleted.';
 $lang['AdminMain.getoptionalfunctions.tooltip_manageAddRow'] = 'Returns the rendered view of the add module row page';
 $lang['AdminMain.getoptionalfunctions.tooltip_manageEditRow'] = 'Returns the rendered view of the edit module row page';

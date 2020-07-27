@@ -32,22 +32,22 @@
                             <td><?php $this->Form->fieldText('module_rows[label][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
                             <td><?php $this->Form->fieldSelect('module_rows[type][]', $this->Html->ifSet($field_types), '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
                             <td><?php $this->Form->fieldTextarea('module_rows[tooltip][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
-                            <td><?php $this->Form->fieldRadio('module_rows[name_key]', '', true);?></td>
+                            <td><?php $this->Form->fieldRadio('module_rows[name_key][]', 'true', true, ['class' => 'module_name_key', 'disabled' => 'disabled']);?></td>
                             <td><a href="#" class="manage module_row_remove"><?php $this->_('AdminMain.modulefields.text_remove');?></a></td>
                         </tr>
                     <?php
-                    $rows = 0;
+                    $rows = 1;
                     if ($this->Html->ifSet($vars['module_rows']['name'], false)) {
                         $rows = count($vars['module_rows']['name']);
                     }
                     for ($i = 0; $i < $rows; $i++) {
                     ?>
                         <tr class="module_row">
-                            <td><?php $this->Form->fieldText('module_rows[name][]', $this->Html->ifSet($vars['module_rows']['name'][$i]), ['class' => 'stretch']);?></td>
-                            <td><?php $this->Form->fieldText('module_rows[label][]', $this->Html->ifSet($vars['module_rows']['label'][$i]), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldText('module_rows[name][]', $this->Html->ifSet($vars['module_rows']['name'][$i], 'name'), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldText('module_rows[label][]', $this->Html->ifSet($vars['module_rows']['label'][$i], 'Name'), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldSelect('module_rows[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['module_rows']['type'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldTextarea('module_rows[tooltip][]', $this->Html->ifSet($vars['module_rows']['tooltip'][$i]), ['class' => 'stretch']);?></td>
-                            <td><?php $this->Form->fieldRadio('module_rows[name_key]', $i, $this->Html->ifSet($vars['module_rows']['name_key'][$i]) == 'true');?></td>
+                            <td><?php $this->Form->fieldRadio('module_rows[name_key][]', 'true', $this->Html->ifSet($vars['module_rows']['name_key'][$i], 'true') == 'true', ['class' => 'module_name_key']);?></td>
                             <td><a href="#" class="manage module_row_remove"><?php $this->_('AdminMain.modulefields.text_remove');?></a></td>
                         </tr>
                     <?php
@@ -78,7 +78,7 @@
                             <td><?php $this->Form->fieldText('package_fields[label][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
                             <td><?php $this->Form->fieldSelect('package_fields[type][]', $this->Html->ifSet($field_types), '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
                             <td><?php $this->Form->fieldTextarea('package_fields[tooltip][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
-                            <td><?php $this->Form->fieldRadio('package_fields[name_key]', '', true);?></td>
+                            <td><?php $this->Form->fieldRadio('package_fields[name_key][]', 'true', true, ['class' => 'package_name_key', 'disabled' => 'disabled']);?></td>
                             <td><a href="#" class="manage package_row_remove"><?php $this->_('AdminMain.modulefields.text_remove');?></a></td>
                         </tr>
                     <?php
@@ -93,7 +93,7 @@
                             <td><?php $this->Form->fieldText('package_fields[label][]', $this->Html->ifSet($vars['package_fields']['label'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldSelect('package_fields[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['package_fields']['type'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldTextarea('package_fields[tooltip][]', $this->Html->ifSet($vars['package_fields']['tooltip'][$i]), ['class' => 'stretch']);?></td>
-                            <td><?php $this->Form->fieldRadio('package_fields[name_key]', $i, $this->Html->ifSet($vars['package_fields']['name_key'][$i]) == 'true');?></td>
+                            <td><?php $this->Form->fieldRadio('package_fields[name_key][]', 'true', $this->Html->ifSet($vars['package_fields']['name_key'][$i], 'true') == 'true', ['class' => 'package_name_key']);?></td>
                             <td><a href="#" class="manage package_row_remove"><?php $this->_('AdminMain.modulefields.text_remove');?></a></td>
                         </tr>
                     <?php
@@ -124,7 +124,7 @@
                             <td><?php $this->Form->fieldText('service_fields[label][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
                             <td><?php $this->Form->fieldSelect('service_fields[type][]', $this->Html->ifSet($field_types), '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
                             <td><?php $this->Form->fieldTextarea('service_fields[tooltip][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'checked' => 'checked']);?></td>
-                            <td><?php $this->Form->fieldRadio('service_fields[name_key]', '', true);?></td>
+                            <td><?php $this->Form->fieldRadio('service_fields[name_key][]', 'true', true, ['class' => 'service_name_key', 'disabled' => 'disabled']);?></td>
                             <td><a href="#" class="manage service_row_remove"><?php $this->_('AdminMain.modulefields.text_remove');?></a></td>
                         </tr>
                     <?php
@@ -139,7 +139,7 @@
                             <td><?php $this->Form->fieldText('service_fields[label][]', $this->Html->ifSet($vars['service_fields']['label'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldSelect('service_fields[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['service_fields']['type'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldTextarea('service_fields[tooltip][]', $this->Html->ifSet($vars['service_fields']['tooltip'][$i]), ['class' => 'stretch']);?></td>
-                            <td><?php $this->Form->fieldRadio('service_fields[name_key]', $i, $this->Html->ifSet($vars['service_fields']['name_key'][$i]) == 'true');?></td>
+                            <td><?php $this->Form->fieldRadio('service_fields[name_key][]', 'true', $this->Html->ifSet($vars['service_fields']['name_key'][$i], 'true') == 'true', ['class' => 'service_name_key']);?></td>
                             <td><a href="#" class="manage service_row_remove"><?php $this->_('AdminMain.modulefields.text_remove');?></a></td>
                         </tr>
                     <?php
@@ -172,11 +172,27 @@
                 return false;
             });
 
-            $('.' + field_type + '_row_remove').click(function() {
-                $(this).closest('tr').remove();
+            if (field_type === 'module') {
+                $('.' + field_type + '_row_remove').click(function() {
+                    // Make sure there is always one active module row
+                    if ($('tr.' + field_type + '_row').length > 2) {
+                        $(this).closest('tr').remove();
+                    }
 
-                return false;
-            });
+                    // Make sure there is always one module row marked as the name key
+                    if ($('.' + field_type + '_name_key:checked').length === 0) {
+                        $('.' + field_type + '_name_key:last').prop('checked', 'checked');
+                    }
+
+                    return false;
+                });
+            } else {
+                $('.' + field_type + '_row_remove').click(function() {
+                    $(this).closest('tr').remove();
+
+                    return false;
+                });
+            }
         });
     });
 </script>
