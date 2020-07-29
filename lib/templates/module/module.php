@@ -1252,7 +1252,7 @@ class {{class_name}} extends Module
             )
         );{{if:service_fields.tooltip:}}{{else}}
         // Add tooltip
-        $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{service_fields.name}}', true));
+        $tooltip = $fields->tooltip(Language::_('{{class_name}}.service_field.tooltip.{{service_fields.name}}', true));
         ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
         $fields->setField(${{service_fields.name}});{{array:service_fields}}
 
@@ -1284,7 +1284,7 @@ class {{class_name}} extends Module
             )
         );{{if:service_fields.tooltip:}}{{else}}
         // Add tooltip
-        $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{service_fields.name}}', true));
+        $tooltip = $fields->tooltip(Language::_('{{class_name}}.service_field.tooltip.{{service_fields.name}}', true));
         ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
         $fields->setField(${{service_fields.name}});{{array:service_fields}}
 
@@ -1316,7 +1316,7 @@ class {{class_name}} extends Module
             )
         );{{if:service_fields.tooltip:}}{{else}}
         // Add tooltip
-        $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{service_fields.name}}', true));
+        $tooltip = $fields->tooltip(Language::_('{{class_name}}.service_field.tooltip.{{service_fields.name}}', true));
         ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
         $fields->setField(${{service_fields.name}});{{array:service_fields}}
 
@@ -1348,7 +1348,7 @@ class {{class_name}} extends Module
             )
         );{{if:service_fields.tooltip:}}{{else}}
         // Add tooltip
-        $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{service_fields.name}}', true));
+        $tooltip = $fields->tooltip(Language::_('{{class_name}}.service_field.tooltip.{{service_fields.name}}', true));
         ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
         $fields->setField(${{service_fields.name}});{{array:service_fields}}
 
