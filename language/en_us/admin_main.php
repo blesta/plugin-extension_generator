@@ -177,7 +177,7 @@ $lang['AdminMain.modulefeatures.tooltip_tab_label'] = 'The display name of the s
 $lang['AdminMain.modulefeatures.tooltip_level'] = 'The level of interface on which to display the tab (staff or client)';
 $lang['AdminMain.modulefeatures.tooltip_name'] = 'The name of the cron task in the code base';
 $lang['AdminMain.modulefeatures.tooltip_cron_label'] = 'The display name of the cron task';
-$lang['AdminMain.modulefeatures.tooltip_description'] = 'The description shown on cron task list page';
+$lang['AdminMain.modulefeatures.tooltip_description'] = 'The description shown on the cron task list page';
 $lang['AdminMain.modulefeatures.tooltip_type'] = 'The type of timing to use for the cron task (time or interval)';
 $lang['AdminMain.modulefeatures.tooltip_time'] = 'The daily 24-hour time that this task should run (e.g. "14:25") OR The interval, in minutes, that this cron task should run';
 
