@@ -18,16 +18,16 @@
                 <table class="table">
                     <thead>
                         <tr class="heading_row">
-                            <td><?php $this->_('AdminMain.modulefeatures.method_name');?></td>
-                            <td><?php $this->_('AdminMain.modulefeatures.label');?></td>
-                            <td><?php $this->_('AdminMain.modulefeatures.level');?></td>
+                            <td><?php $this->_('AdminMain.modulefeatures.method_name');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.modulefeatures.tooltip_method_name');?></div></span></td>
+                            <td><?php $this->_('AdminMain.modulefeatures.label');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.modulefeatures.tooltip_tab_label');?></div></span></td>
+                            <td><?php $this->_('AdminMain.modulefeatures.level');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.modulefeatures.tooltip_level');?></div></span></td>
                             <td class="last"><?php $this->_('AdminMain.modulefeatures.text_options');?></td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="service_tab_row" style="display:none;">
-                            <td><?php $this->Form->fieldText('service_tabs[method_name][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
-                            <td><?php $this->Form->fieldText('service_tabs[label][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
+                            <td><?php $this->Form->fieldText('service_tabs[method_name][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'placeholder' => $this->_('AdminMain.modulefeatures.placeholder_method_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('service_tabs[label][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'placeholder' => $this->_('AdminMain.modulefeatures.placeholder_tab_label', true)]);?></td>
                             <td><?php $this->Form->fieldSelect('service_tabs[level][]', $this->Html->ifSet($tab_levels), '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
                             <td><a href="#" class="manage service_tab_row_remove"><?php $this->_('AdminMain.modulefeatures.text_remove');?></a></td>
                         </tr>
@@ -39,8 +39,8 @@
                     for ($i = 0; $i < $rows; $i++) {
                     ?>
                         <tr class="service_tab_row">
-                            <td><?php $this->Form->fieldText('service_tabs[method_name][]', $this->Html->ifSet($vars['service_tabs']['method_name'][$i]), ['class' => 'stretch']);?></td>
-                            <td><?php $this->Form->fieldText('service_tabs[label][]', $this->Html->ifSet($vars['service_tabs']['label'][$i]), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldText('service_tabs[method_name][]', $this->Html->ifSet($vars['service_tabs']['method_name'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminMain.modulefeatures.placeholder_method_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('service_tabs[label][]', $this->Html->ifSet($vars['service_tabs']['label'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminMain.modulefeatures.placeholder_cron_label', true)]);?></td>
                             <td><?php $this->Form->fieldSelect('service_tabs[level][]', $this->Html->ifSet($tab_levels), $this->Html->ifSet($vars['service_tabs']['level'][$i]), ['class' => 'stretch']);?></td>
                             <td><a href="#" class="manage service_tab_row_remove"><?php $this->_('AdminMain.modulefeatures.text_remove');?></a></td>
                         </tr>
@@ -58,21 +58,21 @@
                 <table class="table">
                     <thead>
                         <tr class="heading_row">
-                            <td><?php $this->_('AdminMain.modulefeatures.name');?></td>
-                            <td><?php $this->_('AdminMain.modulefeatures.label');?></td>
-                            <td><?php $this->_('AdminMain.modulefeatures.description');?></td>
-                            <td><?php $this->_('AdminMain.modulefeatures.type');?></td>
-                            <td><?php $this->_('AdminMain.modulefeatures.time');?></td>
+                            <td><?php $this->_('AdminMain.modulefeatures.name');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.modulefeatures.tooltip_name');?></div></span></td>
+                            <td><?php $this->_('AdminMain.modulefeatures.label');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.modulefeatures.tooltip_cron_label');?></div></span></td>
+                            <td><?php $this->_('AdminMain.modulefeatures.description');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.modulefeatures.tooltip_description');?></div></span></td>
+                            <td><?php $this->_('AdminMain.modulefeatures.type');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.modulefeatures.tooltip_type');?></div></span></td>
+                            <td><?php $this->_('AdminMain.modulefeatures.time');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.modulefeatures.tooltip_time');?></div></span></td>
                             <td class="last"><?php $this->_('AdminMain.modulefeatures.text_options');?></td>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="cron_task_row" style="display:none;">
-                            <td><?php $this->Form->fieldText('cron_tasks[name][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
-                            <td><?php $this->Form->fieldText('cron_tasks[label][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
+                            <td><?php $this->Form->fieldText('cron_tasks[name][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'placeholder' => $this->_('AdminMain.modulefeatures.placeholder_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('cron_tasks[label][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'placeholder' => $this->_('AdminMain.modulefeatures.placeholder_tab_label', true)]);?></td>
                             <td><?php $this->Form->fieldTextarea('cron_tasks[description][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
                             <td><?php $this->Form->fieldSelect('cron_tasks[type][]', $this->Html->ifSet($task_types), '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
-                            <td><?php $this->Form->fieldText('cron_tasks[time][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
+                            <td><?php $this->Form->fieldText('cron_tasks[time][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'placeholder' => $this->_('AdminMain.modulefeatures.placeholder_time', true)]);?></td>
                             <td><a href="#" class="manage cron_task_row_remove"><?php $this->_('AdminMain.modulefeatures.text_remove');?></a></td>
                         </tr>
                     <?php
@@ -83,11 +83,11 @@
                     for ($i = 0; $i < $rows; $i++) {
                     ?>
                         <tr class="cron_task_row">
-                            <td><?php $this->Form->fieldText('cron_tasks[name][]', $this->Html->ifSet($vars['cron_tasks']['name'][$i]), ['class' => 'stretch']);?></td>
-                            <td><?php $this->Form->fieldText('cron_tasks[label][]', $this->Html->ifSet($vars['cron_tasks']['label'][$i]), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldText('cron_tasks[name][]', $this->Html->ifSet($vars['cron_tasks']['name'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminMain.modulefeatures.placeholder_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('cron_tasks[label][]', $this->Html->ifSet($vars['cron_tasks']['label'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminMain.modulefeatures.placeholder_tab_label', true)]);?></td>
                             <td><?php $this->Form->fieldTextarea('cron_tasks[description][]', $this->Html->ifSet($vars['cron_tasks']['description'][$i]), ['class' => 'stretch']);?></td>
                             <td><?php $this->Form->fieldSelect('cron_tasks[type][]', $this->Html->ifSet($task_types), $this->Html->ifSet($vars['cron_tasks']['type'][$i]), ['class' => 'stretch']);?></td>
-                            <td><?php $this->Form->fieldText('cron_tasks[time][]', $this->Html->ifSet($vars['cron_tasks']['time'][$i]), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldText('cron_tasks[time][]', $this->Html->ifSet($vars['cron_tasks']['time'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminMain.modulefeatures.placeholder_time', true)]);?></td>
                             <td><a href="#" class="manage cron_task_row_remove"><?php $this->_('AdminMain.modulefeatures.text_remove');?></a></td>
                         </tr>
                     <?php

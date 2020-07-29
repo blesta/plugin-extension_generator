@@ -135,6 +135,19 @@ $lang['AdminMain.modulefields.type'] = 'Type';
 $lang['AdminMain.modulefields.tooltip'] = 'Tooltip Text';
 $lang['AdminMain.modulefields.name_key'] = 'Name Key';
 
+$lang['AdminMain.modulefields.tooltip_name'] = 'The name of the field in the code base';
+$lang['AdminMain.modulefields.tooltip_label'] = 'The display name of the field';
+$lang['AdminMain.modulefields.tooltip_type'] = 'The type of field to create (checkbox, text, etc.)';
+$lang['AdminMain.modulefields.tooltip_tooltip'] = 'The text of the tooltip to display along side the field (leave empty to have no tooltip)';
+$lang['AdminMain.modulefields.tooltip_name_key'] = 'The field by which Blesta determines the name of a package/service/module row';
+
+$lang['AdminMain.modulefields.placeholder_module_name'] = 'e.g. module_field';
+$lang['AdminMain.modulefields.placeholder_module_label'] = 'e.g. Module Field';
+$lang['AdminMain.modulefields.placeholder_package_name'] = 'e.g. package_field';
+$lang['AdminMain.modulefields.placeholder_package_label'] = 'e.g. Package Field';
+$lang['AdminMain.modulefields.placeholder_service_name'] = 'e.g. service_field';
+$lang['AdminMain.modulefields.placeholder_service_label'] = 'e.g. Service Field';
+
 $lang['AdminMain.modulefields.module_row_add'] = 'Add Module Row Field';
 $lang['AdminMain.modulefields.package_row_add'] = 'Add Package Field';
 $lang['AdminMain.modulefields.service_row_add'] = 'Add Service Field';
@@ -151,13 +164,28 @@ $lang['AdminMain.modulefeatures.heading_service_tabs'] = 'Service Management Tab
 $lang['AdminMain.modulefeatures.heading_cron_tasks'] = 'Cron Tasks';
 $lang['AdminMain.modulefeatures.heading_optional_functions'] = 'Optional Functions';
 
-$lang['AdminMain.modulefeatures.name'] = 'Name';
+$lang['AdminMain.modulefeatures.method_name'] = 'Method Name';
 $lang['AdminMain.modulefeatures.label'] = 'Label';
+$lang['AdminMain.modulefeatures.level'] = 'Level';
+$lang['AdminMain.modulefeatures.name'] = 'Name';
 $lang['AdminMain.modulefeatures.description'] = 'Description';
 $lang['AdminMain.modulefeatures.type'] = 'Type';
-$lang['AdminMain.modulefeatures.method_name'] = 'Method Name';
-$lang['AdminMain.modulefeatures.level'] = 'Level';
 $lang['AdminMain.modulefeatures.time'] = 'Start Time/Interval';
+
+$lang['AdminMain.modulefeatures.tooltip_method_name'] = 'The name of the method to be generated for this tab in the code base (in the form camelCaseMethodName)';
+$lang['AdminMain.modulefeatures.tooltip_tab_label'] = 'The display name of the service tab';
+$lang['AdminMain.modulefeatures.tooltip_level'] = 'The level of interface on which to display the tab (staff or client)';
+$lang['AdminMain.modulefeatures.tooltip_name'] = 'The name of the cron task in the code base';
+$lang['AdminMain.modulefeatures.tooltip_cron_label'] = 'The display name of the cron task';
+$lang['AdminMain.modulefeatures.tooltip_description'] = 'The description shown on cron task list page';
+$lang['AdminMain.modulefeatures.tooltip_type'] = 'The type of timing to use for the cron task (time or interval)';
+$lang['AdminMain.modulefeatures.tooltip_time'] = 'The daily 24-hour time that this task should run (e.g. "14:25") OR The interval, in minutes, that this cron task should run';
+
+$lang['AdminMain.modulefeatures.placeholder_method_name'] = 'e.g. tabChangePassword';
+$lang['AdminMain.modulefeatures.placeholder_tab_label'] = 'e.g. Change Password';
+$lang['AdminMain.modulefeatures.placeholder_name'] = 'e.g. my_cron_task';
+$lang['AdminMain.modulefeatures.placeholder_cron_label'] = 'e.g. My Cron Task';
+$lang['AdminMain.modulefeatures.placeholder_time'] = 'e.g. 14:25 or 60';
 
 $lang['AdminMain.modulefeatures.service_tab_row_add'] = 'Add Service Management Tab';
 $lang['AdminMain.modulefeatures.cron_task_row_add'] = 'Add Cron Task';
