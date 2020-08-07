@@ -1,0 +1,45 @@
+        <?php
+        echo $this->Html->ifSet($message);
+
+        $this->Widget->clear();
+        $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+        $this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
+
+        echo $this->Html->ifSet($progress_bar);
+
+        $this->Form->create();
+        ?>
+        <div class="inner">
+            <div class="title_row"><h3><?php $this->_('AdminPlugin.features.heading_optional_functions');?></h3></div>
+            <div class="pad">
+                <div class="row">
+                <?php
+                foreach ($this->Html->ifSet($optional_functions, []) as $optional_function => $function_settings) {
+                ?>
+                    <div class="col-xs-4">
+                    <?php
+                    $this->Form->fieldCheckbox('optional_functions[' . $optional_function . ']', 'true', (isset($vars['optional_functions']) ? $this->Html->ifSet($vars['optional_functions'][$optional_function]) : $function_settings['enabled']) == 'true', ['class' => 'inline', 'id' => 'optional_functions[' . $optional_function . ']']);
+                    $this->Form->label($optional_function, 'optional_functions[' . $optional_function . ']', ['class' => 'inline']);
+
+                    if (!empty($function_settings['tooltip'])) {
+                    ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->Html->_($function_settings['tooltip']);?></div></span>
+                    <?php
+                    }
+                    ?>
+                    </div>
+                <?php
+                }
+                ?>
+                </div>
+            </div>
+
+            <div class="button_row">
+                <?php $this->Form->fieldSubmit('submit', $this->_('AdminPlugin.features.confirm', true), ['class' => 'btn btn-primary pull-right']);?>
+            </div>
+        </div>
+        <?php
+        $this->Form->end();
+
+        $this->Widget->end();
+        ?>

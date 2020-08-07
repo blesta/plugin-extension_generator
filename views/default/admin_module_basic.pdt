@@ -1,0 +1,116 @@
+        <?php
+        echo $this->Html->ifSet($message);
+
+        $this->Widget->clear();
+        $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+        $this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
+
+        echo $this->Html->ifSet($progress_bar);
+
+        $this->Form->create(null, ['id' => 'modulebasic', 'enctype' => 'multipart/form-data']);
+        ?>
+        <div class="inner">
+            <div class="title_row first"><h3><?php $this->_('AdminModule.basic.heading_basic');?></h3></div>
+            <div class="pad">
+                <ul>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('AdminModule.basic.description', true), 'description', ['class' => 'inline']);
+                        ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.basic.tooltip_description');?></div></span>
+                        <?php
+                        $this->Form->fieldTextarea('description', $this->Html->ifSet($vars['description']), ['id' => 'description']);
+                        ?>
+                    </li>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('AdminModule.basic.logo', true), 'logo');
+                        $this->Form->fieldFile('logo', ['id' => 'logo']);
+                        ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.basic.tooltip_logo');?></div></span>
+                    </li>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('AdminModule.basic.module_row', true), 'module_row');
+                        $this->Form->fieldText('module_row', $this->Html->ifSet($vars['module_row']), ['id' => 'module_row', 'placeholder' => $this->_('AdminModule.basic.placeholder_module_row', true)]);
+                        ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.basic.tooltip_module_row');?></div></span>
+                    </li>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('AdminModule.basic.module_row_plural', true), 'module_row_plural');
+                        $this->Form->fieldText('module_row_plural', $this->Html->ifSet($vars['module_row_plural']), ['id' => 'module_row_plural', 'placeholder' => $this->_('AdminModule.basic.placeholder_module_row_plural', true)]);
+                        ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.basic.tooltip_module_row_plural');?></div></span>
+                    </li>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('AdminModule.basic.module_group', true), 'module_group');
+                        $this->Form->fieldText('module_group', $this->Html->ifSet($vars['module_group']), ['id' => 'module_group', 'placeholder' => $this->_('AdminModule.basic.placeholder_module_group', true)]);
+                        ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.basic.tooltip_module_group');?></div></span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="title_row first"><h3><?php $this->_('AdminModule.basic.heading_authors');?></h3></div>
+            <div class="pad">
+                <div class="links_row">
+                    <a class="btn btn-default pull-right btn-sm author_row_add" href="#"><span><?php $this->_('AdminModule.basic.author_row_add');?></span></a>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr class="heading_row">
+                            <td><?php $this->_('AdminModule.basic.author_name');?></td>
+                            <td><?php $this->_('AdminModule.basic.author_url');?></td>
+                            <td class="last"><?php $this->_('AdminModule.basic.text_options');?></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $rows = 1;
+                    if ($this->Html->ifSet($vars['authors']['name'], false)) {
+                        $rows = count($vars['authors']['name']);
+                    }
+                    for ($i = 0; $i < $rows; $i++) {
+                    ?>
+                        <tr class="author_row">
+                            <td><?php $this->Form->fieldText('authors[name][]', $this->Html->ifSet($vars['authors']['name'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminModule.basic.placeholder_author_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('authors[url][]', $this->Html->ifSet($vars['authors']['url'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminModule.basic.placeholder_author_url', true)]);?></td>
+                            <td><a href="#" class="manage author_row_remove"><?php $this->_('AdminModule.basic.text_remove');?></a></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="button_row">
+                <?php $this->Form->fieldSubmit('submit', $this->Html->ifSet($form_type) == 'basic' ? $this->_('AdminModule.basic.confirm', true) : $this->_('AdminModule.basic.fields', true), ['class' => 'btn btn-primary pull-right']);?>
+            </div>
+        </div>
+        <?php
+        $this->Form->end();
+
+        $this->Widget->end();
+        ?>
+<script>
+    $(document).ready(function() {
+        $('.author_row_add').click(function() {
+            var fields = $('tr.author_row:first').clone(true);
+            // Remove input text data
+            fields.find('input:text').val('');
+            $('tr.author_row:last').after(fields);
+
+            return false;
+        });
+
+        $('.author_row_remove').click(function() {
+            if ($('tr.author_row').length > 1) {
+                $(this).closest('tr').remove();
+            }
+
+            return false;
+        });
+    });
+</script>

@@ -1,0 +1,198 @@
+        <?php
+        echo $this->Html->ifSet($message);
+
+        $this->Widget->clear();
+        $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+        $this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
+
+        echo $this->Html->ifSet($progress_bar);
+
+        $this->Form->create();
+        ?>
+        <div class="inner">
+            <div class="title_row first"><h3><?php $this->_('AdminModule.fields.heading_module_row_fields');?></h3></div>
+            <div class="pad">
+                <div class="links_row">
+                    <a class="btn btn-default pull-right btn-sm module_row_add" href="#"><span><?php $this->_('AdminModule.fields.module_row_add');?></span></a>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr class="heading_row">
+                            <td><?php $this->_('AdminModule.fields.name');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_name');?></div></span></td>
+                            <td><?php $this->_('AdminModule.fields.label');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_label');?></div></span></td>
+                            <td><?php $this->_('AdminModule.fields.type');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_type');?></div></span></td>
+                            <td><?php $this->_('AdminModule.fields.tooltip');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_tooltip');?></div></span></td>
+                            <td><?php $this->_('AdminModule.fields.name_key');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_name_key');?></div></span></td>
+                            <td class="last"><?php $this->_('AdminModule.fields.text_options');?></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="module_row" style="display:none">
+                            <td><?php $this->Form->fieldText('module_rows[name][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'placeholder' => $this->_('AdminModule.fields.placeholder_module_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('module_rows[label][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'placeholder' => $this->_('AdminModule.fields.placeholder_module_label', true)]);?></td>
+                            <td><?php $this->Form->fieldSelect('module_rows[type][]', $this->Html->ifSet($field_types), '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
+                            <td><?php $this->Form->fieldTextarea('module_rows[tooltip][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
+                            <td><?php $this->Form->fieldRadio('module_rows[name_key][]', 'true', true, ['class' => 'module_name_key', 'disabled' => 'disabled']);?></td>
+                            <td><a href="#" class="manage module_row_remove"><?php $this->_('AdminModule.fields.text_remove');?></a></td>
+                        </tr>
+                    <?php
+                    $rows = 1;
+                    if ($this->Html->ifSet($vars['module_rows']['name'], false)) {
+                        $rows = count($vars['module_rows']['name']);
+                    }
+                    for ($i = 0; $i < $rows; $i++) {
+                    ?>
+                        <tr class="module_row">
+                            <td><?php $this->Form->fieldText('module_rows[name][]', $this->Html->ifSet($vars['module_rows']['name'][$i], 'name'), ['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_module_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('module_rows[label][]', $this->Html->ifSet($vars['module_rows']['label'][$i], 'Name'), ['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_module_label', true)]);?></td>
+                            <td><?php $this->Form->fieldSelect('module_rows[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['module_rows']['type'][$i]), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldTextarea('module_rows[tooltip][]', $this->Html->ifSet($vars['module_rows']['tooltip'][$i]), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldRadio('module_rows[name_key][]', 'true', $this->Html->ifSet($vars['module_rows']['name_key'][$i], 'true') == 'true', ['class' => 'module_name_key']);?></td>
+                            <td><a href="#" class="manage module_row_remove"><?php $this->_('AdminModule.fields.text_remove');?></a></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="title_row"><h3><?php $this->_('AdminModule.fields.heading_package_fields');?></h3></div>
+            <div class="pad">
+                <div class="links_row">
+                    <a class="btn btn-default pull-right btn-sm package_row_add" href="#"><span><?php $this->_('AdminModule.fields.package_row_add');?></span></a>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr class="heading_row">
+                            <td><?php $this->_('AdminModule.fields.name');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_name');?></div></span></td>
+                            <td><?php $this->_('AdminModule.fields.label');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_label');?></div></span></td>
+                            <td><?php $this->_('AdminModule.fields.type');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_type');?></div></span></td>
+                            <td><?php $this->_('AdminModule.fields.tooltip');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_tooltip');?></div></span></td>
+                            <td><?php $this->_('AdminModule.fields.name_key');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_name_key');?></div></span></td>
+                            <td class="last"><?php $this->_('AdminModule.fields.text_options');?></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="package_row" style="display:none">
+                            <td><?php $this->Form->fieldText('package_fields[name][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'placeholder' => $this->_('AdminModule.fields.placeholder_package_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('package_fields[label][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'placeholder' => $this->_('AdminModule.fields.placeholder_package_label', true)]);?></td>
+                            <td><?php $this->Form->fieldSelect('package_fields[type][]', $this->Html->ifSet($field_types), '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
+                            <td><?php $this->Form->fieldTextarea('package_fields[tooltip][]', '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
+                            <td><?php $this->Form->fieldRadio('package_fields[name_key][]', 'true', true, ['class' => 'package_name_key', 'disabled' => 'disabled']);?></td>
+                            <td><a href="#" class="manage package_row_remove"><?php $this->_('AdminModule.fields.text_remove');?></a></td>
+                        </tr>
+                    <?php
+                    $rows = 0;
+                    if ($this->Html->ifSet($vars['package_fields']['name'], false)) {
+                        $rows = count($vars['package_fields']['name']);
+                    }
+                    for ($i = 0; $i < $rows; $i++) {
+                    ?>
+                        <tr class="package_row">
+                            <td><?php $this->Form->fieldText('package_fields[name][]', $this->Html->ifSet($vars['package_fields']['name'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_package_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('package_fields[label][]', $this->Html->ifSet($vars['package_fields']['label'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_package_label', true)]);?></td>
+                            <td><?php $this->Form->fieldSelect('package_fields[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['package_fields']['type'][$i]), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldTextarea('package_fields[tooltip][]', $this->Html->ifSet($vars['package_fields']['tooltip'][$i]), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldRadio('package_fields[name_key][]', 'true', $this->Html->ifSet($vars['package_fields']['name_key'][$i], 'true') == 'true', ['class' => 'package_name_key']);?></td>
+                            <td><a href="#" class="manage package_row_remove"><?php $this->_('AdminModule.fields.text_remove');?></a></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="title_row"><h3><?php $this->_('AdminModule.fields.heading_service_fields');?></h3></div>
+            <div class="pad">
+                <div class="links_row">
+                    <a class="btn btn-default pull-right btn-sm service_row_add" href="#"><span><?php $this->_('AdminModule.fields.service_row_add');?></span></a>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr class="heading_row">
+                            <td><?php $this->_('AdminModule.fields.name');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_name');?></div></span></td>
+                            <td><?php $this->_('AdminModule.fields.label');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_label');?></div></span></td>
+                            <td><?php $this->_('AdminModule.fields.type');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_type');?></div></span></td>
+                            <td><?php $this->_('AdminModule.fields.tooltip');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_tooltip');?></div></span></td>
+                            <td><?php $this->_('AdminModule.fields.name_key');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.fields.tooltip_name_key');?></div></span></td>
+                            <td class="last"><?php $this->_('AdminModule.fields.text_options');?></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="service_row" style="display:none">
+                            <td><?php $this->Form->fieldText('service_fields[name][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'placeholder' => $this->_('AdminModule.fields.placeholder_service_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('service_fields[label][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'placeholder' => $this->_('AdminModule.fields.placeholder_service_label', true)]);?></td>
+                            <td><?php $this->Form->fieldSelect('service_fields[type][]', $this->Html->ifSet($field_types), '', ['class' => 'stretch', 'disabled' => 'disabled']);?></td>
+                            <td><?php $this->Form->fieldTextarea('service_fields[tooltip][]', '', ['class' => 'stretch', 'disabled' => 'disabled', 'checked' => 'checked']);?></td>
+                            <td><?php $this->Form->fieldRadio('service_fields[name_key][]', 'true', true, ['class' => 'service_name_key', 'disabled' => 'disabled']);?></td>
+                            <td><a href="#" class="manage service_row_remove"><?php $this->_('AdminModule.fields.text_remove');?></a></td>
+                        </tr>
+                    <?php
+                    $rows = 0;
+                    if ($this->Html->ifSet($vars['service_fields']['name'], false)) {
+                        $rows = count($vars['service_fields']['name']);
+                    }
+                    for ($i = 0; $i < $rows; $i++) {
+                    ?>
+                        <tr class="service_row">
+                            <td><?php $this->Form->fieldText('service_fields[name][]', $this->Html->ifSet($vars['service_fields']['name'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_service_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('service_fields[label][]', $this->Html->ifSet($vars['service_fields']['label'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_service_label', true)]);?></td>
+                            <td><?php $this->Form->fieldSelect('service_fields[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['service_fields']['type'][$i]), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldTextarea('service_fields[tooltip][]', $this->Html->ifSet($vars['service_fields']['tooltip'][$i]), ['class' => 'stretch']);?></td>
+                            <td><?php $this->Form->fieldRadio('service_fields[name_key][]', 'true', $this->Html->ifSet($vars['service_fields']['name_key'][$i], 'true') == 'true', ['class' => 'service_name_key']);?></td>
+                            <td><a href="#" class="manage service_row_remove"><?php $this->_('AdminModule.fields.text_remove');?></a></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="button_row">
+                <?php $this->Form->fieldSubmit('submit', $this->_('AdminModule.fields.features', true), ['class' => 'btn btn-primary pull-right']);?>
+            </div>
+        </div>
+        <?php
+        $this->Form->end();
+
+        $this->Widget->end();
+        ?>
+
+<script>
+    $(document).ready(function() {
+        var field_types = ['module', 'package', 'service'];
+        field_types.forEach(function (field_type) {
+            $('.' + field_type + '_row_add').click(function() {
+                var fields = $('tr.' + field_type + '_row:first').clone(true);
+                // Enable input fileds
+                fields.find('input,textarea,select').removeAttr('disabled');
+                fields.show();
+                $('tr.' + field_type + '_row:last').after(fields);
+
+                return false;
+            });
+
+            if (field_type === 'module') {
+                $('.' + field_type + '_row_remove').click(function() {
+                    // Make sure there is always one active module row
+                    if ($('tr.' + field_type + '_row').length > 2) {
+                        $(this).closest('tr').remove();
+                    }
+
+                    // Make sure there is always one module row marked as the name key
+                    if ($('.' + field_type + '_name_key:checked').length === 0) {
+                        $('.' + field_type + '_name_key:last').prop('checked', 'checked');
+                    }
+
+                    return false;
+                });
+            } else {
+                $('.' + field_type + '_row_remove').click(function() {
+                    $(this).closest('tr').remove();
+
+                    return false;
+                });
+            }
+        });
+    });
+</script>
