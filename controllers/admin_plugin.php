@@ -70,6 +70,82 @@ class AdminPlugin extends ExtensionGeneratorController
     }
 
     /**
+     * Returns the view to be rendered when configuring the database tables for a plugin
+     */
+    public function database()
+    {
+        // Reset the indexes for the tables array and column sub-arrays
+        if (isset($this->post['tables'])) {
+            array_values($this->post['tables']);
+            foreach ($this->post['tables'] as &$table) {
+                // Reset the indexes for the column sub-arrays
+                $table['columns'] = array_values($table['columns']);
+
+                // Set unset checkboxes
+                foreach ($table['columns'] as &$column) {
+                    if (!isset($column['nullable'])) {
+                        $column['nullable'] = 'false';
+                    }
+                }
+            }
+        }
+
+        // Perform edit and redirect or set errors and repopulate vars
+        $vars = $this->processStep('plugin/database', $this->extension);
+
+        // Set the view to render for all actions under this controller
+        $this->set('column_types', $this->getColumnTypes());
+        $this->set('vars', $vars);
+
+        // Set the node progress bar
+        $nodes = $this->getNodes($this->extension);
+        $page_step = array_search('plugin/database', array_keys($nodes));
+        $this->set(
+            'progress_bar',
+            $this->partial(
+                'partial_progress_bar',
+                ['nodes' => $nodes, 'page_step' => $page_step, 'extension' => $this->extension]
+            )
+        );
+    }
+
+    /**
+     * Returns the view to be rendered when configuring the core integrations for a plugin
+     */
+    public function integrations()
+    {
+        // Set empty array inputs
+        if (!empty($this->post)) {
+            $array_fields = ['actions', 'events', 'cards'];
+            foreach ($array_fields as $array_field) {
+                if (!isset($this->post[$array_field])) {
+                    // Set empty array inputs
+                    $this->post[$array_field] = [];
+                }
+            }
+        }
+
+        // Perform edit and redirect or set errors and repopulate vars
+        $vars = $this->processStep('plugin/integrations', $this->extension);
+
+        // Set the view to render for all actions under this controller
+        $this->set('action_locations', $this->getActionLocations());
+        $this->set('card_levels', $this->getCardLevels());
+        $this->set('vars', $vars);
+
+        // Set the node progress bar
+        $nodes = $this->getNodes($this->extension);
+        $page_step = array_search('plugin/integrations', array_keys($nodes));
+        $this->set(
+            'progress_bar',
+            $this->partial(
+                'partial_progress_bar',
+                ['nodes' => $nodes, 'page_step' => $page_step, 'extension' => $this->extension]
+            )
+        );
+    }
+
+    /**
      * Returns the view to be rendered when configuring the additional features for a plugin
      */
     public function features()
@@ -111,5 +187,54 @@ class AdminPlugin extends ExtensionGeneratorController
         }
 
         return $functions;
+    }
+
+    /**
+     * Gets a list of database column types
+     *
+     * @return A list of database column types
+     */
+    private function getColumnTypes()
+    {
+        return [
+            'INT' => 'INT',
+            'TINYINT' => 'TINYINT',
+            'VARCHAR' => 'VARCHAR',
+            'TEXT' => 'TEXT',
+            'DATETIME' => 'DATETIME',
+            'ENUM' => 'ENUM',
+        ];
+    }
+
+    /**
+     * Gets a list of action locations and their language
+     *
+     * @return A list of action locations and their language
+     */
+    private function getActionLocations()
+    {
+        return [
+            'nav_primary_client' => Language::_('AdminPlugin.getactionlocations.nav_primary_client', true),
+            'nav_primary_staff' => Language::_('AdminPlugin.getactionlocations.nav_primary_staff', true),
+            'nav_secondary_staff' => Language::_('AdminPlugin.getactionlocations.nav_secondary_staff', true),
+            'action_staff_client' => Language::_('AdminPlugin.getactionlocations.action_staff_client', true),
+            'widget_client_home' => Language::_('AdminPlugin.getactionlocations.widget_client_home', true),
+            'widget_staff_home' => Language::_('AdminPlugin.getactionlocations.widget_staff_home', true),
+            'widget_staff_client' => Language::_('AdminPlugin.getactionlocations.widget_staff_client', true),
+            'widget_staff_billing' => Language::_('AdminPlugin.getactionlocations.widget_staff_billing', true),
+        ];
+    }
+
+    /**
+     * Gets a list of card levels and their language
+     *
+     * @return A list of card levels and their language
+     */
+    private function getCardLevels()
+    {
+        return [
+            'client' => Language::_('AdminPlugin.getcardlevels.client', true),
+            'staff' => Language::_('AdminPlugin.getcardlevels.staff', true),
+        ];
     }
 }

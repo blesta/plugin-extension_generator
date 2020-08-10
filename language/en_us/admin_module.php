@@ -26,6 +26,8 @@ $lang['AdminModule.getoptionalfunctions.tooltip_getClientServiceInfo'] = 'Fetche
 // Page title
 $lang['AdminModule.index.page_title'] = 'Extension Generator - %1$s'; // %1$s is the module name
 
+$lang['AdminModule.index.boxtitle_extension_generator'] = 'Extension Generator - Module';
+
 
 // Basic info page
 $lang['AdminModule.basic.heading_basic'] = 'Basic Information';

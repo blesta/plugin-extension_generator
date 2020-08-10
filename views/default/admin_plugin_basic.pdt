@@ -3,7 +3,7 @@
 
         $this->Widget->clear();
         $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
-        $this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
+        $this->Widget->create($this->_('AdminPlugin.index.boxtitle_extension_generator', true));
 
         echo $this->Html->ifSet($progress_bar);
 
@@ -65,7 +65,7 @@
                 </table>
             </div>
             <div class="button_row">
-                <?php $this->Form->fieldSubmit('submit', $this->Html->ifSet($form_type) == 'basic' ? $this->_('AdminPlugin.basic.confirm', true) : $this->_('AdminPlugin.basic.features', true), ['class' => 'btn btn-primary pull-right']);?>
+                <?php $this->Form->fieldSubmit('submit', $this->Html->ifSet($form_type) == 'basic' ? $this->_('AdminPlugin.basic.confirm', true) : $this->_('AdminPlugin.basic.database', true), ['class' => 'btn btn-primary pull-right']);?>
             </div>
         </div>
         <?php

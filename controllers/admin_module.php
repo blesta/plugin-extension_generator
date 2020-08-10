@@ -142,9 +142,9 @@ class AdminModule extends ExtensionGeneratorController
     }
 
     /**
-     * Gets a list of cron task types and their languages
+     * Gets a list of cron task types and their language
      *
-     * @return A list of cron task types and their languages
+     * @return A list of cron task types and their language
      */
     private function getTaskTypes()
     {
@@ -155,9 +155,9 @@ class AdminModule extends ExtensionGeneratorController
     }
 
     /**
-     * Gets a list of tab levels and their languages
+     * Gets a list of tab levels and their language
      *
-     * @return A list of tab levels and their languages
+     * @return A list of tab levels and their language
      */
     private function getTabLevels()
     {

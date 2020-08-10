@@ -112,7 +112,7 @@ class ExtensionGeneratorController extends AppController
 
             // Convert array input to a more usable form before storing
             foreach ($temp_vars as $key => $value) {
-                if (is_array($value) && $key != 'optional_functions') {
+                if (is_array($value) && !in_array($key, ['optional_functions', 'tables'])) {
                     $temp_vars[$key] = $this->ArrayHelper->keyToNumeric($value);
                 }
             }
@@ -154,7 +154,7 @@ class ExtensionGeneratorController extends AppController
 
             // Convert array input to a more usable form before displaying
             foreach ($vars as $key => $value) {
-                if (is_array($value) && $key != 'optional_functions') {
+                if (is_array($value) && !in_array($key, ['optional_functions', 'tables'])) {
                     $vars[$key] = $this->ArrayHelper->numericToKey($value);
                 }
             }
@@ -193,6 +193,10 @@ class ExtensionGeneratorController extends AppController
                 ],
                 'plugin' => [
                     'plugin/basic' => Language::_('ExtensionGeneratorController.getnodes.basic_info', true),
+                    'plugin/database' => Language::_('ExtensionGeneratorController.getnodes.plugin_database', true),
+                    'plugin/integrations' => Language::_(
+                        'ExtensionGeneratorController.getnodes.plugin_integrations', true
+                    ),
                     'plugin/features' => Language::_('ExtensionGeneratorController.getnodes.additional_features', true),
                 ],
                 'merchant' => [],
@@ -232,7 +236,9 @@ class ExtensionGeneratorController extends AppController
             'module/basic' => 'module/fields',
             'module/fields' => 'module/features',
             'module/features' => 'main/confirm',
-            'plugin/basic' => 'plugin/features',
+            'plugin/basic' => 'plugin/database',
+            'plugin/database' => 'plugin/integrations',
+            'plugin/integrations' => 'plugin/features',
             'plugin/features' => 'main/confirm',
             'main/confirm' => 'main/general',
         ];
@@ -250,9 +256,9 @@ class ExtensionGeneratorController extends AppController
     }
 
     /**
-     * Gets a list of field types and their languages
+     * Gets a list of field types and their language
      *
-     * @return A list of field types and their languages
+     * @return A list of field types and their language
      */
     protected function getFieldTypes()
     {

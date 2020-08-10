@@ -1,0 +1,149 @@
+        <?php
+        echo $this->Html->ifSet($message);
+
+        $this->Widget->clear();
+        $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+        $this->Widget->create($this->_('AdminPlugin.index.boxtitle_extension_generator', true));
+
+        echo $this->Html->ifSet($progress_bar);
+
+        $this->Form->create(null, ['id' => 'plugindatabase', 'enctype' => 'multipart/form-data']);
+        ?>
+        <div class="inner">
+            <div class="title_row first"><h3><?php $this->_('AdminPlugin.database.heading_database');?></h3></div>
+            <div class="pad">
+                <div id="database_tables">
+                    <div class="links_row">
+                        <a class="btn btn-default pull-right btn-sm table_row_add" href="#"><span><?php $this->_('AdminPlugin.database.table_row_add');?></span></a>
+                    </div>
+                    <?php
+                    $tables = 0;
+                    if ($this->Html->ifSet($vars['tables'], false)) {
+                        $tables = count($vars['tables']);
+                    }
+                    for ($i = -1; $i < $tables; $i++) {
+                    ?>
+                    <div class="pad table_div"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?> data-table="<?php echo $i;?>">
+                        <div class="table_row" id="table_<?php echo $i;?>">
+                            <p>
+                                <ul>
+                                    <li>
+                                        <?php
+                                        $this->Form->label($this->_('AdminPlugin.database.table_name', true), 'tables[' . $i . '][name]', ['class' => 'inline']);
+                                        ?>
+                                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.database.tooltip_table_name');?></div></span>
+                                    </li>
+                                    <li>
+                                        <?php
+                                        $this->Form->fieldText('tables[' . $i . '][name]', $this->Html->ifSet($vars['tables'][$i]['name']), array_merge(['placeholder' => $this->_('AdminPlugin.database.placeholder_table_name', true)], array_merge(['id' => 'tables[' . $i . '][name]'], ($i >= 0 ? [] : ['disabled' => 'disabled']))));
+                                        ?>
+                                        <a href="#" class="btn btn-danger pull-right btn-sm" ><?php $this->_('AdminPlugin.database.text_remove');?></a>
+                                        <a href="#" class="btn btn-default pull-right btn-sm" ><?php $this->_('AdminPlugin.database.column_row_add');?></a>
+                                    </li>
+                                </ul>
+                            </p>
+                        </div>
+                        <table class="table table_column_row">
+                            <thead>
+                                <tr class="heading_row">
+                                    <td><?php $this->_('AdminPlugin.database.column_name');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.database.tooltip_column_name');?></div></span></td>
+                                    <td><?php $this->_('AdminPlugin.database.type');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.database.tooltip_type');?></div></span></td>
+                                    <td><?php $this->_('AdminPlugin.database.length');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.database.tooltip_length');?></div></span></td>
+                                    <td><?php $this->_('AdminPlugin.database.default');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.database.tooltip_default');?></div></span></td>
+                                    <td><?php $this->_('AdminPlugin.database.nullable');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.database.tooltip_nullable');?></div></span></td>
+                                    <td class="last"><?php $this->_('AdminPlugin.database.text_options');?></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            $columns = 1;
+                            if ($this->Html->ifSet($vars['tables'][$i]['columns'], false)) {
+                                $columns = count($vars['tables'][$i]['columns']);
+                            }
+                            for ($j = 0; $j < $columns; $j++) {
+                            ?>
+                                <tr class="column_row" data-column="<?php echo $j;?>">
+                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][name]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['name']), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.basic.placeholder_column_name', true)], ($i >= 0 ? [] : ['disabled' => 'disabled'])));?></td>
+                                    <td><?php $this->Form->fieldSelect('tables[' . $i . '][columns][c' . $j . '][type]', $this->Html->ifSet($column_types, []), $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['type']), ($i >= 0 ? [] : ['disabled' => 'disabled']));?></td>
+                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][length]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['length']), array_merge(['class' => 'stretch'], ($i >= 0 ? [] : ['disabled' => 'disabled'])));?></td>
+                                    <td><?php $this->Form->fieldTextarea('tables[' . $i . '][columns][c' . $j . '][default]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['default']), array_merge(['class' => 'stretch'], ($i >= 0 ? [] : ['disabled' => 'disabled'])));?></td>
+                                    <td><?php $this->Form->fieldCheckbox('tables[' . $i . '][columns][c' . $j . '][nullable]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['nullable'], 'true') == 'true', ($i >= 0 ? [] : ['disabled' => 'disabled']));?></td>
+                                    <td><a href="#" class="manage column_row_remove"><?php $this->_('AdminPlugin.database.text_remove');?></a></td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                </div>
+            </div>
+            <div class="button_row">
+                <?php $this->Form->fieldSubmit('submit', $this->_('AdminPlugin.database.confirm', true), ['class' => 'btn btn-primary pull-right']);?>
+            </div>
+        </div>
+        <?php
+        $this->Form->end();
+
+        $this->Widget->end();
+        ?>
+<script>
+    $(document).ready(function() {
+        $('.table_row_add').click(function() {
+            // Clone the table section
+            var table_section = $('.table_div:first').clone(true);
+            var last_table_number = $('.table_div:last').data('table');
+
+            // Display the cloned section
+            table_section.show();
+
+            // Enable fields
+            table_section.find('input,textarea,select').removeAttr('disabled');
+
+            var element_html = table_section.prop('outerHTML').replaceAll('-1', (last_table_number + 1));
+
+            // Add new table
+            $('.table_div:last').after(element_html);
+
+            return false;
+        });
+
+        $('#database_tables').on('click', '.column_row_add', function() {
+            // Clone the table row and the columns row
+            var column = $(this).closest('.table_div').find('.column_row:last').clone(true);
+            var column_number = column.data('column');
+            column.data('column', column_number + 1);
+
+            // Display the cloned row
+            column.show();
+
+            // Enable fields
+            column.find('input,textarea,select').val('');
+
+            var element_html = column.prop('outerHTML').replaceAll('c' + column_number, 'c' + (column_number + 1));
+
+            // Add new table
+            $(this).closest('.table_div').find('.column_row:last').after(
+                element_html.replace('data-column="' + column_number + '"', 'data-column="' + (column_number + 1) + '"')
+            );
+
+            return false;
+        });
+
+        $('#database_tables').on('click', '.table_row_remove', function() {
+            // Remove table section
+            $(this).closest('.table_div').remove();
+        });
+
+        $('#database_tables').on('click', '.column_row_remove', function() {
+            console.log('hi');
+            // Remove column row
+            if ($(this).closest('tbody').find('tr').length > 1) {
+                $(this).closest('tr').remove();
+            }
+        });
+    });
+</script>
