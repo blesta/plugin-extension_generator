@@ -14,48 +14,14 @@ $lang['AdminMain.!success.gateway_created'] = 'The new gateway has been successf
 
 // Controller get functions
 
-$lang['AdminMain.getfieldtypes.text'] = 'Text';
-$lang['AdminMain.getfieldtypes.textarea'] = 'Textarea';
-$lang['AdminMain.getfieldtypes.checkbox'] = 'Checkbox';
-
-$lang['AdminMain.getfieldtypes.text'] = 'Text';
-$lang['AdminMain.getfieldtypes.textarea'] = 'Textarea';
-$lang['AdminMain.getfieldtypes.checkbox'] = 'Checkbox';
-
-$lang['AdminMain.gettablevels.staff'] = 'Staff';
-$lang['AdminMain.gettablevels.client'] = 'Client';
-
-$lang['AdminMain.gettasktypes.time'] = 'Time';
-$lang['AdminMain.gettasktypes.interval'] = 'Interval';
-
 $lang['AdminMain.getfilelocations.module'] = 'Blesta Modules Directory';
 $lang['AdminMain.getfilelocations.plugin'] = 'Blesta Plugins Directory';
 $lang['AdminMain.getfilelocations.gateway'] = 'Blesta Gateways Directory';
 $lang['AdminMain.getfilelocations.upload'] = 'Blesta Uploads Directory';
 $lang['AdminMain.getfilelocations.custom'] = 'Custom';
 
-$lang['AdminMain.getnodes.general_settings'] = 'General Settings';
-$lang['AdminMain.getnodes.basic_info'] = 'Basic Info';
-$lang['AdminMain.getnodes.module_fields'] = 'Module Fields';
-$lang['AdminMain.getnodes.additional_features'] = 'Additional Features';
-$lang['AdminMain.getnodes.confirm'] = 'Confirmation';
-
-$lang['AdminMain.getoptionalfunctions.tooltip_cancelService'] = 'Called to perform module actions on service cancellation.';
-$lang['AdminMain.getoptionalfunctions.tooltip_suspendService'] = 'Called to perform module actions on service suspension.';
-$lang['AdminMain.getoptionalfunctions.tooltip_unsuspendService'] = 'Called to perform module actions on service unsuspension.';
-$lang['AdminMain.getoptionalfunctions.tooltip_renewService'] = 'Called to perform module actions when a service is renewed.';
-$lang['AdminMain.getoptionalfunctions.tooltip_addPackage'] = 'Performs any action required to add the package on the remote server. Sets Input errors on failure, preventing the package from being added.';
-$lang['AdminMain.getoptionalfunctions.tooltip_editPackage'] = 'Performs any action required to edit the package on the remote server. Sets Input errors on failure, preventing the package from being edited.';
-$lang['AdminMain.getoptionalfunctions.tooltip_deletePackage'] = 'Deletes the package on the remote server. Sets Input errors on failure, preventing the package from being deleted.';
-$lang['AdminMain.getoptionalfunctions.tooltip_deleteModuleRow'] = 'Deletes the module row on the remote server. Sets Input errors on failure, preventing the row from being deleted.';
-$lang['AdminMain.getoptionalfunctions.tooltip_manageAddRow'] = 'Returns the rendered view of the add module row page';
-$lang['AdminMain.getoptionalfunctions.tooltip_manageEditRow'] = 'Returns the rendered view of the edit module row page';
-$lang['AdminMain.getoptionalfunctions.tooltip_upgrade'] = 'Performs migration of data from $current_version (the current installed version) to the given file set version. Sets Input errors on failure, preventing the module from being upgraded.';
-$lang['AdminMain.getoptionalfunctions.tooltip_getGroupOrderOptions'] = 'Returns an array of available service delegation order methods. The module will determine how each method is defined. For example, the method "first" may be implemented such that it returns the module row with the least number of services assigned to it.';
-$lang['AdminMain.getoptionalfunctions.tooltip_selectModuleRow'] = 'Determines which module row should be attempted when a service is provisioned for the given group based upon the order method set for that group.';
-$lang['AdminMain.getoptionalfunctions.tooltip_getAdminServiceInfo'] = 'Fetches the HTML content to display when viewing the service info in the admin interface.';
-$lang['AdminMain.getoptionalfunctions.tooltip_getClientServiceInfo'] = 'Fetches the HTML content to display when viewing the service info in the client interface.';
-
+// Page title
+$lang['AdminMain.index.page_title'] = 'Extension Generator';
 
 // Boxtitle
 $lang['AdminMain.index.boxtitle_extension_generator'] = 'Extension Generator';
@@ -91,109 +57,6 @@ $lang['AdminMain.general.tooltip_form_type'] = 'Basic to use a highly truncated 
 $lang['AdminMain.general.tooltip_code_examples'] = 'Check to include commented out lines of sample code for features such as Cron Tasks, Event lists and tie-ins, etc.';
 
 $lang['AdminMain.general.placeholder_name'] = 'Extension Name';
-
-
-// Basic info page
-$lang['AdminMain.modulebasic.heading_module_basic'] = 'Basic Information';
-$lang['AdminMain.modulebasic.heading_module_authors'] = 'Authors';
-
-$lang['AdminMain.modulebasic.description'] = 'Description';
-$lang['AdminMain.modulebasic.logo'] = 'Logo';
-$lang['AdminMain.modulebasic.module_row'] = 'Module Row Name';
-$lang['AdminMain.modulebasic.module_row_plural'] = 'Module Row Name (Plural)';
-$lang['AdminMain.modulebasic.module_group'] = 'Module Group Label';
-$lang['AdminMain.modulebasic.author_name'] = 'Author Name';
-$lang['AdminMain.modulebasic.author_url'] = 'Author URL';
-$lang['AdminMain.modulebasic.text_options'] = 'Options';
-$lang['AdminMain.modulebasic.author_row_add'] = 'Add Author';
-$lang['AdminMain.modulebasic.text_remove'] = 'Remove';
-
-$lang['AdminMain.modulebasic.tooltip_module_description'] = 'The description shown in the module listing';
-$lang['AdminMain.modulebasic.tooltip_module_logo'] = 'The logo displayed in the module listing';
-$lang['AdminMain.modulebasic.tooltip_module_row'] = 'The term by which to refer to a single module row for this module';
-$lang['AdminMain.modulebasic.tooltip_module_row_plural'] = 'The term by which to refer to multiple module rows for this module';
-$lang['AdminMain.modulebasic.tooltip_module_group'] = 'The term by which to refer to module row groups for this module';
-
-$lang['AdminMain.modulebasic.placeholder_module_row'] = 'e.g. Server';
-$lang['AdminMain.modulebasic.placeholder_module_row_plural'] = 'e.g. Servers';
-$lang['AdminMain.modulebasic.placeholder_module_group'] = 'e.g. Server Group';
-$lang['AdminMain.modulebasic.placeholder_author_name'] = 'e.g. Blesta';
-$lang['AdminMain.modulebasic.placeholder_author_url'] = 'e.g. https://blesta.com/';
-
-$lang['AdminMain.modulebasic.module_fields'] = 'Next - Module Fields';
-$lang['AdminMain.modulebasic.module_confirm'] = 'Next - Confirmation';
-
-
-// Fields page
-$lang['AdminMain.modulefields.heading_module_row_fields'] = 'Module Row Fields';
-$lang['AdminMain.modulefields.heading_package_fields'] = 'Package Fields';
-$lang['AdminMain.modulefields.heading_service_fields'] = 'Service Fields';
-
-$lang['AdminMain.modulefields.name'] = 'Name';
-$lang['AdminMain.modulefields.label'] = 'Label';
-$lang['AdminMain.modulefields.type'] = 'Type';
-$lang['AdminMain.modulefields.tooltip'] = 'Tooltip Text';
-$lang['AdminMain.modulefields.name_key'] = 'Name Key';
-
-$lang['AdminMain.modulefields.tooltip_name'] = 'The name of the field in the code base';
-$lang['AdminMain.modulefields.tooltip_label'] = 'The display name of the field';
-$lang['AdminMain.modulefields.tooltip_type'] = 'The type of field to create (checkbox, text, etc.)';
-$lang['AdminMain.modulefields.tooltip_tooltip'] = 'The text of the tooltip to display along side the field (leave empty to have no tooltip)';
-$lang['AdminMain.modulefields.tooltip_name_key'] = 'The field by which Blesta determines the name of a package/service/module row';
-
-$lang['AdminMain.modulefields.placeholder_module_name'] = 'e.g. module_field';
-$lang['AdminMain.modulefields.placeholder_module_label'] = 'e.g. Module Field';
-$lang['AdminMain.modulefields.placeholder_package_name'] = 'e.g. package_field';
-$lang['AdminMain.modulefields.placeholder_package_label'] = 'e.g. Package Field';
-$lang['AdminMain.modulefields.placeholder_service_name'] = 'e.g. service_field';
-$lang['AdminMain.modulefields.placeholder_service_label'] = 'e.g. Service Field';
-
-$lang['AdminMain.modulefields.module_row_add'] = 'Add Module Row Field';
-$lang['AdminMain.modulefields.package_row_add'] = 'Add Package Field';
-$lang['AdminMain.modulefields.service_row_add'] = 'Add Service Field';
-
-$lang['AdminMain.modulefields.text_options'] = 'Options';
-$lang['AdminMain.modulefields.text_remove'] = 'Remove';
-
-$lang['AdminMain.modulefields.module_features'] = 'Next - Additional Features';
-
-
-// Additional features page
-$lang['AdminMain.modulefeatures.heading_module_features'] = 'Additional Features';
-$lang['AdminMain.modulefeatures.heading_service_tabs'] = 'Service Management Tabs';
-$lang['AdminMain.modulefeatures.heading_cron_tasks'] = 'Cron Tasks';
-$lang['AdminMain.modulefeatures.heading_optional_functions'] = 'Optional Functions';
-
-$lang['AdminMain.modulefeatures.method_name'] = 'Method Name';
-$lang['AdminMain.modulefeatures.label'] = 'Label';
-$lang['AdminMain.modulefeatures.level'] = 'Level';
-$lang['AdminMain.modulefeatures.name'] = 'Name';
-$lang['AdminMain.modulefeatures.description'] = 'Description';
-$lang['AdminMain.modulefeatures.type'] = 'Type';
-$lang['AdminMain.modulefeatures.time'] = 'Start Time/Interval';
-
-$lang['AdminMain.modulefeatures.tooltip_method_name'] = 'The name of the method to be generated for this tab in the code base (in the form camelCaseMethodName)';
-$lang['AdminMain.modulefeatures.tooltip_tab_label'] = 'The display name of the service tab';
-$lang['AdminMain.modulefeatures.tooltip_level'] = 'The level of interface on which to display the tab (staff or client)';
-$lang['AdminMain.modulefeatures.tooltip_name'] = 'The name of the cron task in the code base';
-$lang['AdminMain.modulefeatures.tooltip_cron_label'] = 'The display name of the cron task';
-$lang['AdminMain.modulefeatures.tooltip_description'] = 'The description shown on the cron task list page';
-$lang['AdminMain.modulefeatures.tooltip_type'] = 'The type of timing to use for the cron task (time or interval)';
-$lang['AdminMain.modulefeatures.tooltip_time'] = 'The daily 24-hour time that this task should run (e.g. "14:25") OR The interval, in minutes, that this cron task should run';
-
-$lang['AdminMain.modulefeatures.placeholder_method_name'] = 'e.g. tabChangePassword';
-$lang['AdminMain.modulefeatures.placeholder_tab_label'] = 'e.g. Change Password';
-$lang['AdminMain.modulefeatures.placeholder_name'] = 'e.g. my_cron_task';
-$lang['AdminMain.modulefeatures.placeholder_cron_label'] = 'e.g. My Cron Task';
-$lang['AdminMain.modulefeatures.placeholder_time'] = 'e.g. 14:25 or 60';
-
-$lang['AdminMain.modulefeatures.service_tab_row_add'] = 'Add Service Management Tab';
-$lang['AdminMain.modulefeatures.cron_task_row_add'] = 'Add Cron Task';
-
-$lang['AdminMain.modulefeatures.text_options'] = 'Options';
-$lang['AdminMain.modulefeatures.text_remove'] = 'Remove';
-
-$lang['AdminMain.modulefeatures.module_confirm'] = 'Next - Confirmation';
 
 
 // Confirmation page
