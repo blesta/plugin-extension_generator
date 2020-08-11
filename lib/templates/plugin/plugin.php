@@ -41,6 +41,48 @@ class {{class_name}}Plugin extends Plugin
 
         // Add cron tasks for this plugin
         $this->addCronTasks($this->getCronTasks());{{function:getCronTasks}}{{function:addCronTasks}}
+
+////        // Fetch all currently-installed languages for this company, for which email templates should be created for
+////        $languages = $this->Languages->getAll(Configure::get('Blesta.company_id'));
+////
+////        // Add all email templates
+////        $emails = Configure::get('{{class_name}}.install.emails');
+////        foreach ($emails as $email) {
+////            $group = $this->EmailGroups->getByAction($email['action']);
+////            if ($group) {
+////                $group_id = $group->id;
+////            } else {
+////                $group_id = $this->EmailGroups->add([
+////                    'action' => $email['action'],
+////                    'type' => $email['type'],
+////                    'plugin_dir' => $email['plugin_dir'],
+////                    'tags' => $email['tags']
+////                ]);
+////            }
+////
+////            // Set from hostname to use that which is configured for the company
+////            if (isset(Configure::get('Blesta.company')->hostname)) {
+////                $email['from'] = str_replace(
+////                    '@mydomain.com',
+////                    '@' . Configure::get('Blesta.company')->hostname,
+////                    $email['from']
+////                );
+////            }
+////
+////            // Add the email template for each language
+////            foreach ($languages as $language) {
+////                $this->Emails->add([
+////                    'email_group_id' => $group_id,
+////                    'company_id' => Configure::get('Blesta.company_id'),
+////                    'lang' => $language->code,
+////                    'from' => $email['from'],
+////                    'from_name' => $email['from_name'],
+////                    'subject' => $email['subject'],
+////                    'text' => $email['text'],
+////                    'html' => $email['html']
+////                ]);
+////            }
+////        }
     }
 
     /**
@@ -83,6 +125,26 @@ class {{class_name}}Plugin extends Plugin
                 $this->CronTasks->deleteTaskRun($cron_task_run->task_run_id);
             }
         }{{function:getCronTasks}}
+////
+////
+////        Loader::loadModels($this, ['Emails', 'EmailGroups']);
+////        Configure::load('{{snake_case_name}}', dirname(__FILE__) . DS . 'config' . DS);
+////
+////        $emails = Configure::get('{{class_name}}.install.emails');
+////        // Remove emails and email groups as necessary
+////        foreach ($emails as $email) {
+////            // Fetch the email template created by this plugin
+////            $group = $this->EmailGroups->getByAction($email['action']);
+////
+////            // Delete all emails templates belonging to this plugin's email group and company
+////            if ($group) {
+////                $this->Emails->deleteAll($group->id, Configure::get('Blesta.company_id'));
+////
+////                if ($last_instance) {
+////                    $this->EmailGroups->delete($group->id);
+////                }
+////            }
+////        }
     }{{function:addCronTasks}}
 
     /**

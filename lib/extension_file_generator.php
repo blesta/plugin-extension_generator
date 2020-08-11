@@ -414,6 +414,7 @@ class ExtensionFileGenerator
                 ['path' => 'controller.php', 'name' => $extension_name . '_controller.php'],
                 ['path' => 'model.php', 'name' => $extension_name . '_model.php'],
                 ['path' => 'config.json'],
+                ['path' => 'config' . DS . $extension_name . '.php'],
                 ['path' => 'language' . DS . 'en_us' . DS . 'plugin.php', 'name' => $extension_name . '_plugin.php'],
                 [
                     'path' => 'language' . DS . 'en_us' . DS . 'controller.php',
