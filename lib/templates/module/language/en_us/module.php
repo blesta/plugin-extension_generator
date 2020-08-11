@@ -99,3 +99,8 @@ $lang['{{class_name}}.package_fields.{{package_fields.name}}'] = '{{package_fiel
 
 {{array:package_fields}}{{if:package_fields.tooltip:}}{{else}}
 $lang['{{class_name}}.package_field.tooltip.{{package_fields.name}}'] = '{{package_fields.tooltip}}';{{if:package_fields.tooltip}}{{array:package_fields}}
+
+// Cron Tasks
+{{array:cron_tasks}}
+$lang['{{class_name}}.getCronTasks.{{cron_tasks.name}}'] = '{{cron_tasks.label}}';
+$lang['{{class_name}}.getCronTasks.{{cron_tasks.name}}_description'] = '{{cron_tasks.description}}';{{array:cron_tasks}}

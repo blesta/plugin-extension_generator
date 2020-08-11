@@ -1,12 +1,12 @@
 {
-    "_comment": "This is currently non-functional.  Use this file to make your module installable through composer.  Replace 'parent_repository' in the name property below with the appropriate location",
+    "_comment": "This is currently non-functional.  Use this file to make your plugin installable through composer.  Replace 'parent_repository' in the name property below with the appropriate location",
     "name": "parent_repository/{{snake_case_name}}",
     "description": "{{description}}",
     "license": "proprietary",
-    "type": "blesta-module",
+    "type": "blesta-plugin",
     "require": {
         "blesta/composer-installer": "~1.0"
-    }
+    },
     "authors": [{{array:authors}}
         {
             "name": "{{authors.name}}",

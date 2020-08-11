@@ -88,6 +88,7 @@
                         <tr class="heading_row">
                             <td><?php $this->_('AdminPlugin.integrations.level');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.integrations.tooltip_name');?></div></span></td>
                             <td><?php $this->_('AdminPlugin.integrations.card_callback');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.integrations.tooltip_card_callback');?></div></span></td>
+                            <td><?php $this->_('AdminPlugin.integrations.label');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.integrations.tooltip_label');?></div></span></td>
                             <td><?php $this->_('AdminPlugin.integrations.link');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.integrations.tooltip_link');?></div></span></td>
                             <td class="last"><?php $this->_('AdminPlugin.integrations.text_options');?></td>
                         </tr>
@@ -104,6 +105,7 @@
                         <tr class="card_row"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?>>
                             <td><?php $this->Form->fieldSelect('cards[level][]', $this->Html->ifSet($card_levels), $this->Html->ifSet($vars['cards']['level'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
                             <td><?php $this->Form->fieldText('cards[callback][]', $this->Html->ifSet($vars['cards']['callback'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_card_callback', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('cards[label][]', $this->Html->ifSet($vars['cards']['label'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_label', true)], $disabled));?></td>
                             <td><?php $this->Form->fieldText('cards[link][]', $this->Html->ifSet($vars['cards']['link'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_link', true)], $disabled));?></td>
                             <td><a href="#" class="manage card_row_remove"><?php $this->_('AdminPlugin.integrations.text_remove');?></a></td>
                         </tr>

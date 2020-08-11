@@ -7,7 +7,7 @@
 1. You can install the module via composer:
 
     ```
-    composer require blesta/{{snake_case_name}}
+    composer require parent_repository/{{snake_case_name}}
     ```
 
 2. OR upload the source code to a /components/modules/{{snake_case_name}}/ directory within

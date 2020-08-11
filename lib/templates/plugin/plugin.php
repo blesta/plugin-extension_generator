@@ -1,0 +1,320 @@
+<?php
+/**
+ * {{name}} plugin handler
+ *{{array:authors}}
+ * @link {{authors.url}} {{authors.name}}{{array:authors}}
+ */
+class {{class_name}}Plugin extends Plugin
+{
+    public function __construct()
+    {
+        // Load components required by this plugin
+        Loader::loadComponents($this, ['Input', 'Record']);
+
+        Language::loadLang('{{snake_case_name}}_plugin', null, dirname(__FILE__) . DS . 'language' . DS);
+        $this->loadConfig(dirname(__FILE__) . DS . 'config.json');
+    }
+
+    /**
+     * Performs any necessary bootstraping actions
+     *
+     * @param int $plugin_id The ID of the plugin being installed
+     */
+    public function install($plugin_id)
+    {
+        try {
+            // Create database tables{{array:tables}}
+
+            // {{tables.name}}
+            $this->Record{{array:tables.columns}}
+                ->setField(
+                    '{{tables.columns.name}}',
+                    ['type' => '{{tables.columns.type}}', 'size' => "{{tables.columns.length}}",{{if:tables.columns.type:INT}} 'unsigned' => true,{{else}}{{if:tables.columns.type}}{{if:tables.columns.name:id}} 'auto_increment' => true,{{else}}{{if:tables.columns.name}}]
+                ){{if:tables.columns.name:id}}
+                ->setKey(['id'], 'primary'){{else}}{{if:tables.columns.name}}{{array:tables.columns}}
+                ->create('{{tables.name}}', true);{{array:tables}}
+        } catch (Exception $e) {
+            // Error adding... no permission?
+            $this->Input->setErrors(['db' => ['create' => $e->getMessage()]]);
+            return;
+        }{{function:addCronTasks}}{{function:getCronTasks}}
+
+        // Add cron tasks for this plugin
+        $this->addCronTasks($this->getCronTasks());{{function:getCronTasks}}{{function:addCronTasks}}
+    }
+
+    /**
+     * Performs any necessary cleanup actions
+     *
+     * @param int $plugin_id The ID of the plugin being uninstalled
+     * @param bool $last_instance True if $plugin_id is the last instance across
+     *  all companies for this plugin, false otherwise
+     */
+    public function uninstall($plugin_id, $last_instance)
+    {{{function:getCronTasks}}
+        Loader::loadModels($this, ['CronTasks']);
+
+        // Fetch the cron tasks for this plugin
+        $cron_tasks = $this->getCronTasks();
+{{function:getCronTasks}}
+        if ($last_instance) {
+            try {
+                // Remove database tables{{array:tables}}
+                $this->Record->drop('{{tables.name}}');{{array:tables}}
+            } catch (Exception $e) {
+                // Error dropping... no permission?
+                $this->Input->setErrors(['db' => ['create' => $e->getMessage()]]);
+                return;
+            }{{function:getCronTasks}}
+
+            // Remove the cron tasks
+            foreach ($cron_tasks as $task) {
+                $cron_task = $this->CronTasks->getByKey($task['key'], $task['dir'], $task['task_type']);
+                if ($cron_task) {
+                    $this->CronTasks->deleteTask($cron_task->id, $task['task_type'], $task['dir']);
+                }
+            }{{function:getCronTasks}}
+        }{{function:getCronTasks}}
+
+        // Remove individual cron task runs
+        foreach ($cron_tasks as $task) {
+            $cron_task_run = $this->CronTasks->getTaskRunByKey($task['key'], $task['dir'], false, $task['task_type']);
+            if ($cron_task_run) {
+                $this->CronTasks->deleteTaskRun($cron_task_run->task_run_id);
+            }
+        }{{function:getCronTasks}}
+    }{{function:addCronTasks}}
+
+    /**
+     * Attempts to add new cron tasks for this plugin
+     *
+     * @param array $tasks A list of cron tasks to add
+     */
+    private function addCronTasks(array $tasks)
+    {
+        Loader::loadModels($this, ['CronTasks']);
+        foreach ($tasks as $task) {
+            $task_id = $this->CronTasks->add($task);
+
+            if (!$task_id) {
+                $cron_task = $this->CronTasks->getByKey($task['key'], $task['dir'], $task['task_type']);
+                if ($cron_task) {
+                    $task_id = $cron_task->id;
+                }
+            }
+
+            if ($task_id) {
+                $task_vars = ['enabled' => $task['enabled']];
+                if ($task['type'] === 'time') {
+                    $task_vars['time'] = $task['type_value'];
+                } else {
+                    $task_vars['interval'] = $task['type_value'];
+                }
+
+                $this->CronTasks->addTaskRun($task_id, $task_vars);
+            }
+        }
+    }{{function:addCronTasks}}{{function:getCronTasks}}
+
+    /**
+     * Retrieves cron tasks available to this plugin along with their default values
+     *
+     * @return array A list of cron tasks
+     */
+    private function getCronTasks()
+    {
+        return [{{array:cron_tasks}}
+            [
+                'key' => '{{cron_tasks.name}}',
+                'task_type' => 'plugin',
+                'dir' => '{{snake_case_name}}',
+                'name' => Language::_('{{class_name}}Plugin.getCronTasks.{{cron_tasks.name}}', true),
+                'description' => Language::_('{{class_name}}Plugin.getCronTasks.{{cron_tasks.name}}_description', true),
+                'type' => '{{cron_tasks.type}}',
+                'type_value' => '{{cron_tasks.time}}',
+                'enabled' => 1
+            ],{{array:cron_tasks}}
+        ];
+    }
+
+    /**
+     * Runs the cron task identified by the key used to create the cron task
+     *
+     * @param string $key The key used to create the cron task
+     * @see CronTasks::add()
+     */
+    public function cron($key)
+    {
+        switch ($key) {{{array:cron_tasks}}
+            case '{{cron_tasks.name}}':
+                // Perform necessary actions
+                break;{{array:cron_tasks}}
+        }
+    }{{function:getCronTasks}}{{function:getActions}}
+
+    /**
+     * Returns all actions to be configured for this widget
+     * (invoked after install() or upgrade(), overwrites all existing actions)
+     *
+     * @return array A numerically indexed array containing:
+     *  - action The action to register for
+     *  - uri The URI to be invoked for the given action
+     *  - name The name to represent the action (can be language definition)
+     *  - options An array of key/value pair options for the given action
+     */
+    public function getActions()
+    {
+        return [{{array:actions}}
+            // {{actions.name}}
+            [
+                'action' => '{{actions.location}}',
+                'uri' => '{{actions.uri}}',
+                'name' => '{{class_name}}Plugin.{{actions.location}}.main',
+            ],{{array:actions}}
+        ];
+    }{{function:getActions}}{{function:getEvents}}
+
+    /**
+     * Returns all events to be registered for this plugin
+     * (invoked after install() or upgrade(), overwrites all existing events)
+     *
+     * @return array A numerically indexed array containing:
+     *  - event The event to register for
+     *  - callback A string or array representing a callback function or class/method.
+     *      If a user (e.g. non-native PHP) function or class/method, the plugin must
+     *      automatically define it when the plugin is loaded. To invoke an instance
+     *      methods pass "this" instead of the class name as the 1st callback element.
+     */
+    public function getEvents()
+    {
+        return [{{array:events}}
+            [
+                'event' => '{{events.event}}',
+                'callback' => ['this', '{{events.callback}}']
+            ],{{array:events}}
+        ];
+    }{{function:getEvents}}{{function:getCards}}
+
+    /**
+     * Returns all cards to be configured for this plugin (invoked after install() or upgrade(),
+     * overwrites all existing cards)
+     *
+     * @return array A numerically indexed array containing:
+     *
+     *  - level The level this card should be displayed on (client or staff) (optional, default client)
+     *  - callback A method defined by the plugin class for calculating the value of the card or fetching a custom html
+     *  - callback_type The callback type, 'value' to fetch the card value or
+     *      'html' to fetch the custom html code (optional, default value)
+     *  - background The background color in hexadecimal or path to the background image for this card (optional)
+     *  - background_type The background type, 'color' to set a hexadecimal background or
+     *      'image' to set an image background (optional, default color)
+     *  - label A string or language key appearing under the value as a label
+     *  - link The link to which the card will be pointed (optional)
+     *  - enabled Whether this card appears on client profiles by default
+     *      (1 to enable, 0 to disable) (optional, default 1)
+     */
+    public function getCards()
+    {
+        return [{{array:cards}}
+            [
+                'level' => '{{cards.level}}',
+                'callback' => ['this', '{{cards.callback}}'],
+                'callback_type' => 'value',
+                'background' => '#fff',
+                'background_type' => 'color',
+                'label' => '{{class_name}}Plugin.card_{{cards.level}}.{{cards.callback}}',
+                'link' => '{{cards.link}}',
+                'enabled' => 1
+            ],{{array:cards}}
+        ];
+    }{{function:getCards}}{{function:allowsServiceTabs}}
+
+    /**
+     * Returns whether this plugin provides support for setting admin or client service tabs
+     * @see Plugin::getAdminServiceTabs
+     * @see Plugin::getClientServiceTabs
+     *
+     * @return bool True if the plugin supports service tabs, or false otherwise
+     */
+    public function allowsServiceTabs()
+    {
+        return true;
+    }{{function:allowsServiceTabs}}{{function:getClientServiceTabs}}
+
+
+    /**
+     * Returns all tabs to display to a client when managing a service
+     *
+     * @param stdClass $service A stdClass object representing the selected service
+     * @return array An array of tabs in the format of method => array where array contains:
+     *
+     *  - name (required) The name of the link
+     *  - icon (optional) use to display a custom icon
+     *  - href (optional) use to link to a different URL
+     *      Example:
+     *      array('methodName' => "Title", 'methodName2' => "Title2")
+     *      array('methodName' => array('name' => "Title", 'icon' => "icon"))
+     */
+    public function getClientServiceTabs(stdClass $service)
+    {
+        return [{{array:service_tabs}}
+            '{{service_tabs.method_name}}' => [
+                'name' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true)
+            ],{{array:service_tabs}}
+        ];
+    }{{function:getClientServiceTabs}}{{function:getAdminServiceTabs}}
+
+    /**
+     * Returns all tabs to display to an admin when managing a service
+     *
+     * @param stdClass $service An stdClass object representing the selected service
+     * @return array An array of tabs in the format of method => array where array contains:
+     *
+     *  - name (required) The name of the link
+     *  - href (optional) use to link to a different URL
+     *      Example:
+     *      array('methodName' => "Title", 'methodName2' => "Title2")
+     *      array('methodName' => array('name' => "Title", 'href' => "https://blesta.com"))
+     */
+    public function getAdminServiceTabs(stdClass $service)
+    {
+        return [{{array:service_tabs}}
+            '{{service_tabs.method_name}}' => [
+                'name' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true)
+            ],{{array:service_tabs}}
+        ];
+    }{{function:getAdminServiceTabs}}{{array:service_tabs}}
+
+    /**
+     * {{service_tabs.method_name}}
+     *
+     * @param stdClass $service An stdClass object representing the service
+     * @param array $get Any GET parameters
+     * @param array $post Any POST parameters
+     * @param array $files Any FILES parameters
+     * @return string The content of the tab
+     */
+    public function {{service_tabs.method_name}}(
+        stdClass $service,
+        array $get = null,
+        array $post = null,
+        array $files = null
+    ) {
+        $this->view = new View('tab', '{{class_name}}.default');
+        $this->view->base_uri = $this->base_uri;
+        // Load the helpers required for this view
+        Loader::loadHelpers($this, ['Form', 'Html']);
+
+        if (!empty($post)) {
+            // Perform any post actions
+            $vars = (object)$post;
+        }
+
+        $this->view->set('tab', '{{service_tabs.method_name}}');
+        $this->view->set('service_id', $service->id);
+        $this->view->set('client_id', $service->client_id);
+        $this->view->set('vars', (isset($vars) ? $vars : new stdClass()));
+
+        return $this->view->fetch();
+    }{{array:service_tabs}}
+}

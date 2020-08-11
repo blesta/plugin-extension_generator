@@ -98,10 +98,6 @@ class ExtensionFileGenerator
         $data['name'] = $this->options['name'];
         $data['snake_case_name'] = str_replace(' ', '_', strtolower($data['name']));
         $data['class_name'] = str_replace(' ', '', ucwords(str_replace('_', ' ', $data['name'])));
-        if ($this->extension_type == 'plugin') {
-            $data['snake_case_name'] .= '_plugin';
-            $data['class_name'] .= 'Plugin';
-        }
 
         // Get the directory in which to search for template files
         $template_directory = $this->getTemplateDirectory();
@@ -249,7 +245,7 @@ class ExtensionFileGenerator
 
         foreach ($array_tags as $array_tag => $array_values) {
             $matches = [];
-            $wrapped_array_tag = $tag_start . 'array:' . $array_tag . $tag_end;
+            $wrapped_array_tag = $tag_start . 'array:' . $parent_tag . $array_tag . $tag_end;
             $pattern = '/' . $wrapped_array_tag . '([\d\D]*?)' . $wrapped_array_tag . '/';
 
             // Find all instances of the array tag
@@ -378,11 +374,23 @@ class ExtensionFileGenerator
     {
         $file_path_list = [
             'module' => [
-                ['path' => 'language' . DS . 'en_us' . DS . 'module.php', 'name' => $extension_name . '.php'],
-                ['path' => 'README.md'],
-                ['path' => 'config.json'],
-                ['path' => 'composer.json', 'required_by' => ['code_examples']],
                 ['path' => 'module.php', 'name' => $extension_name . '.php'],
+                ['path' => 'config.json'],
+                ['path' => 'language' . DS . 'en_us' . DS . 'module.php', 'name' => $extension_name . '.php'],
+                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
+                ['path' => 'views' . DS . 'default' . DS . 'manage.pdt'],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'client_service_info.pdt',
+                    'required_by' => ['getClientServiceInfo']
+                ],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'admin_service_info.pdt',
+                    'required_by' => ['getAdminServiceInfo']
+                ],
+                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
+                ['path' => 'views' . DS . 'default' . DS . 'add_row.pdt', 'required_by' => ['module_rows']],
+                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
+                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'required_by' => ['service_tabs']],
                 [
                     'path' => 'config' . DS . 'module.php',
                     'name' => $extension_name . '.php',
@@ -398,22 +406,24 @@ class ExtensionFileGenerator
                     'name' => $extension_name . '_response.php',
                     'required_by' => ['code_examples']
                 ],
-                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
-                ['path' => 'views' . DS . 'default' . DS . 'manage.pdt'],
-                [
-                    'path' => 'views' . DS . 'default' . DS . 'client_service_info.pdt',
-                    'required_by' => ['getClientServiceInfo']
-                ],
-                [
-                    'path' => 'views' . DS . 'default' . DS . 'admin_service_info.pdt',
-                    'required_by' => ['getAdminServiceInfo']
-                ],
-                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
-                ['path' => 'views' . DS . 'default' . DS . 'add_row.pdt', 'required_by' => ['module_rows']],
-                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
-                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'required_by' => ['service_tabs']],
+                ['path' => 'README.md'],
+                ['path' => 'composer.json', 'required_by' => ['code_examples']],
             ],
-            'plugin' => [],
+            'plugin' => [
+                ['path' => 'plugin.php', 'name' => $extension_name . '_plugin.php'],
+                ['path' => 'controller.php', 'name' => $extension_name . '_controller.php'],
+                ['path' => 'model.php', 'name' => $extension_name . '_model.php'],
+                ['path' => 'config.json'],
+                ['path' => 'language' . DS . 'en_us' . DS . 'plugin.php', 'name' => $extension_name . '_plugin.php'],
+                [
+                    'path' => 'language' . DS . 'en_us' . DS . 'controller.php',
+                    'name' => $extension_name . '_controller.php'
+                ],
+                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
+                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'required_by' => ['service_tabs']],
+                ['path' => 'README.md'],
+                ['path' => 'composer.json', 'required_by' => ['code_examples']],
+            ],
             'gateway' => [],
         ];
 
@@ -450,7 +460,16 @@ class ExtensionFileGenerator
                 'getClientTabs' => 'service_tabs',
                 'code_examples' => 'code_examples', // Set this fake optional function to exclude certain files
             ],
-            'plugin' => [],
+            'plugin' => [
+                'addCronTasks' => 'cron_tasks',
+                'getCronTasks' => 'cron_tasks',
+                'getActions' => 'actions',
+                'getEvents' => 'events',
+                'getCards' => 'cards',
+                'allowsServiceTabs' => 'service_tabs',
+                'getAdminServiceTabs' => 'service_tabs',
+                'getClientServiceTabs' => 'service_tabs',
+            ],
             'gateway' => [],
         ];
 

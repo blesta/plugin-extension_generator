@@ -38,8 +38,8 @@
                                         <?php
                                         $this->Form->fieldText('tables[' . $i . '][name]', $this->Html->ifSet($vars['tables'][$i]['name']), array_merge(['id' => 'tables[' . $i . '][name]', 'placeholder' => $this->_('AdminPlugin.database.placeholder_table_name', true)], $disabled));
                                         ?>
-                                        <a href="#" class="btn btn-danger pull-right btn-sm" ><?php $this->_('AdminPlugin.database.text_remove');?></a>
-                                        <a href="#" class="btn btn-default pull-right btn-sm" ><?php $this->_('AdminPlugin.database.column_row_add');?></a>
+                                        <a href="#" class="btn btn-danger pull-right btn-sm table_row_remove" ><?php $this->_('AdminPlugin.database.text_remove');?></a>
+                                        <a href="#" class="btn btn-default pull-right btn-sm column_row_add" ><?php $this->_('AdminPlugin.database.column_row_add');?></a>
                                     </li>
                                 </ul>
                             </p>
@@ -104,7 +104,7 @@
             // Enable fields
             table_section.find('input,textarea,select').removeAttr('disabled');
 
-            var element_html = table_section.prop('outerHTML').replaceAll('-1', (last_table_number + 1));
+            var element_html = table_section.prop('outerHTML').replace(new RegExp('-1', 'g'), (last_table_number + 1));
 
             // Add new table
             $('.table_div:last').after(element_html);
@@ -121,10 +121,14 @@
             // Display the cloned row
             column.show();
 
-            // Enable fields
-            column.find('input,textarea,select').val('');
+            // Clear fields
+            column.find('input:text,select').val('').attr('value', '');
+            column.find('input:checkbox').prop('checked', false).attr('checked', false);
+            column.find('textarea').html('');
 
-            var element_html = column.prop('outerHTML').replaceAll('c' + column_number, 'c' + (column_number + 1));
+            var element_html = $('<div>').append(column).html().replace(
+                new RegExp('c' + column_number, 'g'), 'c' + (column_number + 1)
+            );
 
             // Add new table
             $(this).closest('.table_div').find('.column_row:last').after(
@@ -142,7 +146,6 @@
         });
 
         $('#database_tables').on('click', '.column_row_remove', function() {
-            console.log('hi');
             // Remove column row
             if ($(this).closest('tbody').find('tr').length > 1) {
                 $(this).closest('tr').remove();
