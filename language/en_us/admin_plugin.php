@@ -1,4 +1,22 @@
 <?php
+// Controller get functions
+
+$lang['AdminPlugin.getactionlocations.nav_primary_client'] = 'Primary Nav (Staff)';
+$lang['AdminPlugin.getactionlocations.nav_primary_staff'] = 'Primary Nav (Client)';
+$lang['AdminPlugin.getactionlocations.nav_secondary_staff'] = 'Sub-Menu Nav (Staff)';
+$lang['AdminPlugin.getactionlocations.action_staff_client'] = 'Client Profile Sidebar (Staff)';
+$lang['AdminPlugin.getactionlocations.widget_staff_home'] = 'Widget - Client Profile (Staff)';
+$lang['AdminPlugin.getactionlocations.widget_client_home'] = 'Widget - Client Profile (Client)';
+$lang['AdminPlugin.getactionlocations.widget_staff_client'] = 'Widget - Dashboard (Staff)';
+$lang['AdminPlugin.getactionlocations.widget_staff_billing'] = 'Widget - Billing Overview (Staff)';
+
+$lang['AdminPlugin.getcardlevels.client'] = 'Client';
+$lang['AdminPlugin.getcardlevels.staff'] = 'Staff';
+
+$lang['AdminPlugin.getoptionalfunctions.tooltip_upgrade'] = 'Performs migration of data from $current_version (the current installed version) to the given file set version. Sets Input errors on failure, preventing the module from being upgraded.';
+$lang['AdminPlugin.getoptionalfunctions.tooltip_getPermissions'] = 'Returns all permissions to be configured for this plugin (invoked after install(), upgrade(), and uninstall(), overwrites all existing permissions)';
+$lang['AdminPlugin.getoptionalfunctions.tooltip_getPermissionGroups'] = 'Returns all permission groups to be configured for this plugin (invoked after install(), upgrade(), and uninstall(), overwrites all existing permission groups)';
+
 
 // Page title
 $lang['AdminPlugin.index.page_title'] = 'Extension Generator - %1$s'; // %1$s is the plugin name
@@ -54,18 +72,82 @@ $lang['AdminPlugin.database.placeholder_column_name'] = 'e.g. column_name';
 $lang['AdminPlugin.database.text_options'] = 'Options';
 $lang['AdminPlugin.database.text_remove'] = 'Remove';
 
-$lang['AdminPlugin.database.confirm'] = 'Next - Core Integrations';
+$lang['AdminPlugin.database.integrations'] = 'Next - Core Integrations';
 
 
 // Core integration page
+$lang['AdminPlugin.integrations.action_row_add'] = 'Add Action';
+$lang['AdminPlugin.integrations.event_row_add'] = 'Add Event Handler';
+$lang['AdminPlugin.integrations.card_row_add'] = 'Add Client Card';
+
 $lang['AdminPlugin.integrations.heading_actions'] = 'Actions';
 $lang['AdminPlugin.integrations.heading_events'] = 'Event Handlers';
 $lang['AdminPlugin.integrations.heading_cards'] = 'Client Cards';
 
+$lang['AdminPlugin.integrations.location'] = 'Location';
+$lang['AdminPlugin.integrations.uri'] = 'URI';
+$lang['AdminPlugin.integrations.name'] = 'Name';
+$lang['AdminPlugin.integrations.event'] = 'Event';
+$lang['AdminPlugin.integrations.event_callback'] = 'Callback Method';
+$lang['AdminPlugin.integrations.level'] = 'Level';
+$lang['AdminPlugin.integrations.card_callback'] = 'Callback Method';
+$lang['AdminPlugin.integrations.link'] = 'Link';
 
+$lang['AdminPlugin.integrations.text_options'] = 'Options';
+$lang['AdminPlugin.integrations.text_remove'] = 'Remove';
+
+$lang['AdminPlugin.integrations.tooltip_location'] = 'The location to display the action';
+$lang['AdminPlugin.integrations.tooltip_uri'] = 'The URI from which to pull in the content for the action (e.g. plugin/extension_generator/admin_main/)';
+$lang['AdminPlugin.integrations.tooltip_name'] = 'The display name this action (nav text, widget header, or link text depending on the action location)';
 $lang['AdminPlugin.integrations.tooltip_event'] = 'The event for which to add a handler (e.g. Clients.add). For a list of core events registered by blesta see https://docs.blesta.com/display/dev/Event+Handlers';
+$lang['AdminPlugin.integrations.tooltip_event_callback'] = 'The name of the event handler method to create in the main plugin class';
+$lang['AdminPlugin.integrations.tooltip_level'] = 'The level of interface at which to display the client card';
+$lang['AdminPlugin.integrations.tooltip_card_callback'] = 'The name of the card method to create in the main plugin class';
+$lang['AdminPlugin.integrations.tooltip_link'] = 'The URI to link to when the client card is click';
+
+$lang['AdminPlugin.integrations.placeholder_uri'] = 'e.g. plugin/extension_generator/admin_main/';
+$lang['AdminPlugin.integrations.placeholder_name'] = 'e.g. Extension Generator';
+$lang['AdminPlugin.integrations.placeholder_event'] = 'e.g. Clients.Add';
+$lang['AdminPlugin.integrations.placeholder_event_callback'] = 'e.g. myClientAddHandlerMethod';
+$lang['AdminPlugin.integrations.placeholder_card_callback'] = 'e.g. myClientCardMethod';
+$lang['AdminPlugin.integrations.placeholder_link'] = 'e.g. plugin/support_manager/client_tickets/';
+
+$lang['AdminPlugin.integrations.features'] = 'Next - Additional Features';
 
 
 // Additional features page
+$lang['AdminPlugin.features.heading_features'] = 'Additional Features';
+$lang['AdminPlugin.features.heading_service_tabs'] = 'Service Management Tabs';
+$lang['AdminPlugin.features.heading_cron_tasks'] = 'Cron Tasks';
 $lang['AdminPlugin.features.heading_optional_functions'] = 'Optional Functions';
+
+$lang['AdminPlugin.features.method_name'] = 'Method Name';
+$lang['AdminPlugin.features.label'] = 'Label';
+$lang['AdminPlugin.features.level'] = 'Level';
+$lang['AdminPlugin.features.name'] = 'Name';
+$lang['AdminPlugin.features.description'] = 'Description';
+$lang['AdminPlugin.features.type'] = 'Type';
+$lang['AdminPlugin.features.time'] = 'Start Time/Interval';
+
+$lang['AdminPlugin.features.tooltip_method_name'] = 'The name of the method to be generated for this tab in the code base (in the form camelCaseMethodName)';
+$lang['AdminPlugin.features.tooltip_tab_label'] = 'The display name of the service tab';
+$lang['AdminPlugin.features.tooltip_level'] = 'The level of interface on which to display the tab (staff or client)';
+$lang['AdminPlugin.features.tooltip_name'] = 'The name of the cron task in the code base';
+$lang['AdminPlugin.features.tooltip_cron_label'] = 'The display name of the cron task';
+$lang['AdminPlugin.features.tooltip_description'] = 'The description shown on the cron task list page';
+$lang['AdminPlugin.features.tooltip_type'] = 'The type of timing to use for the cron task (time or interval)';
+$lang['AdminPlugin.features.tooltip_time'] = 'The daily 24-hour time that this task should run (e.g. "14:25") OR The interval, in minutes, that this cron task should run';
+
+$lang['AdminPlugin.features.placeholder_method_name'] = 'e.g. tabChangePassword';
+$lang['AdminPlugin.features.placeholder_tab_label'] = 'e.g. Change Password';
+$lang['AdminPlugin.features.placeholder_name'] = 'e.g. my_cron_task';
+$lang['AdminPlugin.features.placeholder_cron_label'] = 'e.g. My Cron Task';
+$lang['AdminPlugin.features.placeholder_time'] = 'e.g. 14:25 or 60';
+
+$lang['AdminPlugin.features.service_tab_row_add'] = 'Add Service Management Tab';
+$lang['AdminPlugin.features.cron_task_row_add'] = 'Add Cron Task';
+
+$lang['AdminPlugin.features.text_options'] = 'Options';
+$lang['AdminPlugin.features.text_remove'] = 'Remove';
+
 $lang['AdminPlugin.features.confirm'] = 'Next - Confirmation';

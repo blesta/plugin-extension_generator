@@ -3,7 +3,7 @@
 
         $this->Widget->clear();
         $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
-        $this->Widget->create($this->_('AdminPlugin.index.boxtitle_extension_generator', true));
+        $this->Widget->create($this->_('AdminPlugin.index.boxtitle_extension_generator', true), ['id' => 'admin_plugin_basic']);
 
         echo $this->Html->ifSet($progress_bar);
 

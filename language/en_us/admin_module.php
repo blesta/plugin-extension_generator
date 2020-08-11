@@ -1,12 +1,6 @@
 <?php
 // Controller get functions
 
-$lang['AdminModule.gettablevels.staff'] = 'Staff';
-$lang['AdminModule.gettablevels.client'] = 'Client';
-
-$lang['AdminModule.gettasktypes.time'] = 'Time';
-$lang['AdminModule.gettasktypes.interval'] = 'Interval';
-
 $lang['AdminModule.getoptionalfunctions.tooltip_cancelService'] = 'Called to perform module actions on service cancellation.';
 $lang['AdminModule.getoptionalfunctions.tooltip_suspendService'] = 'Called to perform module actions on service suspension.';
 $lang['AdminModule.getoptionalfunctions.tooltip_unsuspendService'] = 'Called to perform module actions on service unsuspension.';

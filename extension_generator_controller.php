@@ -268,4 +268,30 @@ class ExtensionGeneratorController extends AppController
             'Checkbox' => Language::_('ExtensionGeneratorController.getfieldtypes.checkbox', true)
         ];
     }
+
+    /**
+     * Gets a list of cron task types and their language
+     *
+     * @return A list of cron task types and their language
+     */
+    protected function getTaskTypes()
+    {
+        return [
+            'time' => Language::_('ExtensionGeneratorController.gettasktypes.time', true),
+            'interval' => Language::_('ExtensionGeneratorController.gettasktypes.interval', true)
+        ];
+    }
+
+    /**
+     * Gets a list of tab levels and their language
+     *
+     * @return A list of tab levels and their language
+     */
+    protected function getTabLevels()
+    {
+        return [
+            'staff' => Language::_('ExtensionGeneratorController.gettablevels.staff', true),
+            'client' => Language::_('ExtensionGeneratorController.gettablevels.client', true)
+        ];
+    }
 }

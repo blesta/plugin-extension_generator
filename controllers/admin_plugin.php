@@ -154,6 +154,8 @@ class AdminPlugin extends ExtensionGeneratorController
         $vars = $this->processStep('plugin/features', $this->extension);
 
         // Set the view to render for all actions under this controller
+        $this->set('tab_levels', $this->getTabLevels());
+        $this->set('task_types', $this->getTaskTypes());
         $this->set('optional_functions', $this->getOptionalFunctions());
         $this->set('vars', $vars);
 
@@ -174,9 +176,12 @@ class AdminPlugin extends ExtensionGeneratorController
      *
      * @return A list of optional functions and their settings
      */
-    private function getOptionalFunctions()
+    protected function getOptionalFunctions()
     {
         $functions = [
+            'upgrade' => ['enabled' => 'true'],
+            'getPermissions' => ['enabled' => 'false'],
+            'getPermissionGroups' => ['enabled' => 'false']
         ];
 
         foreach ($functions as $function => &$settings) {

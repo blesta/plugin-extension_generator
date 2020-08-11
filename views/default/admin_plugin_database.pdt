@@ -3,7 +3,7 @@
 
         $this->Widget->clear();
         $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
-        $this->Widget->create($this->_('AdminPlugin.index.boxtitle_extension_generator', true));
+        $this->Widget->create($this->_('AdminPlugin.index.boxtitle_extension_generator', true), ['id' => 'admin_plugin_database']);
 
         echo $this->Html->ifSet($progress_bar);
 
@@ -22,6 +22,7 @@
                         $tables = count($vars['tables']);
                     }
                     for ($i = -1; $i < $tables; $i++) {
+                        $disabled = ($i >= 0 ? [] : ['disabled' => 'disabled']);
                     ?>
                     <div class="pad table_div"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?> data-table="<?php echo $i;?>">
                         <div class="table_row" id="table_<?php echo $i;?>">
@@ -35,7 +36,7 @@
                                     </li>
                                     <li>
                                         <?php
-                                        $this->Form->fieldText('tables[' . $i . '][name]', $this->Html->ifSet($vars['tables'][$i]['name']), array_merge(['placeholder' => $this->_('AdminPlugin.database.placeholder_table_name', true)], array_merge(['id' => 'tables[' . $i . '][name]'], ($i >= 0 ? [] : ['disabled' => 'disabled']))));
+                                        $this->Form->fieldText('tables[' . $i . '][name]', $this->Html->ifSet($vars['tables'][$i]['name']), array_merge(['id' => 'tables[' . $i . '][name]', 'placeholder' => $this->_('AdminPlugin.database.placeholder_table_name', true)], $disabled));
                                         ?>
                                         <a href="#" class="btn btn-danger pull-right btn-sm" ><?php $this->_('AdminPlugin.database.text_remove');?></a>
                                         <a href="#" class="btn btn-default pull-right btn-sm" ><?php $this->_('AdminPlugin.database.column_row_add');?></a>
@@ -63,11 +64,11 @@
                             for ($j = 0; $j < $columns; $j++) {
                             ?>
                                 <tr class="column_row" data-column="<?php echo $j;?>">
-                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][name]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['name']), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.basic.placeholder_column_name', true)], ($i >= 0 ? [] : ['disabled' => 'disabled'])));?></td>
-                                    <td><?php $this->Form->fieldSelect('tables[' . $i . '][columns][c' . $j . '][type]', $this->Html->ifSet($column_types, []), $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['type']), ($i >= 0 ? [] : ['disabled' => 'disabled']));?></td>
-                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][length]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['length']), array_merge(['class' => 'stretch'], ($i >= 0 ? [] : ['disabled' => 'disabled'])));?></td>
-                                    <td><?php $this->Form->fieldTextarea('tables[' . $i . '][columns][c' . $j . '][default]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['default']), array_merge(['class' => 'stretch'], ($i >= 0 ? [] : ['disabled' => 'disabled'])));?></td>
-                                    <td><?php $this->Form->fieldCheckbox('tables[' . $i . '][columns][c' . $j . '][nullable]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['nullable'], 'true') == 'true', ($i >= 0 ? [] : ['disabled' => 'disabled']));?></td>
+                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][name]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['name']), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.basic.placeholder_column_name', true)], $disabled));?></td>
+                                    <td><?php $this->Form->fieldSelect('tables[' . $i . '][columns][c' . $j . '][type]', $this->Html->ifSet($column_types, []), $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['type']), $disabled);?></td>
+                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][length]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['length']), array_merge(['class' => 'stretch'], $disabled));?></td>
+                                    <td><?php $this->Form->fieldTextarea('tables[' . $i . '][columns][c' . $j . '][default]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['default']), array_merge(['class' => 'stretch'], $disabled));?></td>
+                                    <td><?php $this->Form->fieldCheckbox('tables[' . $i . '][columns][c' . $j . '][nullable]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['nullable'], 'true') == 'true', $disabled);?></td>
                                     <td><a href="#" class="manage column_row_remove"><?php $this->_('AdminPlugin.database.text_remove');?></a></td>
                                 </tr>
                             <?php
@@ -82,7 +83,7 @@
                 </div>
             </div>
             <div class="button_row">
-                <?php $this->Form->fieldSubmit('submit', $this->_('AdminPlugin.database.confirm', true), ['class' => 'btn btn-primary pull-right']);?>
+                <?php $this->Form->fieldSubmit('submit', $this->_('AdminPlugin.database.integrations', true), ['class' => 'btn btn-primary pull-right']);?>
             </div>
         </div>
         <?php
@@ -136,6 +137,8 @@
         $('#database_tables').on('click', '.table_row_remove', function() {
             // Remove table section
             $(this).closest('.table_div').remove();
+
+            return false;
         });
 
         $('#database_tables').on('click', '.column_row_remove', function() {
@@ -143,6 +146,8 @@
             // Remove column row
             if ($(this).closest('tbody').find('tr').length > 1) {
                 $(this).closest('tr').remove();
+
+                return false;
             }
         });
     });

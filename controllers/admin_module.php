@@ -142,37 +142,11 @@ class AdminModule extends ExtensionGeneratorController
     }
 
     /**
-     * Gets a list of cron task types and their language
-     *
-     * @return A list of cron task types and their language
-     */
-    private function getTaskTypes()
-    {
-        return [
-            'time' => Language::_('AdminModule.gettasktypes.time', true),
-            'interval' => Language::_('AdminModule.gettasktypes.interval', true)
-        ];
-    }
-
-    /**
-     * Gets a list of tab levels and their language
-     *
-     * @return A list of tab levels and their language
-     */
-    private function getTabLevels()
-    {
-        return [
-            'staff' => Language::_('AdminModule.gettablevels.staff', true),
-            'client' => Language::_('AdminModule.gettablevels.client', true)
-        ];
-    }
-
-    /**
      * Gets a list of optional functions and their settings
      *
      * @return A list of optional functions and their settings
      */
-    private function getOptionalFunctions()
+    protected function getOptionalFunctions()
     {
         $functions = [
             'upgrade' => ['enabled' => 'true'],
