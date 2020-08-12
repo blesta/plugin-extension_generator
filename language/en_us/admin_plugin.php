@@ -135,7 +135,7 @@ $lang['AdminPlugin.features.time'] = 'Start Time/Interval';
 $lang['AdminPlugin.features.tooltip_method_name'] = 'The name of the method to be generated for this tab in the code base (in the form camelCaseMethodName)';
 $lang['AdminPlugin.features.tooltip_tab_label'] = 'The display name of the service tab';
 $lang['AdminPlugin.features.tooltip_level'] = 'The level of interface on which to display the tab (staff or client)';
-$lang['AdminPlugin.features.tooltip_name'] = 'The name of the cron task in the code base';
+$lang['AdminPlugin.features.tooltip_name'] = 'The name of the cron task in the code base in snake case (i.e. cron_task_example)';
 $lang['AdminPlugin.features.tooltip_cron_label'] = 'The display name of the cron task';
 $lang['AdminPlugin.features.tooltip_description'] = 'The description shown on the cron task list page';
 $lang['AdminPlugin.features.tooltip_type'] = 'The type of timing to use for the cron task (time or interval)';
@@ -143,8 +143,8 @@ $lang['AdminPlugin.features.tooltip_time'] = 'The daily 24-hour time that this t
 
 $lang['AdminPlugin.features.placeholder_method_name'] = 'e.g. tabChangePassword';
 $lang['AdminPlugin.features.placeholder_tab_label'] = 'e.g. Change Password';
-$lang['AdminPlugin.features.placeholder_name'] = 'e.g. my_cron_task';
-$lang['AdminPlugin.features.placeholder_cron_label'] = 'e.g. My Cron Task';
+$lang['AdminPlugin.features.placeholder_name'] = 'e.g. cron_task_example';
+$lang['AdminPlugin.features.placeholder_cron_label'] = 'e.g. Cron Task Example';
 $lang['AdminPlugin.features.placeholder_time'] = 'e.g. 14:25 or 60';
 
 $lang['AdminPlugin.features.service_tab_row_add'] = 'Add Service Management Tab';

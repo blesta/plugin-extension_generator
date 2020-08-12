@@ -1162,8 +1162,8 @@ class {{class_name}} extends Module
      */
     public function getClientTabs($package)
     {
-        return [{{array:service_tabs}}
-            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{array:service_tabs}}
+        return [{{array:service_tabs}}{{if:service_tabs.level:client}}
+            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{else}}{{if:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getClientTabs}}{{function:getAdminTabs}}
 
@@ -1177,8 +1177,8 @@ class {{class_name}} extends Module
      */
     public function getAdminTabs($package)
     {
-        return [{{array:service_tabs}}
-            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{array:service_tabs}}
+        return [{{array:service_tabs}}{{if:service_tabs.level:staff}}
+            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{else}}{{if:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getAdminTabs}}{{array:service_tabs}}
 
@@ -1199,7 +1199,7 @@ class {{class_name}} extends Module
         array $post = null,
         array $files = null
     ) {
-        $this->view = new View('tab', 'default');
+        $this->view = new View('{{service_tabs.method_name}}', 'default');
         $this->view->base_uri = $this->base_uri;
         // Load the helpers required for this view
         Loader::loadHelpers($this, ['Form', 'Html']);
@@ -1217,7 +1217,6 @@ class {{class_name}} extends Module
             $vars = (object)$post;
         }
 
-        $this->view->set('tab', '{{service_tabs.method_name}}');
         $this->view->set('service_fields', $service_fields);
         $this->view->set('service_id', $service->id);
         $this->view->set('client_id', $service->client_id);

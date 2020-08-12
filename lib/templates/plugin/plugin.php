@@ -319,10 +319,10 @@ class {{class_name}}Plugin extends Plugin
      */
     public function getClientServiceTabs(stdClass $service)
     {
-        return [{{array:service_tabs}}
+        return [{{array:service_tabs}}{{if:service_tabs.level:client}}
             '{{service_tabs.method_name}}' => [
                 'name' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true)
-            ],{{array:service_tabs}}
+            ],{{else}}{{if:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getClientServiceTabs}}{{function:getAdminServiceTabs}}
 
@@ -340,10 +340,10 @@ class {{class_name}}Plugin extends Plugin
      */
     public function getAdminServiceTabs(stdClass $service)
     {
-        return [{{array:service_tabs}}
+        return [{{array:service_tabs}}{{if:service_tabs.level:staff}}
             '{{service_tabs.method_name}}' => [
                 'name' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true)
-            ],{{array:service_tabs}}
+            ],{{else}}{{if:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getAdminServiceTabs}}{{array:service_tabs}}
 
@@ -362,7 +362,7 @@ class {{class_name}}Plugin extends Plugin
         array $post = null,
         array $files = null
     ) {
-        $this->view = new View('tab', '{{class_name}}.default');
+        $this->view = new View('{{service_tabs.method_name}}', '{{class_name}}.default');
         $this->view->base_uri = $this->base_uri;
         // Load the helpers required for this view
         Loader::loadHelpers($this, ['Form', 'Html']);
@@ -372,7 +372,6 @@ class {{class_name}}Plugin extends Plugin
             $vars = (object)$post;
         }
 
-        $this->view->set('tab', '{{service_tabs.method_name}}');
         $this->view->set('service_id', $service->id);
         $this->view->set('client_id', $service->client_id);
         $this->view->set('vars', (isset($vars) ? $vars : new stdClass()));

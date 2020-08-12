@@ -152,8 +152,16 @@ class ExtensionFileGenerator
                 $content = preg_replace('/' . $this->code_comment_marker . '.*[\r\n|\n]/', '', $content);
             }
 
+            // Accomodate 'foreach' files by setting the appropriate value for the praticular view being generater
+            $temp_data = $data;
+            if (isset($file_settings['foreach'])) {
+                foreach ($file_settings['foreach'] as $field_label => $name_key) {
+                    $temp_data[$field_label] = $file_settings['page_value'];
+                }
+            }
+
             // Replace content tags
-            $content = $this->replaceTags($content, $data);
+            $content = $this->replaceTags($content, $temp_data);
 
             // Remove any remaining array tags
             $content = preg_replace(
@@ -263,15 +271,12 @@ class ExtensionFileGenerator
                 // For each item in the array, copy the text within the array tag and perform tag replacement on it
                 foreach ($array_values as $key => $value) {
                     if (is_array($value)) {
-                        // Examine the mnatched content for each subtag and perform the tag replacement
+                        // Examine the matched content for each subtag and perform the tag replacement
                         $matched_content .= $this->replaceTags($match, $value, $parent_tag . $array_tag . '.');
                     } else {
                         // Perform single tag replacement on the content of the array tag
-                        $matched_content .= str_replace(
-                            $tag_start . $array_tag . '.' . $key . $tag_end,
-                            $value,
-                            $match
-                        );
+                        $matched_content .= $this->replaceTags($match, $array_values, $parent_tag . $array_tag . '.');
+                        break;
                     }
                 }
 
@@ -390,7 +395,7 @@ class ExtensionFileGenerator
                 ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
                 ['path' => 'views' . DS . 'default' . DS . 'add_row.pdt', 'required_by' => ['module_rows']],
                 ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
-                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'required_by' => ['service_tabs']],
+                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'foreach' => ['service_tabs' => 'method_name']],
                 [
                     'path' => 'config' . DS . 'module.php',
                     'name' => $extension_name . '.php',
@@ -414,21 +419,43 @@ class ExtensionFileGenerator
                 ['path' => 'controller.php', 'name' => $extension_name . '_controller.php'],
                 ['path' => 'model.php', 'name' => $extension_name . '_model.php'],
                 ['path' => 'config.json'],
-                ['path' => 'config' . DS . $extension_name . '.php'],
+                ['path' => 'config' . DS . 'plugin.php', 'name' => $extension_name . '.php'],
                 ['path' => 'language' . DS . 'en_us' . DS . 'plugin.php', 'name' => $extension_name . '_plugin.php'],
                 [
                     'path' => 'language' . DS . 'en_us' . DS . 'controller.php',
                     'name' => $extension_name . '_controller.php'
                 ],
                 ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
-                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'required_by' => ['service_tabs']],
+                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'foreach' => ['service_tabs' => 'method_name']],
                 ['path' => 'README.md'],
                 ['path' => 'composer.json', 'required_by' => ['code_examples']],
             ],
             'gateway' => [],
         ];
 
-        return $file_path_list[$this->extension_type];
+        // Duplicate a view file for each of the values in the defined 'foreach' field
+        $return_list = $file_path_list[$this->extension_type];
+        foreach ($return_list as $index => $return_file) {
+            if (isset($return_file['foreach'])) {
+                // Search the options for the defined 'foreach' field
+                foreach ($return_file['foreach'] as $field_label => $name_key) {
+                    if (isset($this->options['data'][$field_label])) {
+                        foreach ($this->options['data'][$field_label] as $field) {
+                            // Copy the value from the 'foreach' field, use that as a new
+                            // file name, and insert a new file
+                            if (isset($field[$name_key]) && !in_array($field[$name_key], $return_list)) {
+                                $return_file['name'] = $field[$name_key] . '.pdt';
+                                $return_file['page_value'] = $field;
+                                $return_list[] = $return_file;
+                            }
+                        }
+                    }
+                }
+                unset($return_list[$index]);
+            }
+        }
+
+        return $return_list;
     }
 
     /**
