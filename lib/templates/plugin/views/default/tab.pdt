@@ -1,20 +1,20 @@
 {{array:service_tabs}}
-    <div id="{{service_tabs.method_name}}">
-        <h4><?php $this->_('{{class_name}}.{{service_tabs.method_name}}.heading');?></h4>
+    <div id="{{service_tabs.snake_case_name}}">
+        <h4><?php $this->_('{{class_name}}.{{service_tabs.snake_case_name}}.heading');?></h4>
 
         <?php
         $this->Form->create(
-//// {{if:service_tabs.level:staff}}$this->base_uri . 'services/manage/' . $this->Html->ifSet($service_id) . '/{{service_tabs.method_name}}/'{{else}}$this->base_uri . 'clients/serviceTab/' . $this->Html->ifSet($client_id) . '/' . $this->Html->ifSet($service_id) . '/{{service_tabs.method_name}}/'{{if:service_tabs.level}}
+//// {{if:service_tabs.level:staff}}$this->base_uri . 'services/manage/' . $this->Html->ifSet($service_id) . '/{{service_tabs.snake_case_name}}/'{{else}}$this->base_uri . 'clients/serviceTab/' . $this->Html->ifSet($client_id) . '/' . $this->Html->ifSet($service_id) . '/{{service_tabs.snake_case_name}}/'{{if:service_tabs.level}}
         );
         ?>
         <div class="col-md-12">
             <p>This is a very simple service management tab, created by the extension generator.  The content
-                of this file can be modified at <?php echo PLUGINDIR . '{{snake_case_name}}' . DS . 'views' . DS . 'default' . DS . '{{service_tabs.method_name}}.pdt';?>.
+                of this file can be modified at <?php echo PLUGINDIR . '{{snake_case_name}}' . DS . 'views' . DS . 'default' . DS . '{{service_tabs.snake_case_name}}.pdt';?>.
                 Included here is a basic form that can be submitted and is handled by the {{service_tabs.method_name}}() method in <?php echo PLUGINDIR . '{{snake_case_name}}' . DS . '{{snake_case_name}}_plugin.php';?>
             </p>
         </div>
         <button class="btn btn-default pull-right">
-            <i class="fa fa-edit"></i> <?php $this->_('{{class_name}}.{{service_tabs.method_name}}.submit');?>
+            <i class="fa fa-edit"></i> <?php $this->_('{{class_name}}.{{service_tabs.snake_case_name}}.submit');?>
         </button>
         <?php
         $this->Form->end();

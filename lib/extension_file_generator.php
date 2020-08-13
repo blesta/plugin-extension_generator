@@ -422,11 +422,28 @@ class ExtensionFileGenerator
                 ['path' => 'config' . DS . 'plugin.php', 'name' => $extension_name . '.php'],
                 ['path' => 'language' . DS . 'en_us' . DS . 'plugin.php', 'name' => $extension_name . '_plugin.php'],
                 [
-                    'path' => 'language' . DS . 'en_us' . DS . 'controller.php',
+                    'path' => 'language' . DS . 'en_us' . DS . 'parent_controller.php',
                     'name' => $extension_name . '_controller.php'
                 ],
+                [
+                    'path' => 'language' . DS . 'en_us' . DS . 'controller.php',
+                    'foreach' => ['controllers' => 'snake_case_name'],
+                    'extension' => 'php'
+                ],
+                [
+                    'path' => 'controllers' . DS . 'controller.php',
+                    'foreach' => ['controllers' => 'snake_case_name'],
+                    'extension' => 'php'
+                ],
                 ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
-                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'foreach' => ['service_tabs' => 'method_name']],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'tab.pdt',
+                    'foreach' => ['service_tabs' => 'snake_case_name']
+                ],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'action.pdt',
+                    'foreach' => ['actions' => 'controller_action']
+                ],
                 ['path' => 'README.md'],
                 ['path' => 'composer.json', 'required_by' => ['code_examples']],
             ],
@@ -444,7 +461,8 @@ class ExtensionFileGenerator
                             // Copy the value from the 'foreach' field, use that as a new
                             // file name, and insert a new file
                             if (isset($field[$name_key]) && !in_array($field[$name_key], $return_list)) {
-                                $return_file['name'] = $field[$name_key] . '.pdt';
+                                $return_file['name'] = $field[$name_key]
+                                    . (isset($return_file['extension']) ? '.' . $return_file['extension'] : '.pdt');
                                 $return_file['page_value'] = $field;
                                 $return_list[] = $return_file;
                             }

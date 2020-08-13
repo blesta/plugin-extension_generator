@@ -19,7 +19,8 @@
                     <thead>
                         <tr class="heading_row">
                             <td><?php $this->_('AdminPlugin.integrations.location');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.integrations.tooltip_location');?></div></span></td>
-                            <td><?php $this->_('AdminPlugin.integrations.uri');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.integrations.tooltip_uri');?></div></span></td>
+                            <td><?php $this->_('AdminPlugin.integrations.controller');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.integrations.tooltip_controller');?></div></span></td>
+                            <td><?php $this->_('AdminPlugin.integrations.action');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.integrations.tooltip_action');?></div></span></td>
                             <td><?php $this->_('AdminPlugin.integrations.name');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.integrations.tooltip_name');?></div></span></td>
                             <td class="last"><?php $this->_('AdminPlugin.integrations.text_options');?></td>
                         </tr>
@@ -35,7 +36,8 @@
                     ?>
                         <tr class="action_row"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?>>
                             <td><?php $this->Form->fieldSelect('actions[location][]', $this->Html->ifSet($action_locations), $this->Html->ifSet($vars['actions']['location'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('actions[uri][]', $this->Html->ifSet($vars['actions']['uri'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_uri', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('actions[controller][]', $this->Html->ifSet($vars['actions']['controller'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_controller', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('actions[action][]', $this->Html->ifSet($vars['actions']['action'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_action', true)], $disabled));?></td>
                             <td><?php $this->Form->fieldText('actions[name][]', $this->Html->ifSet($vars['actions']['name'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_name', true)], $disabled));?></td>
                             <td><a href="#" class="manage action_row_remove"><?php $this->_('AdminPlugin.integrations.text_remove');?></a></td>
                         </tr>

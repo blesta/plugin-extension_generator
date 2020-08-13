@@ -112,7 +112,7 @@ class ExtensionGeneratorController extends AppController
 
             // Convert array input to a more usable form before storing
             foreach ($temp_vars as $key => $value) {
-                if (is_array($value) && !in_array($key, ['optional_functions', 'tables'])) {
+                if (is_array($value) && !in_array($key, ['optional_functions', 'tables', 'controllers'])) {
                     $temp_vars[$key] = $this->ArrayHelper->keyToNumeric($value);
                 }
             }
@@ -154,7 +154,7 @@ class ExtensionGeneratorController extends AppController
 
             // Convert array input to a more usable form before displaying
             foreach ($vars as $key => $value) {
-                if (is_array($value) && !in_array($key, ['optional_functions', 'tables'])) {
+                if (is_array($value) && !in_array($key, ['optional_functions', 'tables', 'controllers'])) {
                     $vars[$key] = $this->ArrayHelper->numericToKey($value);
                 }
             }

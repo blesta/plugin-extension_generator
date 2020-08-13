@@ -230,7 +230,7 @@ class {{class_name}}Plugin extends Plugin
             // {{actions.name}}
             [
                 'action' => '{{actions.location}}',
-                'uri' => '{{actions.uri}}',
+                'uri' => 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}',
                 'name' => '{{class_name}}Plugin.{{actions.location}}.main',
             ],{{array:actions}}
         ];
@@ -321,7 +321,7 @@ class {{class_name}}Plugin extends Plugin
     {
         return [{{array:service_tabs}}{{if:service_tabs.level:client}}
             '{{service_tabs.method_name}}' => [
-                'name' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true)
+                'name' => Language::_('{{class_name}}.{{service_tabs.snake_case_name}}', true)
             ],{{else}}{{if:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getClientServiceTabs}}{{function:getAdminServiceTabs}}
@@ -342,7 +342,7 @@ class {{class_name}}Plugin extends Plugin
     {
         return [{{array:service_tabs}}{{if:service_tabs.level:staff}}
             '{{service_tabs.method_name}}' => [
-                'name' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true)
+                'name' => Language::_('{{class_name}}.{{service_tabs.snake_case_name}}', true)
             ],{{else}}{{if:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getAdminServiceTabs}}{{array:service_tabs}}
@@ -362,7 +362,7 @@ class {{class_name}}Plugin extends Plugin
         array $post = null,
         array $files = null
     ) {
-        $this->view = new View('{{service_tabs.method_name}}', '{{class_name}}.default');
+        $this->view = new View('{{service_tabs.snake_case_name}}', '{{class_name}}.default');
         $this->view->base_uri = $this->base_uri;
         // Load the helpers required for this view
         Loader::loadHelpers($this, ['Form', 'Html']);

@@ -125,6 +125,33 @@ class AdminPlugin extends ExtensionGeneratorController
             }
         }
 
+        // Format controller and action fields
+        if (!empty($this->post['actions']['controller'])) {
+            foreach ($this->post['actions']['controller'] as $index => $controller) {
+                $action = $this->post['actions']['action'][$index];
+                $this->post['actions']['controller_action'][$index] = $controller
+                    . ($action == 'index' ?  '' : '_' . $action);
+                $this->post['actions']['controller_class'][$index] = str_replace(' ', '', ucwords(str_replace('_', ' ', $controller)));
+
+                // Create a list of controllers to implement
+                if (!isset($this->post['controllers'][$controller])) {
+                    $this->post['controllers'][$controller] = [
+                            'class_name' => $this->post['actions']['controller_class'][$index],
+                            'snake_case_name' => $controller,
+                            'actions' => []
+                        ];
+                }
+
+                // Add this action to the list for its controller
+                $this->post['controllers'][$controller]['actions'][] = [
+                    'location' => $this->post['actions']['location'][$index],
+                    'controller' => $controller,
+                    'action' => $action,
+                    'name' => $this->post['actions']['name'][$index],
+                ];
+            }
+        }
+
         // Perform edit and redirect or set errors and repopulate vars
         $vars = $this->processStep('plugin/integrations', $this->extension);
 
@@ -150,6 +177,15 @@ class AdminPlugin extends ExtensionGeneratorController
      */
     public function features()
     {
+        // Format service tab fields
+        if (!empty($this->post['service_tabs']['method_name'])) {
+            foreach ($this->post['service_tabs']['method_name'] as $index => $method) {
+                $this->post['service_tabs']['snake_case_name'][$index] = strtolower(
+                        preg_replace('/([A-Z])/', '_$1', $method)
+                    );
+            }
+        }
+
         // Perform edit and redirect or set errors and repopulate vars
         $vars = $this->processStep('plugin/features', $this->extension);
 

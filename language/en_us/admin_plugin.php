@@ -85,7 +85,8 @@ $lang['AdminPlugin.integrations.heading_events'] = 'Event Handlers';
 $lang['AdminPlugin.integrations.heading_cards'] = 'Client Cards';
 
 $lang['AdminPlugin.integrations.location'] = 'Location';
-$lang['AdminPlugin.integrations.uri'] = 'URI';
+$lang['AdminPlugin.integrations.controller'] = 'Controller';
+$lang['AdminPlugin.integrations.action'] = 'Action';
 $lang['AdminPlugin.integrations.name'] = 'Name';
 $lang['AdminPlugin.integrations.event'] = 'Event';
 $lang['AdminPlugin.integrations.event_callback'] = 'Callback Method';
@@ -98,7 +99,8 @@ $lang['AdminPlugin.integrations.text_options'] = 'Options';
 $lang['AdminPlugin.integrations.text_remove'] = 'Remove';
 
 $lang['AdminPlugin.integrations.tooltip_location'] = 'The location to display the action';
-$lang['AdminPlugin.integrations.tooltip_uri'] = 'The URI from which to pull in the content for the action (e.g. plugin/extension_generator/admin_main/)';
+$lang['AdminPlugin.integrations.tooltip_controller'] = 'The controller for the URI from which to pull in the content for the action (e.g. admin_main)';
+$lang['AdminPlugin.integrations.tooltip_action'] = 'The action for the URI from which to pull in the content for the action (e.g. index)';
 $lang['AdminPlugin.integrations.tooltip_name'] = 'The display name this action (nav text, widget header, or link text depending on the action location)';
 $lang['AdminPlugin.integrations.tooltip_event'] = 'The event for which to add a handler (e.g. Clients.add). For a list of core events registered by blesta see https://docs.blesta.com/display/dev/Event+Handlers';
 $lang['AdminPlugin.integrations.tooltip_event_callback'] = 'The name of the event handler method to create in the main plugin class';
@@ -107,7 +109,8 @@ $lang['AdminPlugin.integrations.tooltip_level'] = 'The level of interface at whi
 $lang['AdminPlugin.integrations.tooltip_card_callback'] = 'The name of the card method to create in the main plugin class';
 $lang['AdminPlugin.integrations.tooltip_link'] = 'The URI to link to when the client card is click';
 
-$lang['AdminPlugin.integrations.placeholder_uri'] = 'e.g. plugin/extension_generator/admin_main/';
+$lang['AdminPlugin.integrations.placeholder_controller'] = 'e.g. admin_main';
+$lang['AdminPlugin.integrations.placeholder_action'] = 'e.g. index';
 $lang['AdminPlugin.integrations.placeholder_name'] = 'e.g. Extension Generator';
 $lang['AdminPlugin.integrations.placeholder_event'] = 'e.g. Clients.Add';
 $lang['AdminPlugin.integrations.placeholder_event_callback'] = 'e.g. myClientAddHandlerMethod';

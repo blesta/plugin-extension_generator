@@ -1,5 +1,2 @@
-<?php
-/*
- * en_us language for the {{name}} parent controller
- */
-////$lang['{{class_name}}Controller.example'] = 'Example language';
+{{array:controllers}}<?php
+$lang['{{controllers.class_name}}.index.page_title'] = '{{name}} - {{controllers.class_name}}';{{array:controllers}}

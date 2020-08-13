@@ -8,9 +8,9 @@ $lang['{{class_name}}Plugin.description'] = '{{description}}';{{function:getCron
 {{array:service_tabs}}
 
 // {{service_tabs.label}}
-$lang['{{class_name}}.{{service_tabs.method_name}}'] = '{{service_tabs.label}}';
-$lang['{{class_name}}.{{service_tabs.method_name}}.header'] = '{{service_tabs.label}}';
-$lang['{{class_name}}.{{service_tabs.method_name}}.submit'] = 'Submit';{{array:service_tabs}}
+$lang['{{class_name}}.{{service_tabs.snake_case_name}}'] = '{{service_tabs.label}}';
+$lang['{{class_name}}.{{service_tabs.snake_case_name}}.header'] = '{{service_tabs.label}}';
+$lang['{{class_name}}.{{service_tabs.snake_case_name}}.submit'] = 'Submit';{{array:service_tabs}}
 
 // Cron Tasks{{array:cron_tasks}}
 $lang['{{class_name}}Plugin.getCronTasks.{{cron_tasks.name}}'] = '{{cron_tasks.label}}';
