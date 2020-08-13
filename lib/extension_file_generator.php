@@ -419,7 +419,11 @@ class ExtensionFileGenerator
                 ['path' => 'controller.php', 'name' => $extension_name . '_controller.php'],
                 ['path' => 'model.php', 'name' => $extension_name . '_model.php'],
                 ['path' => 'config.json'],
-                ['path' => 'config' . DS . 'plugin.php', 'name' => $extension_name . '.php'],
+                [
+                    'path' => 'config' . DS . 'plugin.php',
+                    'name' => $extension_name . '.php',
+                    'required_by' => ['code_examples']
+                ],
                 ['path' => 'language' . DS . 'en_us' . DS . 'plugin.php', 'name' => $extension_name . '_plugin.php'],
                 [
                     'path' => 'language' . DS . 'en_us' . DS . 'parent_controller.php',
@@ -525,6 +529,7 @@ class ExtensionFileGenerator
                 'allowsServiceTabs' => 'service_tabs',
                 'getAdminServiceTabs' => 'service_tabs',
                 'getClientServiceTabs' => 'service_tabs',
+                'installTables' => 'tables',
             ],
             'gateway' => [],
         ];

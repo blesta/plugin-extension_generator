@@ -84,7 +84,7 @@ class ExtensionGeneratorController extends AppController
             if ($errors) {
                 // Attempt to remove the file if it was somehow written
                 @unlink($upload_path . $file_name);
-            } elseif (isset($this->extension->data['logo_path'])
+            } elseif (isset($this->extension->data['logo_path']) && isset($this->post['logo_path'])
                 && $this->extension->data['logo_path'] != $this->post['logo_path']
             ) {
                 // Remove the old logo file
@@ -246,8 +246,9 @@ class ExtensionGeneratorController extends AppController
         // Use a simplified set of steps if set to use the basic extension form
         if ($form_type == 'basic') {
             $step_mapping = [
-                'main/general' => 'module/basic',
+                'main/general' => $extension_type . '/basic',
                 'module/basic' => 'main/confirm',
+                'plugin/basic' => 'main/confirm',
                 'main/confirm' => 'main/general',
             ];
         }

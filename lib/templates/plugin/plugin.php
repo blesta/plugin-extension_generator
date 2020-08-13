@@ -21,7 +21,7 @@ class {{class_name}}Plugin extends Plugin
      * @param int $plugin_id The ID of the plugin being installed
      */
     public function install($plugin_id)
-    {
+    {{{function:installTables}}
         try {
             // Create database tables{{array:tables}}
 
@@ -37,7 +37,7 @@ class {{class_name}}Plugin extends Plugin
             // Error adding... no permission?
             $this->Input->setErrors(['db' => ['create' => $e->getMessage()]]);
             return;
-        }{{function:addCronTasks}}{{function:getCronTasks}}
+        }{{function:installTables}}{{function:addCronTasks}}{{function:getCronTasks}}
 
         // Add cron tasks for this plugin
         $this->addCronTasks($this->getCronTasks());{{function:getCronTasks}}{{function:addCronTasks}}
@@ -100,14 +100,14 @@ class {{class_name}}Plugin extends Plugin
         $cron_tasks = $this->getCronTasks();
 {{function:getCronTasks}}
         if ($last_instance) {
-            try {
+            {{function:installTables}}try {
                 // Remove database tables{{array:tables}}
                 $this->Record->drop('{{tables.name}}');{{array:tables}}
             } catch (Exception $e) {
                 // Error dropping... no permission?
                 $this->Input->setErrors(['db' => ['create' => $e->getMessage()]]);
                 return;
-            }{{function:getCronTasks}}
+            }{{function:installTables}}{{function:getCronTasks}}
 
             // Remove the cron tasks
             foreach ($cron_tasks as $task) {
