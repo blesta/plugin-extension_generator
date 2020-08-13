@@ -112,7 +112,7 @@ class {{tables.class_name}} extends {{class_name}}Model
             $fields = [{{array:tables.columns}}'{{tables.columns.name}}',{{array:tables.columns}}];
             $this->Record->where({{array:tables.columns}}{{if:tables.columns.primary:true}}'{{tables.columns.name}}', '=', ${{tables.columns.name}}{{else}}{{if:tables.columns.primary}}{{array:tables.columns}})->update('{{tables.name}}', $vars, $fields);
 
-            return $record_id;
+            return {{array:tables.columns}}{{if:tables.columns.primary:true}}${{tables.columns.name}}{{else}}{{if:tables.columns.primary}}{{array:tables.columns}};
         }
     }
 
@@ -173,10 +173,10 @@ class {{tables.class_name}} extends {{class_name}}Model
     {
         $rules = [{{array:tables.columns}}
             '{{tables.columns.name}}' => [
-                'valid' => [{{if:tables.columns.type:ENUM}}
-                    'rule' => true,{{else}}
-                    'if_set' => $edit,
-                    'rule' => ['array_key_exists', $this->get{{tables.columns.uc_name}}Values()],{{if:tables.columns.type}}
+                'valid' => [
+                    'if_set' => $edit,{{if:tables.columns.type:ENUM}}
+                    'rule' => ['array_key_exists', $this->get{{tables.columns.uc_name}}Values()],{{else}}
+                    'rule' => true,{{if:tables.columns.type}}
                     'message' => Language::_('{{tables.class_name}}.!error.{{tables.columns.name}}.valid', true)
                 ]
             ],{{array:tables.columns}}
