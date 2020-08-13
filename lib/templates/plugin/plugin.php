@@ -29,9 +29,9 @@ class {{class_name}}Plugin extends Plugin
             $this->Record{{array:tables.columns}}
                 ->setField(
                     '{{tables.columns.name}}',
-                    ['type' => '{{tables.columns.type}}', 'size' => "{{tables.columns.length}}",{{if:tables.columns.type:INT}} 'unsigned' => true,{{else}}{{if:tables.columns.type}}{{if:tables.columns.name:id}} 'auto_increment' => true,{{else}}{{if:tables.columns.name}}]
-                ){{if:tables.columns.name:id}}
-                ->setKey(['id'], 'primary'){{else}}{{if:tables.columns.name}}{{array:tables.columns}}
+                    ['type' => '{{tables.columns.type}}', {{if:tables.columns.type:DATETIME}}{{else}}'size' => "{{tables.columns.length}}",{{if:tables.columns.type}}{{if:tables.columns.type:INT}} 'unsigned' => true,{{else}}{{if:tables.columns.type}}{{if:tables.columns.name:id}} 'auto_increment' => true,{{else}}{{if:tables.columns.name}}]
+                ){{if:tables.columns.primary:true}}
+                ->setKey(['{{tables.columns.name}}'], 'primary'){{else}}{{if:tables.columns.primary}}{{array:tables.columns}}
                 ->create('{{tables.name}}', true);{{array:tables}}
         } catch (Exception $e) {
             // Error adding... no permission?

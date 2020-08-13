@@ -52,6 +52,7 @@
                                     <td><?php $this->_('AdminPlugin.database.length');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.database.tooltip_length');?></div></span></td>
                                     <td><?php $this->_('AdminPlugin.database.default');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.database.tooltip_default');?></div></span></td>
                                     <td><?php $this->_('AdminPlugin.database.nullable');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.database.tooltip_nullable');?></div></span></td>
+                                    <td><?php $this->_('AdminPlugin.database.primary');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminPlugin.database.tooltip_primary');?></div></span></td>
                                     <td class="last"><?php $this->_('AdminPlugin.database.text_options');?></td>
                                 </tr>
                             </thead>
@@ -69,6 +70,7 @@
                                     <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][length]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['length']), array_merge(['class' => 'stretch'], $disabled));?></td>
                                     <td><?php $this->Form->fieldTextarea('tables[' . $i . '][columns][c' . $j . '][default]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['default']), array_merge(['class' => 'stretch'], $disabled));?></td>
                                     <td><?php $this->Form->fieldCheckbox('tables[' . $i . '][columns][c' . $j . '][nullable]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['nullable'], 'true') == 'true', $disabled);?></td>
+                                    <td><?php $this->Form->fieldRadio('tables[' . $i . '][columns][c' . $j . '][primary]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['primary'], 'true') == 'true', array_merge(['class' => 'primary_key'], $disabled));?></td>
                                     <td><a href="#" class="manage column_row_remove"><?php $this->_('AdminPlugin.database.text_remove');?></a></td>
                                 </tr>
                             <?php
@@ -123,7 +125,7 @@
 
             // Clear fields
             column.find('input:text,select').val('').attr('value', '');
-            column.find('input:checkbox').prop('checked', false).attr('checked', false);
+            column.find('input:checkbox,input:radio').prop('checked', false).attr('checked', false);
             column.find('textarea').html('');
 
             var element_html = $('<div>').append(column).html().replace(
@@ -146,12 +148,25 @@
         });
 
         $('#database_tables').on('click', '.column_row_remove', function() {
-            // Remove column row
-            if ($(this).closest('tbody').find('tr').length > 1) {
-                $(this).closest('tr').remove();
+            $table = $(this).closest('tbody');
 
-                return false;
+            // Remove column row
+            if ($table.find('tr').length > 1) {
+                $(this).closest('tr').remove();
             }
+
+            // Make sure there is always one primary key is checked
+            if ($table.find('.primary_key:checked').length === 0) {
+                $table.find('tr:last .primary_key').prop('checked', 'checked');
+            }
+
+            return false;
+        });
+
+        $('#database_tables').on('click', '.primary_key', function() {
+            // Make sure only one primary key is checked
+            $(this).closest('tbody').find('.primary_key').removeProp('checked');
+            $(this).prop('checked', 'checked');
         });
     });
 </script>

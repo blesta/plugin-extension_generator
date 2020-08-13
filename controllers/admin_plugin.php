@@ -81,10 +81,33 @@ class AdminPlugin extends ExtensionGeneratorController
                 // Reset the indexes for the column sub-arrays
                 $table['columns'] = array_values($table['columns']);
 
+                // Set a class name for the table's model
+                $table['class_name'] = str_replace(
+                        ' ',
+                        '',
+                        ucwords(str_replace('_', ' ', $table['name']))
+                    );
+
                 // Set unset checkboxes
                 foreach ($table['columns'] as &$column) {
                     if (!isset($column['nullable'])) {
                         $column['nullable'] = 'false';
+                    }
+
+                    if (!isset($column['primary'])) {
+                        $column['primary'] = 'false';
+                    }
+
+                    // Set the upper case equivilent of the column name
+                    $column['uc_name'] = str_replace(' ', '', ucwords(str_replace('_', ' ', $column['name'])));
+
+                    // Set values for enum columns
+                    if ($column['type'] == 'ENUM') {
+                        $values = explode(',', $column['length']);
+                        $column['values'] = array_map(
+                                function($value) { return ['value' => trim($value, "'")]; },
+                                $values
+                            );
                     }
                 }
             }
@@ -131,7 +154,11 @@ class AdminPlugin extends ExtensionGeneratorController
                 $action = $this->post['actions']['action'][$index];
                 $this->post['actions']['controller_action'][$index] = $controller
                     . ($action == 'index' ?  '' : '_' . $action);
-                $this->post['actions']['controller_class'][$index] = str_replace(' ', '', ucwords(str_replace('_', ' ', $controller)));
+                $this->post['actions']['controller_class'][$index] = str_replace(
+                        ' ',
+                        '',
+                        ucwords(str_replace('_', ' ', $controller))
+                    );
 
                 // Create a list of controllers to implement
                 if (!isset($this->post['controllers'][$controller])) {

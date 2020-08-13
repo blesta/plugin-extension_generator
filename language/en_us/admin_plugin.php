@@ -61,12 +61,14 @@ $lang['AdminPlugin.database.type'] = 'Type';
 $lang['AdminPlugin.database.length'] = 'Length/Values';
 $lang['AdminPlugin.database.default'] = 'Default';
 $lang['AdminPlugin.database.nullable'] = 'Nullable';
+$lang['AdminPlugin.database.primary'] = 'Primary Key';
 
 $lang['AdminPlugin.database.tooltip_column_name'] = 'The name of the column in the database (e.g. column_name)';
 $lang['AdminPlugin.database.tooltip_type'] = 'The type of the column in the database';
 $lang['AdminPlugin.database.tooltip_length'] = 'Sets the max number of characters in a field. If column type is "enum", please enter the values using this format: \'a\',\'b\',\'c\'...';
 $lang['AdminPlugin.database.tooltip_default'] = 'The default value to insert for this column';
 $lang['AdminPlugin.database.tooltip_nullable'] = 'Whether or not to allow a null value for this column';
+$lang['AdminPlugin.database.tooltip_primary'] = 'Marks this column as the primary key for the column';
 $lang['AdminPlugin.database.placeholder_column_name'] = 'e.g. column_name';
 
 $lang['AdminPlugin.database.text_options'] = 'Options';

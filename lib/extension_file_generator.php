@@ -431,8 +431,18 @@ class ExtensionFileGenerator
                     'extension' => 'php'
                 ],
                 [
+                    'path' => 'language' . DS . 'en_us' . DS . 'model.php',
+                    'foreach' => ['tables' => 'name'],
+                    'extension' => 'php'
+                ],
+                [
                     'path' => 'controllers' . DS . 'controller.php',
                     'foreach' => ['controllers' => 'snake_case_name'],
+                    'extension' => 'php'
+                ],
+                [
+                    'path' => 'models' . DS . 'model.php',
+                    'foreach' => ['tables' => 'name'],
                     'extension' => 'php'
                 ],
                 ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
