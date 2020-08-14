@@ -19,7 +19,7 @@ class {{tables.class_name}} extends {{class_name}}Model
     public function getList(
         array $filters = [],
         $page = 1,
-        array $order = [{{array:tables.columns}}{{if:tables.columns.primary:true}}'{{tables.columns.name}}'{{else}}{{if:tables.columns.primary}}{{array:tables.columns}} => 'desc']
+        array $order = [{{array:tables.columns}}{{if:tables.columns.primary:true}}'{{tables.columns.name}}'{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}} => 'desc']
     ) {
         $records = $this->getRecord($filters)
             ->order($order)
@@ -53,7 +53,7 @@ class {{tables.class_name}} extends {{class_name}}Model
      */
     public function getAll(
         array $filters = [],
-        array $order = [{{array:tables.columns}}{{if:tables.columns.primary:true}}'{{tables.columns.name}}'{{else}}{{if:tables.columns.primary}}{{array:tables.columns}} => 'desc']
+        array $order = [{{array:tables.columns}}{{if:tables.columns.primary:true}}'{{tables.columns.name}}'{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}} => 'desc']
     ) {
         $records = $this->getRecord($filters)->order($order)->fetchAll();
 
@@ -61,14 +61,14 @@ class {{tables.class_name}} extends {{class_name}}Model
     }
 
     /**
-     * Fetches the record with the given indentifier
+     * Fetches the record with the given identifier
      *{{array:tables.columns}}{{if:tables.columns.primary:true}}
-     * @param {{tables.columns.type}} ${{tables.columns.name}} The indentifier of the record to fetch{{else}}{{if:tables.columns.primary}}{{array:tables.columns}}
+     * @param int ${{tables.columns.name}} The identifier of the record to fetch{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}}
      * @return mixed A stdClass object representing the record, false if no such record exists
      */
-    public function get({{array:tables.columns}}{{if:tables.columns.primary:true}}${{tables.columns.name}}{{else}}{{if:tables.columns.primary}}{{array:tables.columns}})
+    public function get({{array:tables.columns}}{{if:tables.columns.primary:true}}${{tables.columns.name}}{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}})
     {
-        $record = $this->getRecord([{{array:tables.columns}}{{if:tables.columns.primary:true}}'{{tables.columns.name}}' => ${{tables.columns.name}}{{else}}{{if:tables.columns.primary}}{{array:tables.columns}}])->fetch();
+        $record = $this->getRecord([{{array:tables.columns}}{{if:tables.columns.primary:true}}'{{tables.columns.name}}' => ${{tables.columns.name}}{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}}])->fetch();
 
         return $record;
     }
@@ -79,7 +79,7 @@ class {{tables.class_name}} extends {{class_name}}Model
      * @param array $vars An array of input data including:
      *{{array:tables.columns}}
      *  - {{tables.columns.name}}{{array:tables.columns}}
-     * @return {{tables.columns.type}} The indentifier of the record that was created, void on error
+     * @return int The identifier of the record that was created, void on error
      */
     public function add(array $vars)
     {
@@ -96,36 +96,36 @@ class {{tables.class_name}} extends {{class_name}}Model
     /**
      * Edit a record
      *{{array:tables.columns}}{{if:tables.columns.primary:true}}
-     * @param int ${{tables.columns.name}} The indentifier of the record to edit{{else}}{{if:tables.columns.primary}}{{array:tables.columns}}
+     * @param int ${{tables.columns.name}} The identifier of the record to edit{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}}
      * @param array $vars An array of input data including:
      *{{array:tables.columns}}
      *  - {{tables.columns.name}}{{array:tables.columns}}
-     * @return {{tables.columns.type}} The indentifier of the record that was updated, void on error
+     * @return int The identifier of the record that was updated, void on error
      */
-    public function edit({{array:tables.columns}}{{if:tables.columns.primary:true}}${{tables.columns.name}}{{else}}{{if:tables.columns.primary}}{{array:tables.columns}}, array $vars)
+    public function edit({{array:tables.columns}}{{if:tables.columns.primary:true}}${{tables.columns.name}}{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}}, array $vars)
     {
         {{array:tables.columns}}{{if:tables.columns.primary:true}}
-        $vars['{{tables.columns.name}}'] = ${{tables.columns.name}};{{else}}{{if:tables.columns.primary}}{{array:tables.columns}}
+        $vars['{{tables.columns.name}}'] = ${{tables.columns.name}};{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}}
         $this->Input->setRules($this->getRules($vars, true));
 
         if ($this->Input->validates($vars)) {
             $fields = [{{array:tables.columns}}'{{tables.columns.name}}',{{array:tables.columns}}];
-            $this->Record->where({{array:tables.columns}}{{if:tables.columns.primary:true}}'{{tables.columns.name}}', '=', ${{tables.columns.name}}{{else}}{{if:tables.columns.primary}}{{array:tables.columns}})->update('{{tables.name}}', $vars, $fields);
+            $this->Record->where({{array:tables.columns}}{{if:tables.columns.primary:true}}'{{tables.columns.name}}', '=', ${{tables.columns.name}}{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}})->update('{{tables.name}}', $vars, $fields);
 
-            return {{array:tables.columns}}{{if:tables.columns.primary:true}}${{tables.columns.name}}{{else}}{{if:tables.columns.primary}}{{array:tables.columns}};
+            return {{array:tables.columns}}{{if:tables.columns.primary:true}}${{tables.columns.name}}{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}};
         }
     }
 
     /**
      * Permanently deletes the given record
      *{{array:tables.columns}}{{if:tables.columns.primary:true}}
-     * @param {{tables.columns.type}} ${{tables.columns.name}} The indentifier of the record to delete{{else}}{{if:tables.columns.primary}}{{array:tables.columns}}
+     * @param int ${{tables.columns.name}} The identifier of the record to delete{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}}
      */
-    public function delete({{array:tables.columns}}{{if:tables.columns.primary:true}}${{tables.columns.name}}{{else}}{{if:tables.columns.primary}}{{array:tables.columns}})
+    public function delete({{array:tables.columns}}{{if:tables.columns.primary:true}}${{tables.columns.name}}{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}})
     {
         // Delete a record
         $this->Record->from('{{tables.name}}')->{{array:tables.columns}}{{if:tables.columns.primary:true}}
-            where('{{tables.name}}.{{tables.columns.name}}', '=', ${{tables.columns.name}})->{{else}}{{if:tables.columns.primary}}{{array:tables.columns}}
+            where('{{tables.name}}.{{tables.columns.name}}', '=', ${{tables.columns.name}})->{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}}
             delete();
     }
 
@@ -158,7 +158,7 @@ class {{tables.class_name}} extends {{class_name}}Model
         return [{{array:tables.columns.values}}
             '{{tables.columns.values.value}}' => Language::_('{{tables.class_name}}.get_{{tables.columns.name}}_values.{{tables.columns.values.value}}', true),{{array:tables.columns.values}}
         ];
-    }{{else}}{{if:tables.columns.type}}{{array:tables.columns}}
+    }{{else:tables.columns.type}}{{if:tables.columns.type}}{{array:tables.columns}}
 
     /**
      * Returns all validation rules for adding/editing extensions
@@ -175,7 +175,7 @@ class {{tables.class_name}} extends {{class_name}}Model
             '{{tables.columns.name}}' => [
                 'valid' => [
                     'if_set' => $edit,{{if:tables.columns.type:ENUM}}
-                    'rule' => ['array_key_exists', $this->get{{tables.columns.uc_name}}Values()],{{else}}
+                    'rule' => ['array_key_exists', $this->get{{tables.columns.uc_name}}Values()],{{else:tables.columns.type}}
                     'rule' => true,{{if:tables.columns.type}}
                     'message' => Language::_('{{tables.class_name}}.!error.{{tables.columns.name}}.valid', true)
                 ]

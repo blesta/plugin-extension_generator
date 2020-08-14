@@ -29,9 +29,17 @@ class {{class_name}}Plugin extends Plugin
             $this->Record{{array:tables.columns}}
                 ->setField(
                     '{{tables.columns.name}}',
-                    ['type' => '{{tables.columns.type}}', {{if:tables.columns.type:DATETIME}}{{else}}'size' => "{{tables.columns.length}}",{{if:tables.columns.type}}{{if:tables.columns.type:INT}} 'unsigned' => true,{{else}}{{if:tables.columns.type}}{{if:tables.columns.name:id}} 'auto_increment' => true,{{else}}{{if:tables.columns.name}}]
+                    [
+                        'type' => '{{tables.columns.type}}',{{if:tables.columns.type:DATETIME}}{{else:tables.columns.type}}
+                        'size' => "{{tables.columns.length}}",{{if:tables.columns.type}}{{if:tables.columns.type:INT}}
+                        'unsigned' => true,{{if:tables.columns.primary:true}}
+                        'auto_increment' => true,{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{else:tables.columns.type}}{{if:tables.columns.type}}{{if:tables.columns.nullable:true}}
+                        'is_null' => true,{{else:tables.columns.nullable}}{{if:tables.columns.nullable}}{{if:tables.columns.default:}}{{if:tables.columns.nullable:true}}
+                        'default' => null,{{else:tables.columns.nullable}}{{if:tables.columns.nullable}}{{else:tables.columns.default}}
+                        'default' => {{tables.columns.default}},{{if:tables.columns.default}}
+                    ]
                 ){{if:tables.columns.primary:true}}
-                ->setKey(['{{tables.columns.name}}'], 'primary'){{else}}{{if:tables.columns.primary}}{{array:tables.columns}}
+                ->setKey(['{{tables.columns.name}}'], 'primary'){{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}}
                 ->create('{{tables.name}}', true);{{array:tables}}
         } catch (Exception $e) {
             // Error adding... no permission?
@@ -322,7 +330,7 @@ class {{class_name}}Plugin extends Plugin
         return [{{array:service_tabs}}{{if:service_tabs.level:client}}
             '{{service_tabs.method_name}}' => [
                 'name' => Language::_('{{class_name}}.{{service_tabs.snake_case_name}}', true)
-            ],{{else}}{{if:service_tabs.level}}{{array:service_tabs}}
+            ],{{else:service_tabs.level}}{{if:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getClientServiceTabs}}{{function:getAdminServiceTabs}}
 
@@ -343,7 +351,7 @@ class {{class_name}}Plugin extends Plugin
         return [{{array:service_tabs}}{{if:service_tabs.level:staff}}
             '{{service_tabs.method_name}}' => [
                 'name' => Language::_('{{class_name}}.{{service_tabs.snake_case_name}}', true)
-            ],{{else}}{{if:service_tabs.level}}{{array:service_tabs}}
+            ],{{else:service_tabs.level}}{{if:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getAdminServiceTabs}}{{array:service_tabs}}
 
@@ -377,5 +385,16 @@ class {{class_name}}Plugin extends Plugin
         $this->view->set('vars', (isset($vars) ? $vars : new stdClass()));
 
         return $this->view->fetch();
-    }{{array:service_tabs}}
+    }{{array:service_tabs}}{{array:cards}}
+
+    /**
+     * Retrieves the value for a client card
+     *
+     * @param int $client_id The ID of the client for which to fetch the card value
+     * @return mixed The value for the client card
+     */
+    public function {{cards.callback}}($client_id)
+    {
+        return 'Example Value';
+    }{{array:cards}}
 }

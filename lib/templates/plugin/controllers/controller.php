@@ -22,16 +22,18 @@ class {{controllers.class_name}} extends {{class_name}}Controller
      */
     public function {{controllers.actions.action}}()
     {
+////        $this->uses(['{{ClassName}}.{{class_name}}Objects']);
+////
 ////        // Set current page of results
 ////        $page = (isset($this->get[1]) ? (int) $this->get[1] : 1);
 ////        $sort = (isset($this->get['sort']) ? $this->get['sort'] : 'date_updated');
 ////        $order = (isset($this->get['order']) ? $this->get['order'] : 'desc');
 ////
 ////        $objects = $this->{{class_name}}Objects->getList(
-////            Configure::get('Blesta.company_id'),
+////            ['company_id' => Configure::get('Blesta.company_id')],
 ////            $page, [$sort => $order]
 ////        );
-////        $total_results = $this->{{class_name}}Objects->getListCount(Configure::get('Blesta.company_id'));
+////        $total_results = $this->{{class_name}}Objects->getListCount(['company_id' => Configure::get('Blesta.company_id')]);
 ////
 ////        $this->set('objects', $objects);
 ////        $this->set('sort', $sort);

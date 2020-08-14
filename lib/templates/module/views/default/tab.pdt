@@ -4,7 +4,7 @@
 
         <?php
         $this->Form->create(
-//// {{if:service_tabs.level:staff}}$this->base_uri . 'services/manage/' . $this->Html->ifSet($service_id) . '/{{service_tabs.method_name}}/'{{else}}$this->base_uri . 'clients/serviceTab/' . $this->Html->ifSet($client_id) . '/' . $this->Html->ifSet($service_id) . '/{{service_tabs.method_name}}/'{{if:service_tabs.level}}
+//// {{if:service_tabs.level:staff}}$this->base_uri . 'services/manage/' . $this->Html->ifSet($service_id) . '/{{service_tabs.method_name}}/'{{else:service_tabs.level}}$this->base_uri . 'clients/serviceTab/' . $this->Html->ifSet($client_id) . '/' . $this->Html->ifSet($service_id) . '/{{service_tabs.method_name}}/'{{if:service_tabs.level}}
         );
         ?>
         <div class="col-md-12">

@@ -65,9 +65,9 @@
                             for ($j = 0; $j < $columns; $j++) {
                             ?>
                                 <tr class="column_row" data-column="<?php echo $j;?>">
-                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][name]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['name']), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.basic.placeholder_column_name', true)], $disabled));?></td>
+                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][name]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['name']), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.database.placeholder_column_name', true)], $disabled));?></td>
                                     <td><?php $this->Form->fieldSelect('tables[' . $i . '][columns][c' . $j . '][type]', $this->Html->ifSet($column_types, []), $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['type']), $disabled);?></td>
-                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][length]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['length']), array_merge(['class' => 'stretch'], $disabled));?></td>
+                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][length]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['length']), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.database.placeholder_length', true)], $disabled));?></td>
                                     <td><?php $this->Form->fieldTextarea('tables[' . $i . '][columns][c' . $j . '][default]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['default']), array_merge(['class' => 'stretch'], $disabled));?></td>
                                     <td><?php $this->Form->fieldCheckbox('tables[' . $i . '][columns][c' . $j . '][nullable]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['nullable'], 'true') == 'true', $disabled);?></td>
                                     <td><?php $this->Form->fieldRadio('tables[' . $i . '][columns][c' . $j . '][primary]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['primary'], 'true') == 'true', array_merge(['class' => 'primary_key'], $disabled));?></td>
@@ -110,6 +110,8 @@
 
             // Add new table
             $('.table_div:last').after(element_html);
+
+            $('#database_tables').blestaBindToolTips();
 
             return false;
         });

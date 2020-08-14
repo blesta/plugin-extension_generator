@@ -111,6 +111,8 @@ class AdminPlugin extends ExtensionGeneratorController
                     }
                 }
             }
+        } elseif (!empty($this->post)) {
+            $this->post['tables'] = [];
         }
 
         // Perform edit and redirect or set errors and repopulate vars
@@ -146,6 +148,8 @@ class AdminPlugin extends ExtensionGeneratorController
                     $this->post[$array_field] = [];
                 }
             }
+
+            $this->post['controllers'] = [];
         }
 
         // Format controller and action fields
@@ -204,6 +208,17 @@ class AdminPlugin extends ExtensionGeneratorController
      */
     public function features()
     {
+        // Set empty array inputs
+        if (!empty($this->post)) {
+            $array_fields = ['service_tabs', 'cron_tasks'];
+            foreach ($array_fields as $array_field) {
+                if (!isset($this->post[$array_field])) {
+                    // Set empty array inputs
+                    $this->post[$array_field] = [];
+                }
+            }
+        }
+
         // Format service tab fields
         if (!empty($this->post['service_tabs']['method_name'])) {
             foreach ($this->post['service_tabs']['method_name'] as $index => $method) {
@@ -282,10 +297,10 @@ class AdminPlugin extends ExtensionGeneratorController
     private function getActionLocations()
     {
         return [
-            'nav_primary_client' => Language::_('AdminPlugin.getactionlocations.nav_primary_client', true),
             'nav_primary_staff' => Language::_('AdminPlugin.getactionlocations.nav_primary_staff', true),
             'nav_secondary_staff' => Language::_('AdminPlugin.getactionlocations.nav_secondary_staff', true),
             'action_staff_client' => Language::_('AdminPlugin.getactionlocations.action_staff_client', true),
+            'nav_primary_client' => Language::_('AdminPlugin.getactionlocations.nav_primary_client', true),
             'widget_client_home' => Language::_('AdminPlugin.getactionlocations.widget_client_home', true),
             'widget_staff_home' => Language::_('AdminPlugin.getactionlocations.widget_staff_home', true),
             'widget_staff_client' => Language::_('AdminPlugin.getactionlocations.widget_staff_client', true),

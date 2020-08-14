@@ -34,7 +34,9 @@
 ////            $i = 0;
 ////            foreach ($objects as $object) {
 ////            ?><!--
-////            <tr<?php echo ($i++ % 2 == 1) ? ' class="odd_row"' : '';?>>
+////            <tr<?php
+////                echo ($i++ % 2 == 1) ? ' class="odd_row"' : '';
+////                ?>>
 ////            </tr>
 ////            --><?php
 ////            }
@@ -48,7 +50,9 @@
 ////        ?><!--
 ////        <div class="empty_section">
 ////            <div class="empty_box">
-////                <?php $this->_('{{actions.controller_class}}.{{actions.action}}.no_results');?>
+////                <?php
+////                $this->_('{{actions.controller_class}}.{{actions.action}}.no_results');
+////                ?>
 ////            </div>
 ////        </div>
 ////        --><?php

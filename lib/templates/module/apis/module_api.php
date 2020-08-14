@@ -17,7 +17,7 @@ class {{class_name}}Api
     private $apiUrl = '';{{array:module_rows}}
 
     /**
-     * @var {{if:module_rows.type:Checkbox}}bool{{else}}string{{if:module_rows.type}} Placeholder description
+     * @var {{if:module_rows.type:Checkbox}}bool{{else:module_rows.type}}string{{if:module_rows.type}} Placeholder description
      */
     private ${{module_rows.name}};{{array:module_rows}}
     ##

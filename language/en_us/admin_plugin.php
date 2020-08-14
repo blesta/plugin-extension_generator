@@ -1,8 +1,8 @@
 <?php
 // Controller get functions
 
-$lang['AdminPlugin.getactionlocations.nav_primary_client'] = 'Primary Nav (Staff)';
-$lang['AdminPlugin.getactionlocations.nav_primary_staff'] = 'Primary Nav (Client)';
+$lang['AdminPlugin.getactionlocations.nav_primary_client'] = 'Primary Nav (Client)';
+$lang['AdminPlugin.getactionlocations.nav_primary_staff'] = 'Primary Nav (Staff)';
 $lang['AdminPlugin.getactionlocations.nav_secondary_staff'] = 'Sub-Menu Nav (Staff)';
 $lang['AdminPlugin.getactionlocations.action_staff_client'] = 'Client Profile Sidebar (Staff)';
 $lang['AdminPlugin.getactionlocations.widget_staff_home'] = 'Widget - Client Profile (Staff)';
@@ -65,11 +65,12 @@ $lang['AdminPlugin.database.primary'] = 'Primary Key';
 
 $lang['AdminPlugin.database.tooltip_column_name'] = 'The name of the column in the database (e.g. column_name)';
 $lang['AdminPlugin.database.tooltip_type'] = 'The type of the column in the database';
-$lang['AdminPlugin.database.tooltip_length'] = 'Sets the max number of characters in a field. If column type is "enum", please enter the values using this format: \'a\',\'b\',\'c\'...';
+$lang['AdminPlugin.database.tooltip_length'] = 'Sets the max number of characters in a field. Leave empty for DATETIME fields. If column type is "enum", please enter the values using this format: \'a\',\'b\',\'c\'...';
 $lang['AdminPlugin.database.tooltip_default'] = 'The default value to insert for this column';
 $lang['AdminPlugin.database.tooltip_nullable'] = 'Whether or not to allow a null value for this column';
 $lang['AdminPlugin.database.tooltip_primary'] = 'Marks this column as the primary key for the column';
 $lang['AdminPlugin.database.placeholder_column_name'] = 'e.g. column_name';
+$lang['AdminPlugin.database.placeholder_length'] = "e.g. 64 or 'a','b','c'";
 
 $lang['AdminPlugin.database.text_options'] = 'Options';
 $lang['AdminPlugin.database.text_remove'] = 'Remove';
@@ -100,7 +101,7 @@ $lang['AdminPlugin.integrations.link'] = 'Link';
 $lang['AdminPlugin.integrations.text_options'] = 'Options';
 $lang['AdminPlugin.integrations.text_remove'] = 'Remove';
 
-$lang['AdminPlugin.integrations.tooltip_location'] = 'The location to display the action';
+$lang['AdminPlugin.integrations.tooltip_location'] = 'The location in the interface to display the action';
 $lang['AdminPlugin.integrations.tooltip_controller'] = 'The controller for the URI from which to pull in the content for the action (e.g. admin_main)';
 $lang['AdminPlugin.integrations.tooltip_action'] = 'The action for the URI from which to pull in the content for the action (e.g. index)';
 $lang['AdminPlugin.integrations.tooltip_name'] = 'The display name this action (nav text, widget header, or link text depending on the action location)';
@@ -108,7 +109,7 @@ $lang['AdminPlugin.integrations.tooltip_event'] = 'The event for which to add a 
 $lang['AdminPlugin.integrations.tooltip_event_callback'] = 'The name of the event handler method to create in the main plugin class';
 $lang['AdminPlugin.integrations.tooltip_label'] = 'A string appearing under the value as a label';
 $lang['AdminPlugin.integrations.tooltip_level'] = 'The level of interface at which to display the client card';
-$lang['AdminPlugin.integrations.tooltip_card_callback'] = 'The name of the card method to create in the main plugin class';
+$lang['AdminPlugin.integrations.tooltip_card_callback'] = 'The name of the method to create in the main plugin class for fetching the card value';
 $lang['AdminPlugin.integrations.tooltip_link'] = 'The URI to link to when the client card is click';
 
 $lang['AdminPlugin.integrations.placeholder_controller'] = 'e.g. admin_main';
