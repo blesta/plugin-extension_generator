@@ -403,5 +403,20 @@ class {{class_name}}Plugin extends Plugin
     public function {{cards.callback}}($client_id)
     {
         return 'Example Value';
-    }{{array:cards}}
+    }{{array:cards}}{{array:events}}
+
+    /**
+     * Handler for the {{events.event}} event
+     *
+     * @param EventObject $event The event to process
+     */
+    public function {{events.callback}}($event)
+    {
+        $params = $event->getParams();
+        $return = $event->getReturnVal();
+
+        // Perform any necessary actions
+
+        $event->setReturnVal($return);
+    }{{array:events}}
 }
