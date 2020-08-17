@@ -51,6 +51,8 @@ class {{controllers.class_name}} extends {{class_name}}Controller
 ////        );
 ////        $this->setPagination($this->get, $settings);
 
-        return $this->renderAjaxWidgetIfAsync(isset($this->get[0]) || isset($this->get['sort']));
+        return $this->renderAjaxWidgetIfAsync(
+            isset($this->get['sort']) ? true : (isset($this->get[1]) || isset($this->get[0]) ? false : null)
+        );
     }{{array:controllers.actions}}
 }{{array:controllers}}

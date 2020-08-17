@@ -10,7 +10,10 @@
         $this->Form->create();
         ?>
         <div class="inner">
-            <div class="title_row"><h3><?php $this->_('AdminPlugin.integrations.heading_actions');?></h3></div>
+            <div class="title_row"><h3><?php $this->_('AdminPlugin.integrations.heading_actions');?> - <a id="actions_more_info" href="#"><?php $this->_('AdminPlugin.integrations.heading_more_info');?></a></h3></div>
+            <div class="pad" id="actions_info_text" style="display:none;">
+                <div class="empty_box"><?php $this->_('AdminPlugin.integrations.text_actions_more_info');?></div>
+            </div>
             <div class="pad">
                 <div class="links_row">
                     <a class="btn btn-default pull-right btn-sm action_row_add" href="#"><span><?php $this->_('AdminPlugin.integrations.action_row_add');?></span></a>
@@ -47,7 +50,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="title_row"><h3><?php $this->_('AdminPlugin.integrations.heading_events');?></h3></div>
+            <div class="title_row"><h3><?php $this->_('AdminPlugin.integrations.heading_events');?> - <a id="events_more_info" href="#"><?php $this->_('AdminPlugin.integrations.heading_more_info');?></a></h3></div>
+            <div class="pad" id="events_info_text" style="display:none;">
+                <div class="empty_box"><?php $this->_('AdminPlugin.integrations.text_events_more_info');?></div>
+            </div>
             <div class="pad">
                 <div class="links_row">
                     <a class="btn btn-default pull-right btn-sm event_row_add" href="#"><span><?php $this->_('AdminPlugin.integrations.event_row_add');?></span></a>
@@ -80,7 +86,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="title_row"><h3><?php $this->_('AdminPlugin.integrations.heading_cards');?></h3></div>
+            <div class="title_row"><h3><?php $this->_('AdminPlugin.integrations.heading_cards');?> - <a id="cards_more_info" href="#"><?php $this->_('AdminPlugin.integrations.heading_more_info');?></a></h3></div>
+            <div class="pad" id="cards_info_text" style="display:none;">
+                <div class="empty_box"><?php $this->_('AdminPlugin.integrations.text_cards_more_info');?></div>
+            </div>
             <div class="pad">
                 <div class="links_row">
                     <a class="btn btn-default pull-right btn-sm card_row_add" href="#"><span><?php $this->_('AdminPlugin.integrations.card_row_add');?></span></a>
@@ -147,5 +156,9 @@
                 return false;
             });
         });
+
+        $(this).blestaBindToggleEvent('#actions_more_info', '#actions_info_text');
+        $(this).blestaBindToggleEvent('#events_more_info', '#events_info_text');
+        $(this).blestaBindToggleEvent('#cards_more_info', '#cards_info_text');
     });
 </script>

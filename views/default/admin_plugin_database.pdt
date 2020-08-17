@@ -10,7 +10,10 @@
         $this->Form->create(null, ['id' => 'plugindatabase', 'enctype' => 'multipart/form-data']);
         ?>
         <div class="inner">
-            <div class="title_row first"><h3><?php $this->_('AdminPlugin.database.heading_database');?></h3></div>
+            <div class="title_row first"><h3><?php $this->_('AdminPlugin.database.heading_database');?> - <a id="database_more_info" href="#"><?php $this->_('AdminPlugin.database.heading_more_info');?></a></h3></div>
+            <div class="pad" id="database_info_text" style="display:none;">
+                <div class="empty_box"><?php $this->_('AdminPlugin.database.text_more_info');?></div>
+            </div>
             <div class="pad">
                 <div id="database_tables">
                     <div class="links_row">
@@ -63,11 +66,13 @@
                                 $columns = count($vars['tables'][$i]['columns']);
                             }
                             for ($j = 0; $j < $columns; $j++) {
+                                $type = $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['type']);
+                                $no_length_types = ['DATETIME', 'TEXT'];
                             ?>
                                 <tr class="column_row" data-column="<?php echo $j;?>">
                                     <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][name]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['name']), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.database.placeholder_column_name', true)], $disabled));?></td>
-                                    <td><?php $this->Form->fieldSelect('tables[' . $i . '][columns][c' . $j . '][type]', $this->Html->ifSet($column_types, []), $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['type']), $disabled);?></td>
-                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][length]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['length']), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.database.placeholder_length', true)], $disabled));?></td>
+                                    <td><?php $this->Form->fieldSelect('tables[' . $i . '][columns][c' . $j . '][type]', $this->Html->ifSet($column_types, []), $type, array_merge(['class' => 'type'], $disabled));?></td>
+                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][length]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['length']), array_merge(['class' => 'stretch length', 'placeholder' => $this->_('AdminPlugin.database.placeholder_length', true)], in_array($type, $no_length_types) ? ['disabled' => 'disabled'] : $disabled));?></td>
                                     <td><?php $this->Form->fieldTextarea('tables[' . $i . '][columns][c' . $j . '][default]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['default']), array_merge(['class' => 'stretch'], $disabled));?></td>
                                     <td><?php $this->Form->fieldCheckbox('tables[' . $i . '][columns][c' . $j . '][nullable]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['nullable'], 'true') == 'true', $disabled);?></td>
                                     <td><?php $this->Form->fieldRadio('tables[' . $i . '][columns][c' . $j . '][primary]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['primary'], 'true') == 'true', array_merge(['class' => 'primary_key'], $disabled));?></td>
@@ -170,5 +175,20 @@
             $(this).closest('tbody').find('.primary_key').removeProp('checked');
             $(this).prop('checked', 'checked');
         });
+
+        $('#database_tables').on('change', '.type', function() {
+            var default_type_values = {'INT':10, 'TINYINT':1, 'VARCHAR':64, 'DATETIME':'', 'TEXT':'', 'ENUM':"'a','b','c'"}
+
+            // Set the length field to the default value for the collected type
+            $(this).closest('tr').find('.length').val(default_type_values[$(this).val()]);
+
+            if ($(this).val() == 'DATETIME' || $(this).val() == 'TEXT') {
+                $(this).closest('tr').find('.length').prop('disabled', 'disabled');
+            } else {
+                $(this).closest('tr').find('.length').removeProp('disabled');
+            }
+        });
+
+        $(this).blestaBindToggleEvent('#database_more_info', '#database_info_text');
     });
 </script>

@@ -23,8 +23,13 @@ class {{class_name}}Plugin extends Plugin
     public function install($plugin_id)
     {{{function:installTables}}
         try {
-            // Create database tables{{array:tables}}
+////        Plugins manage their own database interactions.  Here the table are define, and they are removed in the
+////        uninstall() method.  The Record component is used for all database interactions and can be found under
+////        vendors/minphp/record/src/Record.php
+////
+////        Table creation has been automatically generater for you, but you may find it useful
 
+            // Create database tables{{array:tables}}
             // {{tables.name}}
             $this->Record{{array:tables.columns}}
                 ->setField(
@@ -40,7 +45,8 @@ class {{class_name}}Plugin extends Plugin
                     ]
                 ){{if:tables.columns.primary:true}}
                 ->setKey(['{{tables.columns.name}}'], 'primary'){{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}}
-                ->create('{{tables.name}}', true);{{array:tables}}
+                ->create('{{tables.name}}', true);
+                {{array:tables}}
         } catch (Exception $e) {
             // Error adding... no permission?
             $this->Input->setErrors(['db' => ['create' => $e->getMessage()]]);
@@ -238,7 +244,7 @@ class {{class_name}}Plugin extends Plugin
             // {{actions.name}}
             [
                 'action' => '{{actions.location}}',
-                'uri' => 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}',
+                'uri' => 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/',
                 'name' => '{{class_name}}Plugin.{{actions.location}}.main',
             ],{{array:actions}}
         ];

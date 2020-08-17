@@ -37,7 +37,7 @@ $lang['AdminPlugin.basic.author_row_add'] = 'Add Author';
 $lang['AdminPlugin.basic.text_remove'] = 'Remove';
 
 $lang['AdminPlugin.basic.tooltip_description'] = 'The description shown in the plugin listing';
-$lang['AdminPlugin.basic.tooltip_logo'] = 'The logo displayed in the plugin listing';
+$lang['AdminPlugin.basic.tooltip_logo'] = 'The logo displayed in the plugin listing. Images are not resized, so the ideal dimensions are 150x70';
 
 $lang['AdminPlugin.basic.placeholder_author_name'] = 'e.g. Blesta';
 $lang['AdminPlugin.basic.placeholder_author_url'] = 'e.g. https://blesta.com/';
@@ -47,7 +47,8 @@ $lang['AdminPlugin.basic.confirm'] = 'Next - Confirmation';
 
 
 // Database info page
-$lang['AdminPlugin.database.heading_database'] = 'Database Table Info';
+$lang['AdminPlugin.database.heading_database'] = 'Database Tables';
+$lang['AdminPlugin.database.heading_more_info'] = 'More Info';
 
 $lang['AdminPlugin.database.table_row_add'] = 'Add Database Table';
 $lang['AdminPlugin.database.column_row_add'] = 'Add Column';
@@ -63,15 +64,16 @@ $lang['AdminPlugin.database.default'] = 'Default';
 $lang['AdminPlugin.database.nullable'] = 'Nullable';
 $lang['AdminPlugin.database.primary'] = 'Primary Key';
 
-$lang['AdminPlugin.database.tooltip_column_name'] = 'The name of the column in the database (e.g. column_name)';
-$lang['AdminPlugin.database.tooltip_type'] = 'The type of the column in the database';
-$lang['AdminPlugin.database.tooltip_length'] = 'Sets the max number of characters in a field. Leave empty for DATETIME fields. If column type is "enum", please enter the values using this format: \'a\',\'b\',\'c\'...';
-$lang['AdminPlugin.database.tooltip_default'] = 'The default value to insert for this column';
-$lang['AdminPlugin.database.tooltip_nullable'] = 'Whether or not to allow a null value for this column';
-$lang['AdminPlugin.database.tooltip_primary'] = 'Marks this column as the primary key for the column';
+$lang['AdminPlugin.database.tooltip_column_name'] = 'The name of the column in the database (e.g. column_name).';
+$lang['AdminPlugin.database.tooltip_type'] = 'The type of the column in the database.';
+$lang['AdminPlugin.database.tooltip_length'] = 'Sets the max number of characters in a field. If column type is "enum", please enter the values using this format: \'a\',\'b\',\'c\'...';
+$lang['AdminPlugin.database.tooltip_default'] = 'The default value to insert for this column. Nullable fields with an empty default will default to NULL.';
+$lang['AdminPlugin.database.tooltip_nullable'] = 'Whether or not to allow a null value for this column.';
+$lang['AdminPlugin.database.tooltip_primary'] = 'Marks this column as the primary key for the column. Composite keys are not currently supportedm. If you wish to have a composite key or no primary key, see the install() method of the generated ***_plugin.php file.';
 $lang['AdminPlugin.database.placeholder_column_name'] = 'e.g. column_name';
 $lang['AdminPlugin.database.placeholder_length'] = "e.g. 64 or 'a','b','c'";
 
+$lang['AdminPlugin.database.text_more_info'] = 'This page is used to create a schema for the database tables generated and managed by this plugin. Code will be generated for adding and removing these tables on install and uninstall. In addition, model files will be create for these tables with some basic functions.';
 $lang['AdminPlugin.database.text_options'] = 'Options';
 $lang['AdminPlugin.database.text_remove'] = 'Remove';
 
@@ -86,6 +88,7 @@ $lang['AdminPlugin.integrations.card_row_add'] = 'Add Client Card';
 $lang['AdminPlugin.integrations.heading_actions'] = 'Actions';
 $lang['AdminPlugin.integrations.heading_events'] = 'Event Handlers';
 $lang['AdminPlugin.integrations.heading_cards'] = 'Client Cards';
+$lang['AdminPlugin.integrations.heading_more_info'] = 'More Info';
 
 $lang['AdminPlugin.integrations.location'] = 'Location';
 $lang['AdminPlugin.integrations.controller'] = 'Controller';
@@ -98,6 +101,9 @@ $lang['AdminPlugin.integrations.level'] = 'Level';
 $lang['AdminPlugin.integrations.card_callback'] = 'Callback Method';
 $lang['AdminPlugin.integrations.link'] = 'Link';
 
+$lang['AdminPlugin.integrations.text_actions_more_info'] = '"Actions" represent plugin pages that are accesible through the core interface. This includes navigation links in the admin and client areas, widgets in the admin area, and links on the client profile sidebar. The controllers and actions entered here will be used to generate simple controller files. In addition, sample view files will be created for each action.';
+$lang['AdminPlugin.integrations.text_events_more_info'] = 'This is the hook system in Blesta.  Events are registered either by the core or by a plugin, then plugins listen for these events and define handler methods for the event.  Since any plugins can register events, there can be any number of them, however the list of core events defined by blesta can be found here https://docs.blesta.com/display/dev/Event+Handlers.';
+$lang['AdminPlugin.integrations.text_cards_more_info'] = 'Client cards are small boxes shown on the client profile (in the client or admin area) and are primarily used for displaying various statistic (e.g number of service, tickets, or orders). They consist of a value, a label, a background, and a link.  The label is displayed below the value which is pulled in from a callback function.';
 $lang['AdminPlugin.integrations.text_options'] = 'Options';
 $lang['AdminPlugin.integrations.text_remove'] = 'Remove';
 

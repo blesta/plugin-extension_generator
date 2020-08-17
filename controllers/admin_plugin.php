@@ -174,11 +174,9 @@ class AdminPlugin extends ExtensionGeneratorController
                 }
 
                 // Add this action to the list for its controller
-                $this->post['controllers'][$controller]['actions'][] = [
-                    'location' => $this->post['actions']['location'][$index],
+                $this->post['controllers'][$controller]['actions'][$action] = [
                     'controller' => $controller,
                     'action' => $action,
-                    'name' => $this->post['actions']['name'][$index],
                 ];
             }
         }

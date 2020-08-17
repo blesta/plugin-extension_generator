@@ -23,7 +23,20 @@
 ////        $this->Widget->setAjaxFiltering();
         $this->Widget->create($this->_('{{actions.controller_class}}.{{actions.action}}.boxtitle', true), ['id'=>'{{actions.controller}}'], $this->Html->ifSet($render_section, null));
         $this->Form->create($this->base_uri . 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/', ['id' => '{{actions.action}}']);
+        ?>
 
+        <div class="col-md-12">
+            <p>This is a very simple action page, created by the extension generator.  The content
+                of this file can be modified at <?php echo PLUGINDIR . '{{snake_case_name}}' . DS . 'views' . DS . 'default' . DS . '{{actions.controller}}_{{actions.action}}.pdt';?>.
+                Included here is a basic form that can be submitted and is handled by the {{actions.action}}() method in <?php echo PLUGINDIR . '{{snake_case_name}}' . DS . 'controllers' . DS . '{{actions.controller}}.php';?>
+            </p>
+            <div class="button_row">
+                <button class="btn btn-default pull-right">
+                    <i class="fa fa-edit"></i> <?php $this->_('{{actions.controller_class}}.{{actions.action}}.submit');?>
+                </button>
+            </div>
+        </div>
+        <?php
 ////        if ($this->Html->ifSet($objects, false) && ($num_objects = count($objects)) > 0) {
 ////        ?><!--
 ////        <table class="table" id="ticket_list">
@@ -57,7 +70,7 @@
 ////        </div>
 ////        --><?php
 ////        }
-
+////
         $this->Form->end();
         $this->Widget->end();
 {{array:actions}}

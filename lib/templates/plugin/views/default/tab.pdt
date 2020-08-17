@@ -12,10 +12,12 @@
                 of this file can be modified at <?php echo PLUGINDIR . '{{snake_case_name}}' . DS . 'views' . DS . 'default' . DS . '{{service_tabs.snake_case_name}}.pdt';?>.
                 Included here is a basic form that can be submitted and is handled by the {{service_tabs.method_name}}() method in <?php echo PLUGINDIR . '{{snake_case_name}}' . DS . '{{snake_case_name}}_plugin.php';?>
             </p>
+            <div class="button_row">
+                <button class="btn btn-default pull-right">
+                    <i class="fa fa-edit"></i> <?php $this->_('{{class_name}}.{{service_tabs.snake_case_name}}.submit');?>
+                </button>
+            </div>
         </div>
-        <button class="btn btn-default pull-right">
-            <i class="fa fa-edit"></i> <?php $this->_('{{class_name}}.{{service_tabs.snake_case_name}}.submit');?>
-        </button>
         <?php
         $this->Form->end();
         ?>
