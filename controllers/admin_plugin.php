@@ -81,13 +81,38 @@ class AdminPlugin extends ExtensionGeneratorController
                 // Reset the indexes for the column sub-arrays
                 $table['columns'] = array_values($table['columns']);
 
+                // Set a class name for the table's model
+                $table['class_name'] = str_replace(
+                        ' ',
+                        '',
+                        ucwords(str_replace('_', ' ', $table['name']))
+                    );
+
                 // Set unset checkboxes
                 foreach ($table['columns'] as &$column) {
                     if (!isset($column['nullable'])) {
                         $column['nullable'] = 'false';
                     }
+
+                    if (!isset($column['primary'])) {
+                        $column['primary'] = 'false';
+                    }
+
+                    // Set the upper case equivilent of the column name
+                    $column['uc_name'] = str_replace(' ', '', ucwords(str_replace('_', ' ', $column['name'])));
+
+                    // Set values for enum columns
+                    if ($column['type'] == 'ENUM') {
+                        $values = explode(',', $column['length']);
+                        $column['values'] = array_map(
+                                function($value) { return ['value' => trim($value, "'")]; },
+                                $values
+                            );
+                    }
                 }
             }
+        } elseif (!empty($this->post)) {
+            $this->post['tables'] = [];
         }
 
         // Perform edit and redirect or set errors and repopulate vars
@@ -123,6 +148,37 @@ class AdminPlugin extends ExtensionGeneratorController
                     $this->post[$array_field] = [];
                 }
             }
+
+            $this->post['controllers'] = [];
+        }
+
+        // Format controller and action fields
+        if (!empty($this->post['actions']['controller'])) {
+            foreach ($this->post['actions']['controller'] as $index => $controller) {
+                $action = $this->post['actions']['action'][$index];
+                $this->post['actions']['controller_action'][$index] = $controller
+                    . ($action == 'index' ?  '' : '_' . $action);
+                $this->post['actions']['controller_class'][$index] = str_replace(
+                        ' ',
+                        '',
+                        ucwords(str_replace('_', ' ', $controller))
+                    );
+
+                // Create a list of controllers to implement
+                if (!isset($this->post['controllers'][$controller])) {
+                    $this->post['controllers'][$controller] = [
+                            'class_name' => $this->post['actions']['controller_class'][$index],
+                            'snake_case_name' => $controller,
+                            'actions' => []
+                        ];
+                }
+
+                // Add this action to the list for its controller
+                $this->post['controllers'][$controller]['actions'][$action] = [
+                    'controller' => $controller,
+                    'action' => $action,
+                ];
+            }
         }
 
         // Perform edit and redirect or set errors and repopulate vars
@@ -150,6 +206,26 @@ class AdminPlugin extends ExtensionGeneratorController
      */
     public function features()
     {
+        // Set empty array inputs
+        if (!empty($this->post)) {
+            $array_fields = ['service_tabs', 'cron_tasks'];
+            foreach ($array_fields as $array_field) {
+                if (!isset($this->post[$array_field])) {
+                    // Set empty array inputs
+                    $this->post[$array_field] = [];
+                }
+            }
+        }
+
+        // Format service tab fields
+        if (!empty($this->post['service_tabs']['method_name'])) {
+            foreach ($this->post['service_tabs']['method_name'] as $index => $method) {
+                $this->post['service_tabs']['snake_case_name'][$index] = strtolower(
+                        preg_replace('/([A-Z])/', '_$1', $method)
+                    );
+            }
+        }
+
         // Perform edit and redirect or set errors and repopulate vars
         $vars = $this->processStep('plugin/features', $this->extension);
 
@@ -219,10 +295,10 @@ class AdminPlugin extends ExtensionGeneratorController
     private function getActionLocations()
     {
         return [
-            'nav_primary_client' => Language::_('AdminPlugin.getactionlocations.nav_primary_client', true),
             'nav_primary_staff' => Language::_('AdminPlugin.getactionlocations.nav_primary_staff', true),
             'nav_secondary_staff' => Language::_('AdminPlugin.getactionlocations.nav_secondary_staff', true),
             'action_staff_client' => Language::_('AdminPlugin.getactionlocations.action_staff_client', true),
+            'nav_primary_client' => Language::_('AdminPlugin.getactionlocations.nav_primary_client', true),
             'widget_client_home' => Language::_('AdminPlugin.getactionlocations.widget_client_home', true),
             'widget_staff_home' => Language::_('AdminPlugin.getactionlocations.widget_staff_home', true),
             'widget_staff_client' => Language::_('AdminPlugin.getactionlocations.widget_staff_client', true),

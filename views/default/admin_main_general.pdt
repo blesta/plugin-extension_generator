@@ -11,6 +11,9 @@
         ?>
         <div class="inner">
             <div class="title_row first"><h3><?php $this->_('AdminMain.general.heading_general_settings');?></h3></div>
+            <div class="type_warning" style="display:none;">
+                <?php echo $this->Html->ifSet($type_warning);?>
+            </div>
             <div class="pad">
                 <ul>
                     <li>
@@ -24,7 +27,8 @@
                         <?php
                         $this->Form->label($this->_('AdminMain.general.type', true));
                         foreach ($this->Html->ifSet($extension_types, []) as $extension_type => $label) {
-                            $this->Form->fieldRadio('type', $extension_type, $this->Html->ifSet($vars->type, 'module') == $extension_type, ['class' => 'inline', 'id' => 'type_' . $extension_type]);
+                            $disabled = $extension_type == 'gateway' ? ['disabled' => 'disabled'] : [];
+                            $this->Form->fieldRadio('type', $extension_type, $this->Html->ifSet($vars->type, 'module') == $extension_type, array_merge(['class' => 'inline type', 'id' => 'type_' . $extension_type], $disabled));
                             $this->Form->label($label, 'type_' . $extension_type, ['class' => 'inline']);
                         }
                         ?>
@@ -56,3 +60,15 @@
         $this->Form->end();
 
         $this->Widget->end();
+        ?>
+<script>
+    $(document).ready(function () {
+        $('.type').change(function () {
+            if ($(this).val() !== '<?php echo $this->Html->ifSet($vars->type);?>' && '<?php echo $this->Html->ifSet($vars->type);?>' !== '') {
+                $('.type_warning').show();
+            } else {
+                $('.type_warning').hide();
+            }
+        });
+    });
+</script>

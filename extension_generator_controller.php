@@ -84,7 +84,7 @@ class ExtensionGeneratorController extends AppController
             if ($errors) {
                 // Attempt to remove the file if it was somehow written
                 @unlink($upload_path . $file_name);
-            } elseif (isset($this->extension->data['logo_path'])
+            } elseif (isset($this->extension->data['logo_path']) && isset($this->post['logo_path'])
                 && $this->extension->data['logo_path'] != $this->post['logo_path']
             ) {
                 // Remove the old logo file
@@ -112,7 +112,7 @@ class ExtensionGeneratorController extends AppController
 
             // Convert array input to a more usable form before storing
             foreach ($temp_vars as $key => $value) {
-                if (is_array($value) && !in_array($key, ['optional_functions', 'tables'])) {
+                if (is_array($value) && !in_array($key, ['optional_functions', 'tables', 'controllers'])) {
                     $temp_vars[$key] = $this->ArrayHelper->keyToNumeric($value);
                 }
             }
@@ -154,7 +154,7 @@ class ExtensionGeneratorController extends AppController
 
             // Convert array input to a more usable form before displaying
             foreach ($vars as $key => $value) {
-                if (is_array($value) && !in_array($key, ['optional_functions', 'tables'])) {
+                if (is_array($value) && !in_array($key, ['optional_functions', 'tables', 'controllers'])) {
                     $vars[$key] = $this->ArrayHelper->numericToKey($value);
                 }
             }
@@ -246,8 +246,9 @@ class ExtensionGeneratorController extends AppController
         // Use a simplified set of steps if set to use the basic extension form
         if ($form_type == 'basic') {
             $step_mapping = [
-                'main/general' => 'module/basic',
+                'main/general' => $extension_type . '/basic',
                 'module/basic' => 'main/confirm',
+                'plugin/basic' => 'main/confirm',
                 'main/confirm' => 'main/general',
             ];
         }

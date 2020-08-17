@@ -15,7 +15,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      *
      * @param int $company_id The ID of the company to fetch extensions from
      * @param int $page The page number of results to fetch
-     * @param array $order A key/value pair array of fields to extension the results by
+     * @param array $order A key/value pair array of fields to order the results by
      * @return array An array of stdClass objects, each representing an extension
      */
     public function getList($company_id, $page = 1, array $order = ['date_updated' => 'desc'])
@@ -47,7 +47,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
      * Returns all extensions in the system for the given company
      *
      * @param int $company_id The ID of the company to fetch extensions for
-     * @param array $order A key/value pair array of fields to extension the results by
+     * @param array $order A key/value pair array of fields to order the results by
      * @return array An array of stdClass objects, each representing an extension
      */
     public function getAll($company_id, array $order = ['date_updated' => 'desc'])

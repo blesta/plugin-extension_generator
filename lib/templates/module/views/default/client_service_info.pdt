@@ -13,7 +13,7 @@
                 </tr>
             </tbody>
         </table>
-    </div>{{if:code_examples:1}}<?php{{else}}{{if:code_examples}}
+    </div>{{if:code_examples:1}}<?php{{else:code_examples}}{{if:code_examples}}
 ////
 ////// Modules will often use this location to show a login link (either a link to the login page or one that automatically logs the user in)
 ////// To do so add the following td to the end of the "heading_row" tr

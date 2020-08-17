@@ -5,6 +5,12 @@ $lang['AdminMain.!error.name_taken'] = 'This name conflicts with an existing ext
 $lang['AdminMain.!error.generation_failed'] = 'Unable to generate your extension.  Exception generated: %1$s'; // Where %1$s is the exeption message
 
 
+// Notice messages
+$lang['AdminMain.!notice.type_warning'] = 'Changing the extension type will irrevirsibly erase all settings saved for this extension.';
+$lang['AdminMain.!notice.file_overwrite'] = 'The files for this extension already exist in the Blesta files and will be overwritten if you use the Blesta Directory.';
+$lang['AdminMain.!notice.updating_installed_extension'] = 'This extension is currently installed. It is highly recommended that you unistall it before regenerating the files or it may result in damage to the consisistency of you database.';
+
+
 // Success messages
 $lang['AdminMain.!success.package_deleted'] = 'The extension has been successfully deleted';
 $lang['AdminMain.!success.module_created'] = 'The new module has been successfully generated and can be found at %1$s'; // Where %1$s is the path to the created module's directory
@@ -52,7 +58,7 @@ $lang['AdminMain.general.form_type'] = 'Form Type';
 $lang['AdminMain.general.code_examples'] = 'Include Example Code';
 $lang['AdminMain.general.basic_info'] = 'Next - Basic Info';
 
-$lang['AdminMain.general.tooltip_name'] = 'The display name of the extension';
+$lang['AdminMain.general.tooltip_name'] = 'The display name of the extension. This is also used for creating various code. For example, if the name is My Module, then the module directory will be my_module, and the class name will be MyModule.  For plugins do not include the word "plugin" in the name as it causes some issues with code generation.';
 $lang['AdminMain.general.tooltip_form_type'] = 'Basic to use a highly truncated version of the extension form, including only the minimum necessary to generate the extension.';
 $lang['AdminMain.general.tooltip_code_examples'] = 'Check to include commented out lines of sample code for features such as Cron Tasks, Event lists and tie-ins, etc.';
 

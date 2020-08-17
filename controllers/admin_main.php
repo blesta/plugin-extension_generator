@@ -150,6 +150,10 @@ class AdminMain extends ExtensionGeneratorController
         }
 
         // Set the view to render for all actions under this controller
+        $this->set(
+            'type_warning',
+            $this->setMessage('notice', Language::_('AdminMain.!notice.type_warning', true), true, null, false)
+        );
         $this->set('extension_types', $this->ExtensionGeneratorExtensions->getTypes());
         $this->set('form_types', $this->ExtensionGeneratorExtensions->getFormTypes());
         $this->set('vars', $vars);
@@ -198,6 +202,8 @@ class AdminMain extends ExtensionGeneratorController
      */
     public function confirm()
     {
+        $this->uses(['PluginManager']);
+
         // Ensure extension exists
         if (!isset($this->get[0])
             || !($extension = $this->ExtensionGeneratorExtensions->get($this->get[0]))
@@ -205,6 +211,23 @@ class AdminMain extends ExtensionGeneratorController
         ) {
             $this->redirect($this->base_uri . 'plugin/extension_generator/admin_main/');
         }
+
+        // Set a warning if this extension already exists in the file system
+        if ($this->checkNameTaken($extension->name, $extension->type)) {
+            $this->setMessage('notice', Language::_('AdminMain.!notice.file_overwrite', true), false, null, false);
+        }
+
+        // Set a warning if this extension is installed
+        if ($this->PluginManager->getByDir(str_replace(' ', '_', strtolower($extension->name)))) {
+            $this->setMessage(
+                'error',
+                Language::_('AdminMain.!notice.updating_installed_extension', true),
+                false,
+                null,
+                false
+            );
+        }
+
 
         // Update the extension
         if (!empty($this->post['location']))

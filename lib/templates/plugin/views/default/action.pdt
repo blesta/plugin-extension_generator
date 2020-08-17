@@ -1,0 +1,76 @@
+{{array:actions}}        <?php
+        echo $this->Html->ifSet($message);
+
+////        $links = [
+////            ['name' => $this->_('{{actions.controller_class}}.{{actions.action}}.category_active', true) . ' <span>(' . $this->Html->_($status_count['active'], true) . ')</span>', 'current' => ($this->Html->ifSet($status) == 'active' ? true : false), 'attributes' => ['href' => $this->base_uri . 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/active/', 'class' => 'ajax']],
+////        ];
+////        $link_buttons = [
+////            [
+////                'icon' => 'fa fa-plus',
+////                'name' => '',
+////                'attributes' => [
+////                    'title' => $this->_('{{actions.controller_class}}.{{actions.action}}.categorylink_createticket', true),
+////                    'href' => $this->Html->safe($this->base_uri . 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/add/')
+////                ]
+////            ]
+////        ];
+////
+        $this->Widget->clear();
+////        $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+////        $this->Widget->setLinks($links);
+////        $this->Widget->setLinkButtons($link_buttons);
+////        $this->Widget->setFilters($this->Html->ifSet($filters), $this->Html->safe($this->base_uri . 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/'), !empty($filter_vars));
+////        $this->Widget->setAjaxFiltering();
+        $this->Widget->create($this->_('{{actions.controller_class}}.{{actions.action}}.boxtitle', true), ['id'=>'{{actions.controller}}'], $this->Html->ifSet($render_section, null));
+        $this->Form->create($this->base_uri . 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/', ['id' => '{{actions.action}}']);
+        ?>
+
+        <div class="col-md-12">
+            <p>This is a very simple action page, created by the extension generator.  The content
+                of this file can be modified at <?php echo PLUGINDIR . '{{snake_case_name}}' . DS . 'views' . DS . 'default' . DS . '{{actions.controller}}_{{actions.action}}.pdt';?>.
+                Included here is a basic form that can be submitted and is handled by the {{actions.action}}() method in <?php echo PLUGINDIR . '{{snake_case_name}}' . DS . 'controllers' . DS . '{{actions.controller}}.php';?>
+            </p>
+            <div class="button_row">
+                <button class="btn btn-default pull-right">
+                    <i class="fa fa-edit"></i> <?php $this->_('{{actions.controller_class}}.{{actions.action}}.submit');?>
+                </button>
+            </div>
+        </div>
+        <?php
+////        if ($this->Html->ifSet($objects, false) && ($num_objects = count($objects)) > 0) {
+////        ?><!--
+////        <table class="table" id="ticket_list">
+////            <tr class="heading_row">
+////            </tr>
+////             --><?php
+////            // Display all tickets
+////            $i = 0;
+////            foreach ($objects as $object) {
+////            ?><!--
+////            <tr<?php
+////                echo ($i++ % 2 == 1) ? ' class="odd_row"' : '';
+////                ?>>
+////            </tr>
+////            --><?php
+////            }
+////            unset($i);
+////            ?><!--
+////        </table>
+////        --><?php
+////            // Set pagination
+////            $this->Pagination->build();
+////        } else {
+////        ?><!--
+////        <div class="empty_section">
+////            <div class="empty_box">
+////                <?php
+////                $this->_('{{actions.controller_class}}.{{actions.action}}.no_results');
+////                ?>
+////            </div>
+////        </div>
+////        --><?php
+////        }
+////
+        $this->Form->end();
+        $this->Widget->end();
+{{array:actions}}

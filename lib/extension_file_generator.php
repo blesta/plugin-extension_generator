@@ -98,10 +98,6 @@ class ExtensionFileGenerator
         $data['name'] = $this->options['name'];
         $data['snake_case_name'] = str_replace(' ', '_', strtolower($data['name']));
         $data['class_name'] = str_replace(' ', '', ucwords(str_replace('_', ' ', $data['name'])));
-        if ($this->extension_type == 'plugin') {
-            $data['snake_case_name'] .= '_plugin';
-            $data['class_name'] .= 'Plugin';
-        }
 
         // Get the directory in which to search for template files
         $template_directory = $this->getTemplateDirectory();
@@ -156,8 +152,16 @@ class ExtensionFileGenerator
                 $content = preg_replace('/' . $this->code_comment_marker . '.*[\r\n|\n]/', '', $content);
             }
 
+            // Accomodate 'foreach' files by setting the appropriate value for the praticular view being generater
+            $temp_data = $data;
+            if (isset($file_settings['foreach'])) {
+                foreach ($file_settings['foreach'] as $field_label => $name_key) {
+                    $temp_data[$field_label] = $file_settings['page_value'];
+                }
+            }
+
             // Replace content tags
-            $content = $this->replaceTags($content, $data);
+            $content = $this->replaceTags($content, $temp_data);
 
             // Remove any remaining array tags
             $content = preg_replace(
@@ -249,7 +253,7 @@ class ExtensionFileGenerator
 
         foreach ($array_tags as $array_tag => $array_values) {
             $matches = [];
-            $wrapped_array_tag = $tag_start . 'array:' . $array_tag . $tag_end;
+            $wrapped_array_tag = $tag_start . 'array:' . $parent_tag . $array_tag . $tag_end;
             $pattern = '/' . $wrapped_array_tag . '([\d\D]*?)' . $wrapped_array_tag . '/';
 
             // Find all instances of the array tag
@@ -267,15 +271,12 @@ class ExtensionFileGenerator
                 // For each item in the array, copy the text within the array tag and perform tag replacement on it
                 foreach ($array_values as $key => $value) {
                     if (is_array($value)) {
-                        // Examine the mnatched content for each subtag and perform the tag replacement
+                        // Examine the matched content for each subtag and perform the tag replacement
                         $matched_content .= $this->replaceTags($match, $value, $parent_tag . $array_tag . '.');
                     } else {
                         // Perform single tag replacement on the content of the array tag
-                        $matched_content .= str_replace(
-                            $tag_start . $array_tag . '.' . $key . $tag_end,
-                            $value,
-                            $match
-                        );
+                        $matched_content .= $this->replaceTags($match, $array_values, $parent_tag . $array_tag . '.');
+                        break;
                     }
                 }
 
@@ -305,9 +306,9 @@ class ExtensionFileGenerator
             // Remove any tag delimiters
             $trimmed_tag = rtrim(ltrim($replacement_tag, $this->tag_start), $this->tag_end);
 
-            // {{if:tag:value}}true_text{{else}}false_text{{if:tag}}
+            // {{if:tag:value}}true_text{{else:tag}}false_text{{if:tag}}
             $pattern = '/' . $this->tag_start . 'if:' . $trimmed_tag . ':(.*?)' . $this->tag_end
-                . '([\d\D]*?)' . $this->tag_start . 'else' . $this->tag_end
+                . '([\d\D]*?)' . $this->tag_start . 'else:' . $trimmed_tag . $this->tag_end
                 . '([\d\D]*?)' . $this->tag_start . 'if:' . $trimmed_tag . $this->tag_end . '/';
 
             if (preg_match_all($pattern, $content, $matches) && count($matches) !== 0) {
@@ -378,11 +379,23 @@ class ExtensionFileGenerator
     {
         $file_path_list = [
             'module' => [
-                ['path' => 'language' . DS . 'en_us' . DS . 'module.php', 'name' => $extension_name . '.php'],
-                ['path' => 'README.md'],
-                ['path' => 'config.json'],
-                ['path' => 'composer.json', 'required_by' => ['code_examples']],
                 ['path' => 'module.php', 'name' => $extension_name . '.php'],
+                ['path' => 'config.json'],
+                ['path' => 'language' . DS . 'en_us' . DS . 'module.php', 'name' => $extension_name . '.php'],
+                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
+                ['path' => 'views' . DS . 'default' . DS . 'manage.pdt'],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'client_service_info.pdt',
+                    'required_by' => ['getClientServiceInfo']
+                ],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'admin_service_info.pdt',
+                    'required_by' => ['getAdminServiceInfo']
+                ],
+                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
+                ['path' => 'views' . DS . 'default' . DS . 'add_row.pdt', 'required_by' => ['module_rows']],
+                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
+                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'foreach' => ['service_tabs' => 'method_name']],
                 [
                     'path' => 'config' . DS . 'module.php',
                     'name' => $extension_name . '.php',
@@ -398,26 +411,83 @@ class ExtensionFileGenerator
                     'name' => $extension_name . '_response.php',
                     'required_by' => ['code_examples']
                 ],
-                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
-                ['path' => 'views' . DS . 'default' . DS . 'manage.pdt'],
-                [
-                    'path' => 'views' . DS . 'default' . DS . 'client_service_info.pdt',
-                    'required_by' => ['getClientServiceInfo']
-                ],
-                [
-                    'path' => 'views' . DS . 'default' . DS . 'admin_service_info.pdt',
-                    'required_by' => ['getAdminServiceInfo']
-                ],
-                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
-                ['path' => 'views' . DS . 'default' . DS . 'add_row.pdt', 'required_by' => ['module_rows']],
-                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
-                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'required_by' => ['service_tabs']],
+                ['path' => 'README.md'],
+                ['path' => 'composer.json', 'required_by' => ['code_examples']],
             ],
-            'plugin' => [],
+            'plugin' => [
+                ['path' => 'plugin.php', 'name' => $extension_name . '_plugin.php'],
+                ['path' => 'controller.php', 'name' => $extension_name . '_controller.php'],
+                ['path' => 'model.php', 'name' => $extension_name . '_model.php'],
+                ['path' => 'config.json'],
+                [
+                    'path' => 'config' . DS . 'plugin.php',
+                    'name' => $extension_name . '.php',
+                    'required_by' => ['code_examples']
+                ],
+                ['path' => 'language' . DS . 'en_us' . DS . 'plugin.php', 'name' => $extension_name . '_plugin.php'],
+                [
+                    'path' => 'language' . DS . 'en_us' . DS . 'parent_controller.php',
+                    'name' => $extension_name . '_controller.php'
+                ],
+                [
+                    'path' => 'language' . DS . 'en_us' . DS . 'controller.php',
+                    'foreach' => ['controllers' => 'snake_case_name'],
+                    'extension' => 'php'
+                ],
+                [
+                    'path' => 'language' . DS . 'en_us' . DS . 'model.php',
+                    'foreach' => ['tables' => 'name'],
+                    'extension' => 'php'
+                ],
+                [
+                    'path' => 'controllers' . DS . 'controller.php',
+                    'foreach' => ['controllers' => 'snake_case_name'],
+                    'extension' => 'php'
+                ],
+                [
+                    'path' => 'models' . DS . 'model.php',
+                    'foreach' => ['tables' => 'name'],
+                    'extension' => 'php'
+                ],
+                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'tab.pdt',
+                    'foreach' => ['service_tabs' => 'snake_case_name']
+                ],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'action.pdt',
+                    'foreach' => ['actions' => 'controller_action']
+                ],
+                ['path' => 'README.md'],
+                ['path' => 'composer.json', 'required_by' => ['code_examples']],
+            ],
             'gateway' => [],
         ];
 
-        return $file_path_list[$this->extension_type];
+        // Duplicate a view file for each of the values in the defined 'foreach' field
+        $return_list = $file_path_list[$this->extension_type];
+        foreach ($return_list as $index => $return_file) {
+            if (isset($return_file['foreach'])) {
+                // Search the options for the defined 'foreach' field
+                foreach ($return_file['foreach'] as $field_label => $name_key) {
+                    if (isset($this->options['data'][$field_label])) {
+                        foreach ($this->options['data'][$field_label] as $field) {
+                            // Copy the value from the 'foreach' field, use that as a new
+                            // file name, and insert a new file
+                            if (isset($field[$name_key]) && !in_array($field[$name_key], $return_list)) {
+                                $return_file['name'] = $field[$name_key]
+                                    . (isset($return_file['extension']) ? '.' . $return_file['extension'] : '.pdt');
+                                $return_file['page_value'] = $field;
+                                $return_list[] = $return_file;
+                            }
+                        }
+                    }
+                }
+                unset($return_list[$index]);
+            }
+        }
+
+        return $return_list;
     }
 
     /**
@@ -450,7 +520,17 @@ class ExtensionFileGenerator
                 'getClientTabs' => 'service_tabs',
                 'code_examples' => 'code_examples', // Set this fake optional function to exclude certain files
             ],
-            'plugin' => [],
+            'plugin' => [
+                'addCronTasks' => 'cron_tasks',
+                'getCronTasks' => 'cron_tasks',
+                'getActions' => 'actions',
+                'getEvents' => 'events',
+                'getCards' => 'cards',
+                'allowsServiceTabs' => 'service_tabs',
+                'getAdminServiceTabs' => 'service_tabs',
+                'getClientServiceTabs' => 'service_tabs',
+                'installTables' => 'tables',
+            ],
             'gateway' => [],
         ];
 
