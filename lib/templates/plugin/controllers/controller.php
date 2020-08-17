@@ -22,6 +22,8 @@ class {{controllers.class_name}} extends {{class_name}}Controller
      */
     public function {{controllers.actions.action}}()
     {
+////        // This statement used to load a model from the plugin to this
+////        // object making it accessible via $this->{{class_name}}Objects
 ////        $this->uses(['{{ClassName}}.{{class_name}}Objects']);
 ////
 ////        // Set current page of results
@@ -50,7 +52,9 @@ class {{controllers.class_name}} extends {{class_name}}Controller
 ////            ]
 ////        );
 ////        $this->setPagination($this->get, $settings);
-
+////
+////    // This helps with sorting list results in a widget.  It lets the page reload via ajax
+////    // while only updating the table items and not the whole page
         return $this->renderAjaxWidgetIfAsync(
             isset($this->get['sort']) ? true : (isset($this->get[1]) || isset($this->get[0]) ? false : null)
         );
