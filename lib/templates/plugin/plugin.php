@@ -221,6 +221,7 @@ class {{class_name}}Plugin extends Plugin
      */
     public function cron($key)
     {
+//// It is often useful to define a method for each cron task to keep this method small
         switch ($key) {{{array:cron_tasks}}
             case '{{cron_tasks.name}}':
                 // Perform necessary actions
