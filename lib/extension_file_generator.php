@@ -461,7 +461,8 @@ class ExtensionFileGenerator
                 ['path' => 'README.md'],
                 ['path' => 'composer.json', 'required_by' => ['code_examples']],
             ],
-            'gateway' => [],
+            'merchant' => [],
+            'nonmerchant' => [],
         ];
 
         // Duplicate a view file for each of the values in the defined 'foreach' field
