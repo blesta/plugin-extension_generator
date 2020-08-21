@@ -1,4 +1,6 @@
 <?php
+require_once PLUGINDIR . 'extension_generator' . DS . 'lib' . DS . 'form_rules.php';
+
 /**
  * Extension Generator parent controller
  *
@@ -131,11 +133,20 @@ class ExtensionGeneratorController extends AppController
                 }
             }
 
-            // Update the extension with the new data
-            $vars = ['data' => array_merge($extension->data, $temp_vars)];
-            $this->ExtensionGeneratorExtensions->edit($extension->id, $vars);
+            $form_rules = new FormRules();
 
-            if (($errors = $this->ExtensionGeneratorExtensions->errors())) {
+            if ($form_rules->validate(str_replace('/', '', $step), $temp_vars)) {
+                // Update the extension with the new data
+                $vars = ['data' => array_merge($extension->data, $temp_vars)];
+                $this->ExtensionGeneratorExtensions->edit($extension->id, $vars);
+
+                $errors = $this->ExtensionGeneratorExtensions->errors();
+            } else {
+                $errors = $form_rules->errors();
+            }
+
+
+            if ($errors) {
                 $this->setMessage('error', $errors, false, null, false);
 
                 $vars = $this->post;
