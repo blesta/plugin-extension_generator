@@ -2,7 +2,7 @@
 class FormRules {
     public function __construct()
     {
-       Loader::loadComponents($this, ['Input']);
+        Loader::loadComponents($this, ['Input']);
         Language::loadLang(
             'form_rules',
             null,
@@ -89,7 +89,7 @@ class FormRules {
             $rules += [
                 $array_field . '[][name]' => [
                     'format' => [
-                        'rule' => ['matches', '/([a-z0-9]+_?)+$/'],
+                        'rule' => ['matches', '/^([a-z0-9]+_?)*[a-z]+$/'],
                         'message' => Language::_('FormRules.modulefields.' .  $array_field . '[][name].format', true)
                     ]
                 ],
@@ -128,7 +128,7 @@ class FormRules {
         $rules = [
             'service_tabs[][method_name]' => [
                 'format' => [
-                    'rule' => ['matches', '/([a-z0-9]+_?)+$/'],
+                    'rule' => ['matches', '/^[a-zA-Z]+$/'],
                     'message' => Language::_('FormRules.modulefeatures.service_tabs[][method_name].format', true)
                 ]
             ],
@@ -147,7 +147,7 @@ class FormRules {
             ],
             'cron_tasks[][name]' => [
                 'format' => [
-                    'rule' => ['matches', '/([a-z])+$/'],
+                    'rule' => ['matches', '/^([a-z]+_?)*[a-z]+$/'],
                     'message' => Language::_('FormRules.modulefeatures.cron_tasks[][name].format', true)
                 ]
             ],
@@ -169,7 +169,7 @@ class FormRules {
                     'rule' => [
                         function ($time, $type) {
                             if ($type == 'time') {
-                                return preg_match('/[0-9]{1,2}:[0-9]{1,2}(:[0-9]{1,2})?$/', $time);
+                                return preg_match('/^[0-9]{1,2}:[0-9]{1,2}(:[0-9]{1,2})?$/', $time);
                             } else {
                                 return is_numeric($time);
                             }
@@ -211,7 +211,55 @@ class FormRules {
      */
     private function plugindatabase()
     {
-        $rules = [];
+        $rules = [
+            'tables[][name]' => [
+                'format' => [
+                    'rule' => ['matches', '/^([a-z]+_?)*[a-z]+$/'],
+                    'message' => Language::_('FormRules.plugindatabase.tables[][name].format', true)
+                ]
+            ],
+            'tables[][columns][][name]' => [
+                'format' => [
+                    'rule' => ['matches', '/^([a-z]+_?)*[a-z]+$/'],
+                    'message' => Language::_('FormRules.plugindatabase.tables[][columns][][name].format', true)
+                ]
+            ],
+            'tables[][columns][][type]' => [
+                'valid' => [
+                    'rule' => ['in_array', ['INT', 'TINYINT', 'VARCHAR', 'TEXT', 'DATETIME', 'ENUM']],
+                    'message' => Language::_('FormRules.plugindatabase.tables[][columns][][type].valid', true)
+                ]
+            ],
+            'tables[][columns][][length]' => [
+                'empty' => [
+                    'rule' => [
+                        function ($length, $type) {
+                            if (in_array($type, ['TEXT', 'DATETIME'])) {
+                                return empty($length);
+                            } elseif ($type == 'ENUM') {
+                                return preg_match("/^(('([a-z]+_?)+'),)*('([a-z]+_?)+'){1}$/", $length);
+                            } else {
+                                return is_numeric($length);
+                            }
+                        },
+                        ['_linked' => 'tables[][columns][][type]'],
+                    ],
+                    'message' => Language::_('FormRules.plugindatabase.tables[][columns][][length].empty', true)
+                ]
+            ],
+            'tables[][columns][][nullable]' => [
+                'valid' => [
+                    'rule' => ['in_array', ['true', 'false']],
+                    'message' => Language::_('FormRules.plugindatabase.tables[][columns][][nullable].valid', true)
+                ]
+            ],
+            'tables[][columns][][primary]' => [
+                'valid' => [
+                    'rule' => ['in_array', ['true', 'false']],
+                    'message' => Language::_('FormRules.plugindatabase.tables[][columns][][primary].valid', true)
+                ]
+            ],
+        ];
 
         return $rules;
     }
@@ -223,7 +271,65 @@ class FormRules {
      */
     private function pluginintegrations()
     {
-        $rules = [];
+        $rules = [
+            'actions[][location]' => [
+                'valid' => [
+                    'rule' => ['in_array', $this->getActionLocations()],
+                    'message' => Language::_('FormRules.pluginintegrations.actions[][location].valid', true)
+                ]
+            ],
+            'actions[][controller]' => [
+                'format' => [
+                    'rule' => ['matches', '/^([a-z]+_?)*[a-z]+$/'],
+                    'message' => Language::_('FormRules.pluginintegrations.actions[][controller].format', true)
+                ]
+            ],
+            'actions[][action]' => [
+                'format' => [
+                    'rule' => ['matches', '/^([a-z]+_?)*[a-z]+$/'],
+                    'message' => Language::_('FormRules.pluginintegrations.actions[][action].format', true)
+                ]
+            ],
+            'actions[][name]' => [
+                'empty' => [
+                    'rule' => 'isEmpty',
+                    'negate' => true,
+                    'message' => Language::_('FormRules.pluginintegrations.actions[][name].empty', true)
+                ]
+            ],
+            'events[][event]' => [
+                'empty' => [
+                    'rule' => 'isEmpty',
+                    'negate' => true,
+                    'message' => Language::_('FormRules.pluginintegrations.events[][event].empty', true)
+                ]
+            ],
+            'events[][callback]' => [
+                'format' => [
+                    'rule' => ['matches', '/^[a-zA-Z]+$/'],
+                    'message' => Language::_('FormRules.pluginintegrations.events[][callback].format', true)
+                ]
+            ],
+            'cards[][level]' => [
+                'valid' => [
+                    'rule' => ['in_array', ['client', 'staff']],
+                    'message' => Language::_('FormRules.pluginintegrations.cards[][level].valid', true)
+                ]
+            ],
+            'cards[][callback]' => [
+                'format' => [
+                    'rule' => ['matches', '/^[a-zA-Z]+$/'],
+                    'message' => Language::_('FormRules.pluginintegrations.cards[][callback].format', true)
+                ]
+            ],
+            'cards[][label]' => [
+                'empty' => [
+                    'rule' => 'isEmpty',
+                    'negate' => true,
+                    'message' => Language::_('FormRules.pluginintegrations.cards[][empty].format', true)
+                ]
+            ],
+        ];
 
         return $rules;
     }
@@ -235,15 +341,13 @@ class FormRules {
      */
     private function pluginfeatures()
     {
-        $rules = [];
-
-        return $rules;
+        return $this->modulefeatures();
     }
 
     /**
-     * Gets a list of field types and their language
+     * Gets a list of field types
      *
-     * @return A list of field types and their language
+     * @return A list of field types
      */
     protected function getFieldTypes()
     {
@@ -251,6 +355,25 @@ class FormRules {
             'Text',
             'Textarea',
             'Checkbox'
+        ];
+    }
+
+    /**
+     * Gets a list of action locations
+     *
+     * @return A list of action locations
+     */
+    protected function getActionLocations()
+    {
+        return [
+            'nav_primary_staff',
+            'nav_secondary_staff',
+            'action_staff_client',
+            'nav_primary_client',
+            'widget_client_home',
+            'widget_staff_home',
+            'widget_staff_client',
+            'widget_staff_billing',
         ];
     }
 }
