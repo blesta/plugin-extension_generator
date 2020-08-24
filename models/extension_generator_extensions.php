@@ -227,42 +227,42 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
                     'if_set' => $edit,
                     'rule' => 'isEmpty',
                     'negate' => true,
-                    'message' => $this->_('ExtensionGeneratorExtensions.!error.name.empty')
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.name.empty', true)
                 ]
             ],
             'company_id' => [
                 'exists' => [
                     'if_set' => $edit,
                     'rule' => [[$this, 'validateExists'], 'id', 'companies'],
-                    'message' => $this->_('ExtensionGeneratorExtensions.!error.company_id.exists')
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.company_id.exists', true)
                 ]
             ],
             'type' => [
                 'valid' => [
                     'if_set' => $edit,
                     'rule' => ['array_key_exists', $this->getTypes()],
-                    'message' => $this->_('ExtensionGeneratorExtensions.!error.type.valid')
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.type.valid', true)
                 ]
             ],
             'form_type' => [
                 'valid' => [
                     'if_set' => $edit,
                     'rule' => ['array_key_exists', $this->getFormTypes()],
-                    'message' => $this->_('ExtensionGeneratorExtensions.!error.form_type.valid')
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.form_type.valid', true)
                 ]
             ],
             'code_examples' => [
                 'valid' => [
                     'if_set' => $edit,
                     'rule' => ['in_array', [0, 1]],
-                    'message' => $this->_('ExtensionGeneratorExtensions.!error.code_examples.format')
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.code_examples.format', true)
                 ]
             ],
             'date_updated' => [
                 'format' => [
                     'rule' => 'isDate',
                     'post_format' => [[$this, 'dateToUtc']],
-                    'message' => $this->_('ExtensionGeneratorExtensions.!error.date_updated.format')
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.date_updated.format', true)
                 ]
             ],
         ];
@@ -271,7 +271,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
             $rules['id'] = [
                 'exists' => [
                     'rule' => [[$this, 'validateExists'], 'id', 'extension_generator_extensions'],
-                    'message' => $this->_('ExtensionGeneratorExtensions.!error.id.exists')
+                    'message' => $this->_('ExtensionGeneratorExtensions.!error.id.exists', true)
                 ]
             ];
         }
