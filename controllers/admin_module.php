@@ -34,13 +34,6 @@ class AdminModule extends ExtensionGeneratorController
      */
     public function basic()
     {
-        if (!isset($this->SettingsCollection)) {
-            Loader::loadComponents($this, ['SettingsCollection', 'Upload']);
-        }
-        if (!isset($this->Upload)) {
-            Loader::loadComponents($this, ['Upload']);
-        }
-
         // Attempt to upload logo if submitted
         $errors = $this->uploadLogo();
 

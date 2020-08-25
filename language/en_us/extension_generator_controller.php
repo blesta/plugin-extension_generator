@@ -6,6 +6,8 @@ $lang['ExtensionGeneratorController.getnodes.basic_info'] = 'Basic Info';
 $lang['ExtensionGeneratorController.getnodes.plugin_database'] = 'Database Info';
 $lang['ExtensionGeneratorController.getnodes.plugin_integrations'] = 'Core Integrations';
 $lang['ExtensionGeneratorController.getnodes.module_fields'] = 'Module Fields';
+$lang['ExtensionGeneratorController.getnodes.merchant_fields'] = 'Configuration Fields';
+$lang['ExtensionGeneratorController.getnodes.merchant_features'] = 'Supported Features';
 $lang['ExtensionGeneratorController.getnodes.additional_features'] = 'Additional Features';
 $lang['ExtensionGeneratorController.getnodes.confirm'] = 'Confirmation';
 
