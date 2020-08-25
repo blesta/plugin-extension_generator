@@ -203,8 +203,13 @@ class ExtensionGeneratorController extends AppController
                 'plugin' => [
                     'plugin/basic' => Language::_('ExtensionGeneratorController.getnodes.basic_info', true),
                 ],
-                'merchant' => [],
-                'nonmerchant' => [],
+                'merchant' => [
+                    'merchant/basic' => Language::_('ExtensionGeneratorController.getnodes.basic_info', true),
+                    'merchant/fields' => Language::_('ExtensionGeneratorController.getnodes.merchant_fields', true),
+                ],
+                'nonmerchant' => [
+                    'nonmerchant/basic' => Language::_('ExtensionGeneratorController.getnodes.basic_info', true),
+                ],
             ];
         } else {
             $node_sets = [
@@ -235,12 +240,8 @@ class ExtensionGeneratorController extends AppController
                         'ExtensionGeneratorController.getnodes.nonmerchant_fields',
                         true
                     ),
-                    'nonmerchant/buttons' => Language::_(
-                        'ExtensionGeneratorController.getnodes.nonmerchant_buttons',
-                        true
-                    ),
                     'nonmerchant/features' => Language::_(
-                        'ExtensionGeneratorController.getnodes.nonmerchant_features',
+                        'ExtensionGeneratorController.getnodes.additional_features',
                         true
                     ),
                 ],
@@ -286,6 +287,9 @@ class ExtensionGeneratorController extends AppController
             'merchant/basic' => 'merchant/fields',
             'merchant/fields' => 'merchant/features',
             'merchant/features' => 'main/confirm',
+            'nonmerchant/basic' => 'nonmerchant/fields',
+            'nonmerchant/fields' => 'nonmerchant/features',
+            'nonmerchant/features' => 'main/confirm',
             'main/confirm' => 'main/general',
         ];
 
@@ -297,6 +301,7 @@ class ExtensionGeneratorController extends AppController
                 'plugin/basic' => 'main/confirm',
                 'merchant/basic' => 'merchant/features',
                 'merchant/features' => 'main/confirm',
+                'nonmerchant/basic' => 'main/confirm',
                 'main/confirm' => 'main/general',
             ];
         }

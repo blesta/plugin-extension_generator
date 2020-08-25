@@ -415,6 +415,72 @@ class FormRules {
     }
 
     /**
+     * Gets a list of input validation rules for the nonmerchantbasic action
+     *
+     * @return array A list of input validation rules
+     */
+    protected function nonmerchantbasic()
+    {
+        return [
+            'authors[][name]' => [
+                'empty' => [
+                    'rule' => 'isEmpty',
+                    'negate' => true,
+                    'message' => Language::_('FormRules.nonmerchantbasic.authors[][name].empty', true)
+                ]
+            ],
+            'currencies' => [
+                'format' => [
+                    'rule' => ['matches', '/^([A-Z]{3},)*[A-Z]{3}$/'],
+                    'message' => Language::_('FormRules.nonmerchantbasic.currencies.format', true)
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * Gets a list of input validation rules for the nonmerchantfields action
+     *
+     * @return array A list of input validation rules
+     */
+    protected function nonmerchantfields()
+    {
+        $rules = [
+            'fields[][name]' => [
+                'format' => [
+                    'rule' => ['matches', '/^([a-z0-9]+_?)*[a-z]+$/'],
+                    'message' => Language::_('FormRules.nonmerchantfields.fields[][name].format', true)
+                ]
+            ],
+            'fields[][label]' => [
+                'empty' => [
+                    'rule' => 'isEmpty',
+                    'negate' => true,
+                    'message' => Language::_('FormRules.nonmerchantfields.fields[][label].empty', true)
+                ]
+            ],
+            'fields[][type]' => [
+                'valid' => [
+                    'rule' => ['in_array', $this->getFieldTypes()],
+                    'message' => Language::_('FormRules.nonmerchantfields.fields[][type].valid', true)
+                ]
+            ],
+        ];
+
+        return $rules;
+    }
+
+    /**
+     * Gets a list of input validation rules for the nonmerchantfeatures action
+     *
+     * @return array A list of input validation rules
+     */
+    protected function nonmerchantfeatures()
+    {
+        return [];
+    }
+
+    /**
      * Gets a list of field types
      *
      * @return A list of field types

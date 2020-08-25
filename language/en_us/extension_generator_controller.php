@@ -8,6 +8,7 @@ $lang['ExtensionGeneratorController.getnodes.plugin_integrations'] = 'Core Integ
 $lang['ExtensionGeneratorController.getnodes.module_fields'] = 'Module Fields';
 $lang['ExtensionGeneratorController.getnodes.merchant_fields'] = 'Configuration Fields';
 $lang['ExtensionGeneratorController.getnodes.merchant_features'] = 'Supported Features';
+$lang['ExtensionGeneratorController.getnodes.nonmerchant_fields'] = 'Configuration Fields';
 $lang['ExtensionGeneratorController.getnodes.additional_features'] = 'Additional Features';
 $lang['ExtensionGeneratorController.getnodes.confirm'] = 'Confirmation';
 
