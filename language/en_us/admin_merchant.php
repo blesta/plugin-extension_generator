@@ -54,11 +54,13 @@ $lang['AdminMerchant.fields.name'] = 'Name';
 $lang['AdminMerchant.fields.label'] = 'Label';
 $lang['AdminMerchant.fields.type'] = 'Type';
 $lang['AdminMerchant.fields.tooltip'] = 'Tooltip Text';
+$lang['AdminMerchant.fields.encryptable'] = 'Encryptable';
 
 $lang['AdminMerchant.fields.tooltip_name'] = 'The name of the field in the code base';
 $lang['AdminMerchant.fields.tooltip_label'] = 'The display name of the field';
 $lang['AdminMerchant.fields.tooltip_type'] = 'The type of field to create (checkbox, text, etc.)';
 $lang['AdminMerchant.fields.tooltip_tooltip'] = 'The text of the tooltip to display along side the field (leave empty to have no tooltip)';
+$lang['AdminMerchant.fields.tooltip_encryptable'] = 'Whether to encrypt this field in the database';
 
 $lang['AdminMerchant.fields.placeholder_name'] = 'e.g. configuration_field';
 $lang['AdminMerchant.fields.placeholder_label'] = 'e.g. Configuration Field';

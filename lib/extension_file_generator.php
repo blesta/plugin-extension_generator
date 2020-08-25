@@ -461,7 +461,13 @@ class ExtensionFileGenerator
                 ['path' => 'README.md'],
                 ['path' => 'composer.json', 'required_by' => ['code_examples']],
             ],
-            'merchant' => [],
+            'merchant' => [
+                ['path' => 'gateway.php', 'name' => $extension_name . '.php'],
+                ['path' => 'language' . DS . 'en_us' . DS . 'module.php', 'name' => $extension_name . '.php'],
+                ['path' => 'config.json'],
+                ['path' => 'README.md'],
+                ['path' => 'composer.json', 'required_by' => ['code_examples']],
+            ],
             'nonmerchant' => [],
         ];
 
