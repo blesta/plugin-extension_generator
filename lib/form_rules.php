@@ -19,8 +19,12 @@ class FormRules {
      */
     public function validate($action, array $vars)
     {
-        $this->Input->setRules($this->{$action}());
-        return $this->Input->validates($vars);
+        if (method_exists($this, $action)) {
+            $this->Input->setRules($this->{$action}());
+            return $this->Input->validates($vars);
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -40,7 +44,7 @@ class FormRules {
      *
      * @return array A list of input validation rules
      */
-    private function modulebasic()
+    protected function modulebasic()
     {
         $rules = [
             'module_row' => [
@@ -81,7 +85,7 @@ class FormRules {
      *
      * @return array A list of input validation rules
      */
-    private function modulefields()
+    protected function modulefields()
     {
         $rules = [];
         $array_fields = ['module_rows', 'service_fields', 'package_fields'];
@@ -123,7 +127,7 @@ class FormRules {
      *
      * @return array A list of input validation rules
      */
-    private function modulefeatures()
+    protected function modulefeatures()
     {
         $rules = [
             'service_tabs[][method_name]' => [
@@ -189,7 +193,7 @@ class FormRules {
      *
      * @return array A list of input validation rules
      */
-    private function pluginbasic()
+    protected function pluginbasic()
     {
         $rules = [
             'authors[][name]' => [
@@ -209,7 +213,7 @@ class FormRules {
      *
      * @return array A list of input validation rules
      */
-    private function plugindatabase()
+    protected function plugindatabase()
     {
         $rules = [
             'tables[][name]' => [
@@ -269,7 +273,7 @@ class FormRules {
      *
      * @return array A list of input validation rules
      */
-    private function pluginintegrations()
+    protected function pluginintegrations()
     {
         $rules = [
             'actions[][location]' => [
@@ -339,9 +343,141 @@ class FormRules {
      *
      * @return array A list of input validation rules
      */
-    private function pluginfeatures()
+    protected function pluginfeatures()
     {
         return $this->modulefeatures();
+    }
+
+    /**
+     * Gets a list of input validation rules for the merchantbasic action
+     *
+     * @return array A list of input validation rules
+     */
+    protected function merchantbasic()
+    {
+        return [
+            'authors[][name]' => [
+                'empty' => [
+                    'rule' => 'isEmpty',
+                    'negate' => true,
+                    'message' => Language::_('FormRules.merchantbasic.authors[][name].empty', true)
+                ]
+            ],
+            'currencies' => [
+                'format' => [
+                    'rule' => ['matches', '/^([A-Z]{3},)*[A-Z]{3}$/'],
+                    'message' => Language::_('FormRules.merchantbasic.currencies.format', true)
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * Gets a list of input validation rules for the merchantfields action
+     *
+     * @return array A list of input validation rules
+     */
+    protected function merchantfields()
+    {
+        $rules = [
+            'fields[][name]' => [
+                'format' => [
+                    'rule' => ['matches', '/^([a-z0-9]+_?)*[a-z]+$/'],
+                    'message' => Language::_('FormRules.merchantfields.fields[][name].format', true)
+                ]
+            ],
+            'fields[][label]' => [
+                'empty' => [
+                    'rule' => 'isEmpty',
+                    'negate' => true,
+                    'message' => Language::_('FormRules.merchantfields.fields[][label].empty', true)
+                ]
+            ],
+            'fields[][type]' => [
+                'valid' => [
+                    'rule' => ['in_array', $this->getFieldTypes()],
+                    'message' => Language::_('FormRules.merchantfields.fields[][type].valid', true)
+                ]
+            ],
+        ];
+
+        return $rules;
+    }
+
+    /**
+     * Gets a list of input validation rules for the merchantfeatures action
+     *
+     * @return array A list of input validation rules
+     */
+    protected function merchantfeatures()
+    {
+        return [];
+    }
+
+    /**
+     * Gets a list of input validation rules for the nonmerchantbasic action
+     *
+     * @return array A list of input validation rules
+     */
+    protected function nonmerchantbasic()
+    {
+        return [
+            'authors[][name]' => [
+                'empty' => [
+                    'rule' => 'isEmpty',
+                    'negate' => true,
+                    'message' => Language::_('FormRules.nonmerchantbasic.authors[][name].empty', true)
+                ]
+            ],
+            'currencies' => [
+                'format' => [
+                    'rule' => ['matches', '/^([A-Z]{3},)*[A-Z]{3}$/'],
+                    'message' => Language::_('FormRules.nonmerchantbasic.currencies.format', true)
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * Gets a list of input validation rules for the nonmerchantfields action
+     *
+     * @return array A list of input validation rules
+     */
+    protected function nonmerchantfields()
+    {
+        $rules = [
+            'fields[][name]' => [
+                'format' => [
+                    'rule' => ['matches', '/^([a-z0-9]+_?)*[a-z]+$/'],
+                    'message' => Language::_('FormRules.nonmerchantfields.fields[][name].format', true)
+                ]
+            ],
+            'fields[][label]' => [
+                'empty' => [
+                    'rule' => 'isEmpty',
+                    'negate' => true,
+                    'message' => Language::_('FormRules.nonmerchantfields.fields[][label].empty', true)
+                ]
+            ],
+            'fields[][type]' => [
+                'valid' => [
+                    'rule' => ['in_array', $this->getFieldTypes()],
+                    'message' => Language::_('FormRules.nonmerchantfields.fields[][type].valid', true)
+                ]
+            ],
+        ];
+
+        return $rules;
+    }
+
+    /**
+     * Gets a list of input validation rules for the nonmerchantfeatures action
+     *
+     * @return array A list of input validation rules
+     */
+    protected function nonmerchantfeatures()
+    {
+        return [];
     }
 
     /**

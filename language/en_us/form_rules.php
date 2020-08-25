@@ -60,3 +60,25 @@ $lang['FormRules.pluginintegrations.events[][callback].format'] = 'Please enter 
 $lang['FormRules.pluginintegrations.cards[][level].valid'] = 'One or more cards has an invalid level.';
 $lang['FormRules.pluginintegrations.cards[][callback].format'] = 'Please enter a callback method for each cards in the format camelCaseName.';
 $lang['FormRules.pluginintegrations.cards[][label].empty'] = 'Please enter a label for each card.';
+
+
+// Merchant basic
+$lang['FormRules.merchantbasic.authors[][name].empty'] = 'Please enter a name for each author.';
+$lang['FormRules.merchantbasic.currencies.format'] = 'Please enter currencies in three character format separated by commas (e.g. USD,EUR,JPY).';
+
+
+// Merchant fields
+$lang['FormRules.merchantfields.fields[][name].format'] = 'Please enter a name for each field in the format snake_case_name.';
+$lang['FormRules.merchantfields.fields[][label].empty'] = 'Please enter a label for each field.';
+$lang['FormRules.merchantfields.fields[][type].valid'] = 'One or more fields has an invalid type.';
+
+
+// Merchant basic
+$lang['FormRules.nonmerchantbasic.authors[][name].empty'] = 'Please enter a name for each author.';
+$lang['FormRules.nonmerchantbasic.currencies.format'] = 'Please enter currencies in three character format separated by commas (e.g. USD,EUR,JPY).';
+
+
+// Merchant fields
+$lang['FormRules.nonmerchantfields.fields[][name].format'] = 'Please enter a name for each field in the format snake_case_name.';
+$lang['FormRules.nonmerchantfields.fields[][label].empty'] = 'Please enter a label for each field.';
+$lang['FormRules.nonmerchantfields.fields[][type].valid'] = 'One or more fields has an invalid type.';

@@ -330,21 +330,8 @@ class AdminMain extends ExtensionGeneratorController
      */
     private function getFileLocations($extention_type)
     {
-        $locations = [];
-        switch ($extention_type)
-        {
-            case 'plugin':
-                $locations['extension'] = Language::_('AdminMain.getfilelocations.plugin', true);
-                break;
-            case 'gateway':
-                $locations['extension'] = Language::_('AdminMain.getfilelocations.gateway', true);
-                break;
-            default:
-                $locations['extension'] = Language::_('AdminMain.getfilelocations.module', true);
-                break;
-        }
-
-        return $locations + [
+        return [
+            'extension' => Language::_('AdminMain.getfilelocations.' . $extention_type, true),
             'upload' => Language::_('AdminMain.getfilelocations.upload', true),
             'custom' => Language::_('AdminMain.getfilelocations.custom', true)
         ];

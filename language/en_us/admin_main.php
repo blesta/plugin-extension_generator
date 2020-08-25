@@ -15,14 +15,16 @@ $lang['AdminMain.!notice.updating_installed_extension'] = 'This extension is cur
 $lang['AdminMain.!success.package_deleted'] = 'The extension has been successfully deleted';
 $lang['AdminMain.!success.module_created'] = 'The new module has been successfully generated and can be found at %1$s'; // Where %1$s is the path to the created module's directory
 $lang['AdminMain.!success.plugin_created'] = 'The new plugin has been successfully generated and can be found at %1$s'; // Where %1$s is the path to the created plugin's directory
-$lang['AdminMain.!success.gateway_created'] = 'The new gateway has been successfully generated and can be found at %1$s'; // Where %1$s is the path to the created gateway's directory
+$lang['AdminMain.!success.merchant_created'] = 'The new gateway has been successfully generated and can be found at %1$s'; // Where %1$s is the path to the created gateway's directory
+$lang['AdminMain.!success.nonmerchant_created'] = 'The new gateway has been successfully generated and can be found at %1$s'; // Where %1$s is the path to the created gateway's directory
 
 
 // Controller get functions
 
 $lang['AdminMain.getfilelocations.module'] = 'Blesta Modules Directory';
 $lang['AdminMain.getfilelocations.plugin'] = 'Blesta Plugins Directory';
-$lang['AdminMain.getfilelocations.gateway'] = 'Blesta Gateways Directory';
+$lang['AdminMain.getfilelocations.merchant'] = 'Blesta Merchant Gateway Directory';
+$lang['AdminMain.getfilelocations.nonmerchant'] = 'Blesta Non-Merchant Gateway Directory';
 $lang['AdminMain.getfilelocations.upload'] = 'Blesta Uploads Directory';
 $lang['AdminMain.getfilelocations.custom'] = 'Custom';
 
@@ -59,6 +61,7 @@ $lang['AdminMain.general.code_examples'] = 'Include Example Code';
 $lang['AdminMain.general.basic_info'] = 'Next - Basic Info';
 
 $lang['AdminMain.general.tooltip_name'] = 'The display name of the extension. This is also used for creating various code. For example, if the name is My Module, then the module directory will be my_module, and the class name will be MyModule.  For plugins do not include the word "plugin" in the name as it causes some issues with code generation.';
+$lang['AdminMain.general.tooltip_type'] = 'Modules handle many service features including service provisioning on remote servers. Plugins are powerful integration capable of doing most anything in Blesta. Merchant gateways process payments while keeping clients in the Blesta interface.  Non-Merchant gateways send clients to a payment processor site to complete payment.';
 $lang['AdminMain.general.tooltip_form_type'] = 'Basic to use a highly truncated version of the extension form, including only the minimum necessary to generate the extension.';
 $lang['AdminMain.general.tooltip_code_examples'] = 'Check to include commented out lines of sample code for features such as Cron Tasks, Event lists and tie-ins, etc.';
 

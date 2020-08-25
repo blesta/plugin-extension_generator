@@ -32,7 +32,10 @@ class ExtensionGeneratorPlugin extends Plugin
                 setField('id', ['type' => 'int', 'size' => 10, 'unsigned' => true, 'auto_increment' => true])->
                 setField('company_id', ['type' => 'int', 'size' => 10, 'unsigned' => true])->
                 setField('name', ['type' => 'varchar', 'size' => 128])->
-                setField('type', ['type' => 'enum', 'size' => "'module','plugin','gateway'", 'default' => 'module'])->
+                setField(
+                    'type',
+                    ['type' => 'enum', 'size' => "'module','plugin','merchant','nonmerchant'", 'default' => 'module']
+                )->
                 setField('form_type', ['type' => 'enum', 'size' => "'basic','advanced'", 'default' => 'basic'])->
                 setField('code_examples', ['type' => 'tinyint', 'size' => 1, 'default' => 0])->
                 setField('data', ['type' => 'text', 'is_null' => true, 'default' => null])->
@@ -70,6 +73,27 @@ class ExtensionGeneratorPlugin extends Plugin
                 // Error dropping... no permission?
                 $this->Input->setErrors(['db' => ['create' => $e->getMessage()]]);
                 return;
+            }
+        }
+    }
+
+    /**
+     * Performs migration of data from $current_version (the current installed version)
+     * to the given file set version
+     *
+     * @param string $current_version The current installed version of this plugin
+     * @param int $plugin_id The ID of the plugin being upgraded
+     */
+    public function upgrade($current_version, $plugin_id)
+    {
+        // Upgrade if possible
+        if (version_compare($this->getVersion(), $current_version, '>')) {
+            // Handle the upgrade, set errors using $this->Input->setErrors() if any errors encountered
+            if (version_compare($current_version, '1.1.0', '<')) {
+                $this->Record->query(
+                    "ALTER TABLE `extension_generator_extensions` CHANGE `type` `type`
+                    ENUM('module', 'plugin', 'merchant', 'nonmerchant') NOT NULL DEFAULT 'module'"
+                );
             }
         }
     }
