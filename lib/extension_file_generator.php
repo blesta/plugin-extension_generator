@@ -461,7 +461,32 @@ class ExtensionFileGenerator
                 ['path' => 'README.md'],
                 ['path' => 'composer.json', 'required_by' => ['code_examples']],
             ],
-            'merchant' => [],
+            'merchant' => [
+                ['path' => 'gateway.php', 'name' => $extension_name . '.php'],
+                ['path' => 'language' . DS . 'en_us' . DS . 'gateway.php', 'name' => $extension_name . '.php'],
+                ['path' => 'views' . DS . 'default' . DS . 'settings.pdt'],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'cc_form.pdt',
+                    'required_by' => ['buildCcForm']
+                ],
+                [
+                    'path' => 'views' . DS . 'default' . DS . 'payment_confirmation.pdt',
+                    'required_by' => ['buildPaymentConfirmation']
+                ],
+                [
+                    'path' => 'apis' . DS . 'gateway_api.php',
+                    'name' => $extension_name . '_api.php',
+                    'required_by' => ['code_examples']
+                ],
+                [
+                    'path' => 'apis' . DS . 'gateway_response.php',
+                    'name' => $extension_name . '_response.php',
+                    'required_by' => ['code_examples']
+                ],
+                ['path' => 'config.json'],
+                ['path' => 'README.md'],
+                ['path' => 'composer.json', 'required_by' => ['code_examples']],
+            ],
             'nonmerchant' => [],
         ];
 
@@ -501,7 +526,9 @@ class ExtensionFileGenerator
         $directories = [
             'module' => PLUGINDIR . 'extension_generator' . DS . 'lib' . DS . 'templates' . DS . 'module' . DS,
             'plugin' => PLUGINDIR . 'extension_generator' . DS . 'lib' . DS . 'templates' . DS . 'plugin' . DS,
-            'gateway' => PLUGINDIR . 'extension_generator' . DS . 'lib' . DS . 'templates' . DS . 'gateway' . DS,
+            'merchant' => PLUGINDIR . 'extension_generator' . DS . 'lib' . DS . 'templates' . DS . 'merchant' . DS,
+            'nonmerchant' => PLUGINDIR . 'extension_generator'
+                . DS . 'lib' . DS . 'templates' . DS . 'nonmerchant' . DS,
         ];
 
         return $directories[$this->extension_type];
@@ -532,7 +559,8 @@ class ExtensionFileGenerator
                 'getClientServiceTabs' => 'service_tabs',
                 'installTables' => 'tables',
             ],
-            'gateway' => [],
+            'merchant' => [],
+            'nonmerchant' => [],
         ];
 
         $optional_functions = [];

@@ -205,7 +205,7 @@ class ExtensionGeneratorController extends AppController
                 ],
                 'merchant' => [
                     'merchant/basic' => Language::_('ExtensionGeneratorController.getnodes.basic_info', true),
-                    'merchant/fields' => Language::_('ExtensionGeneratorController.getnodes.merchant_fields', true),
+                    'merchant/features' => Language::_('ExtensionGeneratorController.getnodes.merchant_features', true),
                 ],
                 'nonmerchant' => [
                     'nonmerchant/basic' => Language::_('ExtensionGeneratorController.getnodes.basic_info', true),

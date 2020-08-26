@@ -37,6 +37,10 @@ class AdminNonmerchant extends ExtensionGeneratorController
         // Attempt to upload logo if submitted
         $errors = $this->uploadLogo();
 
+        if (isset($this->post['currencies'])) {
+            $this->post['currencies'] = ['code' => explode(',', $this->post['currencies'])];
+        }
+
         if (!$errors) {
             // Perform edit and redirect or set errors and repopulate vars
             $vars = $this->processStep('nonmerchant/basic', $this->extension);
@@ -44,6 +48,10 @@ class AdminNonmerchant extends ExtensionGeneratorController
             $vars = $this->post;
 
             $this->setMessage('error', $errors, false, null, false);
+        }
+
+        if (isset($vars['currencies']['code'])) {
+            $vars['currencies'] = implode(',', $vars['currencies']['code']);
         }
 
         // Set the view to render for all actions under this controller

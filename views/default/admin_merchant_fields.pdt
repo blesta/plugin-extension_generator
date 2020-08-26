@@ -22,6 +22,7 @@
                             <td><?php $this->_('AdminMerchant.fields.label');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMerchant.fields.tooltip_label');?></div></span></td>
                             <td><?php $this->_('AdminMerchant.fields.type');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMerchant.fields.tooltip_type');?></div></span></td>
                             <td><?php $this->_('AdminMerchant.fields.tooltip');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMerchant.fields.tooltip_tooltip');?></div></span></td>
+                            <td><?php $this->_('AdminMerchant.fields.encryptable');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMerchant.fields.tooltip_encryptable');?></div></span></td>
                             <td class="last"><?php $this->_('AdminMerchant.fields.text_options');?></td>
                         </tr>
                     </thead>
@@ -39,6 +40,10 @@
                             <td><?php $this->Form->fieldText('fields[label][]', $this->Html->ifSet($vars['fields']['label'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminMerchant.fields.placeholder_label', true)], $disabled));?></td>
                             <td><?php $this->Form->fieldSelect('fields[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['fields']['type'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
                             <td><?php $this->Form->fieldTextarea('fields[tooltip][]', $this->Html->ifSet($vars['fields']['tooltip'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
+                            <td>
+                                <?php $this->Form->fieldHidden('fields[encryptable][]', $this->Html->ifSet($vars['fields']['encryptable'][$i], 'false'), array_merge(['class' => 'encryptable'], $disabled));?>
+                                <?php $this->Form->fieldCheckbox('', 'true', $this->Html->ifSet($vars['fields']['encryptable'][$i]) == 'true', array_merge(['class' => 'stretch encryptable_checkbox'], $disabled));?>
+                            </td>
                             <td><a href="#" class="manage field_row_remove"><?php $this->_('AdminMerchant.fields.text_remove');?></a></td>
                         </tr>
                     <?php
@@ -73,6 +78,14 @@
             $(this).closest('tr').remove();
 
             return false;
+        });
+
+        $('.encryptable_checkbox').click(function() {
+            if ($(this).prop('checked') === true) {
+                $(this).closest('td').find('.encryptable').val('true');
+            } else {
+                $(this).closest('td').find('.encryptable').val('false');
+            }
         });
     });
 </script>

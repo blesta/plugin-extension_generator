@@ -363,9 +363,9 @@ class FormRules {
                     'message' => Language::_('FormRules.merchantbasic.authors[][name].empty', true)
                 ]
             ],
-            'currencies' => [
+            'currencies[][code]' => [
                 'format' => [
-                    'rule' => ['matches', '/^([A-Z]{3},)*[A-Z]{3}$/'],
+                    'rule' => ['matches', '/^[A-Z]{3}$/'],
                     'message' => Language::_('FormRules.merchantbasic.currencies.format', true)
                 ]
             ],
@@ -429,9 +429,9 @@ class FormRules {
                     'message' => Language::_('FormRules.nonmerchantbasic.authors[][name].empty', true)
                 ]
             ],
-            'currencies' => [
+            'currencies[][code]' => [
                 'format' => [
-                    'rule' => ['matches', '/^([A-Z]{3},)*[A-Z]{3}$/'],
+                    'rule' => ['matches', '/^[A-Z]{3}$/'],
                     'message' => Language::_('FormRules.nonmerchantbasic.currencies.format', true)
                 ]
             ],
