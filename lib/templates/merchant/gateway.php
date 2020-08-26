@@ -4,7 +4,7 @@
  *{{array:authors}}
  * @link {{authors.url}} {{authors.name}}{{array:authors}}
  */
-class {{class_name}} extends MerchantGateway implements {{array:supported_features}}{{if:supported_features.ach:true}}MerchantAch{{else:supported_features.ach}}{{if:supported_features.ach}}{{if:supported_features.ach_offset:true}}MerchantAchOffsite{{else:supported_features.ach_offset}}{{if:supported_features.ach_offset}}{{if:supported_features.cc:true}}MerchantCc{{else:supported_features.cc}}{{if:supported_features.cc}}{{if:supported_features.cc_offsite:true}}MerchantCcOffsite{{else:supported_features.cc_offsite}}{{if:supported_features.cc_offsite}}{{if:supported_features.cc_form:true}}MerchantCcForm{{else:supported_features.cc_form}}{{if:supported_features.cc_form}},{{array:supported_features}}
+class {{class_name}} extends MerchantGateway implements {{array:supported_features}}{{if:supported_features.ach:true}}MerchantAch,{{else:supported_features.ach}}{{if:supported_features.ach}}{{if:supported_features.ach_offset:true}}MerchantAchOffsite,{{else:supported_features.ach_offset}}{{if:supported_features.ach_offset}}{{if:supported_features.cc:true}}MerchantCc,{{else:supported_features.cc}}{{if:supported_features.cc}}{{if:supported_features.cc_offsite:true}}MerchantCcOffsite,{{else:supported_features.cc_offsite}}{{if:supported_features.cc_offsite}}{{if:supported_features.cc_form:true}}MerchantCcForm,{{else:supported_features.cc_form}}{{if:supported_features.cc_form}}{{array:supported_features}}
 {
     /**
      * @var array An array of meta data for this gateway
@@ -200,6 +200,23 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function storeCc(array $card_info, array $contact, $client_reference_id = null)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $card_info and $contact for the API call */];
+////    $response = $api->storeCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $card = $response->response();
+////
+////    return [
+////        'client_reference_id' => $card->user_id_field,
+////        'reference_id' => $card->id_field,
+////    ];
     }{{function:storeCc}}{{function:updateCc}}
 
     /**
@@ -260,6 +277,23 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function updateCc(array $card_info, array $contact, $client_reference_id, $account_reference_id)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $card_info and $contact for the API call */];
+////    $response = $api->updateCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $card = $response->response();
+////
+////    return [
+////        'client_reference_id' => $card->user_id_field,
+////        'reference_id' => $card->id_field,
+////    ];
     }{{function:updateCc}}{{function:removeCc}}
 
     /**
@@ -274,6 +308,21 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function removeCc($client_reference_id, $account_reference_id)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $card_info and $contact for the API call */];
+////    $response = $api->removeCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    return [
+////        'client_reference_id' => $client_reference_id,
+////        'reference_id' => $account_reference_id,
+////    ];
     }{{function:removeCc}}{{function:processStoredCc}}
 
     /**
@@ -295,6 +344,24 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function processStoredCc($client_reference_id, $account_reference_id, $amount, array $invoice_amounts = null)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $client_reference_id, $account_reference_id, $amount, and $invoice_amounts for the API call */];
+////    $response = $api->processStoredCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $transaction = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $transaction->id_field,
+////    ];
     }{{function:processStoredCc}}{{function:authorizeStoredCc}}
 
     /**
@@ -320,6 +387,24 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         array $invoice_amounts = null
     ) {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $client_reference_id, $account_reference_id, $amount, and $invoice_amounts for the API call */];
+////    $response = $api->authorizeStoredCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $transaction = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $transaction->id_field,
+////    ];
     }{{function:authorizeStoredCc}}{{function:captureStoredCc}}
 
     /**
@@ -349,6 +434,25 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         array $invoice_amounts = null
     ) {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $account_reference_id, $transaction_reference_id ,$client_reference_id,
+////        $account_reference_id, $amount, and $invoice_amounts for the API call */];
+////    $response = $api->captureStoredCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $transaction = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $transaction->id_field,
+////    ];
     }{{function:captureStoredCc}}{{function:voidStoredCc}}
 
     /**
@@ -372,6 +476,25 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $transaction_id
     ) {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $account_reference_id, $transaction_reference_id,
+////        $client_reference_id, $account_reference_id for the API call */];
+////    $response = $api->voidStoredCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $transaction = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $transaction->id_field,
+////    ];
     }{{function:voidStoredCc}}{{function:refundStoredCc}}
 
     /**
@@ -397,6 +520,25 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $amount
     ) {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $account_reference_id, $transaction_reference_id, $client_reference_id,
+////        $account_reference_id, and $amount for the API call */];
+////    $response = $api->refundStoredCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $transaction = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $transaction->id_field,
+////    ];
     }{{function:refundStoredCc}}{{function:processCc}}
 
     /**
@@ -434,6 +576,24 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function processCc(array $card_info, $amount, array $invoice_amounts = null)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $card_info, $amount, and $invoice_amounts for the API call */];
+////    $response = $api->processCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $transaction = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $transaction->id_field,
+////    ];
     }{{function:processCc}}{{function:authorizeCc}}
 
     /**
@@ -471,6 +631,24 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function authorizeCc(array $card_info, $amount, array $invoice_amounts = null)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $card_info, $amount, and $invoice_amounts for the API call */];
+////    $response = $api->authorizeCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $transaction = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $transaction->id_field,
+////    ];
     }{{function:authorizeCc}}{{function:captureCc}}
 
     /**
@@ -492,6 +670,24 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function captureCc($reference_id, $transaction_id, $amount, array $invoice_amounts = null)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $reference_id, $transaction_id, $amount, and $invoice_amounts for the API call */];
+////    $response = $api->captureCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $transaction = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $transaction->id_field,
+////    ];
     }{{function:captureCc}}{{function:voidCc}}
 
     /**
@@ -509,6 +705,22 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function voidCc($reference_id, $transaction_id)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $reference_id and $transaction_id for the API call */];
+////    $response = $api->voidCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => $reference_id,
+////        'transaction_id' => $transaction_id,
+////    ];
     }{{function:voidCc}}{{function:refundCc}}
 
     /**
@@ -527,6 +739,24 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function refundCc($reference_id, $transaction_id, $amount)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $reference_id, $transaction_id, and $amount for the API call */];
+////    $response = $api->refundCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $refund = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $refund->transaction_id_field,
+////    ];
     }{{function:refundCc}}{{function:storeAch}}
 
     /**
@@ -584,6 +814,23 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function storeAch(array $account_info, array $contact, $client_reference_id = null)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $account_info, $contact, and $client_reference_id for the API call */];
+////    $response = $api->processCc($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $ach = $response->response();
+////
+////    return [
+////        'client_reference_id' => $ach->user_id_field,
+////        'reference_id' => $ach->id_field,
+////    ];
     }{{function:storeAch}}{{function:updateAch}}
 
     /**
@@ -644,6 +891,23 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function updateAch(array $account_info, array $contact, $client_reference_id, $account_reference_id)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $account_info, $contact, $client_reference_id, and $account_reference_id for the API call */];
+////    $response = $api->updateAch($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $ach = $response->response();
+////
+////    return [
+////        'client_reference_id' => $ach->user_id_field,
+////        'reference_id' => $ach->id_field,
+////    ];
     }{{function:updateAch}}{{function:removeAch}}
 
     /**
@@ -658,6 +922,21 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function removeAch($client_reference_id, $account_reference_id)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $client_reference_id and $account_reference_id for the API call */];
+////    $response = $api->removeAch($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    return [
+////        'client_reference_id' => $client_reference_id,
+////        'reference_id' => $account_reference_id,
+////    ];
     }{{function:removeAch}}{{function:processStoredAch}}
 
     /**
@@ -683,6 +962,24 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         array $invoice_amounts = null
     ) {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $client_reference_id, $account_reference_id, $amount, and $invoice_amounts for the API call */];
+////    $response = $api->processStoredAch($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $transaction = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $transaction->id_field,
+////    ];
     }{{function:processStoredAch}}{{function:voidStoredAch}}
 
     /**
@@ -706,6 +1003,23 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $transaction_id
     ) {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $client_reference_id, $account_reference_id,
+////        $transaction_reference_id, and $transaction_id for the API call */];
+////    $response = $api->voidStoredAch($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+///
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => $transaction_reference_id,
+////        'transaction_id' => $transaction_id,
+////    ];
     }{{function:voidStoredAch}}{{function:refundStoredAch}}
 
     /**
@@ -731,8 +1045,26 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $amount
     ) {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $client_reference_id, $account_reference_id,
+////        $transaction_reference_id, $transaction_id, and $amount for the API call */];
+////    $response = $api->refundStoredAch($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $refund = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $refund->transaction_id_field,
+////    ];
     }{{function:refundStoredAch}}{{function:processAch}}
-
 
     /**
      * Process an ACH transaction
@@ -769,6 +1101,24 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function processAch(array $account_info, $amount, array $invoice_amounts = null)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $account_info, $amount, and $invoice_amounts for the API call */];
+////    $response = $api->processAch($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $transaction = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $transaction->id_field,
+////    ];
     }{{function:processAch}}{{function:voidAch}}
 
     /**
@@ -786,6 +1136,22 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function voidAch($reference_id, $transaction_id)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $reference_id and $transaction_id for the API call */];
+////    $response = $api->voidAch($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => $reference_id,
+////        'transaction_id' => $transaction_id,
+////    ];
     }{{function:voidAch}}{{function:refundAch}}
 
     /**
@@ -804,7 +1170,207 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function refundAch($reference_id, $transaction_id, $amount)
     {
         $this->Input->setErrors($this->getCommonError('unsupported'));
-    }{{function:refundAch}}
+////    An API call is typically made here, something like the following
+////
+////    $api = $this->loadApi();
+////
+////    $vars = [/* Format $reference_id, $transaction_id, and $amount for the API call */];
+////    $response = $api->refundAch($vars);
+////
+////    if (!$response->success()) {
+////        return false;
+////    }
+////
+////    $refund = $response->response();
+////
+////    return [
+////        'status' => $this->mapStatus($transaction->status),
+////        'reference_id' => null,
+////        'transaction_id' => $refund->transaction_id_field,
+////    ];
+    }{{function:refundAch}}{{function:buildCcForm}}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildCcForm()
+    {
+        // Load the view into this object, so helpers can be automatically added to the view
+        $this->view = $this->makeView('cc_form', 'default', str_replace(ROOTWEBDIR, '', dirname(__FILE__) . DS));
+
+        // Load the helpers required for this view
+        Loader::loadHelpers($this, ['Form', 'Html']);
+
+        $this->view->set('meta', $this->meta);
+
+        return $this->view->fetch();
+    }{{function:buildCcForm}}{{function:buildPaymentConfirmation}}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildPaymentConfirmation($reference_id, $transaction_id, $amount)
+    {
+        // Load the view into this object, so helpers can be automatically added to the view
+        $this->view = $this->makeView(
+            'payment_confirmation',
+            'default',
+            str_replace(ROOTWEBDIR, '', dirname(__FILE__) . DS)
+        );
+
+        // Load the helpers required for this view
+        Loader::loadHelpers($this, ['Form', 'Html']);
+
+        $this->view->set('meta', $this->meta);
+
+        return $this->view->fetch();
+    }{{function:buildPaymentConfirmation}}{{function:processCc}}
+
+////    /**
+////     * Sets the parameters for credit card transactions
+////     *
+////     * @param string $transaction_type The type of transaction to process
+////     *  (sale, auth, refund, capture, void, update, credit)
+////     * @param int $transaction_id The ID of a previous transaction if available
+////     * @param float $amount The amount to charge this card
+////     * @param array $card_info An array of credit card info including:
+////     *
+////     *  - first_name The first name on the card
+////     *  - last_name The last name on the card
+////     *  - card_number The card number
+////     *  - card_exp The card expiration date in yyyymm format
+////     *  - card_security_code The 3 or 4 digit security code of the card (if available)
+////     *  - type The credit card type
+////     *  - address1 The address 1 line of the card holder
+////     *  - address2 The address 2 line of the card holder
+////     *  - city The city of the card holder
+////     *  - state An array of state info including:
+////     *      - code The 2 or 3-character state code
+////     *      - name The local name of the state
+////     *  - country An array of country info including:
+////     *      - alpha2 The 2-character country code
+////     *      - alpha3 The 3-character country code
+////     *      - name The english name of the country
+////     *      - alt_name The local name of the country
+////     *  - zip The zip/postal code of the card holder
+////     * @return array A key=>value list of all transaction fields
+////     */
+////    private function getCcParams($transaction_type, $transaction_id = null, $amount = null, array $card_info = null)
+////    {
+////        $params = [];
+////
+////        switch ($transaction_type) {
+////            case 'sale':
+////            case 'auth':
+////                $params = [
+////                    'ccnumber' => $this->ifSet($card_info['card_number']),
+////                    'ccexp' => substr($this->ifSet($card_info['card_exp']), 4, 2)
+////                        . substr($this->ifSet($card_info['card_exp']), 2, 2),
+////                    'amount' => number_format($amount, 2, '.', ''),
+////                    'cvv' => $this->ifSet($card_info['card_security_code']),
+////                    'firstname' => $this->ifSet($card_info['first_name']),
+////                    'lastname' => $this->ifSet($card_info['last_name']),
+////                    'address1' => $this->ifSet($card_info['address1']),
+////                    'address2' => $this->ifSet($card_info['address2']),
+////                    'city' => $this->ifSet($card_info['city']),
+////                    'state' => substr($this->ifSet($card_info['state']['code']), 0, 2),
+////                    'zip' => $this->ifSet($card_info['zip']),
+////                    'country' => $this->ifSet($card_info['country']['alpha2'])
+////                ];
+////                break;
+////            case 'refund':
+////            case 'capture':
+////                $params = [
+////                    'transactionid' => $this->ifSet($transaction_id)
+////                ];
+////
+////                if ($amount > 0) {
+////                    $params['amount'] = number_format($amount, 2, '.', '');
+////                }
+////            case 'void':
+////                $params = [
+////                    'transactionid' => $this->ifSet($transaction_id)
+////                ];
+////                break;
+////        }
+////
+////        return array_merge($params, ['type' => $transaction_type]);
+////    }{{function:processCc}}{{function:processAch}}
+////
+////    /**
+////     * Sets the parameters for ACH transactions
+////     *
+////     * @param string $transaction_type The type of transaction to process
+////     *  (sale, auth, refund, capture, void, update, credit)
+////     * @param int $transaction_id The ID of a previous transaction if available
+////     * @param float $amount The amount to charge this card
+////     * @param array $account_info An array of bank account info including:
+////     *
+////     *  - first_name The first name on the account
+////     *  - last_name The last name on the account
+////     *  - account_number The bank account number
+////     *  - routing_number The bank account routing number
+////     *  - type The bank account type (checking or savings)
+////     *  - address1 The address 1 line of the card holder
+////     *  - address2 The address 2 line of the card holder
+////     *  - city The city of the card holder
+////     *  - state An array of state info including:
+////     *      - code The 2 or 3-character state code
+////     *      - name The local name of the country
+////     *  - country An array of country info including:
+////     *      - alpha2 The 2-character country code
+////     *      - alpha3 The 3-character country code
+////     *      - name The english name of the country
+////     *      - alt_name The local name of the country
+////     *  - zip The zip/postal code of the account holder
+////     * @return array A key=>value list of all transaction fields
+////     */
+////    private function getAchParams($transaction_type, $transaction_id = null, $amount = null, array $account_info = null)
+////    {
+////        // Load the helpers required
+////        Loader::loadHelpers($this, ['Html']);
+////
+////        $params = [];
+////
+////        switch ($transaction_type) {
+////            case 'sale':
+////            case 'auth':
+////                $params = [
+////                    'checkname' => $this->Html->concat(' ', $account_info['first_name'], $account_info['last_name']),
+////                    'checkaba' => $this->ifSet($account_info['routing_number']),
+////                    'checkaccount' => $this->ifSet($account_info['account_number']),
+////                    'account_type' => $this->ifSet($account_info['type']),
+////                    'amount' => number_format($amount, 2, '.', ''),
+////                    'payment' => 'check',
+////                    'firstname' => $this->ifSet($account_info['first_name']),
+////                    'lastname' => $this->ifSet($account_info['last_name']),
+////                    'address1' => $this->ifSet($account_info['address1']),
+////                    'address2' => $this->ifSet($account_info['address2']),
+////                    'city' => $this->ifSet($account_info['city']),
+////                    'state' => substr($this->ifSet($account_info['state']['code']), 0, 2),
+////                    'zip' => $this->ifSet($account_info['zip']),
+////                    'country' => $this->ifSet($account_info['country']['alpha2'])
+////                ];
+////                break;
+////            case 'refund':
+////                $params = [
+////                    'transactionid' => $this->ifSet($transaction_id),
+////                    'payment' => 'check'
+////                ];
+////
+////                if ($amount > 0) {
+////                    $params['amount'] = number_format($amount, 2, '.', '');
+////                }
+////            case 'void':
+////                $params = [
+////                    'transactionid' => $this->ifSet($transaction_id),
+////                    'payment' => 'check'
+////                ];
+////                break;
+////        }
+////
+////        return array_merge($params, ['type' => $transaction_type]);
+////    }{{function:processAch}}
 
     /**
      * Loads the given API if not already loaded
@@ -815,9 +1381,6 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
             Loader::load(dirname(__FILE__) . DS . 'apis' . DS . '{{snake_case_name}}_api.php');
             $this->api = new {{class_name}}Api({{array:fields}}
                 $this->meta['{{fields.name}}']{{if:fields.type:Checkbox}} == 'true'{{else:fields.type}}{{if:fields.type}},{{array:fields}}
-                $this->meta['transaction_key'],
-                $this->meta['test_mode'] == 'true',
-                $this->meta['dev_mode'] == 'true'
             );
         }
     }
