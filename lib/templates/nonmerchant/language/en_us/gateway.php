@@ -17,4 +17,4 @@ $lang['{{class_name}}.meta.{{fields.name}}'] = '{{fields.label}}';{{array:fields
 {{array:fields}}{{if:fields.tooltip:}}{{else:fields.tooltip}}
 $lang['{{class_name}}.meta.tooltip_{{fields.name}}'] = '{{fields.tooltip}}';{{if:fields.tooltip}}{{array:fields}}
 
-$lang['{{class_name}}.{{class_name}}.buildprocess.submit'] = 'Submit Payment';
+$lang['{{class_name}}.buildprocess.submit'] = 'Submit Payment';
