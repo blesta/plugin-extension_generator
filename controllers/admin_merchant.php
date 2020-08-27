@@ -146,18 +146,18 @@ class AdminMerchant extends ExtensionGeneratorController
             if ($this->post['supported_features']['cc'] == 'false'
                 && $this->post['supported_features']['cc_offsite'] == 'true'
             ) {
-                $this->post['optional_functions']['requiresCcStorage'] = 'true';
+                $this->post['require_cc_storage'] = 'true';
             } else {
-                $this->post['optional_functions']['requiresCcStorage'] = 'false';
+                $this->post['require_cc_storage'] = 'false';
             }
 
             // Set required ach storage based on if only offsite is enabled
             if ($this->post['supported_features']['ach'] == 'false'
                 && $this->post['supported_features']['ach_offsite'] == 'true'
             ) {
-                $this->post['optional_functions']['requiresAchStorage'] = 'true';
+                $this->post['require_ach_storage'] = 'true';
             } else {
-                $this->post['optional_functions']['requiresAchStorage'] = 'false';
+                $this->post['require_ach_storage'] = 'false';
             }
         }
 

@@ -487,7 +487,24 @@ class ExtensionFileGenerator
                 ['path' => 'README.md'],
                 ['path' => 'composer.json', 'required_by' => ['code_examples']],
             ],
-            'nonmerchant' => [],
+            'nonmerchant' => [
+                ['path' => 'gateway.php', 'name' => $extension_name . '.php'],
+                ['path' => 'language' . DS . 'en_us' . DS . 'gateway.php', 'name' => $extension_name . '.php'],
+                ['path' => 'views' . DS . 'default' . DS . 'settings.pdt'],
+                [
+                    'path' => 'apis' . DS . 'gateway_api.php',
+                    'name' => $extension_name . '_api.php',
+                    'required_by' => ['code_examples']
+                ],
+                [
+                    'path' => 'apis' . DS . 'gateway_response.php',
+                    'name' => $extension_name . '_response.php',
+                    'required_by' => ['code_examples']
+                ],
+                ['path' => 'config.json'],
+                ['path' => 'README.md'],
+                ['path' => 'composer.json', 'required_by' => ['code_examples']],
+            ],
         ];
 
         // Duplicate a view file for each of the values in the defined 'foreach' field

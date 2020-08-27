@@ -16,6 +16,10 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
      */
     public function __construct()
     {
+////        // Load the {{name}} API
+////        Loader::load(dirname(__FILE__) . DS . 'api' . DS . '{{snake_case_name}}_api.php');
+
+        // Load configuration required by this gateway
         $this->loadConfig(dirname(__FILE__) . DS . 'config.json');
 
         // Load components required by this gateway
@@ -79,8 +83,8 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $checkbox_fields = [{{array:fields}}{{if:fields.type:Checkbox}}'{{fields.name}}',{{else:fields.type}}{{if:fields.type}}{{array:fields}}];
 
         foreach ($checkbox_fields as $checkbox_field) {
-            if (!isset($vars[$checkbox_field])) {
-                $vars[$checkbox_field] = 'false';
+            if (!isset($meta[$checkbox_field])) {
+                $meta[$checkbox_field] = 'false';
             }
         }
 
@@ -97,7 +101,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
      */
     public function encryptableFields()
     {
-        return [{{array:fields}}{{if:fields.encyptable:true}}'{{fields.name}}',{{else:fields.encyptable}}{{if:fields.encyptable}}{{array:fields}}];
+        return [{{array:fields}}{{if:fields.encryptable:true}}'{{fields.name}}',{{else:fields.encryptable}}{{if:fields.encryptable}}{{array:fields}}];
     }
 
     /**
@@ -109,7 +113,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     public function requiresCustomerPresent()
     {
         return false;
-    }{{function:requiresAchStorage}}
+    }
 
     /**
      * Informs the system of whether or not this gateway is configured for offsite customer
@@ -120,8 +124,8 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
      */
     public function requiresAchStorage()
     {
-        return true;
-    }{{function:requiresAchStorage}}{{function:requiresCcStorage}}
+        return {{require_ach_storage}};
+    }
 
     /**
      * Informs the system of whether or not this gateway is configured for offsite customer
@@ -132,8 +136,8 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
      */
     public function requiresCcStorage()
     {
-        return true;
-    }{{function:requiresCcStorage}}
+        return {{require_cc_storage}};
+    }
 
     /**
      * Sets the currency code to be used for all subsequent payments
@@ -202,7 +206,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $card_info and $contact for the API call */];
 ////    $response = $api->storeCc($vars);
@@ -279,7 +283,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $card_info and $contact for the API call */];
 ////    $response = $api->updateCc($vars);
@@ -310,7 +314,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $card_info and $contact for the API call */];
 ////    $response = $api->removeCc($vars);
@@ -346,7 +350,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $client_reference_id, $account_reference_id, $amount, and $invoice_amounts for the API call */];
 ////    $response = $api->processStoredCc($vars);
@@ -389,7 +393,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $client_reference_id, $account_reference_id, $amount, and $invoice_amounts for the API call */];
 ////    $response = $api->authorizeStoredCc($vars);
@@ -436,7 +440,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $account_reference_id, $transaction_reference_id ,$client_reference_id,
 ////        $account_reference_id, $amount, and $invoice_amounts for the API call */];
@@ -478,7 +482,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $account_reference_id, $transaction_reference_id,
 ////        $client_reference_id, $account_reference_id for the API call */];
@@ -522,7 +526,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $account_reference_id, $transaction_reference_id, $client_reference_id,
 ////        $account_reference_id, and $amount for the API call */];
@@ -578,7 +582,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $card_info, $amount, and $invoice_amounts for the API call */];
 ////    $response = $api->processCc($vars);
@@ -633,7 +637,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $card_info, $amount, and $invoice_amounts for the API call */];
 ////    $response = $api->authorizeCc($vars);
@@ -672,7 +676,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $reference_id, $transaction_id, $amount, and $invoice_amounts for the API call */];
 ////    $response = $api->captureCc($vars);
@@ -707,7 +711,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $reference_id and $transaction_id for the API call */];
 ////    $response = $api->voidCc($vars);
@@ -741,7 +745,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $reference_id, $transaction_id, and $amount for the API call */];
 ////    $response = $api->refundCc($vars);
@@ -816,7 +820,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $account_info, $contact, and $client_reference_id for the API call */];
 ////    $response = $api->processCc($vars);
@@ -893,7 +897,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $account_info, $contact, $client_reference_id, and $account_reference_id for the API call */];
 ////    $response = $api->updateAch($vars);
@@ -924,7 +928,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $client_reference_id and $account_reference_id for the API call */];
 ////    $response = $api->removeAch($vars);
@@ -964,7 +968,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $client_reference_id, $account_reference_id, $amount, and $invoice_amounts for the API call */];
 ////    $response = $api->processStoredAch($vars);
@@ -1005,7 +1009,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $client_reference_id, $account_reference_id,
 ////        $transaction_reference_id, and $transaction_id for the API call */];
@@ -1047,7 +1051,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $client_reference_id, $account_reference_id,
 ////        $transaction_reference_id, $transaction_id, and $amount for the API call */];
@@ -1103,7 +1107,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $account_info, $amount, and $invoice_amounts for the API call */];
 ////    $response = $api->processAch($vars);
@@ -1138,7 +1142,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $reference_id and $transaction_id for the API call */];
 ////    $response = $api->voidAch($vars);
@@ -1172,7 +1176,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setErrors($this->getCommonError('unsupported'));
 ////    An API call is typically made here, something like the following
 ////
-////    $api = $this->loadApi();
+////    $api = $this->getApi();
 ////
 ////    $vars = [/* Format $reference_id, $transaction_id, and $amount for the API call */];
 ////    $response = $api->refundAch($vars);
@@ -1375,13 +1379,11 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     /**
      * Loads the given API if not already loaded
      */
-    private function loadApi()
+    private function getApi()
     {
-        if (!isset($this->api)) {
-            Loader::load(dirname(__FILE__) . DS . 'apis' . DS . '{{snake_case_name}}_api.php');
-            $this->api = new {{class_name}}Api({{array:fields}}
-                $this->meta['{{fields.name}}']{{if:fields.type:Checkbox}} == 'true'{{else:fields.type}}{{if:fields.type}},{{array:fields}}
-            );
-        }
+        Loader::load(dirname(__FILE__) . DS . 'apis' . DS . '{{snake_case_name}}_api.php');
+        return new {{class_name}}Api({{array:fields}}
+            $this->meta['{{fields.name}}']{{if:fields.type:Checkbox}} == 'true'{{else:fields.type}}{{if:fields.type}},{{array:fields}}
+        );
     }
 }

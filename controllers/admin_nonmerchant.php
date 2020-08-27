@@ -137,11 +137,9 @@ class AdminNonmerchant extends ExtensionGeneratorController
     protected function getOptionalFunctions()
     {
         $functions = [
-            'capture' => ['enabled' => 'true'],
             'refund' => ['enabled' => 'true'],
             'void' => ['enabled' => 'true'],
             'buildProcess' => ['enabled' => 'true'],
-            'buildAuthorize' => ['enabled' => 'false'],
             'upgrade' => ['enabled' => 'false'],
         ];
 
