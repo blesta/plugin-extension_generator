@@ -7,7 +7,7 @@ $lang['{{class_name}}.name'] = '{{name}}';
 $lang['{{class_name}}.description'] = '{{description}}';
 
 
-{{array:fields}}
+// Errors{{array:fields}}
 $lang['{{class_name}}.!error.{{fields.name}}.valid'] = '{{fields.label}} invalid.';{{array:fields}}
 
 
