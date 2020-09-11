@@ -198,7 +198,7 @@ class ExtensionFileGenerator
             }
 
             // Output the parsed contents
-            file_put_contents($extension_directory . DS . $file_path, $content);
+            file_put_contents($extension_directory . DS . str_replace('.tpl', '', $file_path), $content);
         }
 
         // Update the logo with the uploaded image
@@ -464,6 +464,7 @@ class ExtensionFileGenerator
             'merchant' => [
                 ['path' => 'gateway.php', 'name' => $extension_name . '.php'],
                 ['path' => 'language' . DS . 'en_us' . DS . 'gateway.php', 'name' => $extension_name . '.php'],
+                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
                 ['path' => 'views' . DS . 'default' . DS . 'settings.pdt'],
                 [
                     'path' => 'views' . DS . 'default' . DS . 'cc_form.pdt',
@@ -490,6 +491,7 @@ class ExtensionFileGenerator
             'nonmerchant' => [
                 ['path' => 'gateway.php', 'name' => $extension_name . '.php'],
                 ['path' => 'language' . DS . 'en_us' . DS . 'gateway.php', 'name' => $extension_name . '.php'],
+                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
                 ['path' => 'views' . DS . 'default' . DS . 'settings.pdt'],
                 ['path' => 'views' . DS . 'default' . DS . 'process.pdt'],
                 [
@@ -511,6 +513,7 @@ class ExtensionFileGenerator
         // Duplicate a view file for each of the values in the defined 'foreach' field
         $return_list = $file_path_list[$this->extension_type];
         foreach ($return_list as $index => $return_file) {
+            $return_list[$index]['path'] .= '.tpl';
             if (isset($return_file['foreach'])) {
                 // Search the options for the defined 'foreach' field
                 foreach ($return_file['foreach'] as $field_label => $name_key) {
