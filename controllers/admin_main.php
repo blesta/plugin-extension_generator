@@ -108,6 +108,7 @@ class AdminMain extends ExtensionGeneratorController
             }
 
             // Make sure that the extension directory will not conflict with an existing one
+            $form_rules = new FormRules();
             if (
                 $this->checkNameTaken(
                     $this->post['name'],
@@ -116,6 +117,8 @@ class AdminMain extends ExtensionGeneratorController
                 )
             ) {
                 $errors = Language::_('AdminMain.!error.name_taken', true);
+            } elseif (!$form_rules->validate('general', $this->post)) {
+                $errors = $form_rules->errors();
             }
 
             if (!isset($errors) && isset($extension)) {
