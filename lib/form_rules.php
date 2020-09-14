@@ -40,6 +40,23 @@ class FormRules {
     }
 
     /**
+     * Gets a list of input validation rules for the general action
+     *
+     * @return array A list of input validation rules
+     */
+    protected function general()
+    {
+        return [
+            'name' => [
+                'format' => [
+                    'rule' => ['matches', '/^([a-z0-9_\w])+$/'],
+                    'message' => Language::_('FormRules.general.name.format', true)
+                ]
+            ],
+        ];
+    }
+
+    /**
      * Gets a list of input validation rules for the modulebasic action
      *
      * @return array A list of input validation rules

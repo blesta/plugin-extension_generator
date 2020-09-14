@@ -1,5 +1,9 @@
 <?php
 
+// General
+$lang['FormRules.general.name.format'] = 'Extension names can only contain alpha_numeric charactes, underscores, and spaces.';
+
+
 // Module Basic
 $lang['FormRules.modulebasic.module_row.empty'] = 'Please enter a module row name.';
 $lang['FormRules.modulebasic.module_row_plural.empty'] = 'Please add a plural module row name.';

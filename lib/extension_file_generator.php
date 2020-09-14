@@ -235,7 +235,7 @@ class ExtensionFileGenerator
             if (is_array($replacement_value)) {
                 $array_tags[$replacement_tag] = $replacement_value;
             } else {
-                $replacement_tags[$tag_start . $parent_tag . $replacement_tag . $tag_end] = $replacement_value;
+                $replacement_tags[$tag_start . $parent_tag . $replacement_tag . $tag_end] = str_replace('\'', '\\\'', $replacement_value);
             }
 
             unset($replacement_tags[$replacement_tag]);
