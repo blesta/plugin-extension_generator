@@ -110,12 +110,14 @@ class FormRules {
             $rules += [
                 $array_field . '[][name]' => [
                     'format' => [
-                        'rule' => ['matches', '/^([a-z0-9]+_?)*[a-z]+$/'],
+                        'if_set' => true,
+                        'rule' => ['matches', '/^([a-z0-9]+_?)*[a-z0-9]+$/'],
                         'message' => Language::_('FormRules.modulefields.' .  $array_field . '[][name].format', true)
                     ]
                 ],
                 $array_field . '[][label]' => [
                     'empty' => [
+                        'if_set' => true,
                         'rule' => 'isEmpty',
                         'negate' => true,
                         'message' => Language::_('FormRules.modulefields.' .  $array_field . '[][label].empty', true)
@@ -123,12 +125,14 @@ class FormRules {
                 ],
                 $array_field . '[][type]' => [
                     'valid' => [
+                        'if_set' => true,
                         'rule' => ['in_array', $this->getFieldTypes()],
                         'message' => Language::_('FormRules.modulefields.' .  $array_field . '[][type].valid', true)
                     ]
                 ],
                 $array_field . '[][name_key]' => [
                     'valid' => [
+                        'if_set' => true,
                         'rule' => ['in_array', ['true', 'false']],
                         'message' => Language::_('FormRules.modulefields.' .  $array_field . '[][name_key].valid', true)
                     ]
@@ -149,12 +153,14 @@ class FormRules {
         $rules = [
             'service_tabs[][method_name]' => [
                 'format' => [
+                    'if_set' => true,
                     'rule' => ['matches', '/^[a-zA-Z]+$/'],
                     'message' => Language::_('FormRules.modulefeatures.service_tabs[][method_name].format', true)
                 ]
             ],
             'service_tabs[][label]' => [
                 'empty' => [
+                    'if_set' => true,
                     'rule' => 'isEmpty',
                     'negate' => true,
                     'message' => Language::_('FormRules.modulefeatures.service_tabs[][label].empty', true)
@@ -162,18 +168,21 @@ class FormRules {
             ],
             'service_tabs[][level]' => [
                 'valid' => [
+                    'if_set' => true,
                     'rule' => ['in_array', ['staff', 'client']],
                     'message' => Language::_('FormRules.modulefeatures.service_tabs[][level].valid', true)
                 ]
             ],
             'cron_tasks[][name]' => [
                 'format' => [
+                    'if_set' => true,
                     'rule' => ['matches', '/^([a-z]+_?)*[a-z]+$/'],
                     'message' => Language::_('FormRules.modulefeatures.cron_tasks[][name].format', true)
                 ]
             ],
             'cron_tasks[][label]' => [
                 'empty' => [
+                    'if_set' => true,
                     'rule' => 'isEmpty',
                     'negate' => true,
                     'message' => Language::_('FormRules.modulefeatures.cron_tasks[][label].empty', true)
@@ -181,12 +190,14 @@ class FormRules {
             ],
             'cron_tasks[][type]' => [
                 'valid' => [
+                    'if_set' => true,
                     'rule' => ['in_array', ['time', 'interval']],
                     'message' => Language::_('FormRules.modulefeatures.cron_tasks[][type].valid', true)
                 ]
             ],
             'cron_tasks[][time]' => [
                 'format' => [
+                    'if_set' => true,
                     'rule' => [
                         function ($time, $type) {
                             if ($type == 'time') {
@@ -235,24 +246,28 @@ class FormRules {
         $rules = [
             'tables[][name]' => [
                 'format' => [
+                    'if_set' => true,
                     'rule' => ['matches', '/^([a-z]+_?)*[a-z]+$/'],
                     'message' => Language::_('FormRules.plugindatabase.tables[][name].format', true)
                 ]
             ],
             'tables[][columns][][name]' => [
                 'format' => [
+                    'if_set' => true,
                     'rule' => ['matches', '/^([a-z]+_?)*[a-z]+$/'],
                     'message' => Language::_('FormRules.plugindatabase.tables[][columns][][name].format', true)
                 ]
             ],
             'tables[][columns][][type]' => [
                 'valid' => [
+                    'if_set' => true,
                     'rule' => ['in_array', ['INT', 'TINYINT', 'VARCHAR', 'TEXT', 'DATETIME', 'ENUM']],
                     'message' => Language::_('FormRules.plugindatabase.tables[][columns][][type].valid', true)
                 ]
             ],
             'tables[][columns][][length]' => [
                 'empty' => [
+                    'if_set' => true,
                     'rule' => [
                         function ($length, $type) {
                             if (in_array($type, ['TEXT', 'DATETIME'])) {
@@ -270,12 +285,14 @@ class FormRules {
             ],
             'tables[][columns][][nullable]' => [
                 'valid' => [
+                    'if_set' => true,
                     'rule' => ['in_array', ['true', 'false']],
                     'message' => Language::_('FormRules.plugindatabase.tables[][columns][][nullable].valid', true)
                 ]
             ],
             'tables[][columns][][primary]' => [
                 'valid' => [
+                    'if_set' => true,
                     'rule' => ['in_array', ['true', 'false']],
                     'message' => Language::_('FormRules.plugindatabase.tables[][columns][][primary].valid', true)
                 ]
@@ -295,24 +312,28 @@ class FormRules {
         $rules = [
             'actions[][location]' => [
                 'valid' => [
+                    'if_set' => true,
                     'rule' => ['in_array', $this->getActionLocations()],
                     'message' => Language::_('FormRules.pluginintegrations.actions[][location].valid', true)
                 ]
             ],
             'actions[][controller]' => [
                 'format' => [
+                    'if_set' => true,
                     'rule' => ['matches', '/^([a-z]+_?)*[a-z]+$/'],
                     'message' => Language::_('FormRules.pluginintegrations.actions[][controller].format', true)
                 ]
             ],
             'actions[][action]' => [
                 'format' => [
+                    'if_set' => true,
                     'rule' => ['matches', '/^([a-z]+_?)*[a-z]+$/'],
                     'message' => Language::_('FormRules.pluginintegrations.actions[][action].format', true)
                 ]
             ],
             'actions[][name]' => [
                 'empty' => [
+                    'if_set' => true,
                     'rule' => 'isEmpty',
                     'negate' => true,
                     'message' => Language::_('FormRules.pluginintegrations.actions[][name].empty', true)
@@ -320,6 +341,7 @@ class FormRules {
             ],
             'events[][event]' => [
                 'empty' => [
+                    'if_set' => true,
                     'rule' => 'isEmpty',
                     'negate' => true,
                     'message' => Language::_('FormRules.pluginintegrations.events[][event].empty', true)
@@ -327,24 +349,28 @@ class FormRules {
             ],
             'events[][callback]' => [
                 'format' => [
+                    'if_set' => true,
                     'rule' => ['matches', '/^[a-zA-Z]+$/'],
                     'message' => Language::_('FormRules.pluginintegrations.events[][callback].format', true)
                 ]
             ],
             'cards[][level]' => [
                 'valid' => [
+                    'if_set' => true,
                     'rule' => ['in_array', ['client', 'staff']],
                     'message' => Language::_('FormRules.pluginintegrations.cards[][level].valid', true)
                 ]
             ],
             'cards[][callback]' => [
                 'format' => [
+                    'if_set' => true,
                     'rule' => ['matches', '/^[a-zA-Z]+$/'],
                     'message' => Language::_('FormRules.pluginintegrations.cards[][callback].format', true)
                 ]
             ],
             'cards[][label]' => [
                 'empty' => [
+                    'if_set' => true,
                     'rule' => 'isEmpty',
                     'negate' => true,
                     'message' => Language::_('FormRules.pluginintegrations.cards[][empty].format', true)
@@ -382,6 +408,7 @@ class FormRules {
             ],
             'currencies[][code]' => [
                 'format' => [
+                    'if_set' => true,
                     'rule' => ['matches', '/^[A-Z]{3}$/'],
                     'message' => Language::_('FormRules.merchantbasic.currencies.format', true)
                 ]
@@ -399,12 +426,14 @@ class FormRules {
         $rules = [
             'fields[][name]' => [
                 'format' => [
-                    'rule' => ['matches', '/^([a-z0-9]+_?)*[a-z]+$/'],
+                    'if_set' => true,
+                    'rule' => ['matches', '/^([a-z0-9]+_?)*[a-z0-9]+$/'],
                     'message' => Language::_('FormRules.merchantfields.fields[][name].format', true)
                 ]
             ],
             'fields[][label]' => [
                 'empty' => [
+                    'if_set' => true,
                     'rule' => 'isEmpty',
                     'negate' => true,
                     'message' => Language::_('FormRules.merchantfields.fields[][label].empty', true)
@@ -412,6 +441,7 @@ class FormRules {
             ],
             'fields[][type]' => [
                 'valid' => [
+                    'if_set' => true,
                     'rule' => ['in_array', $this->getFieldTypes()],
                     'message' => Language::_('FormRules.merchantfields.fields[][type].valid', true)
                 ]
@@ -448,6 +478,7 @@ class FormRules {
             ],
             'currencies[][code]' => [
                 'format' => [
+                    'if_set' => true,
                     'rule' => ['matches', '/^[A-Z]{3}$/'],
                     'message' => Language::_('FormRules.nonmerchantbasic.currencies.format', true)
                 ]
@@ -465,12 +496,14 @@ class FormRules {
         $rules = [
             'fields[][name]' => [
                 'format' => [
-                    'rule' => ['matches', '/^([a-z0-9]+_?)*[a-z]+$/'],
+                    'if_set' => true,
+                    'rule' => ['matches', '/^([a-z0-9]+_?)*[a-z0-9]+$/'],
                     'message' => Language::_('FormRules.nonmerchantfields.fields[][name].format', true)
                 ]
             ],
             'fields[][label]' => [
                 'empty' => [
+                    'if_set' => true,
                     'rule' => 'isEmpty',
                     'negate' => true,
                     'message' => Language::_('FormRules.nonmerchantfields.fields[][label].empty', true)
@@ -478,6 +511,7 @@ class FormRules {
             ],
             'fields[][type]' => [
                 'valid' => [
+                    'if_set' => true,
                     'rule' => ['in_array', $this->getFieldTypes()],
                     'message' => Language::_('FormRules.nonmerchantfields.fields[][type].valid', true)
                 ]
