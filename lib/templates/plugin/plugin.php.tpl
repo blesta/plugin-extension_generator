@@ -316,7 +316,36 @@ class {{class_name}}Plugin extends Plugin
     public function allowsServiceTabs()
     {
         return true;
-    }{{function:allowsServiceTabs}}{{function:getClientServiceTabs}}
+    }{{function:allowsServiceTabs}}{{function:getPermissions}}
+
+    /**
+     * Returns all permissions to be configured for this plugin (invoked after install(), upgrade(),
+     *  and uninstall(), overwrites all existing permissions)
+     *
+     * @return array A numerically indexed array containing:
+     *
+     *  - group_alias The alias of the permission group this permission belongs to
+     *  - name The name of this permission
+     *  - alias The ACO alias for this permission (i.e. the Class name to apply to)
+     *  - action The action this ACO may control (i.e. the Method name of the alias to control access for)
+     */
+    public function getPermissions()
+    {
+    }{{function:getPermissions}}{{function:getPermissionGroups}}
+
+    /**
+     * Returns all permission groups to be configured for this plugin (invoked after install(), upgrade(),
+     *  and uninstall(), overwrites all existing permission groups)
+     *
+     * @return array A numerically indexed array containing:
+     *
+     *  - name The name of this permission group
+     *  - level The level this permission group resides on (staff or client)
+     *  - alias The ACO alias for this permission group (i.e. the Class name to apply to)
+     */
+    public function getPermissionGroups()
+    {
+    }{{function:getPermissionGroups}}{{function:getClientServiceTabs}}
 
 
     /**

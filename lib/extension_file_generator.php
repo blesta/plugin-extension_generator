@@ -512,8 +512,9 @@ class ExtensionFileGenerator
 
         // Duplicate a view file for each of the values in the defined 'foreach' field
         $return_list = $file_path_list[$this->extension_type];
-        foreach ($return_list as $index => $return_file) {
-            $return_list[$index]['path'] .= '.tpl';
+        $appended_list = [];
+        foreach ($return_list as $index => &$return_file) {
+            $return_file['path'] .= '.tpl';
             if (isset($return_file['foreach'])) {
                 // Search the options for the defined 'foreach' field
                 foreach ($return_file['foreach'] as $field_label => $name_key) {
@@ -525,7 +526,7 @@ class ExtensionFileGenerator
                                 $return_file['name'] = $field[$name_key]
                                     . (isset($return_file['extension']) ? '.' . $return_file['extension'] : '.pdt');
                                 $return_file['page_value'] = $field;
-                                $return_list[] = $return_file;
+                                $appended_list[] = $return_file;
                             }
                         }
                     }
@@ -534,7 +535,7 @@ class ExtensionFileGenerator
             }
         }
 
-        return $return_list;
+        return array_merge($return_list, $appended_list);
     }
 
     /**
