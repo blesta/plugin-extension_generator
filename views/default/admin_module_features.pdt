@@ -63,7 +63,7 @@
                     </thead>
                     <tbody>
                     <?php
-                    $rows = -1;
+                    $rows = 0;
                     if ($this->Html->ifSet($vars['cron_tasks']['name'], false)) {
                         $rows = count($vars['cron_tasks']['name']);
                     }

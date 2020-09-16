@@ -198,7 +198,7 @@ class ExtensionFileGenerator
             }
 
             // Output the parsed contents
-            file_put_contents($extension_directory . DS . $file_path, $content);
+            file_put_contents($extension_directory . DS . str_replace('.tpl', '', $file_path), $content);
         }
 
         // Update the logo with the uploaded image
@@ -235,7 +235,7 @@ class ExtensionFileGenerator
             if (is_array($replacement_value)) {
                 $array_tags[$replacement_tag] = $replacement_value;
             } else {
-                $replacement_tags[$tag_start . $parent_tag . $replacement_tag . $tag_end] = $replacement_value;
+                $replacement_tags[$tag_start . $parent_tag . $replacement_tag . $tag_end] = str_replace('\'', '\\\'', $replacement_value);
             }
 
             unset($replacement_tags[$replacement_tag]);
@@ -464,6 +464,7 @@ class ExtensionFileGenerator
             'merchant' => [
                 ['path' => 'gateway.php', 'name' => $extension_name . '.php'],
                 ['path' => 'language' . DS . 'en_us' . DS . 'gateway.php', 'name' => $extension_name . '.php'],
+                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
                 ['path' => 'views' . DS . 'default' . DS . 'settings.pdt'],
                 [
                     'path' => 'views' . DS . 'default' . DS . 'cc_form.pdt',
@@ -490,6 +491,7 @@ class ExtensionFileGenerator
             'nonmerchant' => [
                 ['path' => 'gateway.php', 'name' => $extension_name . '.php'],
                 ['path' => 'language' . DS . 'en_us' . DS . 'gateway.php', 'name' => $extension_name . '.php'],
+                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
                 ['path' => 'views' . DS . 'default' . DS . 'settings.pdt'],
                 ['path' => 'views' . DS . 'default' . DS . 'process.pdt'],
                 [
@@ -510,7 +512,9 @@ class ExtensionFileGenerator
 
         // Duplicate a view file for each of the values in the defined 'foreach' field
         $return_list = $file_path_list[$this->extension_type];
-        foreach ($return_list as $index => $return_file) {
+        $appended_list = [];
+        foreach ($return_list as $index => &$return_file) {
+            $return_file['path'] .= '.tpl';
             if (isset($return_file['foreach'])) {
                 // Search the options for the defined 'foreach' field
                 foreach ($return_file['foreach'] as $field_label => $name_key) {
@@ -522,7 +526,7 @@ class ExtensionFileGenerator
                                 $return_file['name'] = $field[$name_key]
                                     . (isset($return_file['extension']) ? '.' . $return_file['extension'] : '.pdt');
                                 $return_file['page_value'] = $field;
-                                $return_list[] = $return_file;
+                                $appended_list[] = $return_file;
                             }
                         }
                     }
@@ -531,7 +535,7 @@ class ExtensionFileGenerator
             }
         }
 
-        return $return_list;
+        return array_merge($return_list, $appended_list);
     }
 
     /**
