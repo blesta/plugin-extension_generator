@@ -1,6 +1,6 @@
     <table class="table">
         <tr class="heading_row">
-            <td class="fixed_small center border_none"><i class="fa fa-level-up fa-rotate-90"></i></td>{{array:service_fields}}
+            <td class="fixed_small center border_none"><i class="fas fa-level-up-alt fa-rotate-90"></i></td>{{array:service_fields}}
             <td><?php $this->_('{{class_name}}.service_info.{{service_fields.name}}'); ?></td>{{array:service_fields}}
         </tr>
         <tr>

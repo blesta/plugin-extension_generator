@@ -14,7 +14,7 @@
             </p>
             <div class="button_row">
                 <button class="btn btn-default pull-right">
-                    <i class="fa fa-edit"></i> <?php $this->_('{{class_name}}.{{service_tabs.snake_case_name}}.submit');?>
+                    <i class="fas fa-edit"></i> <?php $this->_('{{class_name}}.{{service_tabs.snake_case_name}}.submit');?>
                 </button>
             </div>
         </div>
