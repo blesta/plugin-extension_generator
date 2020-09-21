@@ -49,7 +49,7 @@ class FormRules {
         return [
             'name' => [
                 'format' => [
-                    'rule' => ['matches', '/^([a-z0-9_\w])+$/'],
+                    'rule' => ['matches', '/^[a-z0-9_\s]+$/i'],
                     'message' => Language::_('FormRules.general.name.format', true)
                 ]
             ],
