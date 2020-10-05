@@ -10,7 +10,7 @@
     "authors": [{{array:authors}}
         {
             "name": "{{authors.name}}",
-            "url": "{{authors.url}}"
+            "homepage": "{{authors.url}}"
         },{{array:authors}}
     ]
 }
