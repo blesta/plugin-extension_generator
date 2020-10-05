@@ -2,7 +2,7 @@
         <table class="table table-curved table-striped">
             <thead>
                 <tr>
-                    <th><i class="fas fa-share fa-flip-vertical"></i></th>{{array:service_fields}}
+                    <th><i class="fa fa-share fa-flip-vertical"></i></th>{{array:service_fields}}
                     <th><?php $this->_('{{class_name}}.service_info.{{service_fields.name}}'); ?></th>{{array:service_fields}}
                 </tr>
             </thead>

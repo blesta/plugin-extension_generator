@@ -26,7 +26,7 @@
             for ($i = 0; $i < $num_rows; $i++) {
                 ?>
             <tr<?php echo ($i % 2 == 1) ? ' class="odd_row"' : ''; ?>>{{array:module_rows}}{{if:module_rows.type:Checkbox}}
-                <td><?php echo $this->Html->ifSet($module->rows[$i]->meta->{{module_rows.name}}) == 'true' ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'; ?></td>{{else:module_rows.type}}
+                <td><?php echo $this->Html->ifSet($module->rows[$i]->meta->{{module_rows.name}}) == 'true' ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>'; ?></td>{{else:module_rows.type}}
                 <td><?php $this->Html->_($module->rows[$i]->meta->{{module_rows.name}}); ?></td>{{if:module_rows.type}}{{array:module_rows}}
                 <td class="last">
                     <a href="<?php echo $this->Html->safe($this->base_uri . 'settings/company/modules/editrow/' . $this->Html->ifSet($module->id) . '/' . $this->Html->ifSet($module->rows[$i]->id) . '/'); ?>"><?php $this->_('{{class_name}}.manage.module_rows.edit'); ?></a>

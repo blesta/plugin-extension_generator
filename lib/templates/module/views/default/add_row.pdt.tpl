@@ -31,7 +31,7 @@
 ////            </div>
 ////            <div class="pad">
 ////                <div class="links_row">
-////                    <a class="btn btn-default pull-right btn-sm ns_row_add" href="#"><i class="fas fa-plus"></i> <span><?php $this->_('{{class_name}}.add_row.name_server_btn'); ?></span></a>
+////                    <a class="btn btn-default pull-right btn-sm ns_row_add" href="#"><i class="fa fa-plus"></i> <span><?php $this->_('{{class_name}}.add_row.name_server_btn'); ?></span></a>
 ////                </div>
 ////                <table class="table">
 ////                    <thead>
