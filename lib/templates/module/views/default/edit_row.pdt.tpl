@@ -30,7 +30,7 @@
 ////            </div>
 ////            <div class="pad">
 ////                <div class="links_row">
-////                    <a class="btn btn-default pull-right btn-sm ns_row_add" href="#"><i class="fa fa-plus"></i> <span><?php $this->_('{{class_name}}.edit_row.name_server_btn'); ?></span></a>
+////                    <a class="btn btn-default pull-right btn-sm ns_row_add" href="#"><i class="fas fa-plus"></i> <span><?php $this->_('{{class_name}}.edit_row.name_server_btn'); ?></span></a>
 ////                </div>
 ////                <table class="table">
 ////                    <thead>
@@ -65,7 +65,7 @@
 ////--><?php
 ////
 ////// Modules also occasionally include a notes field to give more details on the module row (server info and such).
-////// Visit the {{snake_case_name}}.php language file touncomment the language definition for this field
+////// Visit the {{snake_case_name}}.php language file to uncomment the language definition for this field
 ////?><!--
 ////            <div class="title_row">
 ////                <h3><?php $this->_('{{class_name}}.edit_row.notes_title'); ?></h3>

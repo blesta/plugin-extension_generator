@@ -10,7 +10,7 @@
 ////        ];
 ////        $link_buttons = [
 ////            [
-////                'icon' => 'fa fa-plus',
+////                'icon' => 'fas fa-plus',
 ////                'name' => '',
 ////                'attributes' => [
 ////                    'title' => $this->_('{{actions.controller_class}}.{{actions.action}}.categorylink_createticket', true),
@@ -36,7 +36,7 @@
             </p>
             <div class="button_row">
                 <button class="btn btn-default pull-right">
-                    <i class="fa fa-edit"></i> <?php $this->_('{{actions.controller_class}}.{{actions.action}}.submit');?>
+                    <i class="fas fa-edit"></i> <?php $this->_('{{actions.controller_class}}.{{actions.action}}.submit');?>
                 </button>
             </div>
         </div>
