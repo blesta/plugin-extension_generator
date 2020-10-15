@@ -580,6 +580,7 @@ class ExtensionFileGenerator
                 'getAdminServiceTabs' => 'service_tabs',
                 'getClientServiceTabs' => 'service_tabs',
                 'installTables' => 'tables',
+                'code_examples' => 'code_examples', // Set this fake optional function to exclude certain files
             ],
             'merchant' => [],
             'nonmerchant' => [],

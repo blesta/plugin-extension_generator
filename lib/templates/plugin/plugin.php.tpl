@@ -246,7 +246,7 @@ class {{class_name}}Plugin extends Plugin
             [
                 'action' => '{{actions.location}}',
                 'uri' => 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/',
-                'name' => '{{class_name}}Plugin.{{actions.location}}.main',
+                'name' => '{{class_name}}Plugin.{{actions.location}}.{{actions.action}}',
             ],{{array:actions}}
         ];
     }{{function:getActions}}{{function:getEvents}}
