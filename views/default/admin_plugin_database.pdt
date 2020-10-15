@@ -172,7 +172,7 @@
 
         $('#database_tables').on('click', '.primary_key', function() {
             // Make sure only one primary key is checked
-            $(this).closest('tbody').find('.primary_key').removeProp('checked');
+            $(this).closest('tbody').find('.primary_key').prop('checked', false);
             $(this).prop('checked', 'checked');
         });
 
@@ -185,7 +185,7 @@
             if ($(this).val() == 'DATETIME' || $(this).val() == 'TEXT') {
                 $(this).closest('tr').find('.length').prop('disabled', 'disabled');
             } else {
-                $(this).closest('tr').find('.length').removeProp('disabled');
+                $(this).closest('tr').find('.length').prop('disabled', false);
             }
         });
 

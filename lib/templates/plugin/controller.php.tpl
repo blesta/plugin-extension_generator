@@ -11,9 +11,15 @@ class {{class_name}}Controller extends AppController
      */
     public function preAction()
     {
-////    // This statement tells the controller to look in the core view directory instead of the plugin view directory
+////    // This statement tells the controller to look in the core view
+////    // directory instead of the plugin view directory for structure files
         $this->structure->setDefaultView(APPDIR);
         parent::preAction();
+
+////    // These statements tell the controller to look again the plugin
+////    // view directory
+        // Override default view directory
+        $this->view->view = "default";
 
         $this->requireLogin();
 
@@ -28,15 +34,5 @@ class {{class_name}}Controller extends AppController
             null,
             dirname(__FILE__) . DS . 'language' . DS
         );
-
-////    // These statements tell the controller to look again the plugin view directory
-        // Override default view directory
-        $this->view->view = "default";
-        $this->orig_structure_view = $this->structure->view;
-        $this->structure->view = "default";
-
-        // Restore structure view location of the admin portal
-        $this->structure->setDefaultView(APPDIR);
-        $this->structure->setView(null, $this->orig_structure_view);
     }
 }
