@@ -81,6 +81,8 @@ $lang['AdminPlugin.database.integrations'] = 'Next - Core Integrations';
 
 
 // Core integration page
+$lang['AdminPlugin.integrations.heading_integrations'] = 'Core Integrations';
+
 $lang['AdminPlugin.integrations.action_row_add'] = 'Add Action';
 $lang['AdminPlugin.integrations.event_row_add'] = 'Add Event Handler';
 $lang['AdminPlugin.integrations.card_row_add'] = 'Add Client Card';
