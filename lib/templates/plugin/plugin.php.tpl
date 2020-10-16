@@ -35,8 +35,8 @@ class {{class_name}}Plugin extends Plugin
                 ->setField(
                     '{{tables.columns.name}}',
                     [
-                        'type' => '{{tables.columns.type}}',{{if:tables.columns.type:DATETIME}}{{else:tables.columns.type}}
-                        'size' => "{{tables.columns.length}}",{{if:tables.columns.type}}{{if:tables.columns.type:INT}}
+                        'type' => '{{tables.columns.type}}',{{if:tables.columns.length:}}{{else:tables.columns.length}}
+                        'size' => "{{tables.columns.length}}",{{if:tables.columns.length}}{{if:tables.columns.type:INT}}
                         'unsigned' => true,{{if:tables.columns.primary:true}}
                         'auto_increment' => true,{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{else:tables.columns.type}}{{if:tables.columns.type}}{{if:tables.columns.nullable:true}}
                         'is_null' => true,{{else:tables.columns.nullable}}{{if:tables.columns.nullable}}{{if:tables.columns.default:}}{{if:tables.columns.nullable:true}}
@@ -246,7 +246,7 @@ class {{class_name}}Plugin extends Plugin
             [
                 'action' => '{{actions.location}}',
                 'uri' => 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/',
-                'name' => '{{class_name}}Plugin.{{actions.location}}.main',
+                'name' => '{{class_name}}Plugin.{{actions.location}}.{{actions.action}}',
             ],{{array:actions}}
         ];
     }{{function:getActions}}{{function:getEvents}}

@@ -17,7 +17,7 @@ $lang['{{class_name}}Plugin.getCronTasks.{{cron_tasks.name}}'] = '{{cron_tasks.l
 $lang['{{class_name}}Plugin.getCronTasks.{{cron_tasks.name}}_description'] = '{{cron_tasks.description}}';{{array:cron_tasks}}{{function:getCronTasks}}{{function:getActions}}
 
 // Plugin Actions{{array:actions}}
-$lang['{{class_name}}Plugin.{{actions.location}}.main'] = '{{actions.name}}';{{array:actions}}{{function:getActions}}{{function:getCards}}
+$lang['{{class_name}}Plugin.{{actions.location}}.{{actions.action}}'] = '{{actions.name}}';{{array:actions}}{{function:getActions}}{{function:getCards}}
 
 // Plugin Cards{{array:cards}}
 $lang['{{class_name}}Plugin.card_{{cards.level}}.{{cards.callback}}'] = '{{cards.label}}';{{array:cards}}{{function:getCards}}

@@ -75,7 +75,7 @@
                                     <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][length]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['length']), array_merge(['class' => 'stretch length', 'placeholder' => $this->_('AdminPlugin.database.placeholder_length', true)], in_array($type, $no_length_types) ? ['disabled' => 'disabled'] : $disabled));?></td>
                                     <td><?php $this->Form->fieldTextarea('tables[' . $i . '][columns][c' . $j . '][default]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['default']), array_merge(['class' => 'stretch'], $disabled));?></td>
                                     <td><?php $this->Form->fieldCheckbox('tables[' . $i . '][columns][c' . $j . '][nullable]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['nullable'], 'true') == 'true', $disabled);?></td>
-                                    <td><?php $this->Form->fieldRadio('tables[' . $i . '][columns][c' . $j . '][primary]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['primary'], 'true') == 'true', array_merge(['class' => 'primary_key'], $disabled));?></td>
+                                    <td><?php $this->Form->fieldRadio('tables[' . $i . '][columns][c' . $j . '][primary]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['primary'], 'true') == 'true', array_merge(['class' => 'primary_key'], in_array($type, $no_length_types) ? ['disabled' => 'disabled'] : $disabled));?></td>
                                     <td><a href="#" class="manage column_row_remove"><?php $this->_('AdminPlugin.database.text_remove');?></a></td>
                                 </tr>
                             <?php
@@ -172,7 +172,7 @@
 
         $('#database_tables').on('click', '.primary_key', function() {
             // Make sure only one primary key is checked
-            $(this).closest('tbody').find('.primary_key').removeProp('checked');
+            $(this).closest('tbody').find('.primary_key').prop('checked', false);
             $(this).prop('checked', 'checked');
         });
 
@@ -184,8 +184,10 @@
 
             if ($(this).val() == 'DATETIME' || $(this).val() == 'TEXT') {
                 $(this).closest('tr').find('.length').prop('disabled', 'disabled');
+                $(this).closest('tr').find('.primary_key').prop('disabled', 'disabled');
             } else {
-                $(this).closest('tr').find('.length').removeProp('disabled');
+                $(this).closest('tr').find('.length').prop('disabled', false);
+                $(this).closest('tr').find('.primary_key').prop('disabled', false);
             }
         });
 
