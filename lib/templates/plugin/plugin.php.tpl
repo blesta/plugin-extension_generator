@@ -1,4 +1,6 @@
 <?php
+use Blesta\Core\Util\Events\Common\EventInterface;
+
 /**
  * {{name}} plugin handler
  *{{array:authors}}
@@ -439,7 +441,7 @@ class {{class_name}}Plugin extends Plugin
      *
      * @param EventInterface $event The event to process
      */
-    public function {{events.callback}}($event)
+    public function {{events.callback}}(EventInterface $event)
     {
         $params = $event->getParams();
         $return = $event->getReturnValue();
