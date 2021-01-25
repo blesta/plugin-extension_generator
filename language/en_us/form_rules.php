@@ -53,7 +53,7 @@ $lang['FormRules.plugindatabase.tables[][columns][][primary].valid'] = 'Primary 
 
 
 // Plugin Integrations
-$lang['FormRules.pluginintegrations.actions[][location].valid'] = '';
+$lang['FormRules.pluginintegrations.actions[][location].valid'] = 'Please enter a valid action location.';
 $lang['FormRules.pluginintegrations.actions[][controller].format'] = 'Please enter a controller for each action in the format snake_case_name.';
 $lang['FormRules.pluginintegrations.actions[][action].format'] = 'Please enter an action for each action in all lower-case letters.';
 $lang['FormRules.pluginintegrations.actions[][name].empty'] = 'Please enter a name for each action.';
