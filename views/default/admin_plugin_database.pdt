@@ -1,11 +1,11 @@
         <?php
-        echo $this->Html->ifSet($message);
+        echo (isset($message) ? $message : null);
 
         $this->Widget->clear();
         $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
         $this->Widget->create($this->_('AdminPlugin.index.boxtitle_extension_generator', true), ['id' => 'admin_plugin_database']);
 
-        echo $this->Html->ifSet($progress_bar);
+        echo (isset($progress_bar) ? $progress_bar : null);
 
         $this->Form->create(null, ['id' => 'plugindatabase', 'enctype' => 'multipart/form-data']);
         ?>
@@ -21,7 +21,7 @@
                     </div>
                     <?php
                     $tables = 0;
-                    if ($this->Html->ifSet($vars['tables'], false)) {
+                    if ((isset($vars['tables']) ? $vars['tables'] : false)) {
                         $tables = count($vars['tables']);
                     }
                     for ($i = -1; $i < $tables; $i++) {
@@ -39,7 +39,7 @@
                                     </li>
                                     <li>
                                         <?php
-                                        $this->Form->fieldText('tables[' . $i . '][name]', $this->Html->ifSet($vars['tables'][$i]['name']), array_merge(['id' => 'tables[' . $i . '][name]', 'placeholder' => $this->_('AdminPlugin.database.placeholder_table_name', true)], $disabled));
+                                        $this->Form->fieldText('tables[' . $i . '][name]', (isset($vars['tables'][$i]['name']) ? $vars['tables'][$i]['name'] : null), array_merge(['id' => 'tables[' . $i . '][name]', 'placeholder' => $this->_('AdminPlugin.database.placeholder_table_name', true)], $disabled));
                                         ?>
                                         <a href="#" class="btn btn-danger pull-right btn-sm table_row_remove" ><?php $this->_('AdminPlugin.database.text_remove');?></a>
                                         <a href="#" class="btn btn-default pull-right btn-sm column_row_add" ><?php $this->_('AdminPlugin.database.column_row_add');?></a>
@@ -62,20 +62,20 @@
                             <tbody>
                             <?php
                             $columns = 1;
-                            if ($this->Html->ifSet($vars['tables'][$i]['columns'], false)) {
+                            if ((isset($vars['tables'][$i]['columns']) ? $vars['tables'][$i]['columns'] : false)) {
                                 $columns = count($vars['tables'][$i]['columns']);
                             }
                             for ($j = 0; $j < $columns; $j++) {
-                                $type = $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['type']);
+                                $type = (isset($vars['tables'][$i]['columns'][$j]['type']) ? $vars['tables'][$i]['columns'][$j]['type'] : null);
                                 $no_length_types = ['DATETIME', 'TEXT'];
                             ?>
                                 <tr class="column_row" data-column="<?php echo $j;?>">
-                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][name]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['name']), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.database.placeholder_column_name', true)], $disabled));?></td>
-                                    <td><?php $this->Form->fieldSelect('tables[' . $i . '][columns][c' . $j . '][type]', $this->Html->ifSet($column_types, []), $type, array_merge(['class' => 'type'], $disabled));?></td>
-                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][length]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['length']), array_merge(['class' => 'stretch length', 'placeholder' => $this->_('AdminPlugin.database.placeholder_length', true)], in_array($type, $no_length_types) ? ['disabled' => 'disabled'] : $disabled));?></td>
-                                    <td><?php $this->Form->fieldTextarea('tables[' . $i . '][columns][c' . $j . '][default]', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['default']), array_merge(['class' => 'stretch'], $disabled));?></td>
-                                    <td><?php $this->Form->fieldCheckbox('tables[' . $i . '][columns][c' . $j . '][nullable]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['nullable'], 'true') == 'true', $disabled);?></td>
-                                    <td><?php $this->Form->fieldRadio('tables[' . $i . '][columns][c' . $j . '][primary]', 'true', $this->Html->ifSet($vars['tables'][$i]['columns'][$j]['primary'], 'true') == 'true', array_merge(['class' => 'primary_key'], in_array($type, $no_length_types) ? ['disabled' => 'disabled'] : $disabled));?></td>
+                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][name]', (isset($vars['tables'][$i]['columns'][$j]['name']) ? $vars['tables'][$i]['columns'][$j]['name'] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.database.placeholder_column_name', true)], $disabled));?></td>
+                                    <td><?php $this->Form->fieldSelect('tables[' . $i . '][columns][c' . $j . '][type]', (isset($column_types) ? $column_types : []), $type, array_merge(['class' => 'type'], $disabled));?></td>
+                                    <td><?php $this->Form->fieldText('tables[' . $i . '][columns][c' . $j . '][length]', (isset($vars['tables'][$i]['columns'][$j]['length']) ? $vars['tables'][$i]['columns'][$j]['length'] : null), array_merge(['class' => 'stretch length', 'placeholder' => $this->_('AdminPlugin.database.placeholder_length', true)], in_array($type, $no_length_types) ? ['disabled' => 'disabled'] : $disabled));?></td>
+                                    <td><?php $this->Form->fieldTextarea('tables[' . $i . '][columns][c' . $j . '][default]', (isset($vars['tables'][$i]['columns'][$j]['default']) ? $vars['tables'][$i]['columns'][$j]['default'] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
+                                    <td><?php $this->Form->fieldCheckbox('tables[' . $i . '][columns][c' . $j . '][nullable]', 'true', (isset($vars['tables'][$i]['columns'][$j]['nullable']) ? $vars['tables'][$i]['columns'][$j]['nullable'] : 'true') == 'true', $disabled);?></td>
+                                    <td><?php $this->Form->fieldRadio('tables[' . $i . '][columns][c' . $j . '][primary]', 'true', (isset($vars['tables'][$i]['columns'][$j]['primary']) ? $vars['tables'][$i]['columns'][$j]['primary'] : 'true') == 'true', array_merge(['class' => 'primary_key'], in_array($type, $no_length_types) ? ['disabled' => 'disabled'] : $disabled));?></td>
                                     <td><a href="#" class="manage column_row_remove"><?php $this->_('AdminPlugin.database.text_remove');?></a></td>
                                 </tr>
                             <?php

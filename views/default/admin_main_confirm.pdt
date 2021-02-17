@@ -1,11 +1,11 @@
         <?php
-        echo $this->Html->ifSet($message);
+        echo (isset($message) ? $message : null);
 
         $this->Widget->clear();
         $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
         $this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
 
-        echo $this->Html->ifSet($progress_bar);
+        echo (isset($progress_bar) ? $progress_bar : null);
 
         $this->Form->create();
         ?>
@@ -20,13 +20,13 @@
                         ?>
                         <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.confirm.tooltip_location');?></div></span>
                         <?php
-                        $this->Form->fieldSelect('location', $this->Html->ifSet($locations, []), $this->Html->ifSet($vars->location), ['class' => 'block', 'id' => 'location']);
+                        $this->Form->fieldSelect('location', (isset($locations) ? $locations : []), (isset($vars->location) ? $vars->location : null), ['class' => 'block', 'id' => 'location']);
                         ?>
                     </li>
                     <li id="custom_path" style="display:none;">
                         <?php
                         $this->Form->label($this->_('AdminMain.confirm.custom_path', true), 'custom_path');
-                        $this->Form->fieldText('custom_path', $this->Html->ifSet($vars->custom_path), ['id' => 'custom_path', 'placeholder' => COMPONENTDIR]);
+                        $this->Form->fieldText('custom_path', (isset($vars->custom_path) ? $vars->custom_path : null), ['id' => 'custom_path', 'placeholder' => COMPONENTDIR]);
                         ?>
                     </li>
                 </ul>

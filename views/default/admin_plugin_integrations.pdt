@@ -1,11 +1,11 @@
         <?php
-        echo $this->Html->ifSet($message);
+        echo (isset($message) ? $message : null);
 
         $this->Widget->clear();
         $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
         $this->Widget->create($this->_('AdminPlugin.index.boxtitle_extension_generator', true), ['id' => 'admin_plugin_integrations']);
 
-        echo $this->Html->ifSet($progress_bar);
+        echo (isset($progress_bar) ? $progress_bar : null);
 
         $this->Form->create();
         ?>
@@ -31,17 +31,17 @@
                     <tbody>
                     <?php
                     $rows = 0;
-                    if ($this->Html->ifSet($vars['actions']['name'], false)) {
+                    if ((isset($vars['actions']['name']) ? $vars['actions']['name'] : false)) {
                         $rows = count($vars['actions']['name']);
                     }
                     for ($i = -1; $i < $rows; $i++) {
                         $disabled = ($i >= 0 ? [] : ['disabled' => 'disabled']);
                     ?>
                         <tr class="action_row"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?>>
-                            <td><?php $this->Form->fieldSelect('actions[location][]', $this->Html->ifSet($action_locations), $this->Html->ifSet($vars['actions']['location'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('actions[controller][]', $this->Html->ifSet($vars['actions']['controller'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_controller', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('actions[action][]', $this->Html->ifSet($vars['actions']['action'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_action', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('actions[name][]', $this->Html->ifSet($vars['actions']['name'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_name', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldSelect('actions[location][]', (isset($action_locations) ? $action_locations : null), (isset($vars['actions']['location'][$i]) ? $vars['actions']['location'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('actions[controller][]', (isset($vars['actions']['controller'][$i]) ? $vars['actions']['controller'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_controller', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('actions[action][]', (isset($vars['actions']['action'][$i]) ? $vars['actions']['action'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_action', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('actions[name][]', (isset($vars['actions']['name'][$i]) ? $vars['actions']['name'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_name', true)], $disabled));?></td>
                             <td><a href="#" class="manage action_row_remove"><?php $this->_('AdminPlugin.integrations.text_remove');?></a></td>
                         </tr>
                     <?php
@@ -69,15 +69,15 @@
                     <tbody>
                     <?php
                     $rows = 0;
-                    if ($this->Html->ifSet($vars['events']['event'], false)) {
+                    if ((isset($vars['events']['event']) ? $vars['events']['event'] : false)) {
                         $rows = count($vars['events']['event']);
                     }
                     for ($i = -1; $i < $rows; $i++) {
                         $disabled = ($i >= 0 ? [] : ['disabled' => 'disabled']);
                     ?>
                         <tr class="event_row"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?>>
-                            <td><?php $this->Form->fieldText('events[event][]', $this->Html->ifSet($vars['events']['event'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_event', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('events[callback][]', $this->Html->ifSet($vars['events']['callback'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_event_callback', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('events[event][]', (isset($vars['events']['event'][$i]) ? $vars['events']['event'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_event', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('events[callback][]', (isset($vars['events']['callback'][$i]) ? $vars['events']['callback'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_event_callback', true)], $disabled));?></td>
                             <td><a href="#" class="manage event_row_remove"><?php $this->_('AdminPlugin.integrations.text_remove');?></a></td>
                         </tr>
                     <?php
@@ -107,17 +107,17 @@
                     <tbody>
                     <?php
                     $rows = 0;
-                    if ($this->Html->ifSet($vars['cards']['level'], false)) {
+                    if ((isset($vars['cards']['level']) ? $vars['cards']['level'] : false)) {
                         $rows = count($vars['cards']['level']);
                     }
                     for ($i = -1; $i < $rows; $i++) {
                         $disabled = ($i >= 0 ? [] : ['disabled' => 'disabled']);
                     ?>
                         <tr class="card_row"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?>>
-                            <td><?php $this->Form->fieldSelect('cards[level][]', $this->Html->ifSet($card_levels), $this->Html->ifSet($vars['cards']['level'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('cards[callback][]', $this->Html->ifSet($vars['cards']['callback'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_card_callback', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('cards[label][]', $this->Html->ifSet($vars['cards']['label'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_label', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('cards[link][]', $this->Html->ifSet($vars['cards']['link'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_link', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldSelect('cards[level][]', (isset($card_levels) ? $card_levels : null), (isset($vars['cards']['level'][$i]) ? $vars['cards']['level'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('cards[callback][]', (isset($vars['cards']['callback'][$i]) ? $vars['cards']['callback'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_card_callback', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('cards[label][]', (isset($vars['cards']['label'][$i]) ? $vars['cards']['label'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_label', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('cards[link][]', (isset($vars['cards']['link'][$i]) ? $vars['cards']['link'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminPlugin.integrations.placeholder_link', true)], $disabled));?></td>
                             <td><a href="#" class="manage card_row_remove"><?php $this->_('AdminPlugin.integrations.text_remove');?></a></td>
                         </tr>
                     <?php

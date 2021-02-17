@@ -1,11 +1,11 @@
         <?php
-        echo $this->Html->ifSet($message);
+        echo (isset($message) ? $message : null);
 
         $this->Widget->clear();
         $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
         $this->Widget->create($this->_('AdminModule.index.boxtitle_extension_generator', true), ['id' => 'admin_module_fields']);
 
-        echo $this->Html->ifSet($progress_bar);
+        echo (isset($progress_bar) ? $progress_bar : null);
 
         $this->Form->create();
         ?>
@@ -29,20 +29,20 @@
                     <tbody>
                     <?php
                     $rows = 1;
-                    if ($this->Html->ifSet($vars['module_rows']['name'], false)) {
+                    if ((isset($vars['module_rows']['name']) ? $vars['module_rows']['name'] : false)) {
                         $rows = count($vars['module_rows']['name']);
                     }
                     for ($i = -1; $i < $rows; $i++) {
                         $disabled = ($i >= 0 ? [] : ['disabled' => 'disabled']);
                     ?>
                         <tr class="module_row"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?>>
-                            <td><?php $this->Form->fieldText('module_rows[name][]', $this->Html->ifSet($vars['module_rows']['name'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_module_name', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('module_rows[label][]', $this->Html->ifSet($vars['module_rows']['label'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_module_label', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldSelect('module_rows[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['module_rows']['type'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
-                            <td><?php $this->Form->fieldTextarea('module_rows[tooltip][]', $this->Html->ifSet($vars['module_rows']['tooltip'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('module_rows[name][]', (isset($vars['module_rows']['name'][$i]) ? $vars['module_rows']['name'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_module_name', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('module_rows[label][]', (isset($vars['module_rows']['label'][$i]) ? $vars['module_rows']['label'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_module_label', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldSelect('module_rows[type][]', (isset($field_types) ? $field_types : null), (isset($vars['module_rows']['type'][$i]) ? $vars['module_rows']['type'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
+                            <td><?php $this->Form->fieldTextarea('module_rows[tooltip][]', (isset($vars['module_rows']['tooltip'][$i]) ? $vars['module_rows']['tooltip'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
                             <td>
-                                <?php $this->Form->fieldHidden('module_rows[name_key][]', $this->Html->ifSet($vars['module_rows']['name_key'][$i], 'true'), array_merge(['class' => 'module_name_key'], $disabled));?>
-                                <?php $this->Form->fieldRadio('module_rows_name_key_placeholder', 'true', $this->Html->ifSet($vars['module_rows']['name_key'][$i], 'true') == 'true', array_merge(['class' => 'module_name_key_radio'], $disabled));?>
+                                <?php $this->Form->fieldHidden('module_rows[name_key][]', (isset($vars['module_rows']['name_key'][$i]) ? $vars['module_rows']['name_key'][$i] : 'true'), array_merge(['class' => 'module_name_key'], $disabled));?>
+                                <?php $this->Form->fieldRadio('module_rows_name_key_placeholder', 'true', (isset($vars['module_rows']['name_key'][$i]) ? $vars['module_rows']['name_key'][$i] : 'true') == 'true', array_merge(['class' => 'module_name_key_radio'], $disabled));?>
                             </td>
                             <td><a href="#" class="manage module_row_remove"><?php $this->_('AdminModule.fields.text_remove');?></a></td>
                         </tr>
@@ -71,20 +71,20 @@
                     <tbody>
                     <?php
                     $rows = 0;
-                    if ($this->Html->ifSet($vars['package_fields']['name'], false)) {
+                    if ((isset($vars['package_fields']['name']) ? $vars['package_fields']['name'] : false)) {
                         $rows = count($vars['package_fields']['name']);
                     }
                     for ($i = -1; $i < $rows; $i++) {
                         $disabled = ($i >= 0 ? [] : ['disabled' => 'disabled']);
                     ?>
                         <tr class="package_row"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?>>
-                            <td><?php $this->Form->fieldText('package_fields[name][]', $this->Html->ifSet($vars['package_fields']['name'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_package_name', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('package_fields[label][]', $this->Html->ifSet($vars['package_fields']['label'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_package_label', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldSelect('package_fields[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['package_fields']['type'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
-                            <td><?php $this->Form->fieldTextarea('package_fields[tooltip][]', $this->Html->ifSet($vars['package_fields']['tooltip'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('package_fields[name][]', (isset($vars['package_fields']['name'][$i]) ? $vars['package_fields']['name'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_package_name', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('package_fields[label][]', (isset($vars['package_fields']['label'][$i]) ? $vars['package_fields']['label'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_package_label', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldSelect('package_fields[type][]', (isset($field_types) ? $field_types : null), (isset($vars['package_fields']['type'][$i]) ? $vars['package_fields']['type'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
+                            <td><?php $this->Form->fieldTextarea('package_fields[tooltip][]', (isset($vars['package_fields']['tooltip'][$i]) ? $vars['package_fields']['tooltip'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
                             <td>
-                                <?php $this->Form->fieldHidden('package_fields[name_key][]',  $this->Html->ifSet($vars['package_fields']['name_key'][$i], 'true'), array_merge(['class' => 'package_name_key'], $disabled));?>
-                                <?php $this->Form->fieldRadio('package_fields_name_key_placeholder', 'true', $this->Html->ifSet($vars['package_fields']['name_key'][$i], 'true') == 'true', array_merge(['class' => 'package_name_key_radio'], $disabled));?>
+                                <?php $this->Form->fieldHidden('package_fields[name_key][]',  (isset($vars['package_fields']['name_key'][$i]) ? $vars['package_fields']['name_key'][$i] : 'true'), array_merge(['class' => 'package_name_key'], $disabled));?>
+                                <?php $this->Form->fieldRadio('package_fields_name_key_placeholder', 'true', (isset($vars['package_fields']['name_key'][$i]) ? $vars['package_fields']['name_key'][$i] : 'true') == 'true', array_merge(['class' => 'package_name_key_radio'], $disabled));?>
                             </td>
                             <td><a href="#" class="manage package_row_remove"><?php $this->_('AdminModule.fields.text_remove');?></a></td>
                         </tr>
@@ -113,20 +113,20 @@
                     <tbody>
                     <?php
                     $rows = 0;
-                    if ($this->Html->ifSet($vars['service_fields']['name'], false)) {
+                    if ((isset($vars['service_fields']['name']) ? $vars['service_fields']['name'] : false)) {
                         $rows = count($vars['service_fields']['name']);
                     }
                     for ($i = -1; $i < $rows; $i++) {
                         $disabled = ($i >= 0 ? [] : ['disabled' => 'disabled']);
                     ?>
                         <tr class="service_row"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?>>
-                            <td><?php $this->Form->fieldText('service_fields[name][]', $this->Html->ifSet($vars['service_fields']['name'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_service_name', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('service_fields[label][]', $this->Html->ifSet($vars['service_fields']['label'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_service_label', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldSelect('service_fields[type][]', $this->Html->ifSet($field_types), $this->Html->ifSet($vars['service_fields']['type'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
-                            <td><?php $this->Form->fieldTextarea('service_fields[tooltip][]', $this->Html->ifSet($vars['service_fields']['tooltip'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('service_fields[name][]', (isset($vars['service_fields']['name'][$i]) ? $vars['service_fields']['name'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_service_name', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('service_fields[label][]', (isset($vars['service_fields']['label'][$i]) ? $vars['service_fields']['label'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.fields.placeholder_service_label', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldSelect('service_fields[type][]', (isset($field_types) ? $field_types : null), (isset($vars['service_fields']['type'][$i]) ? $vars['service_fields']['type'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
+                            <td><?php $this->Form->fieldTextarea('service_fields[tooltip][]', (isset($vars['service_fields']['tooltip'][$i]) ? $vars['service_fields']['tooltip'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
                             <td>
-                                <?php $this->Form->fieldHidden('service_fields[name_key][]', $this->Html->ifSet($vars['service_fields']['name_key'][$i], 'true'), array_merge(['class' => 'service_name_key'], $disabled));?>
-                                <?php $this->Form->fieldRadio('service_fields_name_key_placeholder', 'true', $this->Html->ifSet($vars['service_fields']['name_key'][$i], 'true') == 'true', array_merge(['class' => 'service_name_key_radio'], $disabled));?>
+                                <?php $this->Form->fieldHidden('service_fields[name_key][]', (isset($vars['service_fields']['name_key'][$i]) ? $vars['service_fields']['name_key'][$i] : 'true'), array_merge(['class' => 'service_name_key'], $disabled));?>
+                                <?php $this->Form->fieldRadio('service_fields_name_key_placeholder', 'true', (isset($vars['service_fields']['name_key'][$i]) ? $vars['service_fields']['name_key'][$i] : 'true') == 'true', array_merge(['class' => 'service_name_key_radio'], $disabled));?>
                             </td>
                             <td><a href="#" class="manage service_row_remove"><?php $this->_('AdminModule.fields.text_remove');?></a></td>
                         </tr>

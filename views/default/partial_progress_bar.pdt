@@ -1,5 +1,5 @@
         <?php
-        $node_count = count($this->Html->ifSet($nodes, []));
+        $node_count = count((isset($nodes) ? $nodes : []));
         $step = 0;
         ?>
         <div class="node-progress-container">
