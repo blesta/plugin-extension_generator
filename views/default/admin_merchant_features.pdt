@@ -23,7 +23,7 @@
 
                     if (!empty($feature_settings['tooltip'])) {
                     ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->Html->_($feature_settings['tooltip']);?></div></span>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php (echo isset($feature_settings['tooltip']) ? $this->Html->safe($feature_settings['tooltip']) : null);?></div></span>
                     <?php
                     }
                     ?>
