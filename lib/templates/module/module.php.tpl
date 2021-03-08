@@ -583,7 +583,7 @@ class {{class_name}} extends Module
             $fields->field{{package_fields.type}}(
                 '{{package_fields.name}}',{{if:package_fields.type:Checkbox}}
                 'true',{{else:package_fields.type}}{{if:package_fields.type}}
-                $this->Html->ifSet($vars->{{package_fields.name}}){{if:package_fields.type:Checkbox}} == 'true'{{else:package_fields.type}}{{if:package_fields.type}},
+                (isset($vars->{{package_fields.name}}) ? $vars->{{package_fields.name}} : null){{if:package_fields.type:Checkbox}} == 'true'{{else:package_fields.type}}{{if:package_fields.type}},
                 ['id' => '{{snake_case_name}}_{{package_fields.name}}']
             )
         );{{if:package_fields.tooltip:}}{{else:package_fields.tooltip}}
@@ -1246,7 +1246,7 @@ class {{class_name}} extends Module
             $fields->field{{service_fields.type}}(
                 '{{service_fields.name}}',{{if:service_fields.type:Checkbox}}
                 'true',{{else:service_fields.type}}{{if:service_fields.type}}
-                $this->Html->ifSet($vars->{{service_fields.name}}){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
+                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
                 ['id' => '{{snake_case_name}}_{{service_fields.name}}']
             )
         );{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}
@@ -1278,7 +1278,7 @@ class {{class_name}} extends Module
             $fields->field{{service_fields.type}}(
                 '{{service_fields.name}}',{{if:service_fields.type:Checkbox}}
                 'true',{{else:service_fields.type}}{{if:service_fields.type}}
-                $this->Html->ifSet($vars->{{service_fields.name}}){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
+                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
                 ['id' => '{{snake_case_name}}_{{service_fields.name}}']
             )
         );{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}
@@ -1310,7 +1310,7 @@ class {{class_name}} extends Module
             $fields->field{{service_fields.type}}(
                 '{{service_fields.name}}',{{if:service_fields.type:Checkbox}}
                 'true',{{else:service_fields.type}}{{if:service_fields.type}}
-                $this->Html->ifSet($vars->{{service_fields.name}}){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
+                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
                 ['id' => '{{snake_case_name}}_{{service_fields.name}}']
             )
         );{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}
@@ -1342,7 +1342,7 @@ class {{class_name}} extends Module
             $fields->field{{service_fields.type}}(
                 '{{service_fields.name}}',{{if:service_fields.type:Checkbox}}
                 'true',{{else:service_fields.type}}{{if:service_fields.type}}
-                $this->Html->ifSet($vars->{{service_fields.name}}){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
+                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
                 ['id' => '{{snake_case_name}}_{{service_fields.name}}']
             )
         );{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}

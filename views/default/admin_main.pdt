@@ -29,8 +29,8 @@
                     foreach ($extensions as $extension) {
                     ?>
                     <tr<?php echo ($i++%2 == 1) ? ' class="odd_row"' : '';?>>
-                        <td><?php (echo isset($extension->id) ? $this->Html->safe($extension->id) : null);?></td>
-                        <td><?php (echo isset($extension->name) ? $this->Html->safe($extension->name) : null);?></td>
+                        <td><?php echo (isset($extension->id) ? $this->Html->safe($extension->id) : null);?></td>
+                        <td><?php echo (isset($extension->name) ? $this->Html->safe($extension->name) : null);?></td>
                         <td><?php echo $this->Html->safe((isset($types[$extension->type]) ? $types[$extension->type] : null));?></td>
                         <td><?php echo $this->Html->safe((isset($form_types[$extension->form_type]) ? $form_types[$extension->form_type] : null));?></td>
                         <td><?php echo (isset($extension->code_examples) ? $extension->code_examples : null) == 1 ? '<i class="fas fa-check">' : '<i class="fas fa-times">';?></td>

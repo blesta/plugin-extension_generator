@@ -1,12 +1,12 @@
 {{array:actions}}        <?php
-        echo $this->Html->ifSet($message);
+        echo (isset($message) ? $message : null);
 
 ////        For a live example of a widget like this see plugins/support_manager/views/default/admin_tickets.pdt
 ////
 ////
 ////
 ////        $links = [
-////            ['name' => $this->_('{{actions.controller_class}}.{{actions.action}}.category_active', true) . ' <span>(' . $this->Html->_($status_count['active'], true) . ')</span>', 'current' => ($this->Html->ifSet($status) == 'active' ? true : false), 'attributes' => ['href' => $this->base_uri . 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/active/', 'class' => 'ajax']],
+////            ['name' => $this->_('{{actions.controller_class}}.{{actions.action}}.category_active', true) . ' <span>(' . (isset($status_count['active']) ? $this->Html->safe($status_count['active'], true) : null) . ')</span>', 'current' => ((isset($status) ? $status : null) == 'active' ? true : false), 'attributes' => ['href' => $this->base_uri . 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/active/', 'class' => 'ajax']],
 ////        ];
 ////        $link_buttons = [
 ////            [
@@ -23,9 +23,9 @@
 ////        $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
 ////        $this->Widget->setLinks($links);
 ////        $this->Widget->setLinkButtons($link_buttons);
-////        $this->Widget->setFilters($this->Html->ifSet($filters), $this->Html->safe($this->base_uri . 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/'), !empty($filter_vars));
+////        $this->Widget->setFilters((isset($filters) ? $filters : null), $this->Html->safe($this->base_uri . 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/'), !empty($filter_vars));
 ////        $this->Widget->setAjaxFiltering();
-        $this->Widget->create($this->_('{{actions.controller_class}}.{{actions.action}}.boxtitle', true), ['id'=>'{{actions.controller}}'], $this->Html->ifSet($render_section, null));
+        $this->Widget->create($this->_('{{actions.controller_class}}.{{actions.action}}.boxtitle', true), ['id'=>'{{actions.controller}}'], (isset($render_section) ? $render_section : null));
         $this->Form->create($this->base_uri . 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/', ['id' => '{{actions.action}}']);
         ?>
 
@@ -42,13 +42,13 @@
         </div>
         <?php
 ////        // Here we have an example table that lists "objects"
-////        if ($this->Html->ifSet($objects, false) && ($num_objects = count($objects)) > 0) {
+////        if ((isset($objects) ? $objects : false) && ($num_objects = count($objects)) > 0) {
 ////        ?><!--
 ////        <table class="table" id="ticket_list">
 ////            <tr class="heading_row">
 ////            Enter <td> fields here.  Often these are used for sorting. An example looks like the following.
 ////                <td><span><a href="<?php
-////                    echo $this->Html->safe($this->base_uri . '{{actions.controller}}/{{actions.action}}/' . $this->Html->ifSet($status) . '/?sort=id_code&order=' . ($sort == 'id_code' ? $negate_order : $order));
+////                    echo $this->Html->safe($this->base_uri . '{{actions.controller}}/{{actions.action}}/' . (isset($status) ? $status : null) . '/?sort=id_code&order=' . ($sort == 'id_code' ? $negate_order : $order));
 ////                    ?>" class="ajax<?php
 ////                    echo $this->Html->safe($sort == 'id_code' ? ' ' . $order : '');
 ////                    ?>"><?php

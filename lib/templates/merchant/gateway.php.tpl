@@ -1267,25 +1267,25 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
 ////            case 'sale':
 ////            case 'auth':
 ////                $params = [
-////                    'ccnumber' => $this->ifSet($card_info['card_number']),
-////                    'ccexp' => substr($this->ifSet($card_info['card_exp']), 4, 2)
-////                        . substr($this->ifSet($card_info['card_exp']), 2, 2),
+////                    'ccnumber' => (isset($card_info['card_number']) ? $card_info['card_number'] : null),
+////                    'ccexp' => substr((isset($card_info['card_exp']) ? $card_info['card_exp'] : null), 4, 2)
+////                        . substr((isset($card_info['card_exp']) ? $card_info['card_exp'] : null), 2, 2),
 ////                    'amount' => number_format($amount, 2, '.', ''),
-////                    'cvv' => $this->ifSet($card_info['card_security_code']),
-////                    'firstname' => $this->ifSet($card_info['first_name']),
-////                    'lastname' => $this->ifSet($card_info['last_name']),
-////                    'address1' => $this->ifSet($card_info['address1']),
-////                    'address2' => $this->ifSet($card_info['address2']),
-////                    'city' => $this->ifSet($card_info['city']),
-////                    'state' => substr($this->ifSet($card_info['state']['code']), 0, 2),
-////                    'zip' => $this->ifSet($card_info['zip']),
-////                    'country' => $this->ifSet($card_info['country']['alpha2'])
+////                    'cvv' => (isset($card_info['card_security_code']) ? $card_info['card_security_code'] : null),
+////                    'firstname' => (isset($card_info['first_name']) ? $card_info['first_name'] : null),
+////                    'lastname' => (isset($card_info['last_name']) ? $card_info['last_name'] : null),
+////                    'address1' => (isset($card_info['address1']) ? $card_info['address1'] : null),
+////                    'address2' => (isset($card_info['address2']) ? $card_info['address2'] : null),
+////                    'city' => (isset($card_info['city']) ? $card_info['city'] : null),
+////                    'state' => substr((isset($card_info['state']['code']) ? $card_info['state']['code'] : null), 0, 2),
+////                    'zip' => (isset($card_info['zip']) ? $card_info['zip'] : null),
+////                    'country' => (isset($card_info['country']['alpha2']) ? $card_info['country']['alpha2'] : null)
 ////                ];
 ////                break;
 ////            case 'refund':
 ////            case 'capture':
 ////                $params = [
-////                    'transactionid' => $this->ifSet($transaction_id)
+////                    'transactionid' => (isset($transaction_id) ? $transaction_id : null)
 ////                ];
 ////
 ////                if ($amount > 0) {
@@ -1293,7 +1293,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
 ////                }
 ////            case 'void':
 ////                $params = [
-////                    'transactionid' => $this->ifSet($transaction_id)
+////                    'transactionid' => (isset($transaction_id) ? $transaction_id : null)
 ////                ];
 ////                break;
 ////        }
@@ -1341,24 +1341,24 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
 ////            case 'auth':
 ////                $params = [
 ////                    'checkname' => $this->Html->concat(' ', $account_info['first_name'], $account_info['last_name']),
-////                    'checkaba' => $this->ifSet($account_info['routing_number']),
-////                    'checkaccount' => $this->ifSet($account_info['account_number']),
-////                    'account_type' => $this->ifSet($account_info['type']),
+////                    'checkaba' => (isset($account_info['routing_number']) ? $account_info['routing_number'] : null),
+////                    'checkaccount' => (isset($account_info['account_number']) ? $account_info['account_number'] : null),
+////                    'account_type' => (isset($account_info['type']) ? $account_info['type'] : null),
 ////                    'amount' => number_format($amount, 2, '.', ''),
 ////                    'payment' => 'check',
-////                    'firstname' => $this->ifSet($account_info['first_name']),
-////                    'lastname' => $this->ifSet($account_info['last_name']),
-////                    'address1' => $this->ifSet($account_info['address1']),
-////                    'address2' => $this->ifSet($account_info['address2']),
-////                    'city' => $this->ifSet($account_info['city']),
-////                    'state' => substr($this->ifSet($account_info['state']['code']), 0, 2),
-////                    'zip' => $this->ifSet($account_info['zip']),
-////                    'country' => $this->ifSet($account_info['country']['alpha2'])
+////                    'firstname' => (isset($account_info['first_name']) ? $account_info['first_name'] : null),
+////                    'lastname' => (isset($account_info['last_name']) ? $account_info['last_name'] : null),
+////                    'address1' => (isset($account_info['address1']) ? $account_info['address1'] : null),
+////                    'address2' => (isset($account_info['address2']) ? $account_info['address2'] : null),
+////                    'city' => (isset($account_info['city']) ? $account_info['city'] : null),
+////                    'state' => substr((isset($account_info['state']['code']) ? $account_info['state']['code'] : null), 0, 2),
+////                    'zip' => (isset($account_info['zip']) ? $account_info['zip'] : null),
+////                    'country' => (isset($account_info['country']['alpha2']) ? $account_info['country']['alpha2'] : null)
 ////                ];
 ////                break;
 ////            case 'refund':
 ////                $params = [
-////                    'transactionid' => $this->ifSet($transaction_id),
+////                    'transactionid' => (isset($transaction_id) ? $transaction_id : null),
 ////                    'payment' => 'check'
 ////                ];
 ////
@@ -1367,7 +1367,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
 ////                }
 ////            case 'void':
 ////                $params = [
-////                    'transactionid' => $this->ifSet($transaction_id),
+////                    'transactionid' => (isset($transaction_id) ? $transaction_id : null),
 ////                    'payment' => 'check'
 ////                ];
 ////                break;
