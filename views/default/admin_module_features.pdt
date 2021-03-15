@@ -1,11 +1,11 @@
         <?php
-        echo $this->Html->ifSet($message);
+        echo (isset($message) ? $message : null);
 
         $this->Widget->clear();
         $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
         $this->Widget->create($this->_('AdminModule.index.boxtitle_extension_generator', true), ['id' => 'admin_module_features']);
 
-        echo $this->Html->ifSet($progress_bar);
+        echo (isset($progress_bar) ? $progress_bar : null);
 
         $this->Form->create();
         ?>
@@ -27,16 +27,16 @@
                     <tbody>
                     <?php
                     $rows = 0;
-                    if ($this->Html->ifSet($vars['service_tabs']['method_name'], false)) {
+                    if ((isset($vars['service_tabs']['method_name']) ? $vars['service_tabs']['method_name'] : false)) {
                         $rows = count($vars['service_tabs']['method_name']);
                     }
                     for ($i = -1; $i < $rows; $i++) {
                         $disabled = ($i >= 0 ? [] : ['disabled' => 'disabled']);
                     ?>
                         <tr class="service_tab_row"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?>>
-                            <td><?php $this->Form->fieldText('service_tabs[method_name][]', $this->Html->ifSet($vars['service_tabs']['method_name'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.features.placeholder_method_name', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('service_tabs[label][]', $this->Html->ifSet($vars['service_tabs']['label'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.features.placeholder_tab_label', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldSelect('service_tabs[level][]', $this->Html->ifSet($tab_levels), $this->Html->ifSet($vars['service_tabs']['level'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('service_tabs[method_name][]', (isset($vars['service_tabs']['method_name'][$i]) ? $vars['service_tabs']['method_name'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.features.placeholder_method_name', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('service_tabs[label][]', (isset($vars['service_tabs']['label'][$i]) ? $vars['service_tabs']['label'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.features.placeholder_tab_label', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldSelect('service_tabs[level][]', (isset($tab_levels) ? $tab_levels : null), (isset($vars['service_tabs']['level'][$i]) ? $vars['service_tabs']['level'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
                             <td><a href="#" class="manage service_tab_row_remove"><?php $this->_('AdminModule.features.text_remove');?></a></td>
                         </tr>
                     <?php
@@ -64,18 +64,18 @@
                     <tbody>
                     <?php
                     $rows = 0;
-                    if ($this->Html->ifSet($vars['cron_tasks']['name'], false)) {
+                    if ((isset($vars['cron_tasks']['name']) ? $vars['cron_tasks']['name'] : false)) {
                         $rows = count($vars['cron_tasks']['name']);
                     }
                     for ($i = -1; $i < $rows; $i++) {
                         $disabled = ($i >= 0 ? [] : ['disabled' => 'disabled']);
                     ?>
                         <tr class="cron_task_row"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?>>
-                            <td><?php $this->Form->fieldText('cron_tasks[name][]', $this->Html->ifSet($vars['cron_tasks']['name'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.features.placeholder_name', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('cron_tasks[label][]', $this->Html->ifSet($vars['cron_tasks']['label'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.features.placeholder_cron_label', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldTextarea('cron_tasks[description][]', $this->Html->ifSet($vars['cron_tasks']['description'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
-                            <td><?php $this->Form->fieldSelect('cron_tasks[type][]', $this->Html->ifSet($task_types), $this->Html->ifSet($vars['cron_tasks']['type'][$i]), array_merge(['class' => 'stretch'], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('cron_tasks[time][]', $this->Html->ifSet($vars['cron_tasks']['time'][$i]), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.features.placeholder_time', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('cron_tasks[name][]', (isset($vars['cron_tasks']['name'][$i]) ? $vars['cron_tasks']['name'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.features.placeholder_name', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('cron_tasks[label][]', (isset($vars['cron_tasks']['label'][$i]) ? $vars['cron_tasks']['label'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.features.placeholder_cron_label', true)], $disabled));?></td>
+                            <td><?php $this->Form->fieldTextarea('cron_tasks[description][]', (isset($vars['cron_tasks']['description'][$i]) ? $vars['cron_tasks']['description'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
+                            <td><?php $this->Form->fieldSelect('cron_tasks[type][]', (isset($task_types) ? $task_types : null), (isset($vars['cron_tasks']['type'][$i]) ? $vars['cron_tasks']['type'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
+                            <td><?php $this->Form->fieldText('cron_tasks[time][]', (isset($vars['cron_tasks']['time'][$i]) ? $vars['cron_tasks']['time'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminModule.features.placeholder_time', true)], $disabled));?></td>
                             <td><a href="#" class="manage cron_task_row_remove"><?php $this->_('AdminModule.features.text_remove');?></a></td>
                         </tr>
                     <?php
@@ -89,16 +89,16 @@
             <div class="pad">
                 <div class="row">
                 <?php
-                foreach ($this->Html->ifSet($optional_functions, []) as $optional_function => $function_settings) {
+                foreach ((isset($optional_functions) ? $optional_functions : []) as $optional_function => $function_settings) {
                 ?>
                     <div class="col-xs-4">
                     <?php
-                    $this->Form->fieldCheckbox('optional_functions[' . $optional_function . ']', 'true', (isset($vars['optional_functions']) ? $this->Html->ifSet($vars['optional_functions'][$optional_function]) : $function_settings['enabled']) == 'true', ['class' => 'inline', 'id' => 'optional_functions[' . $optional_function . ']']);
+                    $this->Form->fieldCheckbox('optional_functions[' . $optional_function . ']', 'true', (isset($vars['optional_functions']) ? (isset($vars['optional_functions'][$optional_function]) ? $vars['optional_functions'][$optional_function] : null) : $function_settings['enabled']) == 'true', ['class' => 'inline', 'id' => 'optional_functions[' . $optional_function . ']']);
                     $this->Form->label($optional_function, 'optional_functions[' . $optional_function . ']', ['class' => 'inline']);
 
                     if (!empty($function_settings['tooltip'])) {
                     ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->Html->_($function_settings['tooltip']);?></div></span>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php echo (isset($function_settings['tooltip']) ? $this->Html->safe($function_settings['tooltip']) : null);?></div></span>
                     <?php
                     }
                     ?>

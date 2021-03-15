@@ -1,25 +1,25 @@
         <?php
-        echo $this->Html->ifSet($message);
+        echo (isset($message) ? $message : null);
 
         $this->Widget->clear();
         $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
         $this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
 
-        echo $this->Html->ifSet($progress_bar);
+        echo (isset($progress_bar) ? $progress_bar : null);
 
         $this->Form->create(null, ['id' => 'general_extension_form']);
         ?>
         <div class="inner">
             <div class="title_row first"><h3><?php $this->_('AdminMain.general.heading_general_settings');?></h3></div>
             <div class="type_warning" style="display:none;">
-                <?php echo $this->Html->ifSet($type_warning);?>
+                <?php echo (isset($type_warning) ? $type_warning : null);?>
             </div>
             <div class="pad">
                 <ul>
                     <li>
                         <?php
                         $this->Form->label($this->_('AdminMain.general.name', true), 'name');
-                        $this->Form->fieldText('name', $this->Html->ifSet($vars->name), ['id' => 'name', 'placeholder' => $this->_('AdminMain.general.placeholder_name', true)]);
+                        $this->Form->fieldText('name', (isset($vars->name) ? $vars->name : null), ['id' => 'name', 'placeholder' => $this->_('AdminMain.general.placeholder_name', true)]);
                         ?>
                         <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_name');?></div></span>
                     </li>
@@ -31,8 +31,8 @@
                             <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_type');?></div></span>
                         </div>
                         <?php
-                        foreach ($this->Html->ifSet($extension_types, []) as $extension_type => $label) {
-                            $this->Form->fieldRadio('type', $extension_type, $this->Html->ifSet($vars->type, 'module') == $extension_type, ['class' => 'inline type', 'id' => 'type_' . $extension_type]);
+                        foreach ((isset($extension_types) ? $extension_types : []) as $extension_type => $label) {
+                            $this->Form->fieldRadio('type', $extension_type, (isset($vars->type) ? $vars->type : 'module') == $extension_type, ['class' => 'inline type', 'id' => 'type_' . $extension_type]);
                             $this->Form->label($label, 'type_' . $extension_type, ['class' => 'inline']);
                         }
                         ?>
@@ -43,12 +43,12 @@
                         ?>
                         <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_form_type');?></div></span>
                         <?php
-                        $this->Form->fieldSelect('form_type', $this->Html->ifSet($form_types, []), $this->Html->ifSet($vars->form_type), ['class' => 'block', 'id' => 'form_type']);
+                        $this->Form->fieldSelect('form_type', (isset($form_types) ? $form_types : []), (isset($vars->form_type) ? $vars->form_type : null), ['class' => 'block', 'id' => 'form_type']);
                         ?>
                     </li>
                     <li>
                         <?php
-                        $this->Form->fieldCheckbox('code_examples', '1', $this->Html->ifSet($vars->code_examples, '1') == '1', ['class' => 'inline', 'id' => 'code_examples']);
+                        $this->Form->fieldCheckbox('code_examples', '1', (isset($vars->code_examples) ? $vars->code_examples : '1') == '1', ['class' => 'inline', 'id' => 'code_examples']);
                         $this->Form->label($this->_('AdminMain.general.code_examples', true), 'code_examples', ['class' => 'inline']);
                         ?>
                         <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_code_examples');?></div></span>
@@ -68,7 +68,7 @@
 <script>
     $(document).ready(function () {
         $('.type').change(function () {
-            if ($(this).val() !== '<?php echo $this->Html->ifSet($vars->type);?>' && '<?php echo $this->Html->ifSet($vars->type);?>' !== '') {
+            if ($(this).val() !== '<?php echo (isset($vars->type) ? $vars->type : null);?>' && '<?php echo (isset($vars->type) ? $vars->type : null);?>' !== '') {
                 $('.type_warning').show();
             } else {
                 $('.type_warning').hide();

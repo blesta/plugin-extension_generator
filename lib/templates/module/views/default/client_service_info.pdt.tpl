@@ -9,7 +9,7 @@
             <tbody>
                 <tr>
                     <td></td>{{array:service_fields}}
-                    <td><?php $this->Html->_($service_fields->{{service_fields.name}}); ?></td>{{array:service_fields}}
+                    <td><?php echo (isset($service_fields->{{service_fields.name}}) ? $this->Html->safe($service_fields->{{service_fields.name}}) : null); ?></td>{{array:service_fields}}
                 </tr>
             </tbody>
         </table>
@@ -25,9 +25,9 @@
 ////?><!--
 ////                    <td>
 ////                        <?php
-////                        if ($this->Html->ifSet($login_url)) {
+////                        if ((isset($login_url) ? $login_url : null)) {
 ////                        ?>
-////                        <a href="<?php $this->Html->_($login_url);?>" target="_blank"><?php $this->_('{{class_name}}.service_info.option_login');?></a>
+////                        <a href="<?php echo (isset($login_url) ? $this->Html->safe($login_url) : null);?>" target="_blank"><?php $this->_('{{class_name}}.service_info.option_login');?></a>
 ////                        <?php
 ////                        }
 ////                        ?>

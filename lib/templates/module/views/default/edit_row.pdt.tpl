@@ -15,8 +15,8 @@
                         ?>
                         <span class="tooltip inline-block"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("{{class_name}}.row_meta.tooltip.{{module_rows.name}}");?></div></span>
                         <?php{{if:module_rows.tooltip}}{{if:module_rows.type:Checkbox}}
-                        $this->Form->field{{module_rows.type}}('{{module_rows.name}}', 'true', $this->Html->ifSet($vars->{{module_rows.name}}) == 'true', ['id' => '{{module_rows.name}}']);{{else:module_rows.type}}
-                        $this->Form->field{{module_rows.type}}('{{module_rows.name}}', $this->Html->ifSet($vars->{{module_rows.name}}), ['id' => '{{module_rows.name}}', 'class' => 'block']);{{if:module_rows.type}}
+                        $this->Form->field{{module_rows.type}}('{{module_rows.name}}', 'true', (isset($vars->{{module_rows.name}}) ? $vars->{{module_rows.name}} : null) == 'true', ['id' => '{{module_rows.name}}']);{{else:module_rows.type}}
+                        $this->Form->field{{module_rows.type}}('{{module_rows.name}}', (isset($vars->{{module_rows.name}}) ? $vars->{{module_rows.name}} : null), ['id' => '{{module_rows.name}}', 'class' => 'block']);{{if:module_rows.type}}
                         ?>
                     </li>{{array:module_rows}}
                 </ul>
@@ -42,7 +42,7 @@
 ////                    </thead>
 ////                    <tbody>
 ////                        <?php
-////                        $num_servers = count($this->Html->ifSet($vars->name_servers, []));
+////                        $num_servers = count((isset($vars->name_servers) ? $vars->name_servers : []));
 ////                        for ($i = 0; $i < max(2, $num_servers); $i++) {
 ////                            ?>
 ////                        <tr class="ns_row<?php
@@ -52,7 +52,7 @@
 ////                                $this->_('{{class_name}}.edit_row.name_server', false, '<span>' . ($i + 1) . '</span>'); ?>
 ////                            </td>
 ////                            <td><?php
-////                                $this->Form->fieldText('name_servers[]', $this->Html->ifSet($vars->name_servers[$i])); ?>
+////                                $this->Form->fieldText('name_servers[]', (isset($vars->name_servers[$i]) ? $vars->name_servers[$i] : null)); ?>
 ////                            </td>
 ////                            <td><a href="#" class="manage ns_row_remove"><?php $this->_('{{module_rows.name}}.edit_row.remove_name_server'); ?></a></td>
 ////                        </tr>
@@ -74,7 +74,7 @@
 ////                <ul>
 ////                    <li>
 ////                        <?php
-////                        $this->Form->fieldTextarea('notes', $this->Html->ifSet($vars->notes));
+////                        $this->Form->fieldTextarea('notes', (isset($vars->notes) ? $vars->notes : null));
 ////                        ?>
 ////                    </li>
 ////                </ul>

@@ -220,20 +220,20 @@ class {{class_name}} extends NonmerchantGateway
         $success = $this->Input->validates($post);
 
         // Log the response
-        $this->log($this->ifSet($_SERVER['REQUEST_URI']), serialize($post), 'output', $success);
+        $this->log((isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null), serialize($post), 'output', $success);
 
         if (!$success) {
             return;
         }
 
         return [
-            'client_id' => $this->ifSet($post['client_id']),
-            'amount' => $this->ifSet($post['total']),
-            'currency' => $this->ifSet($post['currency_code']),
-            'invoices' => unserialize(base64_decode($this->ifSet($post['invoices']))),
+            'client_id' => (isset($post['client_id']) ? $post['client_id'] : null),
+            'amount' => (isset($post['total']) ? $post['total'] : null),
+            'currency' => (isset($post['currency_code']) ? $post['currency_code'] : null),
+            'invoices' => unserialize(base64_decode((isset($post['invoices']) ? $post['invoices'] : null))),
             'status' => 'approved',
             'reference_id' => null,
-            'transaction_id' => $this->ifSet($post['order_number']),
+            'transaction_id' => (isset($post['order_number']) ? $post['order_number'] : null),
             'parent_transaction_id' => null
         ];
     }
@@ -260,12 +260,12 @@ class {{class_name}} extends NonmerchantGateway
 ////        Format data from $get and $post
 ////
 ////        $params = [
-////            'client_id' => $this->ifSet($post['client_id']),
-////            'amount' => $this->ifSet($post['total']),
-////            'currency' => $this->ifSet($post['currency_code']),
-////            'invoices' => unserialize(base64_decode($this->ifSet($post['invoices']))),
+////            'client_id' => (isset($post['client_id']) ? $post['client_id'] : null),
+////            'amount' => (isset($post['total']) ? $post['total'] : null),
+////            'currency' => (isset($post['currency_code']) ? $post['currency_code'] : null),
+////            'invoices' => unserialize(base64_decode((isset($post['invoices']) ? $post['invoices'] : null))),
 ////            'status' => 'approved',
-////            'transaction_id' => $this->ifSet($post['order_number']),
+////            'transaction_id' => (isset($post['order_number']) ? $post['order_number'] : null),
 ////            'parent_transaction_id' => null
 ////        ];
         $params = [
@@ -360,7 +360,7 @@ class {{class_name}} extends NonmerchantGateway
 ////
 ////        return [
 ////            'status' => 'void',
-////            'transaction_id' => $this->ifSet($transaction_id)
+////            'transaction_id' => (isset($transaction_id) ? $transaction_id : null)
 ////        ];
     }
 

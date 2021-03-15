@@ -1,5 +1,5 @@
         <?php
-        $node_count = count($this->Html->ifSet($nodes, []));
+        $node_count = count((isset($nodes) ? $nodes : []));
         $step = 0;
         ?>
         <div class="node-progress-container">
@@ -11,7 +11,7 @@
                         <div class="node-progress-node-container" style="left: <?php echo $step / ($node_count - 1) * 100; ?>%;" >
                             <?php $node_color = $step <= $page_step ? '#a0f56c' : 'white'; ?>
                             <div>
-                                <a href="<?php echo $this->base_uri . 'plugin/extension_generator/admin_' . $form_step . '/' . $this->Html->_($extension->id, true) . '/';?>">
+                                <a href="<?php echo $this->base_uri . 'plugin/extension_generator/admin_' . $form_step . '/' . (isset($extension->id) ? $this->Html->safe($extension->id) : null) . '/';?>">
                                     <div class="node-progress-node" style="background-color: <?php echo $node_color;?>;"></div>
                                 </a>
                             </div>

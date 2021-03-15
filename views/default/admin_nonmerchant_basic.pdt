@@ -1,11 +1,11 @@
         <?php
-        echo $this->Html->ifSet($message);
+        echo (isset($message) ? $message : null);
 
         $this->Widget->clear();
         $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
         $this->Widget->create($this->_('AdminNonmerchant.index.boxtitle_extension_generator', true), ['id' => 'admin_nonmerchant_basic']);
 
-        echo $this->Html->ifSet($progress_bar);
+        echo (isset($progress_bar) ? $progress_bar : null);
 
         $this->Form->create(null, ['id' => 'nonmerchantbasic', 'enctype' => 'multipart/form-data']);
         ?>
@@ -19,7 +19,7 @@
                         ?>
                         <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminNonmerchant.basic.tooltip_description');?></div></span>
                         <?php
-                        $this->Form->fieldTextarea('description', $this->Html->ifSet($vars['description']), ['id' => 'description']);
+                        $this->Form->fieldTextarea('description', (isset($vars['description']) ? $vars['description'] : null), ['id' => 'description']);
                         ?>
                     </li>
                     <li>
@@ -32,14 +32,14 @@
                     <li>
                         <?php
                         $this->Form->label($this->_('AdminNonmerchant.basic.signup_url', true), 'signup_url');
-                        $this->Form->fieldText('signup_url', $this->Html->ifSet($vars['signup_url']), ['id' => 'signup_url', 'placeholder' => $this->_('AdminNonmerchant.basic.placeholder_signup_url', true)]);
+                        $this->Form->fieldText('signup_url', (isset($vars['signup_url']) ? $vars['signup_url'] : null), ['id' => 'signup_url', 'placeholder' => $this->_('AdminNonmerchant.basic.placeholder_signup_url', true)]);
                         ?>
                         <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminNonmerchant.basic.tooltip_signup_url');?></div></span>
                     </li>
                     <li>
                         <?php
                         $this->Form->label($this->_('AdminNonmerchant.basic.currencies', true), 'currencies');
-                        $this->Form->fieldText('currencies', $this->Html->ifSet($vars['currencies']), ['id' => 'currencies', 'placeholder' => $this->_('AdminNonmerchant.basic.placeholder_currencies', true)]);
+                        $this->Form->fieldText('currencies', (isset($vars['currencies']) ? $vars['currencies'] : null), ['id' => 'currencies', 'placeholder' => $this->_('AdminNonmerchant.basic.placeholder_currencies', true)]);
                         ?>
                         <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminNonmerchant.basic.tooltip_currencies');?></div></span>
                     </li>
@@ -62,14 +62,14 @@
                     <tbody>
                     <?php
                     $rows = 1;
-                    if ($this->Html->ifSet($vars['authors']['name'], false)) {
+                    if ((isset($vars['authors']['name']) ? $vars['authors']['name'] : false)) {
                         $rows = count($vars['authors']['name']);
                     }
                     for ($i = 0; $i < $rows; $i++) {
                     ?>
                         <tr class="author_row">
-                            <td><?php $this->Form->fieldText('authors[name][]', $this->Html->ifSet($vars['authors']['name'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminNonmerchant.basic.placeholder_author_name', true)]);?></td>
-                            <td><?php $this->Form->fieldText('authors[url][]', $this->Html->ifSet($vars['authors']['url'][$i]), ['class' => 'stretch', 'placeholder' => $this->_('AdminNonmerchant.basic.placeholder_author_url', true)]);?></td>
+                            <td><?php $this->Form->fieldText('authors[name][]', (isset($vars['authors']['name'][$i]) ? $vars['authors']['name'][$i] : null), ['class' => 'stretch', 'placeholder' => $this->_('AdminNonmerchant.basic.placeholder_author_name', true)]);?></td>
+                            <td><?php $this->Form->fieldText('authors[url][]', (isset($vars['authors']['url'][$i]) ? $vars['authors']['url'][$i] : null), ['class' => 'stretch', 'placeholder' => $this->_('AdminNonmerchant.basic.placeholder_author_url', true)]);?></td>
                             <td><a href="#" class="manage author_row_remove"><?php $this->_('AdminNonmerchant.basic.text_remove');?></a></td>
                         </tr>
                     <?php
@@ -79,7 +79,7 @@
                 </table>
             </div>
             <div class="button_row">
-                <?php $this->Form->fieldSubmit('submit', $this->Html->ifSet($form_type) == 'basic' ? $this->_('AdminNonmerchant.basic.confirm', true) : $this->_('AdminNonmerchant.basic.fields', true), ['class' => 'btn btn-primary pull-right']);?>
+                <?php $this->Form->fieldSubmit('submit', (isset($form_type) ? $form_type : null) == 'basic' ? $this->_('AdminNonmerchant.basic.confirm', true) : $this->_('AdminNonmerchant.basic.fields', true), ['class' => 'btn btn-primary pull-right']);?>
             </div>
         </div>
         <?php
