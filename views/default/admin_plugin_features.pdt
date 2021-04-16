@@ -90,7 +90,7 @@
                 <?php
                 foreach ((isset($optional_functions) ? $optional_functions : []) as $optional_function => $function_settings) {
                 ?>
-                    <div class="col-xs-4">
+                    <div class="col-4">
                     <?php
                     $this->Form->fieldCheckbox('optional_functions[' . $optional_function . ']', 'true', (isset($vars['optional_functions']) ? (isset($vars['optional_functions'][$optional_function]) ? $vars['optional_functions'][$optional_function] : null) : $function_settings['enabled']) == 'true', ['class' => 'inline', 'id' => 'optional_functions[' . $optional_function . ']']);
                     $this->Form->label($optional_function, 'optional_functions[' . $optional_function . ']', ['class' => 'inline']);

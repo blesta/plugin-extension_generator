@@ -58,5 +58,6 @@ class {{controllers.class_name}} extends {{class_name}}Controller
 ////        return $this->renderAjaxWidgetIfAsync(
 ////            isset($this->get['sort']) ? true : (isset($this->get[1]) || isset($this->get[0]) ? false : null)
 ////        );
+        return $this->renderAjaxWidgetIfAsync(false);
     }{{array:controllers.actions}}
 }{{array:controllers}}

@@ -170,6 +170,7 @@ class AdminPlugin extends ExtensionGeneratorController
                 $this->post['controllers'][$controller]['actions'][$action] = [
                     'controller' => $controller,
                     'action' => $action,
+                    'name' => $this->post['actions']['name'][$index],
                 ];
             }
         }
