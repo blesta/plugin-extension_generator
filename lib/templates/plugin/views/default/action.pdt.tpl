@@ -25,7 +25,8 @@
 ////        $this->Widget->setLinkButtons($link_buttons);
 ////        $this->Widget->setFilters((isset($filters) ? $filters : null), $this->Html->safe($this->base_uri . 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/'), !empty($filter_vars));
 ////        $this->Widget->setAjaxFiltering();
-        $this->Widget->create($this->_('{{actions.controller_class}}.{{actions.action}}.boxtitle', true), ['id'=>'{{actions.controller}}'], (isset($render_section) ? $render_section : null));
+////        $this->Widget->create($this->_('{{actions.controller_class}}.{{actions.action}}.boxtitle', true), ['id'=>'{{actions.controller}}'], (isset($render_section) ? $render_section : null));
+        $this->Widget->create($this->_('{{actions.controller_class}}.{{actions.action}}.boxtitle', true), ['id'=>'{{actions.controller}}']);
         $this->Form->create($this->base_uri . 'plugin/{{snake_case_name}}/{{actions.controller}}/{{actions.action}}/', ['id' => '{{actions.action}}']);
         ?>
 
