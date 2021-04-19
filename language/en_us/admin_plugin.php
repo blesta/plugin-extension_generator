@@ -5,9 +5,9 @@ $lang['AdminPlugin.getactionlocations.nav_primary_client'] = 'Primary Nav (Clien
 $lang['AdminPlugin.getactionlocations.nav_primary_staff'] = 'Primary Nav (Staff)';
 $lang['AdminPlugin.getactionlocations.nav_secondary_staff'] = 'Sub-Menu Nav (Staff)';
 $lang['AdminPlugin.getactionlocations.action_staff_client'] = 'Client Profile Sidebar (Staff)';
-$lang['AdminPlugin.getactionlocations.widget_staff_home'] = 'Widget - Client Profile (Staff)';
+$lang['AdminPlugin.getactionlocations.widget_staff_home'] = 'Widget - Dashboard (Staff)';
+$lang['AdminPlugin.getactionlocations.widget_staff_client'] = 'Widget - Client Profile (Staff)';
 $lang['AdminPlugin.getactionlocations.widget_client_home'] = 'Widget - Client Profile (Client)';
-$lang['AdminPlugin.getactionlocations.widget_staff_client'] = 'Widget - Dashboard (Staff)';
 $lang['AdminPlugin.getactionlocations.widget_staff_billing'] = 'Widget - Billing Overview (Staff)';
 
 $lang['AdminPlugin.getcardlevels.client'] = 'Client';
