@@ -97,7 +97,7 @@ class ExtensionFileGenerator
         // Set extension name variables
         $data['name'] = $this->options['name'];
         $data['snake_case_name'] = str_replace(' ', '_', strtolower($data['name']));
-        $data['class_name'] = str_replace(' ', '', ucwords(str_replace('_', ' ', $data['name'])));
+        $data['class_name'] = str_replace(' ', '', ucwords(str_replace('_', ' ', strtolower($data['name']))));
 
         // Get the directory in which to search for template files
         $template_directory = $this->getTemplateDirectory();
