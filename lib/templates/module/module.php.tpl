@@ -581,9 +581,9 @@ class {{class_name}} extends Module
         ${{package_fields.name}} = $fields->label(Language::_('{{class_name}}.package_fields.{{package_fields.name}}', true), '{{snake_case_name}}_{{package_fields.name}}');
         ${{package_fields.name}}->attach(
             $fields->field{{package_fields.type}}(
-                '{{package_fields.name}}',{{if:package_fields.type:Checkbox}}
+                'meta[{{package_fields.name}}]',{{if:package_fields.type:Checkbox}}
                 'true',{{else:package_fields.type}}{{if:package_fields.type}}
-                (isset($vars->{{package_fields.name}}) ? $vars->{{package_fields.name}} : null){{if:package_fields.type:Checkbox}} == 'true'{{else:package_fields.type}}{{if:package_fields.type}},
+                (isset($vars->meta['{{package_fields.name}}']) ? $vars->meta['{{package_fields.name}}'] : null){{if:package_fields.type:Checkbox}} == 'true'{{else:package_fields.type}}{{if:package_fields.type}},
                 ['id' => '{{snake_case_name}}_{{package_fields.name}}']
             )
         );{{if:package_fields.tooltip:}}{{else:package_fields.tooltip}}
@@ -737,17 +737,20 @@ class {{class_name}} extends Module
         }
 
         // Return all the service fields
-        $fields = [];
         $encrypted_fields = [];
-        foreach ($service_fields as $key => $value) {
-            $fields[] = [
-                'key' => $key,
-                'value' => isset($vars[$key]) ? $vars[$key] : $value,
-                'encrypted' => (in_array($key, $encrypted_fields) ? 1 : 0)
-            ];
+        $return = [];
+        $fields = [{{array:service_fields}}'{{service_fields.name}}',{{array:service_fields}}];
+        foreach ($fields as $field) {
+            if (isset($vars[$field]) || isset($service_fields[$field])) {
+                $return[] = [
+                    'key' => $field,
+                    'value' => $vars[$field] ?? $service_fields[$field],
+                    'encrypted' => (in_array($field, $encrypted_fields) ? 1 : 0)
+                ];
+            }
         }
 
-        return $fields;
+        return $return;
     }{{function:editService}}{{function:suspendService}}
 
     /**
