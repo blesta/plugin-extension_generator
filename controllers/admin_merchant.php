@@ -131,7 +131,8 @@ class AdminMerchant extends ExtensionGeneratorController
                 'ach' => ['proccessAch', 'refundAch', 'voidAch'],
                 'ach_offsite' => ['proccessStoredAch', 'refundStoredAch',
                     'voidStoredAch', 'storeAch', 'updateAch', 'removeAch'
-                ]
+                ],
+                'ach_form' => ['buildAchForm']
             ];
 
             // Set optional functions based on the selected features

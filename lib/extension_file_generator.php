@@ -152,7 +152,7 @@ class ExtensionFileGenerator
                 $content = preg_replace('/' . $this->code_comment_marker . '.*[\r\n|\n]/', '', $content);
             }
 
-            // Accomodate 'foreach' files by setting the appropriate value for the praticular view being generater
+            // Accommodate 'foreach' files by setting the appropriate value for the particular view being generated
             $temp_data = $data;
             if (isset($file_settings['foreach'])) {
                 foreach ($file_settings['foreach'] as $field_label => $name_key) {

@@ -1,6 +1,6 @@
 {{array:service_tabs}}
     <div id="{{service_tabs.snake_case_name}}">
-        <h4><?php $this->_('{{class_name}}.{{service_tabs.snake_case_name}}.heading');?></h4>
+        <h4><?php $this->_('{{class_name}}.{{service_tabs.method_name}}.heading');?></h4>
 
         <?php
         $this->Form->create(
@@ -14,7 +14,7 @@
             </p>
             <div class="button_row">
                 <button class="btn btn-default pull-right">
-                    <i class="fas fa-edit"></i> <?php $this->_('{{class_name}}.{{service_tabs.snake_case_name}}.submit');?>
+                    <i class="fas fa-edit"></i> <?php $this->_('{{class_name}}.{{service_tabs.method_name}}.submit');?>
                 </button>
             </div>
         </div>
