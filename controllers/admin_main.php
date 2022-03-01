@@ -319,6 +319,7 @@ class AdminMain extends ExtensionGeneratorController
     {
         return [
             'module' => COMPONENTDIR . 'modules' . DS,
+            'registrar_module' => COMPONENTDIR . 'modules' . DS,
             'plugin' => PLUGINDIR,
             'merchant' => COMPONENTDIR . 'gateways' . DS . 'merchant' . DS,
             'nonmerchant' => COMPONENTDIR . 'gateways' . DS . 'nonmerchant' . DS,

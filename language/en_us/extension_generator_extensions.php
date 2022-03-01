@@ -9,6 +9,7 @@ $lang['ExtensionGeneratorExtensions.!error.id.exists'] = 'The given extension ID
 
 
 $lang['ExtensionGeneratorExtensions.gettypes.module'] = 'Module';
+$lang['ExtensionGeneratorExtensions.gettypes.registrar_module'] = 'Registrar Module';
 $lang['ExtensionGeneratorExtensions.gettypes.plugin'] = 'Plugin';
 $lang['ExtensionGeneratorExtensions.gettypes.merchant'] = 'Merchant Gateway';
 $lang['ExtensionGeneratorExtensions.gettypes.nonmerchant'] = 'Non-Merchant Gateway';

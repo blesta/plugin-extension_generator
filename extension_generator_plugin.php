@@ -95,6 +95,13 @@ class ExtensionGeneratorPlugin extends Plugin
                     ENUM('module', 'plugin', 'merchant', 'nonmerchant') NOT NULL DEFAULT 'module'"
                 );
             }
+
+            if (version_compare($current_version, '1.4.0', '<')) {
+                $this->Record->query(
+                    "ALTER TABLE `extension_generator_extensions` CHANGE `type` `type`
+                    ENUM('module', 'registrar_module', 'plugin', 'merchant', 'nonmerchant') NOT NULL DEFAULT 'module'"
+                );
+            }
         }
     }
 
