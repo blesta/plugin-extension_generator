@@ -22,6 +22,7 @@ $lang['AdminMain.!success.nonmerchant_created'] = 'The new gateway has been succ
 // Controller get functions
 
 $lang['AdminMain.getfilelocations.module'] = 'Blesta Modules Directory';
+$lang['AdminMain.getfilelocations.registrar_module'] = 'Blesta Modules Directory';
 $lang['AdminMain.getfilelocations.plugin'] = 'Blesta Plugins Directory';
 $lang['AdminMain.getfilelocations.merchant'] = 'Blesta Merchant Gateway Directory';
 $lang['AdminMain.getfilelocations.nonmerchant'] = 'Blesta Non-Merchant Gateway Directory';

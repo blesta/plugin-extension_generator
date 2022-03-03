@@ -37,6 +37,7 @@ class AdminRegistrarModule extends ExtensionGeneratorController
         // Attempt to upload logo if submitted
         $errors = $this->uploadLogo();
 
+        // Process step
         if (!$errors) {
             // Perform edit and redirect or set errors and repopulate vars
             $vars = $this->processStep('registrar_module/basic', $this->extension);

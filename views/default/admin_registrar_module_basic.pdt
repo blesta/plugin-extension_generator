@@ -92,7 +92,7 @@
                     <li>
                         <?php
                         $this->Form->fieldCheckbox('static_tlds', '1', (isset($vars['static_tlds']) ? $vars['static_tlds'] : '1') == '1', ['class' => 'inline', 'id' => 'static_tlds']);
-                        $this->Form->label($this->_('AdminRegistrarModule.basic.static_tlds', true), 'code_examples', ['class' => 'inline']);
+                        $this->Form->label($this->_('AdminRegistrarModule.basic.static_tlds', true), 'static_tlds', ['class' => 'inline']);
                         ?>
                         <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminRegistrarModule.basic.tooltip_static_tlds');?></div></span>
                     </li>
