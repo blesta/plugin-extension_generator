@@ -231,7 +231,6 @@ class AdminMain extends ExtensionGeneratorController
             );
         }
 
-
         // Update the extension
         if (!empty($this->post['location']))
         {
