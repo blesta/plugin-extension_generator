@@ -38,15 +38,15 @@ class {{class_name}}Plugin extends Plugin
                     '{{tables.columns.name}}',
                     [
                         'type' => '{{tables.columns.type}}',{{if:tables.columns.length:}}{{else:tables.columns.length}}
-                        'size' => "{{tables.columns.length}}",{{if:tables.columns.length}}{{if:tables.columns.type:INT}}
+                        'size' => "{{tables.columns.length}}",{{endif:tables.columns.length}}{{if:tables.columns.type:INT}}
                         'unsigned' => true,{{if:tables.columns.primary:true}}
-                        'auto_increment' => true,{{else:tables.columns.primary}}{{if:tables.columns.primary}}{{else:tables.columns.type}}{{if:tables.columns.type}}{{if:tables.columns.nullable:true}}
-                        'is_null' => true,{{else:tables.columns.nullable}}{{if:tables.columns.nullable}}{{if:tables.columns.default:}}{{if:tables.columns.nullable:true}}
-                        'default' => null,{{else:tables.columns.nullable}}{{if:tables.columns.nullable}}{{else:tables.columns.default}}
-                        'default' => {{tables.columns.default}},{{if:tables.columns.default}}
+                        'auto_increment' => true,{{endif:tables.columns.primary}}{{endif:tables.columns.type}}{{if:tables.columns.nullable:true}}
+                        'is_null' => true,{{endif:tables.columns.nullable}}{{if:tables.columns.default:}}{{if:tables.columns.nullable:true}}
+                        'default' => null,{{endif:tables.columns.nullable}}{{else:tables.columns.default}}
+                        'default' => {{tables.columns.default}},{{endif:tables.columns.default}}
                     ]
                 ){{if:tables.columns.primary:true}}
-                ->setKey(['{{tables.columns.name}}'], 'primary'){{else:tables.columns.primary}}{{if:tables.columns.primary}}{{array:tables.columns}}
+                ->setKey(['{{tables.columns.name}}'], 'primary'){{endif:tables.columns.primary}}{{array:tables.columns}}
                 ->create('{{tables.name}}', true);
                 {{array:tables}}
         } catch (Exception $e) {
@@ -368,7 +368,7 @@ class {{class_name}}Plugin extends Plugin
         return [{{array:service_tabs}}{{if:service_tabs.level:client}}
             '{{service_tabs.method_name}}' => [
                 'name' => Language::_('{{class_name}}.{{service_tabs.snake_case_name}}', true)
-            ],{{else:service_tabs.level}}{{if:service_tabs.level}}{{array:service_tabs}}
+            ],{{endif:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getClientServiceTabs}}{{function:getAdminServiceTabs}}
 
@@ -389,7 +389,7 @@ class {{class_name}}Plugin extends Plugin
         return [{{array:service_tabs}}{{if:service_tabs.level:staff}}
             '{{service_tabs.method_name}}' => [
                 'name' => Language::_('{{class_name}}.{{service_tabs.snake_case_name}}', true)
-            ],{{else:service_tabs.level}}{{if:service_tabs.level}}{{array:service_tabs}}
+            ],{{endif:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getAdminServiceTabs}}{{array:service_tabs}}
 

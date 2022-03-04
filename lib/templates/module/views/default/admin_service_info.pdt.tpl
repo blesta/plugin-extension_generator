@@ -7,7 +7,7 @@
             <td></td>{{array:service_fields}}
             <td><?php echo (isset($service_fields->{{service_fields.name}}) ? $this->Html->safe($service_fields->{{service_fields.name}}) : null); ?></td>{{array:service_fields}}
         </tr>
-    </table>{{if:code_examples:1}}<?php{{else:code_examples}}{{if:code_examples}}
+    </table>{{if:code_examples:1}}<?php{{endif:code_examples}}
 ////
 ////// Modules will often use this location to show a login link (either a link to the login page or one that automatically logs the user in)
 ////// To do so add the following td to the end of the "heading_row" tr

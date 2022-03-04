@@ -67,7 +67,7 @@ $lang['{{class_name}}.edit_row.edit_btn'] = 'Update {{module_row}}';
 $lang['{{class_name}}.row_meta.{{module_rows.name}}'] = '{{module_rows.label}}';{{array:module_rows}}
 
 {{array:module_rows}}{{if:module_rows.tooltip:}}{{else:module_rows.tooltip}}
-$lang['{{class_name}}.row_meta.tooltip.{{module_rows.name}}'] = '{{module_rows.tooltip}}';{{if:module_rows.tooltip}}{{array:module_rows}}
+$lang['{{class_name}}.row_meta.tooltip.{{module_rows.name}}'] = '{{module_rows.tooltip}}';{{endif:module_rows.tooltip}}{{array:module_rows}}
 
 
 // Errors{{array:module_rows}}
@@ -91,14 +91,14 @@ $lang['{{class_name}}.service_info.{{service_fields.name}}'] = '{{service_fields
 $lang['{{class_name}}.service_fields.{{service_fields.name}}'] = '{{service_fields.label}}';{{array:service_fields}}
 
 {{array:service_fields}}{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}
-$lang['{{class_name}}.service_field.tooltip.{{service_fields.name}}'] = '{{service_fields.tooltip}}';{{if:service_fields.tooltip}}{{array:service_fields}}
+$lang['{{class_name}}.service_field.tooltip.{{service_fields.name}}'] = '{{service_fields.tooltip}}';{{endif:service_fields.tooltip}}{{array:service_fields}}
 
 
 // Package Fields{{array:package_fields}}
 $lang['{{class_name}}.package_fields.{{package_fields.name}}'] = '{{package_fields.label}}';{{array:package_fields}}
 
 {{array:package_fields}}{{if:package_fields.tooltip:}}{{else:package_fields.tooltip}}
-$lang['{{class_name}}.package_field.tooltip.{{package_fields.name}}'] = '{{package_fields.tooltip}}';{{if:package_fields.tooltip}}{{array:package_fields}}
+$lang['{{class_name}}.package_field.tooltip.{{package_fields.name}}'] = '{{package_fields.tooltip}}';{{endif:package_fields.tooltip}}{{array:package_fields}}
 
 // Cron Tasks
 {{array:cron_tasks}}

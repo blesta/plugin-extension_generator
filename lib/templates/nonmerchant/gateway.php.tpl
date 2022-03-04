@@ -92,7 +92,7 @@ class {{class_name}} extends NonmerchantGateway
         $this->Input->setRules($rules);
 
         // Set unset checkboxes
-        $checkbox_fields = [{{array:fields}}{{if:fields.type:Checkbox}}'{{fields.name}}',{{else:fields.type}}{{if:fields.type}}{{array:fields}}];
+        $checkbox_fields = [{{array:fields}}{{if:fields.type:Checkbox}}'{{fields.name}}',{{endif:fields.type}}{{array:fields}}];
 
         foreach ($checkbox_fields as $checkbox_field) {
             if (!isset($meta[$checkbox_field])) {
@@ -113,7 +113,7 @@ class {{class_name}} extends NonmerchantGateway
      */
     public function encryptableFields()
     {
-        return [{{array:fields}}{{if:fields.encryptable:true}}'{{fields.name}}',{{else:fields.encryptable}}{{if:fields.encryptable}}{{array:fields}}];
+        return [{{array:fields}}{{if:fields.encryptable:true}}'{{fields.name}}',{{endif:fields.encryptable}}{{array:fields}}];
     }
 
     /**
@@ -371,7 +371,7 @@ class {{class_name}} extends NonmerchantGateway
     {
         Loader::load(dirname(__FILE__) . DS . 'apis' . DS . '{{snake_case_name}}_api.php');
         return new {{class_name}}Api({{array:fields}}
-            $this->meta['{{fields.name}}']{{if:fields.type:Checkbox}} == 'true'{{else:fields.type}}{{if:fields.type}},{{array:fields}}
+            $this->meta['{{fields.name}}']{{if:fields.type:Checkbox}} == 'true'{{endif:fields.type}},{{array:fields}}
         );
     }
 }
