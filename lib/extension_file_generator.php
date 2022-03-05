@@ -314,8 +314,8 @@ class ExtensionFileGenerator
 
             // {{if:tag:value}}true_text{{else:tag}}false_text{{if:tag}}
             $pattern = '/' . $this->tag_start . 'if:' . $trimmed_tag . ':(.*?)' . $this->tag_end
-                . '([\d\D]*?)' . $this->tag_start . 'else:' . $trimmed_tag . $this->tag_end
-                . '([\d\D]*?)' . $this->tag_start . 'if:' . $trimmed_tag . $this->tag_end . '/';
+                . '([\d\D]*?)(' . $this->tag_start . 'else:' . $trimmed_tag . $this->tag_end
+                . '([\d\D]*?))?' . $this->tag_start . 'endif:' . $trimmed_tag . $this->tag_end . '/';
 
             if (preg_match_all($pattern, $content, $matches) && count($matches) !== 0) {
                 foreach ($matches[0] as $index => $match) {

@@ -4,7 +4,7 @@
 
         <?php
         $this->Form->create(
-//// {{if:service_tabs.level:staff}}$this->base_uri . 'services/manage/' . (isset($service_id) ? $service_id : null) . '/{{service_tabs.snake_case_name}}/'{{else:service_tabs.level}}$this->base_uri . 'clients/serviceTab/' . (isset($client_id) ? $client_id : null) . '/' . (isset($service_id) ? $service_id : null) . '/{{service_tabs.snake_case_name}}/'{{if:service_tabs.level}}
+//// {{if:service_tabs.level:staff}}$this->base_uri . 'services/manage/' . (isset($service_id) ? $service_id : null) . '/{{service_tabs.snake_case_name}}/'{{else:service_tabs.level}}$this->base_uri . 'clients/serviceTab/' . (isset($client_id) ? $client_id : null) . '/' . (isset($service_id) ? $service_id : null) . '/{{service_tabs.snake_case_name}}/'{{endif:service_tabs.level}}
         );
         ?>
         <div class="col-md-12">

@@ -4,7 +4,7 @@
  *{{array:authors}}
  * @link {{authors.url}} {{authors.name}}{{array:authors}}
  */
-class {{class_name}} extends MerchantGateway implements {{array:supported_features}}{{if:supported_features.ach:true}}MerchantAch,{{else:supported_features.ach}}{{if:supported_features.ach}}{{if:supported_features.ach_offset:true}}MerchantAchOffsite,{{else:supported_features.ach_offset}}{{if:supported_features.ach_offset}}{{if:supported_features.cc:true}}MerchantCc,{{else:supported_features.cc}}{{if:supported_features.cc}}{{if:supported_features.cc_offsite:true}}MerchantCcOffsite,{{else:supported_features.cc_offsite}}{{if:supported_features.cc_offsite}}{{if:supported_features.cc_form:true}}MerchantCcForm,{{else:supported_features.cc_form}}{{if:supported_features.cc_form}}{{array:supported_features}}
+class {{class_name}} extends MerchantGateway implements {{array:supported_features}}{{if:supported_features.ach:true}}MerchantAch,{{endif:supported_features.ach}}{{if:supported_features.ach_offset:true}}MerchantAchOffsite,{{endif:supported_features.ach_offset}}{{if:supported_features.cc:true}}MerchantCc,{{endif:supported_features.cc}}{{if:supported_features.cc_offsite:true}}MerchantCcOffsite,{{endif:supported_features.cc_offsite}}{{if:supported_features.cc_form:true}}MerchantCcForm,{{endif:supported_features.cc_form}}{{array:supported_features}}
 {
     /**
      * @var array An array of meta data for this gateway
@@ -80,7 +80,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->Input->setRules($rules);
 
         // Set unset checkboxes
-        $checkbox_fields = [{{array:fields}}{{if:fields.type:Checkbox}}'{{fields.name}}',{{else:fields.type}}{{if:fields.type}}{{array:fields}}];
+        $checkbox_fields = [{{array:fields}}{{if:fields.type:Checkbox}}'{{fields.name}}',{{endif:fields.type}}{{array:fields}}];
 
         foreach ($checkbox_fields as $checkbox_field) {
             if (!isset($meta[$checkbox_field])) {
@@ -101,7 +101,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
      */
     public function encryptableFields()
     {
-        return [{{array:fields}}{{if:fields.encryptable:true}}'{{fields.name}}',{{else:fields.encryptable}}{{if:fields.encryptable}}{{array:fields}}];
+        return [{{array:fields}}{{if:fields.encryptable:true}}'{{fields.name}}',{{endif:fields.encryptable}}{{array:fields}}];
     }
 
     /**
@@ -1383,7 +1383,7 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
     {
         Loader::load(dirname(__FILE__) . DS . 'apis' . DS . '{{snake_case_name}}_api.php');
         return new {{class_name}}Api({{array:fields}}
-            $this->meta['{{fields.name}}']{{if:fields.type:Checkbox}} == 'true'{{else:fields.type}}{{if:fields.type}},{{array:fields}}
+            $this->meta['{{fields.name}}']{{if:fields.type:Checkbox}} == 'true'{{endif:fields.type}},{{array:fields}}
         );
     }
 }

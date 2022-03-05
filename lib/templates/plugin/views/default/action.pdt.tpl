@@ -32,7 +32,7 @@
 
         <div class="col-md-12">
             <p>This is a very simple action page, created by the extension generator.  The content
-                of this file can be modified at <?php echo PLUGINDIR . '{{snake_case_name}}' . DS . 'views' . DS . 'default' . DS . '{{actions.controller}}{{if:actions.action:index}}{{else:actions.action}}_{{actions.action}}{{if:actions.action}}.pdt';?>.
+                of this file can be modified at <?php echo PLUGINDIR . '{{snake_case_name}}' . DS . 'views' . DS . 'default' . DS . '{{actions.controller}}{{if:actions.action:index}}{{else:actions.action}}_{{actions.action}}{{endif:actions.action}}.pdt';?>.
                 Included here is a basic form that can be submitted and is handled by the {{actions.action}}() method in <?php echo PLUGINDIR . '{{snake_case_name}}' . DS . 'controllers' . DS . '{{actions.controller}}.php';?>
             </p>
             <div class="button_row">
