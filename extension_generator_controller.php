@@ -129,7 +129,7 @@ class ExtensionGeneratorController extends AppController
             }
 
             // If this step contains optional functions, set unchecked options
-            $optional_function_steps = ['module/features', 'registrar_module/features', 'plugin/features'];
+            $optional_function_steps = ['module/features', 'plugin/features'];
             if (in_array($step, $optional_function_steps)) {
                 if (!isset($temp_vars['optional_functions'])) {
                     $temp_vars['optional_functions'] = [];
@@ -199,9 +199,6 @@ class ExtensionGeneratorController extends AppController
                 'module' => [
                     'module/basic' => Language::_('ExtensionGeneratorController.getnodes.basic_info', true),
                 ],
-                'registrar_module' => [
-                    'registrar_module/basic' => Language::_('ExtensionGeneratorController.getnodes.basic_info', true),
-                ],
                 'plugin' => [
                     'plugin/basic' => Language::_('ExtensionGeneratorController.getnodes.basic_info', true),
                 ],
@@ -219,11 +216,6 @@ class ExtensionGeneratorController extends AppController
                     'module/basic' => Language::_('ExtensionGeneratorController.getnodes.basic_info', true),
                     'module/fields' => Language::_('ExtensionGeneratorController.getnodes.module_fields', true),
                     'module/features' => Language::_('ExtensionGeneratorController.getnodes.additional_features', true),
-                ],
-                'registrar_module' => [
-                    'registrar_module/basic' => Language::_('ExtensionGeneratorController.getnodes.basic_info', true),
-                    'registrar_module/fields' => Language::_('ExtensionGeneratorController.getnodes.module_fields', true),
-                    'registrar_module/features' => Language::_('ExtensionGeneratorController.getnodes.additional_features', true),
                 ],
                 'plugin' => [
                     'plugin/basic' => Language::_('ExtensionGeneratorController.getnodes.basic_info', true),
@@ -287,9 +279,6 @@ class ExtensionGeneratorController extends AppController
             'module/basic' => 'module/fields',
             'module/fields' => 'module/features',
             'module/features' => 'main/confirm',
-            'registrar_module/basic' => 'registrar_module/fields',
-            'registrar_module/fields' => 'registrar_module/features',
-            'registrar_module/features' => 'main/confirm',
             'plugin/basic' => 'plugin/database',
             'plugin/database' => 'plugin/integrations',
             'plugin/integrations' => 'plugin/features',
@@ -308,7 +297,6 @@ class ExtensionGeneratorController extends AppController
             $step_mapping = [
                 'main/general' => $extension_type . '/basic',
                 'module/basic' => 'main/confirm',
-                'registrar_module/basic' => 'main/confirm',
                 'plugin/basic' => 'main/confirm',
                 'merchant/basic' => 'merchant/features',
                 'merchant/features' => 'main/confirm',

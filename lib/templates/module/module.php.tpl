@@ -5,7 +5,7 @@
  *{{array:authors}}
  * @link {{authors.url}} {{authors.name}}{{array:authors}}
  */
-class {{class_name}} extends Module
+class {{class_name}} extends {{if:module_type:registrar}}RegistrarModule{{else:module_type}}Module{{endif:module_type}}
 {
 
     /**
@@ -125,7 +125,7 @@ class {{class_name}} extends Module
 
         if (!empty($vars)) {
             // Set unset checkboxes
-            $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{else:module_rows.type}}{{if:module_rows.type}}{{array:module_rows}}];
+            $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{endif:module_rows.type}}{{array:module_rows}}];
 
             foreach ($checkbox_fields as $checkbox_field) {
                 if (!isset($vars[$checkbox_field])) {
@@ -161,7 +161,7 @@ class {{class_name}} extends Module
             $vars = $module_row->meta;
         } else {
             // Set unset checkboxes
-            $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{else:module_rows.type}}{{if:module_rows.type}}{{array:module_rows}}];
+            $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{endif:module_rows.type}}{{array:module_rows}}];
 
             foreach ($checkbox_fields as $checkbox_field) {
                 if (!isset($vars[$checkbox_field])) {
@@ -192,7 +192,7 @@ class {{class_name}} extends Module
         $encrypted_fields = [];
 
         // Set unset checkboxes
-        $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{else:module_rows.type}}{{if:module_rows.type}}{{array:module_rows}}];
+        $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{endif:module_rows.type}}{{array:module_rows}}];
 
         foreach ($checkbox_fields as $checkbox_field) {
             if (!isset($vars[$checkbox_field])) {
@@ -238,7 +238,7 @@ class {{class_name}} extends Module
         $encrypted_fields = [];
 
         // Set unset checkboxes
-        $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{else:module_rows.type}}{{if:module_rows.type}}{{array:module_rows}}];
+        $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{endif:module_rows.type}}{{array:module_rows}}];
 
         foreach ($checkbox_fields as $checkbox_field) {
             if (!isset($vars[$checkbox_field])) {
@@ -582,14 +582,14 @@ class {{class_name}} extends Module
         ${{package_fields.name}}->attach(
             $fields->field{{package_fields.type}}(
                 'meta[{{package_fields.name}}]',{{if:package_fields.type:Checkbox}}
-                'true',{{else:package_fields.type}}{{if:package_fields.type}}
-                (isset($vars->meta['{{package_fields.name}}']) ? $vars->meta['{{package_fields.name}}'] : null){{if:package_fields.type:Checkbox}} == 'true'{{else:package_fields.type}}{{if:package_fields.type}},
+                'true',{{endif:package_fields.type}}
+                (isset($vars->meta['{{package_fields.name}}']) ? $vars->meta['{{package_fields.name}}'] : null){{if:package_fields.type:Checkbox}} == 'true'{{endif:package_fields.type}},
                 ['id' => '{{snake_case_name}}_{{package_fields.name}}']
             )
         );{{if:package_fields.tooltip:}}{{else:package_fields.tooltip}}
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{package_fields.name}}', true));
-        ${{package_fields.name}}->attach($tooltip);{{if:package_fields.tooltip}}
+        ${{package_fields.name}}->attach($tooltip);{{endif:package_fields.tooltip}}
         $fields->setField(${{package_fields.name}});{{array:package_fields}}
 
         return $fields;
@@ -646,7 +646,7 @@ class {{class_name}} extends Module
 ////        $params = $this->getFieldsFromInput((array) $vars, $package);
 
         // Set unset checkboxes
-        $checkbox_fields = [{{array:service_fields}}{{if:service_fields.type:Checkbox}}'{{service_fields.name}}',{{else:service_fields.type}}{{if:service_fields.type}}{{array:service_fields}}];
+        $checkbox_fields = [{{array:service_fields}}{{if:service_fields.type:Checkbox}}'{{service_fields.name}}',{{endif:service_fields.type}}{{array:service_fields}}];
 
         foreach ($checkbox_fields as $checkbox_field) {
             if (!isset($vars[$checkbox_field])) {
@@ -716,7 +716,7 @@ class {{class_name}} extends Module
 ////        $params = $this->getFieldsFromInput((array) $vars, $package);
 
         // Set unset checkboxes
-        $checkbox_fields = [{{array:service_fields}}{{if:service_fields.type:Checkbox}}'{{service_fields.name}}',{{else:service_fields.type}}{{if:service_fields.type}}{{array:service_fields}}];
+        $checkbox_fields = [{{array:service_fields}}{{if:service_fields.type:Checkbox}}'{{service_fields.name}}',{{endif:service_fields.type}}{{array:service_fields}}];
 
         foreach ($checkbox_fields as $checkbox_field) {
             if (!isset($vars[$checkbox_field])) {
@@ -997,12 +997,12 @@ class {{class_name}} extends Module
 ////     * @param string ${{module_rows.name}} Placeholder description{{array:module_rows}}
 ////     * @return {{class_name}}Api The {{class_name}}Api instance
 ////     */
-////    private function getApi({{array:module_rows}}${{module_rows.name}}{{if:module_rows.type:Checkbox}} = 'true'{{else:module_rows.type}}{{if:module_rows.type}},{{array:module_rows}})
+////    private function getApi({{array:module_rows}}${{module_rows.name}}{{if:module_rows.type:Checkbox}} = 'true'{{endif:module_rows.type}},{{array:module_rows}})
 ////    {
 ////        Loader::load(dirname(__FILE__) . DS . 'apis' . DS . '{{snake_case_name}}_api.php');
 ////
 //////        See the apis/{{snake_case_name}}_api.php and apis/{{snake_case_name}}_response.php files
-////        $api = new {{class_name}}Api({{array:module_rows}}${{module_rows.name}}{{if:module_rows.type:Checkbox}} == 'true'{{else:module_rows.type}}{{if:module_rows.type}},{{array:module_rows}});
+////        $api = new {{class_name}}Api({{array:module_rows}}${{module_rows.name}}{{if:module_rows.type:Checkbox}} == 'true'{{endif:module_rows.type}},{{array:module_rows}});
 ////
 ////        return $api;
 ////    }
@@ -1166,7 +1166,7 @@ class {{class_name}} extends Module
     public function getClientTabs($package)
     {
         return [{{array:service_tabs}}{{if:service_tabs.level:client}}
-            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{else:service_tabs.level}}{{if:service_tabs.level}}{{array:service_tabs}}
+            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{endif:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getClientTabs}}{{function:getAdminTabs}}
 
@@ -1181,7 +1181,7 @@ class {{class_name}} extends Module
     public function getAdminTabs($package)
     {
         return [{{array:service_tabs}}{{if:service_tabs.level:staff}}
-            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{else:service_tabs.level}}{{if:service_tabs.level}}{{array:service_tabs}}
+            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{endif:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getAdminTabs}}{{array:service_tabs}}
 
@@ -1248,14 +1248,14 @@ class {{class_name}} extends Module
         ${{service_fields.name}}->attach(
             $fields->field{{service_fields.type}}(
                 '{{service_fields.name}}',{{if:service_fields.type:Checkbox}}
-                'true',{{else:service_fields.type}}{{if:service_fields.type}}
-                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
+                'true',{{endif:service_fields.type}}
+                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{endif:service_fields.type}},
                 ['id' => '{{snake_case_name}}_{{service_fields.name}}']
             )
         );{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.service_field.tooltip.{{service_fields.name}}', true));
-        ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
+        ${{service_fields.name}}->attach($tooltip);{{endif:service_fields.tooltip}}
         $fields->setField(${{service_fields.name}});{{array:service_fields}}
 
         return $fields;
@@ -1280,14 +1280,14 @@ class {{class_name}} extends Module
         ${{service_fields.name}}->attach(
             $fields->field{{service_fields.type}}(
                 '{{service_fields.name}}',{{if:service_fields.type:Checkbox}}
-                'true',{{else:service_fields.type}}{{if:service_fields.type}}
-                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
+                'true',{{endif:service_fields.type}}
+                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{endif:service_fields.type}},
                 ['id' => '{{snake_case_name}}_{{service_fields.name}}']
             )
         );{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.service_field.tooltip.{{service_fields.name}}', true));
-        ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
+        ${{service_fields.name}}->attach($tooltip);{{endif:service_fields.tooltip}}
         $fields->setField(${{service_fields.name}});{{array:service_fields}}
 
         return $fields;
@@ -1312,14 +1312,14 @@ class {{class_name}} extends Module
         ${{service_fields.name}}->attach(
             $fields->field{{service_fields.type}}(
                 '{{service_fields.name}}',{{if:service_fields.type:Checkbox}}
-                'true',{{else:service_fields.type}}{{if:service_fields.type}}
-                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
+                'true',{{endif:service_fields.type}}
+                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{endif:service_fields.type}},
                 ['id' => '{{snake_case_name}}_{{service_fields.name}}']
             )
         );{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.service_field.tooltip.{{service_fields.name}}', true));
-        ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
+        ${{service_fields.name}}->attach($tooltip);{{endif:service_fields.tooltip}}
         $fields->setField(${{service_fields.name}});{{array:service_fields}}
 
         return $fields;
@@ -1344,14 +1344,14 @@ class {{class_name}} extends Module
         ${{service_fields.name}}->attach(
             $fields->field{{service_fields.type}}(
                 '{{service_fields.name}}',{{if:service_fields.type:Checkbox}}
-                'true',{{else:service_fields.type}}{{if:service_fields.type}}
-                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
+                'true',{{endif:service_fields.type}}
+                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{endif:service_fields.type}},
                 ['id' => '{{snake_case_name}}_{{service_fields.name}}']
             )
         );{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.service_field.tooltip.{{service_fields.name}}', true));
-        ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
+        ${{service_fields.name}}->attach($tooltip);{{endif:service_fields.tooltip}}
         $fields->setField(${{service_fields.name}});{{array:service_fields}}
 
         return $fields;
@@ -1423,5 +1423,471 @@ class {{class_name}} extends Module
                 break;{{array:cron_tasks}}
         }
     }
-    {{function:getCronTasks}}
+    {{function:getCronTasks}}{{if:module_type:registrar}}{{function:checkAvailability}}
+
+    /**
+     * Verifies that the provided domain name is available
+     *
+     * @param string $domain The domain to lookup
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return bool True if the domain is available, false otherwise
+     */
+    public function checkAvailability($domain, $module_row_id = null)
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Check if the domain is available
+////        $domain = $api->checkDomain($domain);
+////
+////        return isset($domain->availability) ? $domain->availability : false;
+    }{{function:checkAvailability}}{{function:checkTransferAvailability}}
+
+    /**
+     * Verifies that the provided domain name is available for transfer
+     *
+     * @param string $domain The domain to lookup
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return bool True if the domain is available for transfer, false otherwise
+     */
+    public function checkTransferAvailability($domain, $module_row_id = null)
+    {
+        // If the domain is available for registration, then it is not available for transfer
+        return !$this->checkAvailability($domain, $module_row_id);
+    }{{function:checkTransferAvailability}}{{function:getDomainInfo}}
+
+    /**
+     * Gets a list of basic information for a domain
+     *
+     * @param string $domain The domain to lookup
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return array A list of common domain information
+     *
+     *  - * The contents of the return vary depending on the registrar
+     */
+    public function getDomainInfo($domain, $module_row_id = null)
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Get the domain information
+////        $domain = $api->getInformation($domain);
+////
+////        return (array) $domain;
+    }{{function:getDomainInfo}}{{function:getExpirationDate}}
+
+    /**
+     * Gets the domain expiration date
+     *
+     * @param stdClass $service The service belonging to the domain to lookup
+     * @param string $format The format to return the expiration date in
+     * @return string The domain expiration date in UTC time in the given format
+     * @see Services::get()
+     */
+    public function getExpirationDate($service, $format = 'Y-m-d H:i:s')
+    {
+////        $domain = $this->getServiceDomain($service);
+////        $module_row_id = $service->module_row_id ?? null;
+////
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Get the domain information
+////        $domain = $api->getDomain($domain);
+////
+////        return date(strtotime($domain->expirationDate), $format);
+    }{{function:getExpirationDate}}{{function:getServiceDomain}}
+
+    /**
+     * Gets the domain name from the given service
+     *
+     * @param stdClass $service The service from which to extract the domain name
+     * @return string The domain name associated with the service
+     * @see Services::get()
+     */
+    public function getServiceDomain($service)
+    {
+        if (isset($service->fields)) {
+            foreach ($service->fields as $service_field) {
+                if ($service_field->key == '{{array:service_fields}}{{if:service_fields.name_key:true}}{{service_fields.name}}{{endif:service_fields.name_key}}{{array:service_fields}}') {
+                    return $service_field->value;
+                }
+            }
+        }
+
+        return $this->getServiceName($service);
+    }{{function:getServiceDomain}}{{function:getTldPricing}}
+
+    /**
+     * Get a list of the TLD prices
+     *
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return array A list of all TLDs and their pricing
+     *    [tld => [currency => [year# => ['register' => price, 'transfer' => price, 'renew' => price]]]]
+     */
+    public function getTldPricing($module_row_id = null)
+    {
+////        // Returns an array containing the pricing for each tld
+////        return [
+////            '.com' => [
+////                'USD' => [
+////                    1 => ['register' => 10, 'transfer' => 10, 'renew' => 10],
+////                    2 => ['register' => 20, 'transfer' => 20, 'renew' => 20]
+////                ]
+////            ]
+////        ];
+    }{{function:getTldPricing}}{{function:registerDomain}}
+
+    /**
+     * Register a new domain through the registrar
+     *
+     * @param string $domain The domain to register
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @param array $vars A list of vars to submit with the registration request
+     *
+     *  - * The contents of $vars vary depending on the registrar
+     * @return bool True if the domain was successfully registered, false otherwise
+     */
+    public function registerDomain($domain, $module_row_id = null, array $vars = [])
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Register the new domain
+////        $domain = $api->newDomain($domain, $vars);
+////
+////        return ($domain->status == 'success');
+    }{{function:registerDomain}}{{function:renewDomain}}
+
+    /**
+     * Renew a domain through the registrar
+     *
+     * @param string $domain The domain to renew
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @param array $vars A list of vars to submit with the renew request
+     *
+     *  - * The contents of $vars vary depending on the registrar
+     * @return bool True if the domain was successfully renewed, false otherwise
+     */
+    public function renewDomain($domain, $module_row_id = null, array $vars = [])
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Renew domain
+////        $domain = $api->renewDomain($domain, $vars);
+////
+////        return ($domain->status == 'success');
+    }{{function:renewDomain}}{{function:transferDomain}}
+
+    /**
+     * Transfer a domain through the registrar
+     *
+     * @param string $domain The domain to register
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @param array $vars A list of vars to submit with the transfer request
+     *
+     *  - * The contents of $vars vary depending on the registrar
+     * @return bool True if the domain was successfully transferred, false otherwise
+     */
+    public function transferDomain($domain, $module_row_id = null, array $vars = [])
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Transfer the domain
+////        $transfer = $api->transferDomain($domain, $vars['epp_code'], $vars);
+////
+////        // Send confirmation email
+////        $this->resendTransferEmail($domain, $module_row_id);
+////
+////        return ($transfer->status == 'pending');
+    }{{function:transferDomain}}{{function:getDomainContacts}}
+
+    /**
+     * Gets a list of contacts associated with a domain
+     *
+     * @param string $domain The domain to lookup
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return array A list of contact objects with the following information:
+     *
+     *  - external_id The ID of the contact in the registrar
+     *  - email The primary email associated with the contact
+     *  - phone The phone number associated with the contact
+     *  - first_name The first name of the contact
+     *  - last_name The last name of the contact
+     *  - address1 The contact's address
+     *  - address2 The contact's address line two
+     *  - city The contact's city
+     *  - state The 3-character ISO 3166-2 subdivision code
+     *  - zip The zip/postal code for this contact
+     *  - country The 2-character ISO 3166-1 country code
+     */
+    public function getDomainContacts($domain, $module_row_id = null)
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Get the domain contacts
+////        $contact = $api->getContact($domain);
+////
+////        return [
+////            [
+////                'external_id' => $contact->id,
+////                'email' => $contact->email,
+////                'phone' => $contact->phone,
+////                'first_name' => $contact->firstName,
+////                'last_name' => $contact->lastName,
+////                'address1' => $contact->address1,
+////                'address2' => $contact->address2,
+////                'city' => $contact->city,
+////                'state' => $contact->state,
+////                'zip' => $contact->zip,
+////                'country' => $contact->country
+////            ]
+////        ];
+    }{{function:getDomainContacts}}{{function:getDomainIsLocked}}
+
+    /**
+     * Returns whether the domain has a registrar lock
+     *
+     * @param string $domain The domain to lookup
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return bool True if the domain has a registrar lock, false otherwise
+     */
+    public function getDomainIsLocked($domain, $module_row_id = null)
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Get the domain information
+////        $domain = $api->getInformation($domain);
+////
+////        return ($domain->status == 'locked');
+    }{{function:getDomainIsLocked}}{{function:getDomainNameServers}}
+
+    /**
+     * Gets a list of name server data associated with a domain
+     *
+     * @param string $domain The domain to lookup
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return array A list of name servers, each with the following fields:
+     *
+     *  - url The URL of the name server
+     *  - ips A list of IPs for the name server
+     */
+    public function getDomainNameServers($domain, $module_row_id = null)
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Get the domain information
+////        $domain = $api->getInformation($domain);
+////
+////        return $domain->name_servers;
+    }{{function:getDomainNameServers}}{{function:lockDomain}}
+
+    /**
+     * Locks the given domain
+     *
+     * @param string $domain The domain to lookup
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return bool True if the domain was successfully locked, false otherwise
+     */
+    public function lockDomain($domain, $module_row_id = null)
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Set the domain status
+////        $status = $api->setStatus($domain, 'locked');
+////
+////        return ($nameservers->status == 'success');
+    }{{function:lockDomain}}{{function:resendTransferEmail}}
+
+    /**
+     * Resend domain transfer verification email
+     *
+     * @param string $domain The domain for which to resend the email
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return bool True if the email was successfully sent, false otherwise
+     */
+    public function resendTransferEmail($domain, $module_row_id = null)
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Send transfer email
+////        $transfer = $api->sendTransferEmail($domain);
+////
+////        return ($transfer->status == 'success');
+    }{{function:resendTransferEmail}}{{function:restoreDomain}}
+
+    /**
+     * Restore a domain through the registrar
+     *
+     * @param string $domain The domain to restore
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @param array $vars A list of vars to submit with the restore request
+     *
+     *  - * The contents of $vars vary depending on the registrar
+     * @return bool True if the domain was successfully restored, false otherwise
+     */
+    public function restoreDomain($domain, $module_row_id = null, array $vars = [])
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Restore domain
+////        $domain = $api->restoreDomain($domain, $vars);
+////
+////        return ($domain->status == 'success');
+    }{{function:restoreDomain}}{{function:sendEppEmail}}
+
+    /**
+     * Send domain transfer auth code to admin email
+     *
+     * @param string $domain The domain for which to send the email
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return bool True if the email was successfully sent, false otherwise
+     */
+    public function sendEppEmail($domain, $module_row_id = null)
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Send transfer email
+////        $transfer = $api->sendTransferEmail($domain);
+////
+////        return ($transfer->status == 'success');
+    }{{function:sendEppEmail}}{{function:setDomainContacts}}
+
+    /**
+     * Updates the list of contacts associated with a domain
+     *
+     * @param string $domain The domain for which to update contact info
+     * @param array $vars A list of contact arrays with the following information:
+     *
+     *  - external_id The ID of the contact in the registrar (optional)
+     *  - email The primary email associated with the contact
+     *  - phone The phone number associated with the contact
+     *  - first_name The first name of the contact
+     *  - last_name The last name of the contact
+     *  - address1 The contact's address
+     *  - address2 The contact's address line two
+     *  - city The contact's city
+     *  - state The 3-character ISO 3166-2 subdivision code
+     *  - zip The zip/postal code for this contact
+     *  - country The 2-character ISO 3166-1 country code
+     *  - * Other fields required by the registrar
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return bool True if the contacts were updated, false otherwise
+     */
+    public function setDomainContacts($domain, array $vars = [], $module_row_id = null)
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Set the domain contacts
+////        $contacts = $api->setContacts($domain);
+////
+////        return ($contacts->status == 'success');
+    }{{function:setDomainContacts}}{{function:setDomainNameservers}}
+
+    /**
+     * Assign new name servers to a domain
+     *
+     * @param string $domain The domain for which to assign new name servers
+     * @param int|null $module_row_id The ID of the module row to fetch for the current module
+     * @param array $vars A list of name servers to assign (e.g. [ns1, ns2])
+     * @return bool True if the name servers were successfully updated, false otherwise
+     */
+    public function setDomainNameservers($domain, $module_row_id = null, array $vars = [])
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Set the domain name servers
+////        $nameservers = $api->setNameservers($vars);
+////
+////        return ($nameservers->status == 'success');
+    }{{function:setDomainNameservers}}{{function:setNameserverIps}}
+
+    /**
+     * Assigns new ips to a name server
+     *
+     * @param array $vars A list of name servers and their new ips
+     *
+     *  - nsx => [ip1, ip2]
+     * @param int|null $module_row_id The ID of the module row to fetch for the current module
+     * @return bool True if the name servers were successfully updated, false otherwise
+     */
+    public function setNameserverIps(array $vars = [], $module_row_id = null)
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Set the domain name servers
+////        $nameservers = $api->setNameservers($vars);
+////
+////        return ($nameservers->status == 'success');
+    }{{function:setNameserverIps}}{{function:unlockDomain}}
+
+    /**
+     * Unlocks the given domain
+     *
+     * @param string $domain The domain to lookup
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return bool True if the domain was successfully unlocked, false otherwise
+     */
+    public function unlockDomain($domain, $module_row_id = null)
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Set the domain status
+////        $status = $api->setStatus($domain, 'active');
+////
+////        return ($nameservers->status == 'success');
+    }{{function:unlockDomain}}{{function:updateEppCode}}
+
+    /**
+     * Set a new domain transfer auth code
+     *
+     * @param string $domain The domain for which to update the code
+     * @param string $epp_code The new epp auth code to use
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @param array $vars A list of vars to submit with the update request
+     *
+     *  - * The contents of $vars vary depending on the registrar
+     * @return bool True if the code was successfully updated, false otherwise
+     */
+    public function updateEppCode($domain, $epp_code, $module_row_id = null, array $vars = [])
+    {
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Update the domain EPP code
+////        $domain = $api->updateDomain($domain, ['auth_code' => $epp_code]);
+////
+////        return ($domain->status == 'success');
+    }{{function:updateEppCode}}
+
+    /**
+     * Get a list of the TLDs supported by the registrar module
+     *
+     * @param int $module_row_id The ID of the module row to fetch for the current module
+     * @return array A list of all TLDs supported by the registrar module
+     */
+    public function getTlds($module_row_id = null)
+    {{{if:static_tlds:1}}
+        return Configure::get('{{class_name}}.tlds');{{else:static_tlds}}
+////        $row = $this->getModuleRow($module_row_id);
+////        $api = $this->getApi($row->meta->host_name, $row->meta->user_name, $row->meta->password, $row->meta->use_ssl);
+////
+////        // Get a list of the available TLDs
+////        $tlds = $api->availableTlds();
+////
+////        return $tlds;{{endif:static_tlds}}
+    }{{endif:module_type}}
 }

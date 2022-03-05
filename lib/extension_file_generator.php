@@ -420,41 +420,6 @@ class ExtensionFileGenerator
                 ['path' => 'README.md'],
                 ['path' => 'composer.json', 'required_by' => ['code_examples']],
             ],
-            'registrar_module' => [
-                ['path' => 'module.php', 'name' => $extension_name . '.php'],
-                ['path' => 'config.json'],
-                ['path' => 'language' . DS . 'en_us' . DS . 'module.php', 'name' => $extension_name . '.php'],
-                ['path' => 'views' . DS . 'default' . DS . 'images' . DS . 'logo.png'],
-                ['path' => 'views' . DS . 'default' . DS . 'manage.pdt'],
-                [
-                    'path' => 'views' . DS . 'default' . DS . 'client_service_info.pdt',
-                    'required_by' => ['getClientServiceInfo']
-                ],
-                [
-                    'path' => 'views' . DS . 'default' . DS . 'admin_service_info.pdt',
-                    'required_by' => ['getAdminServiceInfo']
-                ],
-                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
-                ['path' => 'views' . DS . 'default' . DS . 'add_row.pdt', 'required_by' => ['module_rows']],
-                ['path' => 'views' . DS . 'default' . DS . 'edit_row.pdt', 'required_by' => ['module_rows']],
-                ['path' => 'views' . DS . 'default' . DS . 'tab.pdt', 'foreach' => ['service_tabs' => 'method_name']],
-                [
-                    'path' => 'config' . DS . 'module.php',
-                    'name' => $extension_name . '.php'
-                ],
-                [
-                    'path' => 'apis' . DS . 'module_api.php',
-                    'name' => $extension_name . '_api.php',
-                    'required_by' => ['code_examples']
-                ],
-                [
-                    'path' => 'apis' . DS . 'module_response.php',
-                    'name' => $extension_name . '_response.php',
-                    'required_by' => ['code_examples']
-                ],
-                ['path' => 'README.md'],
-                ['path' => 'composer.json', 'required_by' => ['code_examples']],
-            ],
             'plugin' => [
                 ['path' => 'plugin.php', 'name' => $extension_name . '_plugin.php'],
                 ['path' => 'controller.php', 'name' => $extension_name . '_controller.php'],
@@ -588,7 +553,6 @@ class ExtensionFileGenerator
     {
         $directories = [
             'module' => PLUGINDIR . 'extension_generator' . DS . 'lib' . DS . 'templates' . DS . 'module' . DS,
-            'registrar_module' => PLUGINDIR . 'extension_generator' . DS . 'lib' . DS . 'templates' . DS . 'registrar_module' . DS,
             'plugin' => PLUGINDIR . 'extension_generator' . DS . 'lib' . DS . 'templates' . DS . 'plugin' . DS,
             'merchant' => PLUGINDIR . 'extension_generator' . DS . 'lib' . DS . 'templates' . DS . 'merchant' . DS,
             'nonmerchant' => PLUGINDIR . 'extension_generator'
@@ -602,17 +566,6 @@ class ExtensionFileGenerator
     {
         $function_dependencies = [
             'module' => [
-                'addCronTasks' => 'cron_tasks',
-                'getCronTasks' => 'cron_tasks',
-                'getPackageFields' => 'package_fields',
-                'getAdminAddFields' => 'service_fields',
-                'getAdminEditFields' => 'service_fields',
-                'getClientAddFields' => 'service_fields',
-                'getAdminTabs' => 'service_tabs',
-                'getClientTabs' => 'service_tabs',
-                'code_examples' => 'code_examples', // Set this fake optional function to exclude certain files
-            ],
-            'registrar_module' => [
                 'addCronTasks' => 'cron_tasks',
                 'getCronTasks' => 'cron_tasks',
                 'getPackageFields' => 'package_fields',

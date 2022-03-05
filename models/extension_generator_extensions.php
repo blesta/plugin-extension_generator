@@ -185,7 +185,6 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
     {
         return [
             'module' => Language::_('ExtensionGeneratorExtensions.gettypes.module', true),
-            'registrar_module' => Language::_('ExtensionGeneratorExtensions.gettypes.registrar_module', true),
             'plugin' => Language::_('ExtensionGeneratorExtensions.gettypes.plugin', true),
             'merchant' => Language::_('ExtensionGeneratorExtensions.gettypes.merchant', true),
             'nonmerchant' => Language::_('ExtensionGeneratorExtensions.gettypes.nonmerchant', true)
