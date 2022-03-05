@@ -125,7 +125,7 @@ class {{class_name}} extends Module
 
         if (!empty($vars)) {
             // Set unset checkboxes
-            $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{else:module_rows.type}}{{if:module_rows.type}}{{array:module_rows}}];
+            $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{endif:module_rows.type}}{{array:module_rows}}];
 
             foreach ($checkbox_fields as $checkbox_field) {
                 if (!isset($vars[$checkbox_field])) {
@@ -161,7 +161,7 @@ class {{class_name}} extends Module
             $vars = $module_row->meta;
         } else {
             // Set unset checkboxes
-            $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{else:module_rows.type}}{{if:module_rows.type}}{{array:module_rows}}];
+            $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{endif:module_rows.type}}{{array:module_rows}}];
 
             foreach ($checkbox_fields as $checkbox_field) {
                 if (!isset($vars[$checkbox_field])) {
@@ -192,7 +192,7 @@ class {{class_name}} extends Module
         $encrypted_fields = [];
 
         // Set unset checkboxes
-        $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{else:module_rows.type}}{{if:module_rows.type}}{{array:module_rows}}];
+        $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{endif:module_rows.type}}{{array:module_rows}}];
 
         foreach ($checkbox_fields as $checkbox_field) {
             if (!isset($vars[$checkbox_field])) {
@@ -238,7 +238,7 @@ class {{class_name}} extends Module
         $encrypted_fields = [];
 
         // Set unset checkboxes
-        $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{else:module_rows.type}}{{if:module_rows.type}}{{array:module_rows}}];
+        $checkbox_fields = [{{array:module_rows}}{{if:module_rows.type:Checkbox}}'{{module_rows.name}}',{{endif:module_rows.type}}{{array:module_rows}}];
 
         foreach ($checkbox_fields as $checkbox_field) {
             if (!isset($vars[$checkbox_field])) {
@@ -582,14 +582,14 @@ class {{class_name}} extends Module
         ${{package_fields.name}}->attach(
             $fields->field{{package_fields.type}}(
                 'meta[{{package_fields.name}}]',{{if:package_fields.type:Checkbox}}
-                'true',{{else:package_fields.type}}{{if:package_fields.type}}
-                (isset($vars->meta['{{package_fields.name}}']) ? $vars->meta['{{package_fields.name}}'] : null){{if:package_fields.type:Checkbox}} == 'true'{{else:package_fields.type}}{{if:package_fields.type}},
+                'true',{{endif:package_fields.type}}
+                (isset($vars->meta['{{package_fields.name}}']) ? $vars->meta['{{package_fields.name}}'] : null){{if:package_fields.type:Checkbox}} == 'true'{{endif:package_fields.type}},
                 ['id' => '{{snake_case_name}}_{{package_fields.name}}']
             )
         );{{if:package_fields.tooltip:}}{{else:package_fields.tooltip}}
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{package_fields.name}}', true));
-        ${{package_fields.name}}->attach($tooltip);{{if:package_fields.tooltip}}
+        ${{package_fields.name}}->attach($tooltip);{{endif:package_fields.tooltip}}
         $fields->setField(${{package_fields.name}});{{array:package_fields}}
 
         return $fields;
@@ -646,7 +646,7 @@ class {{class_name}} extends Module
 ////        $params = $this->getFieldsFromInput((array) $vars, $package);
 
         // Set unset checkboxes
-        $checkbox_fields = [{{array:service_fields}}{{if:service_fields.type:Checkbox}}'{{service_fields.name}}',{{else:service_fields.type}}{{if:service_fields.type}}{{array:service_fields}}];
+        $checkbox_fields = [{{array:service_fields}}{{if:service_fields.type:Checkbox}}'{{service_fields.name}}',{{endif:service_fields.type}}{{array:service_fields}}];
 
         foreach ($checkbox_fields as $checkbox_field) {
             if (!isset($vars[$checkbox_field])) {
@@ -716,7 +716,7 @@ class {{class_name}} extends Module
 ////        $params = $this->getFieldsFromInput((array) $vars, $package);
 
         // Set unset checkboxes
-        $checkbox_fields = [{{array:service_fields}}{{if:service_fields.type:Checkbox}}'{{service_fields.name}}',{{else:service_fields.type}}{{if:service_fields.type}}{{array:service_fields}}];
+        $checkbox_fields = [{{array:service_fields}}{{if:service_fields.type:Checkbox}}'{{service_fields.name}}',{{endif:service_fields.type}}{{array:service_fields}}];
 
         foreach ($checkbox_fields as $checkbox_field) {
             if (!isset($vars[$checkbox_field])) {
@@ -997,12 +997,12 @@ class {{class_name}} extends Module
 ////     * @param string ${{module_rows.name}} Placeholder description{{array:module_rows}}
 ////     * @return {{class_name}}Api The {{class_name}}Api instance
 ////     */
-////    private function getApi({{array:module_rows}}${{module_rows.name}}{{if:module_rows.type:Checkbox}} = 'true'{{else:module_rows.type}}{{if:module_rows.type}},{{array:module_rows}})
+////    private function getApi({{array:module_rows}}${{module_rows.name}}{{if:module_rows.type:Checkbox}} = 'true'{{endif:module_rows.type}},{{array:module_rows}})
 ////    {
 ////        Loader::load(dirname(__FILE__) . DS . 'apis' . DS . '{{snake_case_name}}_api.php');
 ////
 //////        See the apis/{{snake_case_name}}_api.php and apis/{{snake_case_name}}_response.php files
-////        $api = new {{class_name}}Api({{array:module_rows}}${{module_rows.name}}{{if:module_rows.type:Checkbox}} == 'true'{{else:module_rows.type}}{{if:module_rows.type}},{{array:module_rows}});
+////        $api = new {{class_name}}Api({{array:module_rows}}${{module_rows.name}}{{if:module_rows.type:Checkbox}} == 'true'{{endif:module_rows.type}},{{array:module_rows}});
 ////
 ////        return $api;
 ////    }
@@ -1166,7 +1166,7 @@ class {{class_name}} extends Module
     public function getClientTabs($package)
     {
         return [{{array:service_tabs}}{{if:service_tabs.level:client}}
-            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{else:service_tabs.level}}{{if:service_tabs.level}}{{array:service_tabs}}
+            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{endif:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getClientTabs}}{{function:getAdminTabs}}
 
@@ -1181,7 +1181,7 @@ class {{class_name}} extends Module
     public function getAdminTabs($package)
     {
         return [{{array:service_tabs}}{{if:service_tabs.level:staff}}
-            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{else:service_tabs.level}}{{if:service_tabs.level}}{{array:service_tabs}}
+            '{{service_tabs.method_name}}' => Language::_('{{class_name}}.{{service_tabs.method_name}}', true),{{endif:service_tabs.level}}{{array:service_tabs}}
         ];
     }{{function:getAdminTabs}}{{array:service_tabs}}
 
@@ -1248,14 +1248,14 @@ class {{class_name}} extends Module
         ${{service_fields.name}}->attach(
             $fields->field{{service_fields.type}}(
                 '{{service_fields.name}}',{{if:service_fields.type:Checkbox}}
-                'true',{{else:service_fields.type}}{{if:service_fields.type}}
-                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
+                'true',{{endif:service_fields.type}}
+                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{endif:service_fields.type}},
                 ['id' => '{{snake_case_name}}_{{service_fields.name}}']
             )
         );{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.service_field.tooltip.{{service_fields.name}}', true));
-        ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
+        ${{service_fields.name}}->attach($tooltip);{{endif:service_fields.tooltip}}
         $fields->setField(${{service_fields.name}});{{array:service_fields}}
 
         return $fields;
@@ -1280,14 +1280,14 @@ class {{class_name}} extends Module
         ${{service_fields.name}}->attach(
             $fields->field{{service_fields.type}}(
                 '{{service_fields.name}}',{{if:service_fields.type:Checkbox}}
-                'true',{{else:service_fields.type}}{{if:service_fields.type}}
-                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
+                'true',{{endif:service_fields.type}}
+                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{endif:service_fields.type}},
                 ['id' => '{{snake_case_name}}_{{service_fields.name}}']
             )
         );{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.service_field.tooltip.{{service_fields.name}}', true));
-        ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
+        ${{service_fields.name}}->attach($tooltip);{{endif:service_fields.tooltip}}
         $fields->setField(${{service_fields.name}});{{array:service_fields}}
 
         return $fields;
@@ -1312,14 +1312,14 @@ class {{class_name}} extends Module
         ${{service_fields.name}}->attach(
             $fields->field{{service_fields.type}}(
                 '{{service_fields.name}}',{{if:service_fields.type:Checkbox}}
-                'true',{{else:service_fields.type}}{{if:service_fields.type}}
-                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
+                'true',{{endif:service_fields.type}}
+                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{endif:service_fields.type}},
                 ['id' => '{{snake_case_name}}_{{service_fields.name}}']
             )
         );{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.service_field.tooltip.{{service_fields.name}}', true));
-        ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
+        ${{service_fields.name}}->attach($tooltip);{{endif:service_fields.tooltip}}
         $fields->setField(${{service_fields.name}});{{array:service_fields}}
 
         return $fields;
@@ -1344,14 +1344,14 @@ class {{class_name}} extends Module
         ${{service_fields.name}}->attach(
             $fields->field{{service_fields.type}}(
                 '{{service_fields.name}}',{{if:service_fields.type:Checkbox}}
-                'true',{{else:service_fields.type}}{{if:service_fields.type}}
-                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{else:service_fields.type}}{{if:service_fields.type}},
+                'true',{{endif:service_fields.type}}
+                (isset($vars->{{service_fields.name}}) ? $vars->{{service_fields.name}} : null){{if:service_fields.type:Checkbox}} == 'true'{{endif:service_fields.type}},
                 ['id' => '{{snake_case_name}}_{{service_fields.name}}']
             )
         );{{if:service_fields.tooltip:}}{{else:service_fields.tooltip}}
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.service_field.tooltip.{{service_fields.name}}', true));
-        ${{service_fields.name}}->attach($tooltip);{{if:service_fields.tooltip}}
+        ${{service_fields.name}}->attach($tooltip);{{endif:service_fields.tooltip}}
         $fields->setField(${{service_fields.name}});{{array:service_fields}}
 
         return $fields;

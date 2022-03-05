@@ -6,7 +6,7 @@
     "type": "blesta-module",
     "require": {
         "blesta/composer-installer": "~1.0"
-    }
+    },
     "authors": [{{array:authors}}
         {
             "name": "{{authors.name}}",

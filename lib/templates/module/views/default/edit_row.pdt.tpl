@@ -14,13 +14,13 @@
                         $this->Form->label($this->_('{{class_name}}.row_meta.{{module_rows.name}}', true), '{{module_rows.name}}'{{if:module_rows.tooltip:}});{{else:module_rows.tooltip}}, ['class' => 'inline']);
                         ?>
                         <span class="tooltip inline-block"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("{{class_name}}.row_meta.tooltip.{{module_rows.name}}");?></div></span>
-                        <?php{{if:module_rows.tooltip}}{{if:module_rows.type:Checkbox}}
+                        <?php{{endif:module_rows.tooltip}}{{if:module_rows.type:Checkbox}}
                         $this->Form->field{{module_rows.type}}('{{module_rows.name}}', 'true', (isset($vars->{{module_rows.name}}) ? $vars->{{module_rows.name}} : null) == 'true', ['id' => '{{module_rows.name}}']);{{else:module_rows.type}}
-                        $this->Form->field{{module_rows.type}}('{{module_rows.name}}', (isset($vars->{{module_rows.name}}) ? $vars->{{module_rows.name}} : null), ['id' => '{{module_rows.name}}', 'class' => 'block']);{{if:module_rows.type}}
+                        $this->Form->field{{module_rows.type}}('{{module_rows.name}}', (isset($vars->{{module_rows.name}}) ? $vars->{{module_rows.name}} : null), ['id' => '{{module_rows.name}}', 'class' => 'block']);{{endif:module_rows.type}}
                         ?>
                     </li>{{array:module_rows}}
                 </ul>
-            </div>{{if:code_examples:1}}<?php{{else:code_examples}}{{if:code_examples}}
+            </div>{{if:code_examples:1}}<?php{{endif:code_examples}}
 ////// Many modules will include the ability to set nameservers.  Following is a table to do that.
 ////// Be sure to uncomment the JS below and visit the {{snake_case_name}}.php language file to
 ////// uncomment the language definitions for this table
@@ -92,7 +92,7 @@
         </div>
         <?php
         $this->Widget->end();
-        ?>{{if:code_examples:1}}<?php{{else:code_examples}}{{if:code_examples}}
+        ?>{{if:code_examples:1}}<?php{{endif:code_examples}}
 ////
 ////// This is the supporting JS for the nameserver table
 ////?><!--

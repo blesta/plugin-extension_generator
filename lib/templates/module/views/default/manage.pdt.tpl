@@ -27,7 +27,7 @@
                 ?>
             <tr<?php echo ($i % 2 == 1) ? ' class="odd_row"' : ''; ?>>{{array:module_rows}}{{if:module_rows.type:Checkbox}}
                 <td><?php echo (isset($module->rows[$i]->meta->{{module_rows.name}}) ? $module->rows[$i]->meta->{{module_rows.name}} : null) == 'true' ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'; ?></td>{{else:module_rows.type}}
-                <td><?php echo (isset($module->rows[$i]->meta->{{module_rows.name}}) ? $this->Html->safe($module->rows[$i]->meta->{{module_rows.name}}) : null); ?></td>{{if:module_rows.type}}{{array:module_rows}}
+                <td><?php echo (isset($module->rows[$i]->meta->{{module_rows.name}}) ? $this->Html->safe($module->rows[$i]->meta->{{module_rows.name}}) : null); ?></td>{{endif:module_rows.type}}{{array:module_rows}}
                 <td class="last">
                     <a href="<?php echo $this->Html->safe($this->base_uri . 'settings/company/modules/editrow/' . (isset($module->id) ? $module->id : null) . '/' . (isset($module->rows[$i]->id) ? $module->rows[$i]->id : null) . '/'); ?>"><?php $this->_('{{class_name}}.manage.module_rows.edit'); ?></a>
                     <?php
