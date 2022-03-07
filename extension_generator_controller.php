@@ -135,7 +135,7 @@ class ExtensionGeneratorController extends AppController
                     $temp_vars['optional_functions'] = [];
                 }
 
-                foreach ($this->getOptionalFunctions() as $optional_function => $settings) {
+                foreach ($this->getOptionalFunctions($extension->data['module_type'] ?? 'generic') as $optional_function => $settings) {
                     if (!isset($temp_vars['optional_functions'][$optional_function])) {
                         $temp_vars['optional_functions'][$optional_function] = 'false';
                     }
