@@ -43,6 +43,7 @@ $lang['AdminModule.basic.author_row_add'] = 'Add Author';
 $lang['AdminModule.basic.text_remove'] = 'Remove';
 $lang['AdminModule.basic.static_tlds'] = 'Statically Define TLDs';
 $lang['AdminModule.basic.tlds'] = 'TLDs';
+$lang['AdminModule.basic.placeholder_tlds'] = '.com,.net,.org';
 
 $lang['AdminModule.basic.tooltip_description'] = 'The description shown in the module listing';
 $lang['AdminModule.basic.tooltip_logo'] = 'The logo displayed in the module listing';

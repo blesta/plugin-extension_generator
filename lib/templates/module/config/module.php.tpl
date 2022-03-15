@@ -7,6 +7,19 @@
 ////Configure::set('{{class_name}}.email_templates', [
 ////    'en_us' => [
 ////        'lang' => 'en_us',
+////        'text' => 'Your new domain is being processed and will be registered soon!
+////
+////Domain: {service.domain}
+////
+////Thank you for your business!',
+////        'html' => '<p>Your new domain is being processed and will be registered soon!</p>
+////<p>Domain: {service.domain}</p>
+////<p>Thank you for your business!</p>'
+////    ]
+////]);{{else:module_type}}
+////Configure::set('{{class_name}}.email_templates', [
+////    'en_us' => [
+////        'lang' => 'en_us',
 ////        'text' => 'Thanks for choosing us for your {{name}} Server!
 ////
 ////Your server is now active and you can manage it through our client area by clicking the "Manage" button next to the server on your Dashboard.
@@ -31,24 +44,10 @@
 ////<p>{{name}} URL: {module.host_name}<br />User: {service.username}<br />Pass: {service.password}</p>
 ////<p>Thank you for your business!</p>'
 ////    ]
-////]);{{else:module_type}}
-////Configure::set('{{class_name}}.email_templates', [
-////    'en_us' => [
-////        'lang' => 'en_us',
-////        'text' => 'Your new domain is being processed and will be registered soon!
-////
-////Domain: {service.domain}
-////
-////Thank you for your business!',
-////        'html' => '<p>Your new domain is being processed and will be registered soon!</p>
-////<p>Domain: {service.domain}</p>
-////<p>Thank you for your business!</p>'
-////    ]
 ////]);
-////{{endif:module_type}}
-////{{if:module_type:registrar}}
-////// All available TLDs
-////Configure::set('{{class_name}}.tlds', [{{array:tlds}}
-////    '{{tlds.tld}}',{{array:tlds}}
-////]);
-////{{endif:module_type}}
+////{{endif:module_type}}{{if:tlds}}{{if:module_type:registrar}}
+
+// All available TLDs
+Configure::set('{{class_name}}.tlds', [{{array:tlds}}
+    '{{tlds.tld}}',{{array:tlds}}
+]);{{endif:module_type}}{{endif:tlds}}

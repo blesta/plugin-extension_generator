@@ -84,17 +84,21 @@ class AdminModule extends ExtensionGeneratorController
 
         // Set required parameters
         if ($vars['module_type'] ?? 'generic' == 'registrar') {
-            $vars['package_fields'] = [
-                'name' => [0 => 'epp_code'],
-                'label' => [0 => Language::_('AdminModule.fields.package_fields_epp_code_label', true)],
-                'type' => [0 => 'Checkbox'],
-                'tooltip' => [0 => Language::_('AdminModule.fields.package_fields_epp_code_tooltip', true)]
-            ];
-            $vars['service_fields'] = [
-                'name' => [0 => 'domain'],
-                'label' => [0 => Language::_('AdminModule.fields.service_fields_domain_label', true)],
-                'type' => [0 => 'Text']
-            ];
+            if (!isset($vars['package_fields']['name'][0])) {
+                $vars['package_fields'] = [
+                    'name' => [0 => 'epp_code'],
+                    'label' => [0 => Language::_('AdminModule.fields.package_fields_epp_code_label', true)],
+                    'type' => [0 => 'Checkbox'],
+                    'tooltip' => [0 => Language::_('AdminModule.fields.package_fields_epp_code_tooltip', true)]
+                ];
+            }
+            if (!isset($vars['service_fields']['name'][0])) {
+                $vars['service_fields'] = [
+                    'name' => [0 => 'domain'],
+                    'label' => [0 => Language::_('AdminModule.fields.service_fields_domain_label', true)],
+                    'type' => [0 => 'Text']
+                ];
+            }
         }
 
         // Set the view to render for all actions under this controller
