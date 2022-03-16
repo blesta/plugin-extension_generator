@@ -405,7 +405,6 @@ class ExtensionFileGenerator
                 [
                     'path' => 'config' . DS . 'module.php',
                     'name' => $extension_name . '.php',
-                    'required_by' => ['code_examples']
                 ],
                 [
                     'path' => 'apis' . DS . 'module_api.php',
