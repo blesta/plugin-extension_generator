@@ -21,6 +21,8 @@ class {{class_name}} extends {{if:module_type:registrar}}RegistrarModule{{else:m
 
         // Load module config
         $this->loadConfig(dirname(__FILE__) . DS . 'config.json');
+
+        Configure::load('{{snake_case_name}}', dirname(FILE) . DS . 'config' . DS);
     }
 
     /**
@@ -1888,6 +1890,7 @@ class {{class_name}} extends {{if:module_type:registrar}}RegistrarModule{{else:m
 ////        // Get a list of the available TLDs
 ////        $tlds = $api->availableTlds();
 ////
-////        return $tlds;{{endif:static_tlds}}
+////        return $tlds;
+{{endif:static_tlds}}
     }{{endif:module_type}}
 }

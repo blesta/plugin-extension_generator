@@ -38,6 +38,27 @@ class AdminModule extends ExtensionGeneratorController
         $errors = $this->uploadLogo();
 
         if (!$errors) {
+            // Set required parameters
+            if (!empty($this->post) && $this->post['module_type'] ?? 'generic' == 'registrar') {
+                if (!isset($this->extension->data['package_fields']['name'][0])) {
+                    $this->post['package_fields'] = [
+                        'name' => [0 => 'epp_code'],
+                        'label' => [0 => Language::_('AdminModule.fields.package_fields_epp_code_label', true)],
+                        'type' => [0 => 'Checkbox'],
+                        'tooltip' => [0 => Language::_('AdminModule.fields.package_fields_epp_code_tooltip', true)],
+                        'name_key' => [0 => 'true']
+                    ];
+                }
+                if (!isset($this->extension->data['service_fields']['name'][0])) {
+                    $this->post['service_fields'] = [
+                        'name' => [0 => 'domain'],
+                        'label' => [0 => Language::_('AdminModule.fields.service_fields_domain_label', true)],
+                        'type' => [0 => 'Text'],
+                        'name_key' => [0 => 'true']
+                    ];
+                }
+            }
+
             // Perform edit and redirect or set errors and repopulate vars
             $vars = $this->processStep('module/basic', $this->extension);
         } else {
@@ -81,25 +102,6 @@ class AdminModule extends ExtensionGeneratorController
 
         // Perform edit and redirect or set errors and repopulate vars
         $vars = $this->processStep('module/fields', $this->extension);
-
-        // Set required parameters
-        if ($vars['module_type'] ?? 'generic' == 'registrar') {
-            if (!isset($vars['package_fields']['name'][0])) {
-                $vars['package_fields'] = [
-                    'name' => [0 => 'epp_code'],
-                    'label' => [0 => Language::_('AdminModule.fields.package_fields_epp_code_label', true)],
-                    'type' => [0 => 'Checkbox'],
-                    'tooltip' => [0 => Language::_('AdminModule.fields.package_fields_epp_code_tooltip', true)]
-                ];
-            }
-            if (!isset($vars['service_fields']['name'][0])) {
-                $vars['service_fields'] = [
-                    'name' => [0 => 'domain'],
-                    'label' => [0 => Language::_('AdminModule.fields.service_fields_domain_label', true)],
-                    'type' => [0 => 'Text']
-                ];
-            }
-        }
 
         // Set the view to render for all actions under this controller
         $this->set('field_types', $this->getFieldTypes());

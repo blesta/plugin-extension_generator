@@ -45,8 +45,8 @@
 ////<p>Thank you for your business!</p>'
 ////    ]
 ////]);
-////{{endif:module_type}}{{if:tlds}}{{if:module_type:registrar}}
-
+////{{endif:module_type}}
+{{if:tlds}}{{if:module_type:registrar}}
 // All available TLDs
 Configure::set('{{class_name}}.tlds', [{{array:tlds}}
     '{{tlds.tld}}',{{array:tlds}}

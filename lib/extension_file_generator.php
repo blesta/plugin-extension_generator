@@ -182,7 +182,7 @@ class ExtensionFileGenerator
             $content = preg_replace(
                 '/' . $this->tag_start . 'if\:.*?' . $this->tag_end
                     . '[\d\D]*?'
-                    . $this->tag_start . 'if\:.*?' . $this->tag_end . '/',
+                    . $this->tag_start . 'endif\:.*?' . $this->tag_end . '/',
                 '',
                 $content
             );
