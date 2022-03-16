@@ -26,23 +26,32 @@ $lang['AdminModule.index.boxtitle_extension_generator'] = 'Extension Generator -
 // Basic info page
 $lang['AdminModule.basic.heading_basic'] = 'Basic Information';
 $lang['AdminModule.basic.heading_authors'] = 'Authors';
+$lang['AdminModule.basic.heading_tlds'] = 'Supported TLDs';
 
 $lang['AdminModule.basic.description'] = 'Description';
 $lang['AdminModule.basic.logo'] = 'Logo';
 $lang['AdminModule.basic.module_row'] = 'Module Row Name';
 $lang['AdminModule.basic.module_row_plural'] = 'Module Row Name (Plural)';
 $lang['AdminModule.basic.module_group'] = 'Module Group Label';
+$lang['AdminModule.basic.module_type'] = 'Module Type';
+$lang['AdminModule.basic.module_type_generic'] = 'Generic';
+$lang['AdminModule.basic.module_type_registrar'] = 'Registrar';
 $lang['AdminModule.basic.author_name'] = 'Author Name';
 $lang['AdminModule.basic.author_url'] = 'Author URL';
 $lang['AdminModule.basic.text_options'] = 'Options';
 $lang['AdminModule.basic.author_row_add'] = 'Add Author';
 $lang['AdminModule.basic.text_remove'] = 'Remove';
+$lang['AdminModule.basic.static_tlds'] = 'Statically Define TLDs';
+$lang['AdminModule.basic.tlds'] = 'TLDs';
+$lang['AdminModule.basic.placeholder_tlds'] = '.com,.net,.org';
 
 $lang['AdminModule.basic.tooltip_description'] = 'The description shown in the module listing';
 $lang['AdminModule.basic.tooltip_logo'] = 'The logo displayed in the module listing';
 $lang['AdminModule.basic.tooltip_module_row'] = 'The term by which to refer to a single module row for this module';
 $lang['AdminModule.basic.tooltip_module_row_plural'] = 'The term by which to refer to multiple module rows for this module';
 $lang['AdminModule.basic.tooltip_module_group'] = 'The term by which to refer to module row groups for this module';
+$lang['AdminModule.basic.tooltip_module_type'] = 'Whether the module is a generic module or a domain registrar module';
+$lang['AdminModule.basic.tooltip_static_tlds'] = 'Define the TLDs supported by this module as a comma separated list (e.g. .com,.net,.org)';
 
 $lang['AdminModule.basic.placeholder_module_row'] = 'e.g. Server';
 $lang['AdminModule.basic.placeholder_module_row_plural'] = 'e.g. Servers';
@@ -87,6 +96,9 @@ $lang['AdminModule.fields.text_remove'] = 'Remove';
 
 $lang['AdminModule.fields.features'] = 'Next - Additional Features';
 
+$lang['AdminModule.fields.package_fields_epp_code_label'] = 'EPP Code';
+$lang['AdminModule.fields.package_fields_epp_code_tooltip'] = 'Whether to allow users to request an EPP Code through the Blesta service interface.';
+$lang['AdminModule.fields.service_fields_domain_label'] = 'Domain';
 
 // Additional features page
 $lang['AdminModule.features.heading_features'] = 'Additional Features';

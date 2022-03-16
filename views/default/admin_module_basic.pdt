@@ -50,6 +50,15 @@
                         ?>
                         <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.basic.tooltip_module_group');?></div></span>
                     </li>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_('AdminModule.basic.module_type', true), 'module_type', ['class' => 'inline']);
+                        ?>
+                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.basic.tooltip_module_type');?></div></span>
+                        <?php
+                        $this->Form->fieldSelect('module_type', (isset($module_types) ? $module_types : []), (isset($vars['module_type']) ? $vars['module_type'] : null), ['class' => 'block', 'id' => 'module_type']);
+                        ?>
+                    </li>
                 </ul>
             </div>
 
@@ -85,6 +94,28 @@
                     </tbody>
                 </table>
             </div>
+
+            <div id="static_tlds_section">
+                <div class="title_row"><h3><?php $this->_('AdminModule.basic.heading_tlds');?></h3></div>
+                <div class="pad">
+                    <ul>
+                        <li>
+                            <?php
+                            $this->Form->fieldCheckbox('static_tlds', '1', (isset($vars['static_tlds']) ? $vars['static_tlds'] : '1') == '1', ['class' => 'inline', 'id' => 'static_tlds']);
+                            $this->Form->label($this->_('AdminModule.basic.static_tlds', true), 'static_tlds', ['class' => 'inline']);
+                            ?>
+                            <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminModule.basic.tooltip_static_tlds');?></div></span>
+                        </li>
+                        <li id="static_tlds_fields">
+                            <?php
+                            $this->Form->label($this->_('AdminModule.basic.tlds', true), 'tlds');
+                            $this->Form->fieldText('tlds', (isset($vars['tlds']) ? $vars['tlds'] : null), ['id' => 'tlds', 'placeholder' => $this->_('AdminModule.basic.placeholder_tlds', true)]);
+                            ?>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="button_row">
                 <?php $this->Form->fieldSubmit('submit', (isset($form_type) ? $form_type : null) == 'basic' ? $this->_('AdminModule.basic.confirm', true) : $this->_('AdminModule.basic.fields', true), ['class' => 'btn btn-primary pull-right']);?>
             </div>
@@ -111,6 +142,31 @@
             }
 
             return false;
+        });
+
+
+        function showStaticTldsFields() {
+            if ($('#module_type').val() == 'registrar') {
+                $('#static_tlds_section').show();
+            } else {
+                $('#static_tlds_section').hide();
+            }
+        }
+        showStaticTldsFields();
+        $('#module_type').change(function() {
+            showStaticTldsFields();
+        });
+
+        function toggleStaticTldsFields() {
+            if ($('#static_tlds').is(":checked")) {
+                $('#static_tlds_fields').show();
+            } else {
+                $('#static_tlds_fields').hide();
+            }
+        }
+        toggleStaticTldsFields();
+        $('#static_tlds').change(function() {
+            toggleStaticTldsFields();
         });
     });
 </script>

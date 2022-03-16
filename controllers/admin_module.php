@@ -38,6 +38,27 @@ class AdminModule extends ExtensionGeneratorController
         $errors = $this->uploadLogo();
 
         if (!$errors) {
+            // Set required parameters
+            if (!empty($this->post) && $this->post['module_type'] ?? 'generic' == 'registrar') {
+                if (!isset($this->extension->data['package_fields']['name'][0])) {
+                    $this->post['package_fields'] = [
+                        'name' => [0 => 'epp_code'],
+                        'label' => [0 => Language::_('AdminModule.fields.package_fields_epp_code_label', true)],
+                        'type' => [0 => 'Checkbox'],
+                        'tooltip' => [0 => Language::_('AdminModule.fields.package_fields_epp_code_tooltip', true)],
+                        'name_key' => [0 => 'true']
+                    ];
+                }
+                if (!isset($this->extension->data['service_fields']['name'][0])) {
+                    $this->post['service_fields'] = [
+                        'name' => [0 => 'domain'],
+                        'label' => [0 => Language::_('AdminModule.fields.service_fields_domain_label', true)],
+                        'type' => [0 => 'Text'],
+                        'name_key' => [0 => 'true']
+                    ];
+                }
+            }
+
             // Perform edit and redirect or set errors and repopulate vars
             $vars = $this->processStep('module/basic', $this->extension);
         } else {
@@ -47,6 +68,7 @@ class AdminModule extends ExtensionGeneratorController
         }
 
         // Set the view to render for all actions under this controller
+        $this->set('module_types', $this->getModuleTypes());
         $this->set('form_type', $this->extension->form_type);
         $this->set('vars', $vars);
 
@@ -83,6 +105,7 @@ class AdminModule extends ExtensionGeneratorController
 
         // Set the view to render for all actions under this controller
         $this->set('field_types', $this->getFieldTypes());
+        $this->set('module_type', $vars['module_type'] ?? 'generic');
         $this->set('vars', $vars);
 
         // Set the node progress bar
@@ -119,7 +142,8 @@ class AdminModule extends ExtensionGeneratorController
         // Set the view to render for all actions under this controller
         $this->set('tab_levels', $this->getTabLevels());
         $this->set('task_types', $this->getTaskTypes());
-        $this->set('optional_functions', $this->getOptionalFunctions());
+        $this->set('module_type', $vars['module_type'] ?? 'generic');
+        $this->set('optional_functions', $this->getOptionalFunctions($vars['module_type'] ?? 'generic'));
         $this->set('vars', $vars);
 
         // Set the node progress bar
@@ -137,10 +161,15 @@ class AdminModule extends ExtensionGeneratorController
     /**
      * Gets a list of optional functions and their settings
      *
-     * @return A list of optional functions and their settings
+     * @param string $module_type The type of the module to fetch the optional functions
+     * @return array A list of optional functions and their settings
      */
-    protected function getOptionalFunctions()
+    protected function getOptionalFunctions(string $module_type = 'generic') : array
     {
+        if (!in_array($module_type, ['generic', 'registrar'])) {
+            return [];
+        }
+
         $functions = [
             'upgrade' => ['enabled' => 'true'],
             'cancelService' => ['enabled' => 'true'],
@@ -157,6 +186,34 @@ class AdminModule extends ExtensionGeneratorController
             'getClientServiceInfo' => ['enabled' => 'false']
         ];
 
+        $registrar_functions = [
+            'checkAvailability' => ['enabled' => 'true'],
+            'checkTransferAvailability' => ['enabled' => 'true'],
+            'getDomainInfo' => ['enabled' => 'true'],
+            'getExpirationDate' => ['enabled' => 'true'],
+            'getServiceDomain' => ['enabled' => 'true'],
+            'getTldPricing' => ['enabled' => 'true'],
+            'registerDomain' => ['enabled' => 'true'],
+            'renewDomain' => ['enabled' => 'true'],
+            'transferDomain' => ['enabled' => 'true'],
+            'getDomainContacts' => ['enabled' => 'false'],
+            'getDomainIsLocked' => ['enabled' => 'false'],
+            'getDomainNameServers' => ['enabled' => 'false'],
+            'lockDomain' => ['enabled' => 'false'],
+            'resendTransferEmail' => ['enabled' => 'false'],
+            'restoreDomain' => ['enabled' => 'false'],
+            'sendEppEmail' => ['enabled' => 'false'],
+            'setDomainContacts' => ['enabled' => 'false'],
+            'setDomainNameservers' => ['enabled' => 'false'],
+            'setNameserverIps' => ['enabled' => 'false'],
+            'unlockDomain' => ['enabled' => 'false'],
+            'updateEppCode' => ['enabled' => 'false']
+        ];
+
+        if ($module_type == 'registrar') {
+            $functions = array_merge($functions, $registrar_functions);
+        }
+
         foreach ($functions as $function => &$settings) {
             $settings['tooltip'] = Language::_(
                 'AdminModule.getoptionalfunctions.tooltip_' . $function,
@@ -165,5 +222,18 @@ class AdminModule extends ExtensionGeneratorController
         }
 
         return $functions;
+    }
+
+    /**
+     * Gets a list of supported module types
+     *
+     * @return array A list of the supported module types and their language definition
+     */
+    private function getModuleTypes() : array
+    {
+        return [
+            'generic' => Language::_('AdminModule.basic.module_type_generic', true),
+            'registrar' => Language::_('AdminModule.basic.module_type_registrar', true)
+        ];
     }
 }

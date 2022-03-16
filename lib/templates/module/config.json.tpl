@@ -1,5 +1,6 @@
 {
-    "version": "1.0.0",
+    "version": "1.0.0",{{if:module_type:registrar}}
+    "type": "registrar",{{endif:module_type}}
     "name": "{{class_name}}.name",
     "description": "{{class_name}}.description",
     "authors": [{{array:authors}}
@@ -24,5 +25,11 @@
         "module": [{{array:module_rows}}"{{module_rows.name}}",{{array:module_rows}}],
         "package": [{{array:package_fields}}"{{package_fields.name}}",{{array:package_fields}}],
         "service": [{{array:service_fields}}"{{service_fields.name}}",{{array:service_fields}}]
-    }
+    }{{if:module_type:registrar}},
+    "features": {
+        "dns_management": 0,
+        "email_forwarding": 0,
+        "id_protection": 0,
+        "epp_code": 0
+    }{{endif:module_type}}
 }

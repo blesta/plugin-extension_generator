@@ -99,6 +99,12 @@ class ExtensionFileGenerator
         $data['snake_case_name'] = str_replace(' ', '_', strtolower($data['name']));
         $data['class_name'] = Loader::toCamelCase($data['snake_case_name']);
 
+        // Parse TLDs
+        $data['tlds'] = explode(',', trim($data['tlds'])) ?? [];
+        foreach ($data['tlds'] as &$tld) {
+            $tld = ['tld' => trim($tld)];
+        }
+
         // Get the directory in which to search for template files
         $template_directory = $this->getTemplateDirectory();
         // Get a list of template files to parse and output
@@ -176,7 +182,7 @@ class ExtensionFileGenerator
             $content = preg_replace(
                 '/' . $this->tag_start . 'if\:.*?' . $this->tag_end
                     . '[\d\D]*?'
-                    . $this->tag_start . 'if\:.*?' . $this->tag_end . '/',
+                    . $this->tag_start . 'endif\:.*?' . $this->tag_end . '/',
                 '',
                 $content
             );
@@ -399,7 +405,6 @@ class ExtensionFileGenerator
                 [
                     'path' => 'config' . DS . 'module.php',
                     'name' => $extension_name . '.php',
-                    'required_by' => ['code_examples']
                 ],
                 [
                     'path' => 'apis' . DS . 'module_api.php',

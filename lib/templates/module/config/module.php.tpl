@@ -3,7 +3,20 @@
 ////// version for each language you wish to include.  For information on writing email templates see the docs
 ////// at https://docs.blesta.com/display/user/Customizing+Emails
 ////
-////// Welcome Email templates
+////// Welcome Email templates{{if:module_type:registrar}}
+////Configure::set('{{class_name}}.email_templates', [
+////    'en_us' => [
+////        'lang' => 'en_us',
+////        'text' => 'Your new domain is being processed and will be registered soon!
+////
+////Domain: {service.domain}
+////
+////Thank you for your business!',
+////        'html' => '<p>Your new domain is being processed and will be registered soon!</p>
+////<p>Domain: {service.domain}</p>
+////<p>Thank you for your business!</p>'
+////    ]
+////]);{{else:module_type}}
 ////Configure::set('{{class_name}}.email_templates', [
 ////    'en_us' => [
 ////        'lang' => 'en_us',
@@ -32,4 +45,9 @@
 ////<p>Thank you for your business!</p>'
 ////    ]
 ////]);
-////
+////{{endif:module_type}}
+{{if:tlds}}{{if:module_type:registrar}}
+// All available TLDs
+Configure::set('{{class_name}}.tlds', [{{array:tlds}}
+    '{{tlds.tld}}',{{array:tlds}}
+]);{{endif:module_type}}{{endif:tlds}}
