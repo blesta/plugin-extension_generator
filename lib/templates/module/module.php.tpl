@@ -592,7 +592,27 @@ class {{class_name}} extends {{if:module_type:registrar}}RegistrarModule{{else:m
         // Add tooltip
         $tooltip = $fields->tooltip(Language::_('{{class_name}}.package_field.tooltip.{{package_fields.name}}', true));
         ${{package_fields.name}}->attach($tooltip);{{endif:package_fields.tooltip}}
-        $fields->setField(${{package_fields.name}});{{array:package_fields}}
+        $fields->setField(${{package_fields.name}});{{array:package_fields}}{{if:module_type:registrar}}
+
+        // Set all TLD checkboxes
+        $tld_options = $fields->label(Language::_('{{class_name}}.package_fields.tld_options', true));
+
+        $tlds = $this->getTlds();
+        sort($tlds);
+
+        foreach ($tlds as $tld) {
+            $tld_label = $fields->label($tld, 'tld_' . $tld);
+            $tld_options->attach(
+                $fields->fieldCheckbox(
+                    'meta[tlds][]',
+                    $tld,
+                    (isset($vars->meta['tlds']) && in_array($tld, $vars->meta['tlds'])),
+                    ['id' => 'tld_' . $tld],
+                    $tld_label
+                )
+            );
+        }
+        $fields->setField($tld_options);{{endif:module_type}}
 
         return $fields;
     }{{function:addService}}
