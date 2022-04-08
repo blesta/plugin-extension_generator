@@ -111,8 +111,8 @@ class AdminMain extends ExtensionGeneratorController
             $form_rules = new FormRules();
             if (
                 $this->checkNameTaken(
-                    $this->post['name'],
-                    $this->post['type'],
+                    $this->post['name'] ?? '',
+                    $this->post['type'] ?? '',
                     isset($extension) ? $extension->id : null
                 )
             ) {
@@ -185,7 +185,7 @@ class AdminMain extends ExtensionGeneratorController
         // Make a list of extension names
         $extension_names = [];
         $extension_directories = $this->getExtensionDirectories();
-        $extension_directory = $extension_directories[$extension_type];
+        $extension_directory = $extension_directories[$extension_type] ?? '';
         foreach (scandir($extension_directory) as $file) {
             if (is_dir($extension_directory . $file) && !in_array($file, ['.', '..'])) {
                 $extension_names[$file] = true;

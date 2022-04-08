@@ -46,8 +46,8 @@
 ////    ]
 ////]);
 ////{{endif:module_type}}
-{{if:tlds}}{{if:module_type:registrar}}
+{{if:module_type:registrar}}{{if:static_tlds:1}}
 // All available TLDs
 Configure::set('{{class_name}}.tlds', [{{array:tlds}}
     '{{tlds.tld}}',{{array:tlds}}
-]);{{endif:module_type}}{{endif:tlds}}
+]);{{endif:static_tlds}}{{endif:module_type}}
