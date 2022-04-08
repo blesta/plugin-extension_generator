@@ -98,7 +98,8 @@ $lang['{{class_name}}.service_field.tooltip.{{service_fields.name}}'] = '{{servi
 $lang['{{class_name}}.package_fields.{{package_fields.name}}'] = '{{package_fields.label}}';{{array:package_fields}}
 
 {{array:package_fields}}{{if:package_fields.tooltip:}}{{else:package_fields.tooltip}}
-$lang['{{class_name}}.package_field.tooltip.{{package_fields.name}}'] = '{{package_fields.tooltip}}';{{endif:package_fields.tooltip}}{{array:package_fields}}
+$lang['{{class_name}}.package_field.tooltip.{{package_fields.name}}'] = '{{package_fields.tooltip}}';{{endif:package_fields.tooltip}}{{array:package_fields}}{{if:module_type:registrar}}
+$lang['{{class_name}}.package_fields.tld_options'] = 'TLDs';{{endif:module_type}}
 
 // Cron Tasks
 {{array:cron_tasks}}
