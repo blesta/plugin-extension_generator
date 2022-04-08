@@ -22,7 +22,7 @@ class {{class_name}} extends {{if:module_type:registrar}}RegistrarModule{{else:m
         // Load module config
         $this->loadConfig(dirname(__FILE__) . DS . 'config.json');
 
-        Configure::load('{{snake_case_name}}', dirname(FILE) . DS . 'config' . DS);
+        Configure::load('{{snake_case_name}}', dirname(__FILE__) . DS . 'config' . DS);
     }
 
     /**
