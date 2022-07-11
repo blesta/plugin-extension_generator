@@ -100,11 +100,12 @@ class ExtensionFileGenerator
         $data['class_name'] = Loader::toCamelCase($data['snake_case_name']);
 
         // Parse TLDs
-        $data['tlds'] = explode(',', trim($data['tlds'])) ?? [];
-        foreach ($data['tlds'] as &$tld) {
-            $tld = ['tld' => trim($tld)];
+        if (isset($data['tlds'])) {
+            $data['tlds'] = explode(',', trim($data['tlds'])) ?? [];
+            foreach ($data['tlds'] as &$tld) {
+                $tld = ['tld' => trim($tld)];
+            }
         }
-
         // Get the directory in which to search for template files
         $template_directory = $this->getTemplateDirectory();
         // Get a list of template files to parse and output
