@@ -554,7 +554,7 @@ class {{class_name}} extends {{if:module_type:registrar}}RegistrarModule{{else:m
 ////
         // Validate the package fields
         $rules = [{{array:package_fields}}
-            '{{package_fields.name}}' => [
+            'meta[{{package_fields.name}}]' => [
                 'valid' => [
                     'rule' => true,
                     'message' => Language::_('{{class_name}}.!error.{{package_fields.name}}.valid', true)
