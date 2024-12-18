@@ -1,5 +1,4 @@
-{{array:controllers}}
-<?php
+{{array:controllers}}<?php
 /**
  * {{name}} {{controllers.snake_case_name}} controller
  *{{array:authors}}
