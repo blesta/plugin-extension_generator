@@ -481,6 +481,10 @@ class ExtensionFileGenerator
                     'required_by' => ['buildPaymentConfirmation']
                 ],
                 [
+                    'path' => 'views' . DS . 'default' . DS . 'ach_form.pdt',
+                    'required_by' => ['buildAchForm']
+                ],
+                [
                     'path' => 'apis' . DS . 'gateway_api.php',
                     'name' => $extension_name . '_api.php',
                     'required_by' => ['code_examples']

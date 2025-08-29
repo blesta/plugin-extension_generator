@@ -194,6 +194,7 @@ class AdminMerchant extends ExtensionGeneratorController
             'cc_form' => ['enabled' => 'false'],
             'ach' => ['enabled' => 'false'],
             'ach_offsite' => ['enabled' => 'false'],
+            'ach_form' => ['enabled' => 'false']
         ];
 
         foreach ($functions as $function => &$settings) {
