@@ -4,7 +4,7 @@
  *{{array:authors}}
  * @link {{authors.url}} {{authors.name}}{{array:authors}}
  */
-class {{class_name}} extends MerchantGateway implements {{array:supported_features}}{{if:supported_features.ach:true}}MerchantAch,{{endif:supported_features.ach}}{{if:supported_features.ach_offset:true}}MerchantAchOffsite,{{endif:supported_features.ach_offset}}{{if:supported_features.cc:true}}MerchantCc,{{endif:supported_features.cc}}{{if:supported_features.cc_offsite:true}}MerchantCcOffsite,{{endif:supported_features.cc_offsite}}{{if:supported_features.cc_form:true}}MerchantCcForm,{{endif:supported_features.cc_form}}{{array:supported_features}}
+class {{class_name}} extends MerchantGateway implements {{array:supported_features}}{{if:supported_features.ach:true}}MerchantAch,{{endif:supported_features.ach}}{{if:supported_features.ach_offset:true}}MerchantAchOffsite,{{endif:supported_features.ach_offset}}{{if:supported_features.cc:true}}MerchantCc,{{endif:supported_features.cc}}{{if:supported_features.cc_offsite:true}}MerchantCcOffsite,{{endif:supported_features.cc_offsite}}{{if:supported_features.cc_form:true}}MerchantCcForm,{{endif:supported_features.cc_form}}{{if:supported_features.ach_form:true}}MerchantAchForm,{{endif:supported_features.ach_form}}{{array:supported_features}}
 {
     /**
      * @var array An array of meta data for this gateway
@@ -1228,7 +1228,23 @@ class {{class_name}} extends MerchantGateway implements {{array:supported_featur
         $this->view->set('meta', $this->meta);
 
         return $this->view->fetch();
-    }{{function:buildPaymentConfirmation}}{{function:processCc}}
+    }{{function:buildPaymentConfirmation}}{{function:buildAchForm}}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildAchForm()
+    {
+        // Load the view into this object, so helpers can be automatically added to the view
+        $this->view = $this->makeView('ach_form', 'default', str_replace(ROOTWEBDIR, '', dirname(__FILE__) . DS));
+
+        // Load the helpers required for this view
+        Loader::loadHelpers($this, ['Form', 'Html']);
+
+        $this->view->set('meta', $this->meta);
+
+        return $this->view->fetch();
+    }{{function:buildAchForm}}{{function:processCc}}
 
 ////    /**
 ////     * Sets the parameters for credit card transactions

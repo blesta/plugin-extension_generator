@@ -6,11 +6,13 @@ $lang['AdminMerchant.getsupportedfeatures.cc_offsite'] = 'Offsite Credit Card';
 $lang['AdminMerchant.getsupportedfeatures.cc_form'] = 'Custom Credit Card Form';
 $lang['AdminMerchant.getsupportedfeatures.ach'] = 'ACH';
 $lang['AdminMerchant.getsupportedfeatures.ach_offsite'] = 'Offsite ACH';
+$lang['AdminMerchant.getsupportedfeatures.ach_form'] = 'Custom ACH Form';
 $lang['AdminMerchant.getsupportedfeatures.tooltip_cc'] = 'Credit card proccessing using unstored credentials or those stored in Blesta.';
 $lang['AdminMerchant.getsupportedfeatures.tooltip_cc_offsite'] = 'Credit card processing using credentials stored offsite by the processor.';
-$lang['AdminMerchant.getsupportedfeatures.tooltip_cc_form'] = 'This allows a gateway to provide custom html for credit card forms.  This is meant to support offsite credit cards that may use iframes or require additional fields.';
+$lang['AdminMerchant.getsupportedfeatures.tooltip_cc_form'] = 'This allows a gateway to provide custom html for credit card forms. This is meant to support offsite credit cards that may use iframes or require additional fields.';
 $lang['AdminMerchant.getsupportedfeatures.tooltip_ach'] = 'Automated clearing house proccessing using unstored credentials or those stored in Blesta.';
 $lang['AdminMerchant.getsupportedfeatures.tooltip_ach_offsite'] = 'Automated clearing house processing using credentials stored offsite by the processor.';
+$lang['AdminMerchant.getsupportedfeatures.tooltip_ach_form'] = 'This allows a gateway to provide custom html for automated clearning house forms. This is meant to support offsite automated clearing houses that may use iframes or require additional fields.';
 
 
 // Page title

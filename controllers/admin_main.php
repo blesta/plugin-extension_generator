@@ -28,7 +28,7 @@ class AdminMain extends ExtensionGeneratorController
     public function index()
     {
         // Set current page of results
-        $page = (isset($this->get[1]) ? (int) $this->get[1] : 1);
+        $page = (isset($this->get[0]) ? (int) $this->get[0] : 1);
         $sort = (isset($this->get['sort']) ? $this->get['sort'] : 'date_updated');
         $order = (isset($this->get['order']) ? $this->get['order'] : 'desc');
 
