@@ -154,7 +154,7 @@
                 var fields = $('tr.' + field_type + '_row:first').clone(true);
                 // Enable input fields
                 fields.find('input,textarea,select').removeAttr('disabled');
-                fields.find('input[name="service_fields\[name_key\]\[\]"]').val('false');
+                fields.find('input[name="service_fields\[' + field_type + '\]\[\]"]').val('false');
 
                 fields.show();
                 $('tr.' + field_type + '_row:last').after(fields);
