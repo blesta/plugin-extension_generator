@@ -3,7 +3,7 @@
  * Extension Generator Extension Management
  *
  * @package blesta
- * @subpackage blesta.plugins.extension_generator.models
+ * @subpackage plugins.extension_generator.models
  * @copyright Copyright (c) 2020, Phillips Data, Inc.
  * @license http://www.blesta.com/license/ The Blesta License Agreement
  * @link http://www.blesta.com/ Blesta

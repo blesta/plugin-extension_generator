@@ -3,7 +3,7 @@
  * Extension Generator admin module controller
  *
  * @package blesta
- * @subpackage blesta.plugins.extension_generator
+ * @subpackage plugins.extension_generator
  * @copyright Copyright (c) 2020, Phillips Data, Inc.
  * @license http://www.blesta.com/license/ The Blesta License Agreement
  * @link http://www.blesta.com/ Blesta
