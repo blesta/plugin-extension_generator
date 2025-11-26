@@ -5,7 +5,7 @@ require_once PLUGINDIR . 'extension_generator' . DS . 'lib' . DS . 'form_rules.p
  * Extension Generator parent controller
  *
  * @package blesta
- * @subpackage plugins.extension_generator
+ * @subpackage plugins.extensiongenerator
  * @copyright Copyright (c) 2020, Phillips Data, Inc.
  * @license http://www.blesta.com/license/ The Blesta License Agreement
  * @link http://www.blesta.com/ Blesta
