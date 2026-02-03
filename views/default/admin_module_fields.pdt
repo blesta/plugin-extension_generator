@@ -1,8 +1,11 @@
+<?php /** @var View $this */ ?>
+
 <?php
 echo $message ?? null;
 
 $this->Widget->clear();
 $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+$this->Widget->setBodyWrapper(false);
 $this->Widget->create($this->_('AdminModule.index.boxtitle_extension_generator', true), ['id' => 'admin_module_fields']);
 
 echo $progress_bar ?? null;

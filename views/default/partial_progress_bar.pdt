@@ -1,8 +1,10 @@
+<?php /** @var View $this */ ?>
+
 <?php
 $node_count = count($nodes ?? []);
 $step = 0;
 ?>
-<div class="form-wizard-steps mb-4">
+<div class="form-wizard-steps my-4">
     <?php foreach ($nodes as $form_step => $node) : ?>
         <div class="form-wizard-step <?php echo $step < $page_step ? 'completed' : ($step == $page_step ? 'active' : ''); ?>">
             <?php if ($step < $page_step) : ?>
@@ -30,3 +32,4 @@ $step = 0;
     endforeach;
     ?>
 </div>
+<hr>

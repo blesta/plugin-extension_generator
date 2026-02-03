@@ -1,8 +1,11 @@
+<?php /** @var View $this */ ?>
+
 <?php
 echo $message ?? null;
 
 $this->Widget->clear();
 $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+$this->Widget->setBodyWrapper(false);
 $this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
 
 echo $progress_bar ?? null;
@@ -18,7 +21,7 @@ $this->Form->create(null, ['id' => 'general_extension_form', 'class' => 'disable
     <input type="hidden" id="original-type" value="<?php echo $this->Html->safe($vars->type ?? ''); ?>">
 
     <!-- Extension Type Selection -->
-    <h6 class="form-section-header">
+    <h6 class="form-section-header border-0 mt-0 pt-0">
         <i class="bi bi-box-seam me-2"></i><?php $this->_('AdminMain.general.type'); ?>
         <i class="bi bi-question-circle ms-2 text-muted" data-bs-toggle="tooltip" title="<?php $this->_('AdminMain.general.tooltip_type'); ?>"></i>
     </h6>

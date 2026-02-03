@@ -85,15 +85,6 @@
 }
 
 /* Form improvements */
-.form-section-header {
-    display: flex;
-    align-items: center;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border-color, #dee2e6);
-}
-
 .form-section-header .bi {
     margin-right: 0.5rem;
     color: var(--accent-color, #0d6efd);

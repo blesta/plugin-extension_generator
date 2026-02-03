@@ -1,3 +1,5 @@
+<?php /** @var View $this */ ?>
+
 <?php
 echo $message ?? null;
 
@@ -93,11 +95,9 @@ $this->Widget->create($this->_('AdminMain.index.boxtitle_extensions', true), ['i
     </div>
     <?php $this->Pagination->build(); ?>
 <?php else : ?>
-    <div class="card-body">
-        <div class="text-center py-5">
-            <i class="bi bi-box-seam display-4 text-muted mb-3 d-block"></i>
-            <p class="text-muted mb-0"><?php $this->_('AdminMain.index.extensions_no_results'); ?></p>
-        </div>
+    <div class="card-body text-center text-muted py-5">
+        <i class="bi bi-box-seam display-4 text-muted mb-3 d-block"></i>
+        <p class="text-muted mb-0"><?php $this->_('AdminMain.index.extensions_no_results'); ?></p>
     </div>
 <?php endif; ?>
 
