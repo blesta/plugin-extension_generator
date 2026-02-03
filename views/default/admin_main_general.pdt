@@ -1,78 +1,128 @@
+<?php
+echo $message ?? null;
+
+$this->Widget->clear();
+$this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+$this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
+
+echo $progress_bar ?? null;
+
+$this->Form->create(null, ['id' => 'general_extension_form', 'class' => 'disable-on-submit']);
+?>
+
+<div class="card-body">
+    <!-- Type Warning -->
+    <div id="type-warning" class="alert alert-warning d-none mb-4">
+        <?php echo $type_warning ?? null; ?>
+    </div>
+    <input type="hidden" id="original-type" value="<?php echo $this->Html->safe($vars->type ?? ''); ?>">
+
+    <!-- Extension Type Selection -->
+    <h6 class="form-section-header">
+        <i class="bi bi-box-seam me-2"></i><?php $this->_('AdminMain.general.type'); ?>
+        <i class="bi bi-question-circle ms-2 text-muted" data-bs-toggle="tooltip" title="<?php $this->_('AdminMain.general.tooltip_type'); ?>"></i>
+    </h6>
+
+    <div class="row g-3 mb-4">
         <?php
-        echo (isset($message) ? $message : null);
-
-        $this->Widget->clear();
-        $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
-        $this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
-
-        echo (isset($progress_bar) ? $progress_bar : null);
-
-        $this->Form->create(null, ['id' => 'general_extension_form']);
+        $type_icons = [
+            'module' => 'bi-box-seam',
+            'plugin' => 'bi-plug',
+            'merchant' => 'bi-credit-card',
+            'nonmerchant' => 'bi-wallet2'
+        ];
+        $selected_type = $vars->type ?? 'module';
+        foreach ($extension_types ?? [] as $extension_type => $label) :
         ?>
-        <div class="inner">
-            <div class="title_row first"><h3><?php $this->_('AdminMain.general.heading_general_settings');?></h3></div>
-            <div class="type_warning" style="display:none;">
-                <?php echo (isset($type_warning) ? $type_warning : null);?>
-            </div>
-            <div class="pad">
-                <ul>
-                    <li>
-                        <?php
-                        $this->Form->label($this->_('AdminMain.general.name', true), 'name');
-                        $this->Form->fieldText('name', (isset($vars->name) ? $vars->name : null), ['id' => 'name', 'placeholder' => $this->_('AdminMain.general.placeholder_name', true)]);
-                        ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_name');?></div></span>
-                    </li>
-                    <li>
-                        <div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card extension-type-card h-100 <?php echo $selected_type == $extension_type ? 'active' : ''; ?>" data-type="<?php echo $this->Html->safe($extension_type); ?>">
+                    <div class="card-body text-center py-4">
+                        <i class="bi <?php echo $type_icons[$extension_type] ?? 'bi-box'; ?> text-primary"></i>
+                        <h6 class="mb-1"><?php echo $this->Html->safe($label); ?></h6>
+                        <small class="text-muted">
                             <?php
-                            $this->Form->label($this->_('AdminMain.general.type', true), null, ['class' => 'inline']);
+                            switch ($extension_type) {
+                                case 'module':
+                                    echo $this->_('AdminMain.general.type_module_desc', true) ?: 'Provisioning & automation';
+                                    break;
+                                case 'plugin':
+                                    echo $this->_('AdminMain.general.type_plugin_desc', true) ?: 'Extend functionality';
+                                    break;
+                                case 'merchant':
+                                    echo $this->_('AdminMain.general.type_merchant_desc', true) ?: 'Credit card processing';
+                                    break;
+                                case 'nonmerchant':
+                                    echo $this->_('AdminMain.general.type_nonmerchant_desc', true) ?: 'Alternative payments';
+                                    break;
+                            }
                             ?>
-                            <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_type');?></div></span>
-                        </div>
-                        <?php
-                        foreach ((isset($extension_types) ? $extension_types : []) as $extension_type => $label) {
-                            $this->Form->fieldRadio('type', $extension_type, (isset($vars->type) ? $vars->type : 'module') == $extension_type, ['class' => 'inline type', 'id' => 'type_' . $extension_type]);
-                            $this->Form->label($label, 'type_' . $extension_type, ['class' => 'inline']);
-                        }
-                        ?>
-                    </li>
-                    <li>
-                        <?php
-                        $this->Form->label($this->_('AdminMain.general.form_type', true), 'form_type', ['class' => 'inline']);
-                        ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_form_type');?></div></span>
-                        <?php
-                        $this->Form->fieldSelect('form_type', (isset($form_types) ? $form_types : []), (isset($vars->form_type) ? $vars->form_type : null), ['class' => 'block', 'id' => 'form_type']);
-                        ?>
-                    </li>
-                    <li>
-                        <?php
-                        $this->Form->fieldCheckbox('code_examples', '1', (isset($vars->code_examples) ? $vars->code_examples : '1') == '1', ['class' => 'inline', 'id' => 'code_examples']);
-                        $this->Form->label($this->_('AdminMain.general.code_examples', true), 'code_examples', ['class' => 'inline']);
-                        ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.general.tooltip_code_examples');?></div></span>
-                    </li>
-                </ul>
+                        </small>
+                    </div>
+                </div>
             </div>
-            <div class="button_row">
-                <?php $this->Form->fieldSubmit('submit', $this->_('AdminMain.general.basic_info', true), ['class' => 'btn btn-primary pull-right']);?>
-            </div>
+        <?php endforeach; ?>
+    </div>
+    <input type="hidden" name="type" id="extension-type-input" value="<?php echo $this->Html->safe($selected_type); ?>">
+
+    <!-- General Settings -->
+    <h6 class="form-section-header">
+        <i class="bi bi-gear me-2"></i><?php $this->_('AdminMain.general.heading_general_settings'); ?>
+    </h6>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <?php
+            $this->Form->label($this->_('AdminMain.general.name', true), 'name', ['class' => 'form-label']);
+            ?>
+            <i class="bi bi-question-circle text-muted ms-1" data-bs-toggle="tooltip" title="<?php $this->_('AdminMain.general.tooltip_name'); ?>"></i>
+            <?php
+            $this->Form->fieldText('name', $vars->name ?? null, ['id' => 'name', 'class' => 'form-control', 'placeholder' => $this->_('AdminMain.general.placeholder_name', true)]);
+            ?>
         </div>
-        <?php
+        <div class="col-md-6">
+            <?php
+            $this->Form->label($this->_('AdminMain.general.form_type', true), 'form_type', ['class' => 'form-label']);
+            ?>
+            <i class="bi bi-question-circle text-muted ms-1" data-bs-toggle="tooltip" title="<?php $this->_('AdminMain.general.tooltip_form_type'); ?>"></i>
+            <?php
+            $this->Form->fieldSelect('form_type', $form_types ?? [], $vars->form_type ?? null, ['id' => 'form_type', 'class' => 'form-select']);
+            ?>
+        </div>
+    </div>
 
-        $this->Form->end();
+    <div class="mb-3">
+        <div class="form-check">
+            <?php
+            $this->Form->fieldCheckbox('code_examples', '1', ($vars->code_examples ?? '1') == '1', ['id' => 'code_examples', 'class' => 'form-check-input']);
+            ?>
+            <label class="form-check-label" for="code_examples">
+                <?php $this->_('AdminMain.general.code_examples'); ?>
+            </label>
+            <i class="bi bi-question-circle text-muted ms-1" data-bs-toggle="tooltip" title="<?php $this->_('AdminMain.general.tooltip_code_examples'); ?>"></i>
+        </div>
+    </div>
+</div>
 
-        $this->Widget->end();
-        ?>
+<div class="card-footer d-flex justify-content-end">
+    <?php
+    $this->Form->fieldSubmit('submit', $this->_('AdminMain.general.basic_info', true), ['class' => 'btn btn-primary']);
+    ?>
+</div>
+
+<?php
+$this->Form->end();
+$this->Widget->end();
+?>
+
 <script>
-    $(document).ready(function () {
-        $('.type').change(function () {
-            if ($(this).val() !== '<?php echo (isset($vars->type) ? $vars->type : null);?>' && '<?php echo (isset($vars->type) ? $vars->type : null);?>' !== '') {
-                $('.type_warning').show();
-            } else {
-                $('.type_warning').hide();
-            }
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
+            new bootstrap.Tooltip(el);
         });
-    });
+    }
+});
 </script>
+
+<script src="<?php echo $this->view_dir;?>js/extension-generator.js"></script>

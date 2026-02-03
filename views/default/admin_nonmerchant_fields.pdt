@@ -1,91 +1,113 @@
-        <?php
-        echo (isset($message) ? $message : null);
+<?php
+echo $message ?? null;
 
-        $this->Widget->clear();
-        $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
-        $this->Widget->create($this->_('AdminNonmerchant.index.boxtitle_extension_generator', true), ['id' => 'admin_nonmerchant_fields']);
+$this->Widget->clear();
+$this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+$this->Widget->create($this->_('AdminNonmerchant.index.boxtitle_extension_generator', true), ['id' => 'admin_nonmerchant_fields']);
 
-        echo (isset($progress_bar) ? $progress_bar : null);
+echo $progress_bar ?? null;
 
-        $this->Form->create();
-        ?>
-        <div class="inner">
-            <div class="title_row first"><h3><?php $this->_('AdminNonmerchant.fields.heading_fields');?></h3></div>
-            <div class="pad">
-                <div class="links_row">
-                    <a class="btn btn-default pull-right btn-sm field_row_add" href="#"><span><?php $this->_('AdminNonmerchant.fields.field_row_add');?></span></a>
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr class="heading_row">
-                            <td><?php $this->_('AdminNonmerchant.fields.name');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminNonmerchant.fields.tooltip_name');?></div></span></td>
-                            <td><?php $this->_('AdminNonmerchant.fields.label');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminNonmerchant.fields.tooltip_label');?></div></span></td>
-                            <td><?php $this->_('AdminNonmerchant.fields.type');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminNonmerchant.fields.tooltip_type');?></div></span></td>
-                            <td><?php $this->_('AdminNonmerchant.fields.tooltip');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminNonmerchant.fields.tooltip_tooltip');?></div></span></td>
-                            <td><?php $this->_('AdminNonmerchant.fields.encryptable');?><span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMerchant.fields.tooltip_encryptable');?></div></span></td>
-                            <td class="last"><?php $this->_('AdminNonmerchant.fields.text_options');?></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    $fields = 1;
-                    if ((isset($vars['fields']['name']) ? $vars['fields']['name'] : false)) {
-                        $fields = count($vars['fields']['name']);
-                    }
-                    for ($i = -1; $i < $fields; $i++) {
-                        $disabled = ($i >= 0 ? [] : ['disabled' => 'disabled']);
-                    ?>
-                        <tr class="field_row"<?php echo ($i >= 0 ? '' : ' style="display:none;"');?>>
-                            <td><?php $this->Form->fieldText('fields[name][]', (isset($vars['fields']['name'][$i]) ? $vars['fields']['name'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminNonmerchant.fields.placeholder_name', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldText('fields[label][]', (isset($vars['fields']['label'][$i]) ? $vars['fields']['label'][$i] : null), array_merge(['class' => 'stretch', 'placeholder' => $this->_('AdminNonmerchant.fields.placeholder_label', true)], $disabled));?></td>
-                            <td><?php $this->Form->fieldSelect('fields[type][]', (isset($field_types) ? $field_types : null), (isset($vars['fields']['type'][$i]) ? $vars['fields']['type'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
-                            <td><?php $this->Form->fieldTextarea('fields[tooltip][]', (isset($vars['fields']['tooltip'][$i]) ? $vars['fields']['tooltip'][$i] : null), array_merge(['class' => 'stretch'], $disabled));?></td>
-                            <td>
-                                <?php $this->Form->fieldHidden('fields[encryptable][]', (isset($vars['fields']['encryptable'][$i]) ? $vars['fields']['encryptable'][$i] : 'false'), array_merge(['class' => 'encryptable'], $disabled));?>
-                                <?php $this->Form->fieldCheckbox('', 'true', (isset($vars['fields']['encryptable'][$i]) ? $vars['fields']['encryptable'][$i] : null) == 'true', array_merge(['class' => 'stretch encryptable_checkbox'], $disabled));?>
-                            </td>
-                            <td><a href="#" class="manage field_row_remove"><?php $this->_('AdminNonmerchant.fields.text_remove');?></a></td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                    </tbody>
-                </table>
-            </div>
-            <div class="button_row">
-                <?php $this->Form->fieldSubmit('submit', $this->_('AdminNonmerchant.fields.features', true), ['class' => 'btn btn-primary pull-right']);?>
-            </div>
-        </div>
-        <?php
-        $this->Form->end();
+$this->Form->create(null, ['class' => 'disable-on-submit']);
+?>
 
-        $this->Widget->end();
-        ?>
+<div class="card-body">
+    <!-- Configuration Fields -->
+    <h6 class="form-section-header">
+        <i class="bi bi-sliders me-2"></i><?php $this->_('AdminNonmerchant.fields.heading_fields'); ?>
+    </h6>
+
+    <div class="d-flex justify-content-end mb-2">
+        <button type="button" class="btn btn-outline-primary btn-sm field-row-add">
+            <i class="bi bi-plus-lg me-1"></i><?php $this->_('AdminNonmerchant.fields.field_row_add'); ?>
+        </button>
+    </div>
+
+    <div class="table-responsive mb-4">
+        <table class="table table-sm" id="fields-table">
+            <thead>
+                <tr>
+                    <th>
+                        <?php $this->_('AdminNonmerchant.fields.name'); ?>
+                        <i class="bi bi-question-circle text-muted ms-1" data-bs-toggle="tooltip" title="<?php $this->_('AdminNonmerchant.fields.tooltip_name'); ?>"></i>
+                    </th>
+                    <th>
+                        <?php $this->_('AdminNonmerchant.fields.label'); ?>
+                        <i class="bi bi-question-circle text-muted ms-1" data-bs-toggle="tooltip" title="<?php $this->_('AdminNonmerchant.fields.tooltip_label'); ?>"></i>
+                    </th>
+                    <th>
+                        <?php $this->_('AdminNonmerchant.fields.type'); ?>
+                        <i class="bi bi-question-circle text-muted ms-1" data-bs-toggle="tooltip" title="<?php $this->_('AdminNonmerchant.fields.tooltip_type'); ?>"></i>
+                    </th>
+                    <th>
+                        <?php $this->_('AdminNonmerchant.fields.tooltip'); ?>
+                        <i class="bi bi-question-circle text-muted ms-1" data-bs-toggle="tooltip" title="<?php $this->_('AdminNonmerchant.fields.tooltip_tooltip'); ?>"></i>
+                    </th>
+                    <th class="text-center">
+                        <?php $this->_('AdminNonmerchant.fields.encryptable'); ?>
+                        <i class="bi bi-question-circle text-muted ms-1" data-bs-toggle="tooltip" title="<?php $this->_('AdminMerchant.fields.tooltip_encryptable'); ?>"></i>
+                    </th>
+                    <th class="text-end" style="width: 80px;"><?php $this->_('AdminNonmerchant.fields.text_options'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $fields = 1;
+                if (!empty($vars['fields']['name'])) {
+                    $fields = count($vars['fields']['name']);
+                }
+                for ($i = -1; $i < $fields; $i++) :
+                    $disabled = ($i >= 0 ? [] : ['disabled' => 'disabled']);
+                    $hidden = $i < 0 ? 'style="display:none;"' : '';
+                ?>
+                    <tr class="field-row" <?php echo $hidden; ?>>
+                        <td>
+                            <?php $this->Form->fieldText('fields[name][]', $vars['fields']['name'][$i] ?? null, array_merge(['class' => 'form-control form-control-sm', 'placeholder' => $this->_('AdminNonmerchant.fields.placeholder_name', true)], $disabled)); ?>
+                        </td>
+                        <td>
+                            <?php $this->Form->fieldText('fields[label][]', $vars['fields']['label'][$i] ?? null, array_merge(['class' => 'form-control form-control-sm', 'placeholder' => $this->_('AdminNonmerchant.fields.placeholder_label', true)], $disabled)); ?>
+                        </td>
+                        <td>
+                            <?php $this->Form->fieldSelect('fields[type][]', $field_types ?? [], $vars['fields']['type'][$i] ?? null, array_merge(['class' => 'form-select form-select-sm'], $disabled)); ?>
+                        </td>
+                        <td>
+                            <?php $this->Form->fieldTextarea('fields[tooltip][]', $vars['fields']['tooltip'][$i] ?? null, array_merge(['class' => 'form-control form-control-sm', 'rows' => 1], $disabled)); ?>
+                        </td>
+                        <td class="text-center">
+                            <?php $this->Form->fieldHidden('fields[encryptable][]', $vars['fields']['encryptable'][$i] ?? 'false', array_merge(['class' => 'encryptable-value'], $disabled)); ?>
+                            <?php $this->Form->fieldCheckbox('', 'true', ($vars['fields']['encryptable'][$i] ?? null) == 'true', array_merge(['class' => 'form-check-input encryptable-checkbox'], $disabled)); ?>
+                        </td>
+                        <td class="text-end">
+                            <button type="button" class="btn btn-outline-danger btn-sm remove-row">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                <?php endfor; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card-footer d-flex justify-content-end">
+    <?php
+    $this->Form->fieldSubmit('submit', $this->_('AdminNonmerchant.fields.features', true), ['class' => 'btn btn-primary']);
+    ?>
+</div>
+
+<?php
+$this->Form->end();
+$this->Widget->end();
+?>
 
 <script>
-    $(document).ready(function() {
-        $('.field_row_add').click(function() {
-            var fields = $('tr.field_row:first').clone(true);
-            // Enable input fileds
-            fields.find('input,textarea,select').removeAttr('disabled');
-            fields.show();
-            $('tr.field_row:last').after(fields);
-
-            return false;
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
+            new bootstrap.Tooltip(el);
         });
-
-        $('.field_row_remove').click(function() {
-            $(this).closest('tr').remove();
-
-            return false;
-        });
-
-        $('.encryptable_checkbox').click(function() {
-            if ($(this).prop('checked') === true) {
-                $(this).closest('td').find('.encryptable').val('true');
-            } else {
-                $(this).closest('td').find('.encryptable').val('false');
-            }
-        });
-    });
+    }
+});
 </script>
+
+<script src="<?php echo $this->view_dir;?>js/extension-generator.js"></script>

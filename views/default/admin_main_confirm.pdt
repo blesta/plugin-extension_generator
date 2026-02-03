@@ -1,55 +1,64 @@
-        <?php
-        echo (isset($message) ? $message : null);
+<?php
+echo $message ?? null;
 
-        $this->Widget->clear();
-        $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
-        $this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
+$this->Widget->clear();
+$this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+$this->Widget->create($this->_('AdminMain.index.boxtitle_extension_generator', true));
 
-        echo (isset($progress_bar) ? $progress_bar : null);
+echo $progress_bar ?? null;
 
-        $this->Form->create();
-        ?>
-        <div class="inner">
-            <div class="title_row first"><h3><?php $this->_('AdminMain.confirm.heading_confirm');?></h3></div>
-            <div class="pad">
-                <p><?php $this->_('AdminMain.confirm.text_generation');?></p>
-                <ul>
-                    <li>
-                        <?php
-                        $this->Form->label($this->_('AdminMain.confirm.location', true), 'location', ['class' => 'inline']);
-                        ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php $this->_('AdminMain.confirm.tooltip_location');?></div></span>
-                        <?php
-                        $this->Form->fieldSelect('location', (isset($locations) ? $locations : []), (isset($vars->location) ? $vars->location : null), ['class' => 'block', 'id' => 'location']);
-                        ?>
-                    </li>
-                    <li id="custom_path" style="display:none;">
-                        <?php
-                        $this->Form->label($this->_('AdminMain.confirm.custom_path', true), 'custom_path');
-                        $this->Form->fieldText('custom_path', (isset($vars->custom_path) ? $vars->custom_path : null), ['id' => 'custom_path', 'placeholder' => COMPONENTDIR]);
-                        ?>
-                    </li>
-                </ul>
-            </div>
-            <div class="button_row">
-                <?php $this->Form->fieldSubmit('submit', $this->_('AdminMain.confirm.generate', true), ['class' => 'btn btn-primary pull-right']);?>
-            </div>
+$this->Form->create(null, ['class' => 'disable-on-submit']);
+?>
+
+<div class="card-body">
+    <h6 class="form-section-header">
+        <i class="bi bi-download me-2"></i><?php $this->_('AdminMain.confirm.heading_confirm'); ?>
+    </h6>
+
+    <p class="text-muted mb-4"><?php $this->_('AdminMain.confirm.text_generation'); ?></p>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <?php
+            $this->Form->label($this->_('AdminMain.confirm.location', true), 'location', ['class' => 'form-label']);
+            ?>
+            <i class="bi bi-question-circle text-muted ms-1" data-bs-toggle="tooltip" title="<?php $this->_('AdminMain.confirm.tooltip_location'); ?>"></i>
+            <?php
+            $this->Form->fieldSelect('location', $locations ?? [], $vars->location ?? null, ['id' => 'location', 'class' => 'form-select']);
+            ?>
         </div>
-        <?php
+    </div>
 
-        $this->Form->end();
+    <div id="custom-path-section" class="row g-3 mb-4 d-none">
+        <div class="col-md-6">
+            <?php
+            $this->Form->label($this->_('AdminMain.confirm.custom_path', true), 'custom_path', ['class' => 'form-label']);
+            $this->Form->fieldText('custom_path', $vars->custom_path ?? null, ['id' => 'custom_path', 'class' => 'form-control', 'placeholder' => COMPONENTDIR]);
+            ?>
+        </div>
+    </div>
+</div>
 
-        $this->Widget->end();
-        ?>
+<div class="card-footer d-flex justify-content-end">
+    <?php
+    $this->Form->fieldSubmit('submit', $this->_('AdminMain.confirm.generate', true), ['class' => 'btn btn-success']);
+    ?>
+</div>
+
+<?php
+$this->Form->end();
+$this->Widget->end();
+?>
 
 <script>
-    $(document).ready(function() {
-        $('#location').change(function () {
-            if ($(this).val() === 'custom') {
-                $('#custom_path').show();
-            } else {
-                $('#custom_path').hide();
-            }
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
+            new bootstrap.Tooltip(el);
         });
-    });
+    }
+});
 </script>
+
+<script src="<?php echo $this->view_dir;?>js/extension-generator.js"></script>
