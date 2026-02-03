@@ -93,7 +93,15 @@ $this->Widget->create($this->_('AdminMain.index.boxtitle_extensions', true), ['i
             </tbody>
         </table>
     </div>
-    <?php $this->Pagination->build(); ?>
+    <?php
+    if (isset($this->Pagination) && $this->Pagination->hasPages()) {
+        ?>
+        <div class="card-footer">
+            <?php $this->Pagination->build();?>
+        </div>
+        <?php
+    }
+    ?>
 <?php else : ?>
     <div class="card-body text-center text-muted py-5">
         <i class="bi bi-box-seam display-4 text-muted mb-3 d-block"></i>
