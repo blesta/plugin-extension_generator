@@ -17,6 +17,7 @@ $link_buttons = [
 $this->Widget->clear();
 $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
 $this->Widget->setLinkButtons($link_buttons);
+$this->Widget->setBodyWrapper(false);
 $this->Widget->create($this->_('AdminMain.index.boxtitle_extensions', true), ['id' => 'admin_main'], $render_section ?? null);
 ?>
 
@@ -55,7 +56,7 @@ $this->Widget->create($this->_('AdminMain.index.boxtitle_extensions', true), ['i
                             <?php $this->_('AdminMain.index.heading_date_updated'); ?>
                         </a>
                     </th>
-                    <th class="text-end"><?php $this->_('AdminMain.index.heading_options'); ?></th>
+                    <th><?php $this->_('AdminMain.index.heading_options'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -73,8 +74,8 @@ $this->Widget->create($this->_('AdminMain.index.boxtitle_extensions', true), ['i
                             <?php endif; ?>
                         </td>
                         <td><?php echo $this->Date->cast($extension->date_updated ?? null, 'date_time'); ?></td>
-                        <td class="text-end">
-                            <div class="btn-group btn-group-sm">
+                        <td>
+                            <div class="d-flex align-items-center gap-1">
                                 <a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/general/' . ($extension->id ?? '') . '/'); ?>" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="<?php $this->_('AdminMain.index.option_edit'); ?>">
                                     <i class="bi bi-pencil"></i>
                                 </a>
@@ -95,11 +96,8 @@ $this->Widget->create($this->_('AdminMain.index.boxtitle_extensions', true), ['i
     </div>
     <?php
     if (isset($this->Pagination) && $this->Pagination->hasPages()) {
-        ?>
-        <div class="card-footer">
-            <?php $this->Pagination->build();?>
-        </div>
-        <?php
+        $this->Widget->footer();
+        $this->Pagination->build();
     }
     ?>
 <?php else : ?>

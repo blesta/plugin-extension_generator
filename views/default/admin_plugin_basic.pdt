@@ -87,7 +87,8 @@ $this->Form->create(null, ['id' => 'pluginbasic', 'enctype' => 'multipart/form-d
     </div>
 </div>
 
-<div class="card-footer d-flex justify-content-end">
+<?php $this->Widget->footer(); ?>
+<div class="d-flex justify-content-end">
     <?php
     $this->Form->fieldSubmit('submit', ($form_type ?? null) == 'basic' ? $this->_('AdminPlugin.basic.confirm', true) : $this->_('AdminPlugin.basic.database', true), ['class' => 'btn btn-primary']);
     ?>

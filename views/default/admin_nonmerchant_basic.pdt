@@ -105,7 +105,8 @@ $this->Form->create(null, ['id' => 'nonmerchantbasic', 'enctype' => 'multipart/f
     </div>
 </div>
 
-<div class="card-footer d-flex justify-content-end">
+<?php $this->Widget->footer(); ?>
+<div class="d-flex justify-content-end">
     <?php
     $this->Form->fieldSubmit('submit', ($form_type ?? null) == 'basic' ? $this->_('AdminNonmerchant.basic.confirm', true) : $this->_('AdminNonmerchant.basic.fields', true), ['class' => 'btn btn-primary']);
     ?>

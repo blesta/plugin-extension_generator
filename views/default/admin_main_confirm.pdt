@@ -42,7 +42,8 @@ $this->Form->create(null, ['class' => 'disable-on-submit']);
     </div>
 </div>
 
-<div class="card-footer d-flex justify-content-end">
+<?php $this->Widget->footer(); ?>
+<div class="d-flex justify-content-end">
     <?php
     $this->Form->fieldSubmit('submit', $this->_('AdminMain.confirm.generate', true), ['class' => 'btn btn-success']);
     ?>
