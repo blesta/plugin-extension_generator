@@ -1,78 +1,133 @@
-        <?php
-        echo (isset($message) ? $message : null);
+<?php /** @var View $this */ ?>
 
-        $this->Widget->clear();
-        $this->Widget->create($this->_('AdminMain.index.boxtitle_extensions', true), ['id'=>'admin_main'], (isset($render_section) ? $render_section : null));
-        ?>
-        <div class="pad">
-            <div class="inner">
-                <div class="links_row">
-                    <a class="btn btn-default btn-sm pull-right" title="<?php $this->_('AdminMain.index.extension_add');?>" href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/general/');?>"><i class="fas fa-plus"></i></a>
-                </div>
-                <?php
-                if ((isset($extensions) ? $extensions : null) && !empty($extensions)) {
-                ?>
+<?php
+echo $message ?? null;
 
-                <table class="table">
-                    <tr class="heading_row">
-                        <td><span><a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/index/?sort=id&order=' . ($sort == 'id' ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == 'id' ? ' ' . $order : '');?>"><?php $this->_('AdminMain.index.heading_id');?></a></span></td>
-                        <td><span><a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/index/?sort=name&order=' . ($sort == 'name' ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == 'name' ? ' ' . $order : '');?>"><?php $this->_('AdminMain.index.heading_name');?></a></span></td>
-                        <td><span><a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/index/?sort=type&order=' . ($sort == 'type' ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == 'type' ? ' ' . $order : '');?>"><?php $this->_('AdminMain.index.heading_type');?></a></span></td>
-                        <td><span><a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/index/?sort=form_type&order=' . ($sort == 'form_type' ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == 'form_type' ? ' ' . $order : '');?>"><?php $this->_('AdminMain.index.heading_form_type');?></a></span></td>
-                        <td><span><a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/index/?sort=code_examples&order=' . ($sort == 'code_examples' ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == 'code_examples' ? ' ' . $order : '');?>"><?php $this->_('AdminMain.index.heading_code_examples');?></a></span></td>
-                        <td><span><a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/index/?sort=date_updated&order=' . ($sort == 'date_updated' ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == 'date_updated' ? ' ' . $order : '');?>"><?php $this->_('AdminMain.index.heading_date_updated');?></a></span></td>
-                        <td class="last"><span><?php $this->_('AdminMain.index.heading_options');?></span></td>
-                    </tr>
-                    <?php
-                    // Display all extensions
-                    $i = 0;
-                    foreach ($extensions as $extension) {
-                    ?>
-                    <tr<?php echo ($i++%2 == 1) ? ' class="odd_row"' : '';?>>
-                        <td><?php echo (isset($extension->id) ? $this->Html->safe($extension->id) : null);?></td>
-                        <td><?php echo (isset($extension->name) ? $this->Html->safe($extension->name) : null);?></td>
-                        <td><?php echo $this->Html->safe((isset($types[$extension->type]) ? $types[$extension->type] : null));?></td>
-                        <td><?php echo $this->Html->safe((isset($form_types[$extension->form_type]) ? $form_types[$extension->form_type] : null));?></td>
-                        <td><?php echo (isset($extension->code_examples) ? $extension->code_examples : null) == 1 ? '<i class="fas fa-check">' : '<i class="fas fa-times">';?></td>
-                        <td><?php echo $this->Date->cast((isset($extension->date_updated) ? $extension->date_updated : null), 'date_time');?></td>
+// Build link buttons
+$link_buttons = [
+    [
+        'icon' => 'bi bi-plus-lg',
+        'name' => '',
+        'attributes' => [
+            'title' => $this->_('AdminMain.index.extension_add', true),
+            'href' => $this->base_uri . 'plugin/extension_generator/admin_main/general/'
+        ]
+    ]
+];
+
+$this->Widget->clear();
+$this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+$this->Widget->setLinkButtons($link_buttons);
+$this->Widget->setBodyWrapper(false);
+$this->Widget->create($this->_('AdminMain.index.boxtitle_extensions', true), ['id' => 'admin_main'], $render_section ?? null);
+?>
+
+<?php if (!empty($extensions)) : ?>
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/index/?sort=id&order=' . ($sort == 'id' ? $negate_order : $order)); ?>" class="ajax text-decoration-none">
+                            <?php $this->_('AdminMain.index.heading_id'); ?>
+                            <?php if ($sort == 'id') { ?>
+                                <i class="bi bi-chevron-<?php echo $order == 'asc' ? 'up' : 'down'; ?>"></i>
+                            <?php } ?>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/index/?sort=name&order=' . ($sort == 'name' ? $negate_order : $order)); ?>" class="ajax text-decoration-none">
+                            <?php $this->_('AdminMain.index.heading_name'); ?>
+                            <?php if ($sort == 'name') { ?>
+                                <i class="bi bi-chevron-<?php echo $order == 'asc' ? 'up' : 'down'; ?>"></i>
+                            <?php } ?>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/index/?sort=type&order=' . ($sort == 'type' ? $negate_order : $order)); ?>" class="ajax text-decoration-none">
+                            <?php $this->_('AdminMain.index.heading_type'); ?>
+                            <?php if ($sort == 'type') { ?>
+                                <i class="bi bi-chevron-<?php echo $order == 'asc' ? 'up' : 'down'; ?>"></i>
+                            <?php } ?>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/index/?sort=form_type&order=' . ($sort == 'form_type' ? $negate_order : $order)); ?>" class="ajax text-decoration-none">
+                            <?php $this->_('AdminMain.index.heading_form_type'); ?>
+                            <?php if ($sort == 'form_type') { ?>
+                                <i class="bi bi-chevron-<?php echo $order == 'asc' ? 'up' : 'down'; ?>"></i>
+                            <?php } ?>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/index/?sort=code_examples&order=' . ($sort == 'code_examples' ? $negate_order : $order)); ?>" class="ajax text-decoration-none">
+                            <?php $this->_('AdminMain.index.heading_code_examples'); ?>
+                            <?php if ($sort == 'code_examples') { ?>
+                                <i class="bi bi-chevron-<?php echo $order == 'asc' ? 'up' : 'down'; ?>"></i>
+                            <?php } ?>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/index/?sort=date_updated&order=' . ($sort == 'date_updated' ? $negate_order : $order)); ?>" class="ajax text-decoration-none">
+                            <?php $this->_('AdminMain.index.heading_date_updated'); ?>
+                            <?php if ($sort == 'date_updated') { ?>
+                                <i class="bi bi-chevron-<?php echo $order == 'asc' ? 'up' : 'down'; ?>"></i>
+                            <?php } ?>
+                        </a>
+                    </th>
+                    <th><?php $this->_('AdminMain.index.heading_options'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($extensions as $extension) : ?>
+                    <tr>
+                        <td><?php echo $this->Html->safe($extension->id ?? ''); ?></td>
+                        <td><?php echo $this->Html->safe($extension->name ?? ''); ?></td>
+                        <td><?php echo $this->Html->safe($types[$extension->type] ?? ''); ?></td>
+                        <td><?php echo $this->Html->safe($form_types[$extension->form_type] ?? ''); ?></td>
                         <td>
-                            <a href="<?php echo $this->base_uri . 'plugin/extension_generator/admin_main/general/' . (isset($extension->id) ? $this->Html->safe($extension->id) : null) . '/';?>"><?php $this->_('AdminMain.index.option_edit');?></a>,
-                            <?php
-                            $this->Form->create($this->base_uri . 'plugin/extension_generator/admin_main/delete/');
-                            $this->Form->fieldHidden('id', (isset($extension->id) ? $extension->id : null));
-                            ?>
-                            <a href="<?php echo $this->base_uri . 'plugin/extension_generator/admin_main/delete/' . (isset($extension->id) ? $this->Html->safe($extension->id) : null) . '/';?>" class="manage delete_extension" rel="<?php $this->_('AdminMain.index.text_confirm_delete');?>"><?php $this->_('AdminMain.index.option_delete');?></a>
-                            <?php
-                            $this->Form->end();
-                            ?>
+                            <?php if (($extension->code_examples ?? null) == 1) : ?>
+                                <i class="bi bi-check-lg text-success"></i>
+                            <?php else : ?>
+                                <i class="bi bi-x-lg text-danger"></i>
+                            <?php endif; ?>
+                        </td>
+                        <td><?php echo $this->Date->cast($extension->date_updated ?? null, 'date_time'); ?></td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_main/general/' . ($extension->id ?? '') . '/'); ?>" class="btn btn-sm btn-outline-secondary" title="<?php $this->_('AdminMain.index.option_edit'); ?>">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <?php
+                                $this->Form->create($this->base_uri . 'plugin/extension_generator/admin_main/delete/', ['class' => 'd-inline']);
+                                $this->Form->fieldHidden('id', $extension->id ?? null);
+                                ?>
+                                <button type="button" class="btn btn-sm btn-outline-danger modal-confirm-delete" title="<?php $this->_('AdminMain.index.option_delete'); ?>" data-confirm-message="<?php echo $this->Html->safe($this->_('AdminMain.index.text_confirm_delete', true)); ?>">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                <?php $this->Form->end(); ?>
+                            </div>
                         </td>
                     </tr>
-                    <?php
-                    }
-                    ?>
-                </table>
-                <?php
-                    $this->Pagination->build();
-                } else {
-                ?>
-                <div class="inner">
-                    <div class="empty_section">
-                        <div class="empty_box">
-                            <?php $this->_('AdminMain.index.extensions_no_results');?>
-                        </div>
-                    </div>
-                </div>
-                <?php
-                }
-                ?>
-            </div>
-        </div>
-        <?php
-        $this->Widget->end();
-        ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+    if (isset($this->Pagination) && $this->Pagination->hasPages()) {
+        $this->Widget->footer();
+        $this->Pagination->build();
+    }
+    ?>
+<?php else : ?>
+    <div class="card-body text-center text-muted py-5">
+        <i class="bi bi-box-seam display-4 text-muted mb-3 d-block"></i>
+        <p class="text-muted mb-0"><?php $this->_('AdminMain.index.extensions_no_results'); ?></p>
+    </div>
+<?php endif; ?>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('a.delete_extension[rel]').blestaModalConfirm({base_url: '<?php echo $this->Html->safe($this->base_uri);?>', close: '<?php $this->_('AppController.modal.text_close');?>', submit: true});
-    });
-</script>
+<?php
+$this->Widget->end();
+?>
+
+<script src="<?php echo $this->view_dir;?>js/extension-generator.js"></script>

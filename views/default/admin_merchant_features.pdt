@@ -1,44 +1,56 @@
-        <?php
-        echo (isset($message) ? $message : null);
+<?php /** @var View $this */ ?>
 
-        $this->Widget->clear();
-        $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
-        $this->Widget->create($this->_('AdminMerchant.index.boxtitle_extension_generator', true), ['id' => 'admin_merchant_features']);
+<?php
+echo $message ?? null;
 
-        echo (isset($progress_bar) ? $progress_bar : null);
+$this->Form->create(null, ['class' => 'disable-on-submit']);
 
-        $this->Form->create();
-        ?>
-        <div class="inner">
-            <div class="title_row"><h3><?php $this->_('AdminMerchant.features.heading_supported_features');?></h3></div>
-            <div class="pad">
-                <div class="row">
-                <?php
-                foreach ((isset($supported_features) ? $supported_features : []) as $supported_feature => $feature_settings) {
-                ?>
-                    <div class="col-xs-4">
+$this->Widget->clear();
+$this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
+$this->Widget->setBodyWrapper(false);
+$this->Widget->create($this->_('AdminMerchant.index.boxtitle_extension_generator', true), ['id' => 'admin_merchant_features']);
+
+echo $progress_bar ?? null;
+?>
+
+<div class="card-body">
+    <!-- Supported Features -->
+    <h6 class="form-section-header">
+        <i class="bi bi-toggles me-2"></i><?php $this->_('AdminMerchant.features.heading_supported_features'); ?>
+    </h6>
+
+    <div class="row g-3 mb-4">
+        <?php foreach ($supported_features ?? [] as $supported_feature => $feature_settings) : ?>
+            <div class="col-md-4">
+                <div class="form-check">
                     <?php
-                    $this->Form->fieldCheckbox('supported_features[' . $supported_feature . ']', 'true', (isset($vars['supported_features']) ? (isset($vars['supported_features'][$supported_feature]) ? $vars['supported_features'][$supported_feature] : null) : $feature_settings['enabled']) == 'true', ['class' => 'inline', 'id' => 'supported_features[' . $supported_feature . ']']);
-                    $this->Form->label($feature_settings['name'], 'supported_features[' . $supported_feature . ']', ['class' => 'inline']);
-
-                    if (!empty($feature_settings['tooltip'])) {
+                    $checked = isset($vars['supported_features'])
+                        ? ($vars['supported_features'][$supported_feature] ?? null) == 'true'
+                        : ($feature_settings['enabled'] ?? false) == 'true';
+                    $this->Form->fieldCheckbox('supported_features[' . $supported_feature . ']', 'true', $checked, ['id' => 'supported_features_' . $supported_feature, 'class' => 'form-check-input']);
                     ?>
-                        <span class="tooltip block"><?php $this->_('AppController.tooltip.text');?><div><?php echo (isset($feature_settings['tooltip']) ? $this->Html->safe($feature_settings['tooltip']) : null);?></div></span>
-                    <?php
-                    }
-                    ?>
-                    </div>
-                <?php
-                }
-                ?>
+                    <label class="form-check-label" for="supported_features_<?php echo $this->Html->safe($supported_feature); ?>">
+                        <?php echo $this->Html->safe($feature_settings['name'] ?? $supported_feature); ?>
+                    </label>
+                    <?php if (!empty($feature_settings['tooltip'])) : ?>
+                        <i class="bi bi-question-circle text-muted ms-1" data-bs-toggle="tooltip" title="<?php echo $this->Html->safe($feature_settings['tooltip']); ?>"></i>
+                    <?php endif; ?>
                 </div>
             </div>
+        <?php endforeach; ?>
+    </div>
+</div>
 
-            <div class="button_row">
-                <?php $this->Form->fieldSubmit('submit', $this->_('AdminMerchant.features.confirm', true), ['class' => 'btn btn-primary pull-right']);?>
-            </div>
-        </div>
-        <?php
-        $this->Form->end();
+<?php $this->Widget->footer(); ?>
+<div class="d-flex justify-content-end">
+    <?php
+    $this->Form->fieldSubmit('submit', $this->_('AdminMerchant.features.confirm', true), ['class' => 'btn btn-primary']);
+    ?>
+</div>
 
-        $this->Widget->end();
+<?php
+$this->Widget->end();
+$this->Form->end();
+?>
+
+<script src="<?php echo $this->view_dir;?>js/extension-generator.js"></script>

@@ -1,7 +1,8 @@
 {
-    "version": "2.1.2",
+    "version": "3.0.0",
     "name": "ExtensionGeneratorPlugin.name",
     "description": "ExtensionGeneratorPlugin.description",
+    "icon": "bi bi-puzzle-fill",
     "authors": [
         {
             "name": "Phillips Data, Inc.",

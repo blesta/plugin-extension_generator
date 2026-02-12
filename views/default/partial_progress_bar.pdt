@@ -1,26 +1,35 @@
-        <?php
-        $node_count = count((isset($nodes) ? $nodes : []));
-        $step = 0;
-        ?>
-        <div class="node-progress-container">
-            <div class="node-progress-bar-container">
-                <div class="node-progress-bar" style="background-image: linear-gradient(90deg, #a0f56c <?php echo ($page_step / ($node_count - 1) * 100); ?>%, white 1%);"></div>
-                    <?php
-                    foreach ($nodes as $form_step => $node) {
-                    ?>
-                        <div class="node-progress-node-container" style="left: <?php echo $step / ($node_count - 1) * 100; ?>%;" >
-                            <?php $node_color = $step <= $page_step ? '#a0f56c' : 'white'; ?>
-                            <div>
-                                <a href="<?php echo $this->base_uri . 'plugin/extension_generator/admin_' . $form_step . '/' . (isset($extension->id) ? $this->Html->safe($extension->id) : null) . '/';?>">
-                                    <div class="node-progress-node" style="background-color: <?php echo $node_color;?>;"></div>
-                                </a>
-                            </div>
-                            <p><?php echo $node;?></p>
-                        </div>
-                    <?php
-                        $step++;
-                    }
-                    ?>
+<?php /** @var View $this */ ?>
+
+<?php
+$node_count = count($nodes ?? []);
+$step = 0;
+?>
+<div class="form-wizard-steps my-4">
+    <?php foreach ($nodes as $form_step => $node) : ?>
+        <div class="form-wizard-step <?php echo $step < $page_step ? 'completed' : ($step == $page_step ? 'active' : ''); ?>">
+            <?php if ($step < $page_step) : ?>
+                <a href="<?php echo $this->Html->safe($this->base_uri . 'plugin/extension_generator/admin_' . $form_step . '/' . ($extension->id ?? '') . '/'); ?>">
+                    <div class="form-wizard-step-icon">
+                        <i class="bi bi-check"></i>
+                    </div>
+                </a>
+            <?php elseif ($step == $page_step) : ?>
+                <div class="form-wizard-step-icon">
+                    <?php echo $step + 1; ?>
                 </div>
-            </div>
+            <?php else : ?>
+                <div class="form-wizard-step-icon">
+                    <?php echo $step + 1; ?>
+                </div>
+            <?php endif; ?>
+            <div class="form-wizard-step-label"><?php echo $this->Html->safe($node); ?></div>
         </div>
+        <?php if ($step < $node_count - 1) : ?>
+            <div class="form-wizard-step-line <?php echo $step < $page_step ? 'completed' : ''; ?>"></div>
+        <?php endif; ?>
+    <?php
+        $step++;
+    endforeach;
+    ?>
+</div>
+<hr>
