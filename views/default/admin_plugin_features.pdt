@@ -3,14 +3,14 @@
 <?php
 echo $message ?? null;
 
+$this->Form->create(null, ['class' => 'disable-on-submit']);
+
 $this->Widget->clear();
 $this->Widget->setStyleSheet($this->view_dir . 'css/styles.css');
 $this->Widget->setBodyWrapper(false);
 $this->Widget->create($this->_('AdminPlugin.index.boxtitle_extension_generator', true), ['id' => 'admin_plugin_features']);
 
 echo $progress_bar ?? null;
-
-$this->Form->create(null, ['class' => 'disable-on-submit']);
 ?>
 
 <div class="card-body">
@@ -185,19 +185,12 @@ $this->Form->create(null, ['class' => 'disable-on-submit']);
 </div>
 
 <?php
-$this->Form->end();
 $this->Widget->end();
+$this->Form->end();
 ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize tooltips
-    if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
-        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
-            new bootstrap.Tooltip(el);
-        });
-    }
-
     // Add row functionality
     var fieldTypes = ['service-tab', 'cron-task'];
     fieldTypes.forEach(function(fieldType) {

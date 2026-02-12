@@ -10,6 +10,7 @@
          * Initialize all dynamic row handlers
          */
         init: function() {
+            this.initTooltips();
             this.initDynamicRows();
             this.initTypeSelection();
             this.initLocationToggle();
@@ -21,6 +22,17 @@
             this.initModuleTypeToggle();
             this.initStaticTldsToggle();
             this.initTypeWarning();
+        },
+
+        /**
+         * Initialize Bootstrap tooltips
+         */
+        initTooltips: function() {
+            if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+                document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
+                    new bootstrap.Tooltip(el);
+                });
+            }
         },
 
         /**
