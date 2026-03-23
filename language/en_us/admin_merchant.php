@@ -31,7 +31,7 @@ $lang['AdminMerchant.basic.signup_url'] = 'Signup URL';
 $lang['AdminMerchant.basic.currencies'] = 'Currencies';
 $lang['AdminMerchant.basic.author_name'] = 'Author Name';
 $lang['AdminMerchant.basic.author_url'] = 'Author URL';
-$lang['AdminMerchant.basic.text_options'] = 'Options';
+$lang['AdminMerchant.basic.text_options'] = 'Actions';
 $lang['AdminMerchant.basic.author_row_add'] = 'Add Author';
 $lang['AdminMerchant.basic.text_remove'] = 'Remove';
 
@@ -69,7 +69,7 @@ $lang['AdminMerchant.fields.placeholder_label'] = 'e.g. Configuration Field';
 
 $lang['AdminMerchant.fields.field_row_add'] = 'Add Configuration Field';
 
-$lang['AdminMerchant.fields.text_options'] = 'Options';
+$lang['AdminMerchant.fields.text_options'] = 'Actions';
 $lang['AdminMerchant.fields.text_remove'] = 'Remove';
 
 $lang['AdminMerchant.fields.features'] = 'Next - Supported Features';

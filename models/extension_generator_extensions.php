@@ -26,7 +26,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
             ->fetchAll();
 
         foreach ($extensions as $extension) {
-            $extension->data = unserialize($extension->data);
+            $extension->data = safe_unserialize($extension->data);
         }
 
         return $extensions;
@@ -55,7 +55,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
         $extensions = $this->getExtension(['company_id' => $company_id])->fetchAll();
 
         foreach ($extensions as $extension) {
-            $extension->data = unserialize($extension->data);
+            $extension->data = safe_unserialize($extension->data);
         }
 
         return $extensions;
@@ -70,7 +70,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
     public function get($extension_id)
     {
         $extension = $this->getExtension(['extension_id' => $extension_id])->fetch();
-        $extension->data = unserialize($extension->data);
+        $extension->data = safe_unserialize($extension->data);
 
         return $extension;
     }
@@ -95,7 +95,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
         $this->Input->setRules($this->getRules($vars));
 
         if ($this->Input->validates($vars)) {
-            $vars['data'] = serialize(isset($vars['data']) ? $vars['data'] : []);
+            $vars['data'] = safe_serialize(isset($vars['data']) ? $vars['data'] : []);
             $fields = ['company_id', 'name', 'type', 'form_type', 'code_examples', 'data', 'date_updated'];
             $this->Record->insert('extension_generator_extensions', $vars, $fields);
 
@@ -126,7 +126,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
 
         if ($this->Input->validates($vars)) {
             if (isset($vars['data'])) {
-                $vars['data'] = serialize($vars['data']);
+                $vars['data'] = safe_serialize($vars['data']);
             }
             $fields = ['company_id', 'name', 'type', 'form_type', 'code_examples', 'data', 'date_updated'];
             $this->Record->where('id', '=', $extension_id)->update('extension_generator_extensions', $vars, $fields);

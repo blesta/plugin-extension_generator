@@ -32,7 +32,7 @@ $lang['AdminPlugin.basic.description'] = 'Description';
 $lang['AdminPlugin.basic.logo'] = 'Logo';
 $lang['AdminPlugin.basic.author_name'] = 'Author Name';
 $lang['AdminPlugin.basic.author_url'] = 'Author URL';
-$lang['AdminPlugin.basic.text_options'] = 'Options';
+$lang['AdminPlugin.basic.text_options'] = 'Actions';
 $lang['AdminPlugin.basic.author_row_add'] = 'Add Author';
 $lang['AdminPlugin.basic.text_remove'] = 'Remove';
 
@@ -74,7 +74,7 @@ $lang['AdminPlugin.database.placeholder_column_name'] = 'e.g. column_name';
 $lang['AdminPlugin.database.placeholder_length'] = "e.g. 64 or 'a','b','c'";
 
 $lang['AdminPlugin.database.text_more_info'] = 'This page is used to create a schema for the database tables generated and managed by this plugin. Code will be generated for adding and removing these tables on install and uninstall. In addition, model files will be create for these tables with some basic functions.';
-$lang['AdminPlugin.database.text_options'] = 'Options';
+$lang['AdminPlugin.database.text_options'] = 'Actions';
 $lang['AdminPlugin.database.text_remove'] = 'Remove';
 
 $lang['AdminPlugin.database.integrations'] = 'Next - Core Integrations';
@@ -106,7 +106,7 @@ $lang['AdminPlugin.integrations.link'] = 'Link';
 $lang['AdminPlugin.integrations.text_actions_more_info'] = '"Actions" represent plugin pages that are accesible through the core interface. This includes navigation links in the admin and client areas, widgets in the admin area, and links on the client profile sidebar. The controllers and actions entered here will be used to generate simple controller files. In addition, sample view files will be created for each action.';
 $lang['AdminPlugin.integrations.text_events_more_info'] = 'This is the hook system in Blesta.  Events are registered either by the core or by a plugin, then plugins listen for these events and define handler methods for the event.  Since any plugins can register events, there can be any number of them, however the list of core events defined by blesta can be found here https://docs.blesta.com/display/dev/Event+Handlers.';
 $lang['AdminPlugin.integrations.text_cards_more_info'] = 'Client cards are small boxes shown on the client profile (in the client or admin area) and are primarily used for displaying various statistic (e.g number of service, tickets, or orders). They consist of a value, a label, a background, and a link.  The label is displayed below the value which is pulled in from a callback function.';
-$lang['AdminPlugin.integrations.text_options'] = 'Options';
+$lang['AdminPlugin.integrations.text_options'] = 'Actions';
 $lang['AdminPlugin.integrations.text_remove'] = 'Remove';
 
 $lang['AdminPlugin.integrations.tooltip_location'] = 'The location in the interface to display the action';
@@ -164,7 +164,7 @@ $lang['AdminPlugin.features.placeholder_time'] = 'e.g. 14:25 or 60';
 $lang['AdminPlugin.features.service_tab_row_add'] = 'Add Service Management Tab';
 $lang['AdminPlugin.features.cron_task_row_add'] = 'Add Cron Task';
 
-$lang['AdminPlugin.features.text_options'] = 'Options';
+$lang['AdminPlugin.features.text_options'] = 'Actions';
 $lang['AdminPlugin.features.text_remove'] = 'Remove';
 
 $lang['AdminPlugin.features.confirm'] = 'Next - Confirmation';

@@ -16,7 +16,7 @@ $lang['{{class_name}}.add_module_group'] = 'Add {{module_group}}';
 $lang['{{class_name}}.manage.module_rows_title'] = '{{module_row_plural}}';
 {{array:module_rows}}
 $lang['{{class_name}}.manage.module_rows_heading.{{module_rows.name}}'] = '{{module_rows.label}}';{{array:module_rows}}
-$lang['{{class_name}}.manage.module_rows_heading.options'] = 'Options';
+$lang['{{class_name}}.manage.module_rows_heading.options'] = 'Actions';
 $lang['{{class_name}}.manage.module_rows.edit'] = 'Edit';
 $lang['{{class_name}}.manage.module_rows.delete'] = 'Delete';
 $lang['{{class_name}}.manage.module_rows.confirm_delete'] = 'Are you sure you want to delete this {{module_row}}';
@@ -26,7 +26,7 @@ $lang['{{class_name}}.manage.module_rows_no_results'] = 'There are no {{module_r
 $lang['{{class_name}}.manage.module_groups_title'] = 'Groups';
 $lang['{{class_name}}.manage.module_groups_heading.name'] = 'Name';
 $lang['{{class_name}}.manage.module_groups_heading.module_rows'] = '{{module_row_plural}}';
-$lang['{{class_name}}.manage.module_groups_heading.options'] = 'Options';
+$lang['{{class_name}}.manage.module_groups_heading.options'] = 'Actions';
 
 $lang['{{class_name}}.manage.module_groups.edit'] = 'Edit';
 $lang['{{class_name}}.manage.module_groups.delete'] = 'Delete';
@@ -84,7 +84,7 @@ $lang['{{class_name}}.{{service_tabs.method_name}}.submit'] = 'Submit';{{array:s
 // Service info{{array:service_fields}}
 $lang['{{class_name}}.service_info.{{service_fields.name}}'] = '{{service_fields.label}}';{{array:service_fields}}
 ////// These are the definitions for if you are trying to include a login link in the service info pages
-////$lang['{{class_name}}.service_info.options'] = 'Options';
+////$lang['{{class_name}}.service_info.options'] = 'Actions';
 ////$lang['{{class_name}}.service_info.option_login'] = 'Login';
 
 // Service Fields{{array:service_fields}}

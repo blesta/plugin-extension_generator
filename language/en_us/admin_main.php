@@ -43,7 +43,7 @@ $lang['AdminMain.index.heading_type'] = 'Type';
 $lang['AdminMain.index.heading_form_type'] = 'Form Type';
 $lang['AdminMain.index.heading_code_examples'] = 'Code Examples';
 $lang['AdminMain.index.heading_date_updated'] = 'Date Updated';
-$lang['AdminMain.index.heading_options'] = 'Options';
+$lang['AdminMain.index.heading_options'] = 'Actions';
 
 $lang['AdminMain.index.option_edit'] = 'Edit';
 $lang['AdminMain.index.option_delete'] = 'Delete';

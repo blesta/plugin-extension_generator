@@ -16,7 +16,7 @@ $lang['AdminNonmerchant.basic.signup_url'] = 'Signup URL';
 $lang['AdminNonmerchant.basic.currencies'] = 'Currencies';
 $lang['AdminNonmerchant.basic.author_name'] = 'Author Name';
 $lang['AdminNonmerchant.basic.author_url'] = 'Author URL';
-$lang['AdminNonmerchant.basic.text_options'] = 'Options';
+$lang['AdminNonmerchant.basic.text_options'] = 'Actions';
 $lang['AdminNonmerchant.basic.author_row_add'] = 'Add Author';
 $lang['AdminNonmerchant.basic.text_remove'] = 'Remove';
 
@@ -54,7 +54,7 @@ $lang['AdminNonmerchant.fields.placeholder_label'] = 'e.g. Configuration Field';
 
 $lang['AdminNonmerchant.fields.field_row_add'] = 'Add Configuration Field';
 
-$lang['AdminNonmerchant.fields.text_options'] = 'Options';
+$lang['AdminNonmerchant.fields.text_options'] = 'Actions';
 $lang['AdminNonmerchant.fields.text_remove'] = 'Remove';
 
 $lang['AdminNonmerchant.fields.features'] = 'Next - Additional Features';
