@@ -220,7 +220,7 @@ class {{class_name}} extends NonmerchantGateway
         $success = $this->Input->validates($post);
 
         // Log the response
-        $this->log((isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null), safe_serialize($post), 'output', $success);
+        $this->log((isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null), serialize($post), 'output', $success);
 
         if (!$success) {
             return;

@@ -95,7 +95,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
         $this->Input->setRules($this->getRules($vars));
 
         if ($this->Input->validates($vars)) {
-            $vars['data'] = safe_serialize(isset($vars['data']) ? $vars['data'] : []);
+            $vars['data'] = serialize(isset($vars['data']) ? $vars['data'] : []);
             $fields = ['company_id', 'name', 'type', 'form_type', 'code_examples', 'data', 'date_updated'];
             $this->Record->insert('extension_generator_extensions', $vars, $fields);
 
@@ -126,7 +126,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
 
         if ($this->Input->validates($vars)) {
             if (isset($vars['data'])) {
-                $vars['data'] = safe_serialize($vars['data']);
+                $vars['data'] = serialize($vars['data']);
             }
             $fields = ['company_id', 'name', 'type', 'form_type', 'code_examples', 'data', 'date_updated'];
             $this->Record->where('id', '=', $extension_id)->update('extension_generator_extensions', $vars, $fields);
