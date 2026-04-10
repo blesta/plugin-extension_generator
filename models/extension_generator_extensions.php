@@ -26,7 +26,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
             ->fetchAll();
 
         foreach ($extensions as $extension) {
-            $extension->data = unserialize($extension->data);
+            $extension->data = safe_unserialize($extension->data);
         }
 
         return $extensions;
@@ -55,7 +55,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
         $extensions = $this->getExtension(['company_id' => $company_id])->fetchAll();
 
         foreach ($extensions as $extension) {
-            $extension->data = unserialize($extension->data);
+            $extension->data = safe_unserialize($extension->data);
         }
 
         return $extensions;
@@ -70,7 +70,7 @@ class ExtensionGeneratorExtensions extends ExtensionGeneratorModel
     public function get($extension_id)
     {
         $extension = $this->getExtension(['extension_id' => $extension_id])->fetch();
-        $extension->data = unserialize($extension->data);
+        $extension->data = safe_unserialize($extension->data);
 
         return $extension;
     }

@@ -230,7 +230,7 @@ class {{class_name}} extends NonmerchantGateway
             'client_id' => (isset($post['client_id']) ? $post['client_id'] : null),
             'amount' => (isset($post['total']) ? $post['total'] : null),
             'currency' => (isset($post['currency_code']) ? $post['currency_code'] : null),
-            'invoices' => unserialize(base64_decode((isset($post['invoices']) ? $post['invoices'] : null))),
+            'invoices' => safe_unserialize(base64_decode((isset($post['invoices']) ? $post['invoices'] : null))),
             'status' => 'approved',
             'reference_id' => null,
             'transaction_id' => (isset($post['order_number']) ? $post['order_number'] : null),
@@ -263,7 +263,7 @@ class {{class_name}} extends NonmerchantGateway
 ////            'client_id' => (isset($post['client_id']) ? $post['client_id'] : null),
 ////            'amount' => (isset($post['total']) ? $post['total'] : null),
 ////            'currency' => (isset($post['currency_code']) ? $post['currency_code'] : null),
-////            'invoices' => unserialize(base64_decode((isset($post['invoices']) ? $post['invoices'] : null))),
+////            'invoices' => safe_unserialize(base64_decode((isset($post['invoices']) ? $post['invoices'] : null))),
 ////            'status' => 'approved',
 ////            'transaction_id' => (isset($post['order_number']) ? $post['order_number'] : null),
 ////            'parent_transaction_id' => null

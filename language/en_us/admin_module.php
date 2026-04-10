@@ -58,7 +58,7 @@ $lang['AdminModule.basic.module_type_generic'] = 'Generic';
 $lang['AdminModule.basic.module_type_registrar'] = 'Registrar';
 $lang['AdminModule.basic.author_name'] = 'Author Name';
 $lang['AdminModule.basic.author_url'] = 'Author URL';
-$lang['AdminModule.basic.text_options'] = 'Options';
+$lang['AdminModule.basic.text_options'] = 'Actions';
 $lang['AdminModule.basic.author_row_add'] = 'Add Author';
 $lang['AdminModule.basic.text_remove'] = 'Remove';
 $lang['AdminModule.basic.static_tlds'] = 'Statically Define TLDs';
@@ -111,7 +111,7 @@ $lang['AdminModule.fields.module_row_add'] = 'Add Module Row Field';
 $lang['AdminModule.fields.package_row_add'] = 'Add Package Field';
 $lang['AdminModule.fields.service_row_add'] = 'Add Service Field';
 
-$lang['AdminModule.fields.text_options'] = 'Options';
+$lang['AdminModule.fields.text_options'] = 'Actions';
 $lang['AdminModule.fields.text_remove'] = 'Remove';
 
 $lang['AdminModule.fields.features'] = 'Next - Additional Features';
@@ -152,7 +152,7 @@ $lang['AdminModule.features.placeholder_time'] = 'e.g. 14:25 or 60';
 $lang['AdminModule.features.service_tab_row_add'] = 'Add Service Management Tab';
 $lang['AdminModule.features.cron_task_row_add'] = 'Add Cron Task';
 
-$lang['AdminModule.features.text_options'] = 'Options';
+$lang['AdminModule.features.text_options'] = 'Actions';
 $lang['AdminModule.features.text_remove'] = 'Remove';
 
 $lang['AdminModule.features.confirm'] = 'Next - Confirmation';
