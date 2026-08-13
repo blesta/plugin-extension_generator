@@ -56,7 +56,7 @@ class {{class_name}}Plugin extends Plugin
         }{{function:installTables}}{{function:addCronTasks}}{{function:getCronTasks}}
 
         // Add cron tasks for this plugin
-        $this->addCronTasks($this->getCronTasks());{{function:getCronTasks}}{{function:addCronTasks}}
+        $this->addCronTasks($this->getCronTaskDefinitions());{{function:getCronTasks}}{{function:addCronTasks}}
 
 ////        // Fetch all currently-installed languages for this company, for which email templates should be created for
 ////        $languages = $this->Languages->getAll(Configure::get('Blesta.company_id'));
@@ -113,7 +113,7 @@ class {{class_name}}Plugin extends Plugin
         Loader::loadModels($this, ['CronTasks']);
 
         // Fetch the cron tasks for this plugin
-        $cron_tasks = $this->getCronTasks();
+        $cron_tasks = $this->getCronTaskDefinitions();
 {{function:getCronTasks}}
         if ($last_instance) {
             {{function:installTables}}try {
@@ -197,9 +197,14 @@ class {{class_name}}Plugin extends Plugin
     /**
      * Retrieves cron tasks available to this plugin along with their default values
      *
+     * Invoked by the plugin manager after install and on every upgrade, which schedules each task
+     * for every company this plugin is installed under. Declare cron tasks here rather than
+     * registering them from upgrade(), which runs only once per plugin directory
+     *
      * @return array A list of cron tasks
+     * @see Plugin::getCronTaskDefinitions
      */
-    private function getCronTasks()
+    public function getCronTaskDefinitions()
     {
         return [{{array:cron_tasks}}
             [
